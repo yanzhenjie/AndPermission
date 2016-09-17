@@ -11,7 +11,7 @@
 ## 引用方法  
 * AndroidStudio使用方法，gradle一句话远程依赖
 ```groovy
-compile 'com.yanzhenjie:permission:1.0.0'
+compile 'com.yanzhenjie:permission:1.0.1'
 ```
 Or Maven:
 ```xml
@@ -33,7 +33,7 @@ compile 'com.android.support:recyclerview-v7:23.4.0'
 ## 使用介绍
 更好的例子，请下载源码后运行demo查看，这里给出最关键的代码。
 
-1、**申请权限就是这么简单**
+### 申请权限就是这么简单
 ```java
 AndPermission.with(this)
     .requestCode(101)
@@ -44,7 +44,37 @@ AndPermission.with(this)
 ```
 只需要在Activity中或者Fragment中直接调用即可，AndPermission自动为你打理好后宫。
 
-2、**接受权限回调更简单**
+### 接受权限回调更简单
+**方式一：利用Listener方式回调**
+```java
+@Override
+public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+// 只需要调用这一句，剩下的AndPermission自动完成。
+AndPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults, listener);
+}
+
+private PermissionListener listener = new PermissionListener() {
+    @Override
+    public void onSucceed(int requestCode) {
+        if(requeust == 100) {
+            ...
+        } else if(requestCode == 101) {
+            ...
+        }
+    }
+
+    @Override
+    public void onFailed(int requestCode) {
+        if(requeust == 100) {
+            ...
+        } else if(requestCode == 101) {
+            ...
+        }
+    }
+};
+```
+
+**方式二：利用注解回调**
 只需要重写Activity/Fragment的一个方法，然后提供一个授权时回调的方法即可：
 ```java
 @Override

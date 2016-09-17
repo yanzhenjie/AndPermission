@@ -81,11 +81,29 @@ public class AndPermission {
      * @param grantResults results.
      */
     public static void onRequestPermissionsResult(Object o, int requestCode, String[] permissions, int[] grantResults) {
+        onRequestPermissionsResult(o, requestCode, permissions, grantResults, null);
+    }
+
+    /**
+     * Parse the request results.
+     *
+     * @param o            {@link Activity} or {@link Fragment}.
+     * @param requestCode  request code.
+     * @param permissions  all permissions.
+     * @param grantResults results.
+     */
+    public static void onRequestPermissionsResult(Object o, int requestCode, String[] permissions, int[] grantResults, PermissionListener listener) {
         List<String> deniedPermissions = new ArrayList<>(1);
         for (int i = 0; i < grantResults.length; i++)
             if (grantResults[i] != PackageManager.PERMISSION_GRANTED)
                 deniedPermissions.add(permissions[i]);
-        callback(o, deniedPermissions.size() > 0 ? PermissionNo.class : PermissionYes.class, requestCode);
+        if (listener == null) {
+            callback(o, deniedPermissions.size() > 0 ? PermissionNo.class : PermissionYes.class, requestCode);
+        } else if (deniedPermissions.size() > 0) {
+            listener.onFailed(requestCode);
+        } else {
+            listener.onSucceed(requestCode);
+        }
     }
 
     static <T extends Annotation> void callback(Object o, Class<T> clazz, int requestCode) {

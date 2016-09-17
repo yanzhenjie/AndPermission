@@ -42,6 +42,10 @@
             android:name=".RationalePermissionActivity"
             android:label="用户拒绝多次，提醒用户"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ListenerActivity"
+            android:label="通过Listener回调成功和失败"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

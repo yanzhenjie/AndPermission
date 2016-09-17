@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_activity).setOnClickListener(this);
         findViewById(R.id.btn_fragment).setOnClickListener(this);
         findViewById(R.id.btn_rationale).setOnClickListener(this);
+        findViewById(R.id.btn_listener).setOnClickListener(this);
     }
 
     @Override
@@ -49,6 +50,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             }
             case R.id.btn_rationale: {
+                startActivity(new Intent(this, RationalePermissionActivity.class));
+                break;
+            }
+            case R.id.btn_listener: {
                 startActivity(new Intent(this, RationalePermissionActivity.class));
                 break;
             }
