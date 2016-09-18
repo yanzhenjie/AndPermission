@@ -43,6 +43,10 @@
             android:label="用户拒绝多次，提醒用户"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".NotAgainActivity"
+            android:label="不再提示并决绝后"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".ListenerActivity"
             android:label="通过Listener回调成功和失败"
             android:theme="@style/AppTheme.NoActionBar" />

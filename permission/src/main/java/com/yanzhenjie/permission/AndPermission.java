@@ -73,6 +73,50 @@ public class AndPermission {
     }
 
     /**
+     * Should show rationale permissions;
+     *
+     * @param activity    {@link Activity}.
+     * @param permissions permissions.
+     * @return true, other wise false.
+     */
+    public static boolean getShouldShowRationalePermissions(Activity activity, String... permissions) {
+        return PermissionUtils.getShouldShowRationalePermissions(activity, permissions).length > 0;
+    }
+
+    /**
+     * Should show rationale permissions;
+     *
+     * @param fragment    {@link Fragment}.
+     * @param permissions permissions.
+     * @return true, other wise false.
+     */
+    public static boolean getShouldShowRationalePermissions(Fragment fragment, String... permissions) {
+        return PermissionUtils.getShouldShowRationalePermissions(fragment, permissions).length > 0;
+    }
+
+    /**
+     * Check permissions;
+     *
+     * @param activity    {@link Activity}.
+     * @param permissions permissions.
+     * @return true, other wise false.
+     */
+    public static boolean checkPermission(Activity activity, String... permissions) {
+        return PermissionUtils.getDeniedPermissions(activity, permissions).length <= 0;
+    }
+
+    /**
+     * Check permissions;
+     *
+     * @param fragment    {@link Fragment}.
+     * @param permissions permissions.
+     * @return true, other wise false.
+     */
+    public static boolean checkPermission(Fragment fragment, String... permissions) {
+        return PermissionUtils.getDeniedPermissions(fragment, permissions).length <= 0;
+    }
+
+    /**
      * Parse the request results.
      *
      * @param o            {@link Activity} or {@link Fragment}.
@@ -91,6 +135,7 @@ public class AndPermission {
      * @param requestCode  request code.
      * @param permissions  all permissions.
      * @param grantResults results.
+     * @param listener     {@link PermissionListener}.
      */
     public static void onRequestPermissionsResult(Object o, int requestCode, String[] permissions, int[] grantResults, PermissionListener listener) {
         List<String> deniedPermissions = new ArrayList<>(1);

@@ -7,28 +7,29 @@
 更多解释请看[Android6.0 运行时权限管理最佳实践详解](http://blog.csdn.net/yanzhenjie1003/article/details/52503533)。
 
 ----
+## 特性
+1. 支持链式调用，一句话申请权限，为你省去复杂的逻辑判断
+2. 支持注解回调权限申请成功、失败
+3. 支持Listener方式回调权限申请成功，失败
+4. 支持Rationale，支持权限申请失败后，用户勾选了不再提示后提示用户
 
 ## 引用方法  
 * AndroidStudio使用方法，gradle一句话远程依赖
 ```groovy
-compile 'com.yanzhenjie:permission:1.0.1'
+compile 'com.yanzhenjie:permission:1.0.2'
 ```
 Or Maven:
 ```xml
 <dependency>
   <groupId>com.yanzhenjie</groupId>
   <artifactId>permission</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.2</version>
   <type>pom</type>
 </dependency>
 ```
 
 * Eclipse [下载jar包](https://github.com/yanzhenjie/AndPermission/blob/master/jar/andpermission.jar?raw=true)，或者自行下载源码。
-
-我在开发SwipeRecyclerView时引用的RecyclerView版本如下：
-```groovy
-compile 'com.android.support:recyclerview-v7:23.4.0'
-```
+ Eclipse需要自行依赖Support的AppCompat项目。
 
 ## 使用介绍
 更好的例子，请下载源码后运行demo查看，这里给出最关键的代码。

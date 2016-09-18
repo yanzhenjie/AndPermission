@@ -26,40 +26,17 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <Button
-            android:id="@+id/btn_activity"
+            android:id="@+id/btn_request_single"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="测试Activity" />
+            android:text="申请SD权限" />
 
         <Button
-            android:id="@+id/btn_fragment"
+            android:id="@+id/btn_request_multi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="测试Fragment" />
-
-        <Button
-            android:id="@+id/btn_rationale"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="用户拒绝多次，自动提醒用户权限重要性" />
-
-        <Button
-            android:id="@+id/btn_not_again"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="用户勾选不再提示，并且拒绝权限后提示用户" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="上面权限申请失败和成功是反射调用方法的，如果你想用Listener方式，AndPermission完美支持两种方式。" />
-
-        <Button
-            android:id="@+id/btn_listener"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="通过Listener回调成功和失败（推荐）" />
+            android:text="申请位置、麦克风多个权限" />
     </LinearLayout>
+
 
 </android.support.design.widget.CoordinatorLayout>

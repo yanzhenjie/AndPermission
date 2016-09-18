@@ -16,72 +16,64 @@
 package com.yanzhenjie.permission.sample;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
 import com.yanzhenjie.permission.AndPermission;
-import com.yanzhenjie.permission.PermissionNo;
-import com.yanzhenjie.permission.PermissionYes;
+import com.yanzhenjie.permission.PermissionListener;
 
 /**
- * Created by Yan Zhenjie on 2016/9/10.
+ * Created by Yan Zhenjie on 2016/9/18.
  */
-public class PermissionActivity extends AppCompatActivity implements View.OnClickListener {
+public class NotAgainActivity extends AppCompatActivity implements View.OnClickListener, PermissionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_permission);
+        setContentView(R.layout.activity_permission_not_again);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         findViewById(R.id.btn_request_single).setOnClickListener(this);
-        findViewById(R.id.btn_request_multi).setOnClickListener(this);
     }
 
     /**
-     * 日历，单个的。
+     * 申请麦克风权限。
      */
     private void requestCameraPermission() {
         AndPermission.with(this)
                 .requestCode(100)
-                .permission(Manifest.permission.WRITE_CALENDAR)
+                .permission(Manifest.permission.CAMERA)
                 .send();
     }
 
-    @PermissionYes(100)
-    private void getCalendarYes() {
-        Toast.makeText(this, "获取日历权限成功", Toast.LENGTH_SHORT).show();
+    @Override
+    public void onSucceed(int requestCode) {
+        Toast.makeText(this, "获取相机权限成功", Toast.LENGTH_SHORT).show();
     }
 
-    @PermissionNo(100)
-    private void getCalendarNo() {
-        Toast.makeText(this, "获取日历权限失败", Toast.LENGTH_SHORT).show();
-    }
+    @Override
+    public void onFailed(int requestCode) {
+        if (AndPermission.getShouldShowRationalePermissions(this, Manifest.permission.CAMERA)) {
+            Toast.makeText(this, "获取相机风权限失败", Toast.LENGTH_SHORT).show();
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle("友好提醒")
+                    .setMessage("您已拒绝了相机权限，并且下次不再提示，如果你要继续使用此功能，请在设置中为我们授权相机权限。！")
+                    .setPositiveButton("知道了", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    }).show();
+        }
 
-    /**
-     * 申请联系人、短信。
-     */
-    private void requestContactSMSPermission() {
-        AndPermission.with(this)
-                .requestCode(101)
-                .permission(Manifest.permission.WRITE_CONTACTS,
-                        Manifest.permission.READ_SMS)
-                .send();
-    }
-
-    @PermissionYes(101)
-    private void getMultiYes() {
-        Toast.makeText(this, "获取联系人、短信权限成功", Toast.LENGTH_SHORT).show();
-    }
-
-    @PermissionNo(101)
-    private void getMultiNo() {
-        Toast.makeText(this, "获取联系人、短信权限失败", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -89,10 +81,11 @@ public class PermissionActivity extends AppCompatActivity implements View.OnClic
         // 这个Activity中没有Fragment，这句话可以注释。
         // super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        AndPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        // 没有Listener，最后的PermissionListener参数不写。
+//        AndPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
 
-        // 也可以用listener接受。
-//        AndPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults, this);
+        // 有Listener，最后需要写PermissionListener参数。
+        AndPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults, this);
     }
 
     @Override
@@ -100,10 +93,6 @@ public class PermissionActivity extends AppCompatActivity implements View.OnClic
         switch (v.getId()) {
             case R.id.btn_request_single: {
                 requestCameraPermission();
-                break;
-            }
-            case R.id.btn_request_multi: {
-                requestContactSMSPermission();
                 break;
             }
         }

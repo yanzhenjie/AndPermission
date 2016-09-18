@@ -34,7 +34,7 @@ public class ListenerActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_permission);
+        setContentView(R.layout.activity_permission_listener);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -48,37 +48,36 @@ public class ListenerActivity extends AppCompatActivity implements View.OnClickL
     private void requestCameraPermission() {
         AndPermission.with(this)
                 .requestCode(100)
-                .permission(Manifest.permission.WRITE_CALENDAR)
+                .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .send();
     }
 
     @Override
     public void onSucceed(int requestCode) {
         if (requestCode == 100) {
-            Toast.makeText(this, "获取日历权限成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "获取SD权限成功", Toast.LENGTH_SHORT).show();
         } else if (requestCode == 101) {
-            Toast.makeText(this, "获取联系人、短信、SD卡权限成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "获取位置，麦克风权限成功", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onFailed(int requestCode) {
         if (requestCode == 100) {
-            Toast.makeText(this, "获取日历权限失败", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "获取SD权限失败", Toast.LENGTH_SHORT).show();
         } else if (requestCode == 101) {
-            Toast.makeText(this, "获取联系人、短信、SD卡权限失败", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "获取位置，麦克风权限失败", Toast.LENGTH_SHORT).show();
         }
     }
 
     /**
-     * 申请联系人、短信、权限。
+     * 位置，麦克风。
      */
     private void requestContactSMSPermission() {
         AndPermission.with(this)
                 .requestCode(101)
-                .permission(Manifest.permission.WRITE_CONTACTS,
-                        Manifest.permission.READ_SMS,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .permission(Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.RECORD_AUDIO)
                 .send();
     }
 

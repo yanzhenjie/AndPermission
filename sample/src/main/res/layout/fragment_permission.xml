@@ -8,11 +8,11 @@
         android:id="@+id/btn_request_single"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="申请日历权限" />
+        android:text="申请手机状态权限" />
 
     <Button
         android:id="@+id/btn_request_multi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="申请联系人、短信多个权限" />
+        android:text="申请传感器、短信多个权限" />
 </LinearLayout>

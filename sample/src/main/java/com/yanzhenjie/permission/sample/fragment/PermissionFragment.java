@@ -48,45 +48,44 @@ public class PermissionFragment extends Fragment implements View.OnClickListener
     }
 
     /**
-     * 申请SD卡权限，单个的。
+     * 手机状态。
      */
     private void requestCameraPermission() {
         AndPermission.with(this)
                 .requestCode(100)
-                .permission(Manifest.permission.WRITE_CALENDAR)
+                .permission(Manifest.permission.READ_PHONE_STATE)
                 .send();
     }
 
     @PermissionYes(100)
     private void getCalendarYes() {
-        Toast.makeText(getContext(), "获取日历权限成功", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "获取手机状态权限成功", Toast.LENGTH_SHORT).show();
     }
 
     @PermissionNo(100)
     private void getCalendarNo() {
-        Toast.makeText(getContext(), "获取日历权限失败", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "获取手机状态权限失败", Toast.LENGTH_SHORT).show();
     }
 
     /**
-     * 申请联系人、短信、权限。
+     * 传感器、短信。
      */
     private void requestContactSMSPermission() {
         AndPermission.with(this)
                 .requestCode(101)
-                .permission(Manifest.permission.WRITE_CONTACTS,
-                        Manifest.permission.READ_SMS,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .permission(Manifest.permission.BODY_SENSORS,
+                        Manifest.permission.READ_SMS)
                 .send();
     }
 
     @PermissionYes(101)
     private void getMultiYes() {
-        Toast.makeText(getContext(), "获取联系人、短信、SD卡权限成功", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "获取传感器、短信权限成功", Toast.LENGTH_SHORT).show();
     }
 
     @PermissionNo(101)
     private void getMultiNo() {
-        Toast.makeText(getContext(), "获取联系人、短信、SD卡权限失败", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "获取传感器、短信权限失败", Toast.LENGTH_SHORT).show();
     }
 
     @Override
