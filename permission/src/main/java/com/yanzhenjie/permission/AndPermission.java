@@ -16,6 +16,7 @@
 package com.yanzhenjie.permission;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -97,12 +98,12 @@ public class AndPermission {
     /**
      * Check permissions;
      *
-     * @param activity    {@link Activity}.
+     * @param context     {@link Context}.
      * @param permissions permissions.
      * @return true, other wise false.
      */
-    public static boolean checkPermission(Activity activity, String... permissions) {
-        return PermissionUtils.getDeniedPermissions(activity, permissions).length <= 0;
+    public static boolean checkPermission(Context context, String... permissions) {
+        return PermissionUtils.getDeniedPermissions(context, permissions).length <= 0;
     }
 
     /**

@@ -17,8 +17,8 @@ package com.yanzhenjie.permission;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.Process;
 import android.support.v4.app.Fragment;
 
 import java.lang.annotation.Annotation;
@@ -63,12 +63,12 @@ class PermissionUtils {
     }
 
     static int checkPermission(Object o, String permission) {
-        return getActivity(o).checkPermission(permission, android.os.Process.myPid(), Process.myUid());
+        return getContext(o).checkPermission(permission, android.os.Process.myPid(), android.os.Process.myUid());
     }
 
-    static Activity getActivity(Object o) {
-        if (o instanceof Activity)
-            return (Activity) o;
+    static Context getContext(Object o) {
+        if (o instanceof Context)
+            return (Context) o;
         else if (o instanceof Fragment)
             return ((Fragment) o).getActivity();
         throw new IllegalArgumentException("The " + o.getClass().getName() + " is not support to get the context.");
