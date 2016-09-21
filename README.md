@@ -16,14 +16,14 @@
 ## 引用方法  
 * AndroidStudio使用方法，gradle一句话远程依赖
 ```groovy
-compile 'com.yanzhenjie:permission:1.0.2'
+compile 'com.yanzhenjie:permission:1.0.3'
 ```
 Or Maven:
 ```xml
 <dependency>
   <groupId>com.yanzhenjie</groupId>
   <artifactId>permission</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
   <type>pom</type>
 </dependency>
 ```
