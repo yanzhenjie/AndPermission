@@ -16,25 +16,28 @@
 package com.yanzhenjie.permission.sample;
 
 import android.Manifest;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.Toast;
 
+import com.yanzhenjie.alertdialog.AlertDialog;
 import com.yanzhenjie.permission.AndPermission;
-import com.yanzhenjie.permission.PermissionNo;
-import com.yanzhenjie.permission.PermissionYes;
-import com.yanzhenjie.permission.Rationale;
+import com.yanzhenjie.permission.PermissionListener;
 import com.yanzhenjie.permission.RationaleListener;
+
+import java.util.List;
 
 /**
  * Created by Yan Zhenjie on 2016/9/10.
  */
-public class RationalePermissionActivity extends AppCompatActivity implements View.OnClickListener {
+public class RationalePermissionActivity extends AppCompatActivity implements PermissionListener {
+
+    private static final int REQUEST_CODE_PERMISSION_LOCATION = 100;
+
+    private static final int REQUEST_CODE_SETTING = 300;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,66 +46,90 @@ public class RationalePermissionActivity extends AppCompatActivity implements Vi
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        findViewById(R.id.btn_request_location).setOnClickListener(this);
+        findViewById(R.id.btn_request_location).setOnClickListener(v ->
+                // 申请权限。
+                AndPermission.with(this)
+                        .requestCode(REQUEST_CODE_PERMISSION_LOCATION)
+                        .permission(Manifest.permission.ACCESS_FINE_LOCATION)
+                        // rationale作用是：用户拒绝一次权限，再次申请时先征求用户同意，再打开授权对话框，避免用户勾选不再提示。
+                        .rationale(rationaleListener)
+                        .send()
+        );
     }
 
     /**
-     * 申请SD卡权限，单个的。
+     * Rationale支持，这里自定义对话框。
      */
-    private void requestLocationPermission() {
-        AndPermission.with(this)
-                .requestCode(100)
-                .permission(Manifest.permission.ACCESS_FINE_LOCATION)
-                .rationale(rationaleListener)
-                .send();
-    }
-
-    private RationaleListener rationaleListener = new RationaleListener() {
-        @Override
-        public void showRequestPermissionRationale(int requestCode, final Rationale rationale) {
-            new AlertDialog.Builder(RationalePermissionActivity.this)
-                    .setTitle("友好提醒")
-                    .setMessage("您已拒绝过定位权限，没有定位权限无法为您推荐附近妹子，请把定位权限赐给我吧！")
-                    .setPositiveButton("好，给你", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                            rationale.resume();
-                        }
-                    })
-                    .setNegativeButton("我拒绝", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                            rationale.cancel();
-                        }
-                    }).show();
-        }
+    private RationaleListener rationaleListener = (requestCode, rationale) -> {
+        // 这里使用自定义对话框，如果不想自定义，用AndPermission默认对话框：
+        // AndPermission.rationaleDialog(Context, Rationale).show();
+        AlertDialog.build(this)
+                .setTitle("友好提醒")
+                .setMessage("您已拒绝过定位权限，没有定位权限无法为您推荐附近妹子，赶快定位权限给我！")
+                .setPositiveButton("好，给你", (dialog, which) -> {
+                    dialog.cancel();
+                    rationale.resume();
+                })
+                .setNegativeButton("我拒绝", (dialog, which) -> {
+                    dialog.cancel();
+                    rationale.cancel();
+                }).show();
     };
 
-    @PermissionYes(100)
-    private void getLocationYes() {
-        Toast.makeText(this, "获取定位权限成功", Toast.LENGTH_SHORT).show();
-    }
-
-    @PermissionNo(100)
-    private void getLocationNo() {
-        Toast.makeText(this, "获取定位权限失败", Toast.LENGTH_SHORT).show();
+    @Override
+    public void onSucceed(int requestCode, List<String> grantPermissions) {
+        switch (requestCode) {
+            case REQUEST_CODE_PERMISSION_LOCATION: {
+                Toast.makeText(this, "获取定位权限成功", Toast.LENGTH_SHORT).show();
+                break;
+            }
+        }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        // 这个Activity中没有Fragment，这句话可以注释。
-        // super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    public void onFailed(int requestCode, List<String> deniedPermissions) {
+        switch (requestCode) {
+            case REQUEST_CODE_PERMISSION_LOCATION: {
+                Toast.makeText(this, "获取定位权限失败", Toast.LENGTH_SHORT).show();
+                break;
+            }
+        }
 
-        AndPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        // 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权。
+        if (AndPermission.hasAlwaysDeniedPermission(this, deniedPermissions)) {
+            // 第一种：用默认的提示语。
+            AndPermission.defaultSettingDialog(this, REQUEST_CODE_SETTING).show();
+
+            // 第二种：用自定义的提示语。
+//             AndPermission.defaultSettingDialog(this, REQUEST_CODE_SETTING)
+//                     .setTitle("权限申请失败")
+//                     .setMessage("我们需要的一些权限被您拒绝或者系统发生错误申请失败，请您到设置页面手动授权，否则功能无法正常使用！")
+//                     .setPositiveButton("好，去设置")
+//                     .show();
+
+//            第三种：自定义dialog样式。
+//            SettingService settingHandle = AndPermission.defineSettingDialog(this, REQUEST_CODE_SETTING);
+//            你的dialog点击了确定调用：
+//            settingHandle.execute();
+//            你的dialog点击了取消调用：
+//            settingHandle.cancel();
+        }
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_request_location: {
-                requestLocationPermission();
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[]
+            grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // listener方式，最后一个参数是PermissionListener。
+        AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_SETTING: {
+                Toast.makeText(this, "用户从设置回来了", Toast.LENGTH_LONG).show();
                 break;
             }
         }

@@ -25,6 +25,12 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_10"
+            android:text="为了测试rationale效果，请您先拒绝一次权限，然后再次申请时就可以看到rationale效果。（部分小米、华为可能没有rationale效果，但是AndPermission提供了Setting。）" />
+
         <Button
             android:id="@+id/btn_request_location"
             android:layout_width="match_parent"

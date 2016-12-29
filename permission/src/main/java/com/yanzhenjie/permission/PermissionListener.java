@@ -15,13 +15,15 @@
  */
 package com.yanzhenjie.permission;
 
+import java.util.List;
+
 /**
  * Created by Yan Zhenjie on 2016/9/17.
  */
 public interface PermissionListener {
 
-    void onSucceed(int requestCode);
+    void onSucceed(int requestCode, List<String> grantPermissions);
 
-    void onFailed(int requestCode);
+    void onFailed(int requestCode, List<String> deniedPermissions);
 
 }

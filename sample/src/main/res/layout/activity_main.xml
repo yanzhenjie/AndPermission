@@ -32,22 +32,10 @@
             android:text="测试Activity" />
 
         <Button
-            android:id="@+id/btn_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="测试Fragment" />
-
-        <Button
             android:id="@+id/btn_rationale"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="用户拒绝多次，自动提醒用户权限重要性" />
-
-        <Button
-            android:id="@+id/btn_not_again"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="用户勾选不再提示，并且拒绝权限后提示用户" />
 
         <TextView
             android:layout_width="match_parent"

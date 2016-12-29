@@ -1,15 +1,18 @@
-apply plugin: 'com.android.library'
+apply plugin: rootProject.ext.plugins.library
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 23
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
     }
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:24.2.1'
+    compile rootProject.ext.dependencies.appcompat
+    compile rootProject.ext.dependencies.alertdialog
 }
+
+apply from: "maven.gradle"

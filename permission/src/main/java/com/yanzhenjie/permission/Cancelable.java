@@ -16,13 +16,13 @@
 package com.yanzhenjie.permission;
 
 /**
- * Created by Yan Zhenjie on 2016/9/10.
+ * Created by Yan Zhenjie on 2016/12/28.
  */
-public interface Rationale extends Cancelable {
+public interface Cancelable {
 
     /**
-     * Go request permission.
+     * Cancel the operation.
      */
-    void resume();
+    void cancel();
 
 }

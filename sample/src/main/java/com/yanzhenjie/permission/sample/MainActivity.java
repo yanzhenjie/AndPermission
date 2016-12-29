@@ -21,8 +21,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.yanzhenjie.permission.sample.fragment.FragmentActivity;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
@@ -33,9 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
 
         findViewById(R.id.btn_activity).setOnClickListener(this);
-        findViewById(R.id.btn_fragment).setOnClickListener(this);
         findViewById(R.id.btn_rationale).setOnClickListener(this);
-        findViewById(R.id.btn_not_again).setOnClickListener(this);
         findViewById(R.id.btn_listener).setOnClickListener(this);
     }
 
@@ -46,19 +42,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, PermissionActivity.class));
                 break;
             }
-            case R.id.btn_fragment: {
-                startActivity(new Intent(this, FragmentActivity.class));
+            case R.id.btn_listener: {
+                startActivity(new Intent(this, ListenerActivity.class));
                 break;
             }
             case R.id.btn_rationale: {
-                startActivity(new Intent(this, RationalePermissionActivity.class));
-                break;
-            }
-            case R.id.btn_not_again: {
-                startActivity(new Intent(this, NotAgainActivity.class));
-                break;
-            }
-            case R.id.btn_listener: {
                 startActivity(new Intent(this, RationalePermissionActivity.class));
                 break;
             }
