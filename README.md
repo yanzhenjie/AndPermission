@@ -63,7 +63,7 @@ AndPermission.with(this)
 ```
 在使用到特殊权限时，只需要在`Activity`、`Fragment`中直接调用，等到`AndPermission`回调时即可执行相应的代码。
 
-**注意**
+**注意**  
 1. 如果你的`Activity`继承的是`AppCompatActivity`、`FragmentActivity`或者它们的子类，那么你直接请求权限就可以。
 2. 如果你的`Fragment`继承的是`android.support.v4.app.Fragment`或者它的子类，那么你直接请求权限就可以。
 3. 如果你继承的是`android.app.Activity`、`android.app.Fragment`、在6.0以下的手机是没有`onRequestPermissionsResult()`方法的，所以需要在申请权限前判断：
@@ -191,6 +191,19 @@ private RationaleListener rationaleListener = (requestCode, rationale) -> {
             rationale.cancel();
         }).show();
 };
+```
+
+# 混淆
+**1. 如果使用Listener接受回调结果，不用任何配置。**  
+
+**2. 使用注解的方式回调结果，在proguard-rules.pro中添加如下配置**
+```
+-keepclassmembers class ** {
+    @com.yanzhenjie.permission.PermissionYes <methods>;
+}
+-keepclassmembers class ** {
+    @com.yanzhenjie.permission.PermissionNo <methods>;
+}
 ```
 
 # License
