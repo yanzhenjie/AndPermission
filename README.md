@@ -1,7 +1,7 @@
 ﻿# AndPermission
 
-严振杰的主页：[http://www.yanzhenjie.com](http://www.yanzhenjie.com)  
-严振杰的博客：[http://blog.yanzhenjie.com](http://blog.yanzhenjie.com)  
+严振杰的主页：[http://www.yanzhenjie.com](http://www.yanzhenjie.com)
+严振杰的博客：[http://blog.yanzhenjie.com](http://blog.yanzhenjie.com)
 
 **欢迎加入QQ技术交流群：[46523908](http://jq.qq.com/?_wv=1027&k=40hvC7E)**
 
@@ -18,23 +18,22 @@
 7. 如果使用默认对话框，自动支持国际化。
 8. 支持`Activity`、`android.support.v4.app.Fragment`、`android.app.Fragment`。
 
-# 引用方法  
+# 引用方法
 * AndroidStudio使用方法，gradle一句话远程依赖
 ```groovy
-compile 'com.yanzhenjie:permission:1.0.4'
+compile 'com.yanzhenjie:permission:1.0.5'
 ```
 Or Maven:
 ```xml
 <dependency>
   <groupId>com.yanzhenjie</groupId>
   <artifactId>permission</artifactId>
-  <version>1.0.4</version>
+  <version>1.0.5</version>
   <type>pom</type>
 </dependency>
 ```
 
-* Eclipse [下载jar包](https://github.com/yanzhenjie/AndPermission/blob/master/jar/andpermission.jar?raw=true)，或者自行下载源码。
- Eclipse需要自行依赖Support的AppCompat项目。
+* Eclipse [下载jar包](https://github.com/yanzhenjie/AndPermission/blob/master/jar/andpermission.jar?raw=true)，并依赖Support的AppCompat项目。
 
 # 使用介绍
 我建议还是直接下载上方的demo和源码运行一把，一切尽在掌握。
@@ -57,7 +56,7 @@ AndPermission.with(this)
 ```
 在使用到特殊权限时，只需要在`Activity`、`Fragment`中直接调用，等到`AndPermission`回调时即可执行相应的代码。
 
-**注意**  
+**注意**
 1. 如果你的`Activity`继承的是`AppCompatActivity`、`FragmentActivity`或者它们的子类，那么你直接请求权限就可以。
 2. 如果你的`Fragment`继承的是`android.support.v4.app.Fragment`或者它的子类，那么你直接请求权限就可以。
 3. 如果你继承的是`android.app.Activity`、`android.app.Fragment`、在6.0以下的手机是没有`onRequestPermissionsResult()`方法的，所以需要在申请权限前判断：
@@ -97,7 +96,7 @@ private PermissionListener listener = new PermissionListener() {
     @Override
     public void onFailed(int requestCode, List<String> deniedPermissions) {
         // 权限申请失败回调。
-        
+
         // 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权。
         if (AndPermission.hasAlwaysDeniedPermission(this, deniedPermissions)) {
             // 第一种：用默认的提示语。
@@ -111,7 +110,7 @@ private PermissionListener listener = new PermissionListener() {
             // .show();
 
             // 第三种：自定义dialog样式。
-            // SettingService settingService = 
+            // SettingService settingService =
             //    AndPermission.defineSettingDialog(this, REQUEST_CODE_SETTING);
             // 你的dialog点击了确定调用：
             // settingService.execute();
@@ -170,7 +169,7 @@ AndPermission.with(this)
     .permission(Manifest.permission.ACCESS_FINE_LOCATION)
     .rationale(rationaleListener)
     .send()
-    
+
 /**
  * Rationale支持，这里自定义对话框。
  */
@@ -188,7 +187,7 @@ private RationaleListener rationaleListener = (requestCode, rationale) -> {
 ```
 
 # 混淆
-**1. 如果使用Listener接受回调结果，不用任何配置。**  
+**1. 如果使用Listener接受回调结果，不用任何配置。**
 
 **2. 使用注解的方式回调结果，在proguard-rules.pro中添加如下配置**
 ```
@@ -202,7 +201,7 @@ private RationaleListener rationaleListener = (requestCode, rationale) -> {
 
 # License
 ```text
-Copyright 2016 Yan Zhenjie
+Copyright 2017 Yan Zhenjie
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

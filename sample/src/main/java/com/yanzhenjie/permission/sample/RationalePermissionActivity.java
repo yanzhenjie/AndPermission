@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.yanzhenjie.alertdialog.AlertDialog;
@@ -46,6 +47,9 @@ public class RationalePermissionActivity extends AppCompatActivity implements Pe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //noinspection ConstantConditions
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         findViewById(R.id.btn_request_location).setOnClickListener(v ->
                 // 申请权限。
                 AndPermission.with(this)
@@ -63,14 +67,16 @@ public class RationalePermissionActivity extends AppCompatActivity implements Pe
     private RationaleListener rationaleListener = (requestCode, rationale) -> {
         // 这里使用自定义对话框，如果不想自定义，用AndPermission默认对话框：
         // AndPermission.rationaleDialog(Context, Rationale).show();
+
+        // 自定义对话框。
         AlertDialog.build(this)
-                .setTitle("友好提醒")
-                .setMessage("您已拒绝过定位权限，没有定位权限无法为您推荐附近妹子，赶快定位权限给我！")
-                .setPositiveButton("好，给你", (dialog, which) -> {
+                .setTitle(R.string.title_dialog)
+                .setMessage(R.string.message_permission_rationale)
+                .setPositiveButton(R.string.btn_dialog_yes_permission, (dialog, which) -> {
                     dialog.cancel();
                     rationale.resume();
                 })
-                .setNegativeButton("我拒绝", (dialog, which) -> {
+                .setNegativeButton(R.string.btn_dialog_no_permission, (dialog, which) -> {
                     dialog.cancel();
                     rationale.cancel();
                 }).show();
@@ -80,7 +86,7 @@ public class RationalePermissionActivity extends AppCompatActivity implements Pe
     public void onSucceed(int requestCode, List<String> grantPermissions) {
         switch (requestCode) {
             case REQUEST_CODE_PERMISSION_LOCATION: {
-                Toast.makeText(this, "获取定位权限成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.message_location_succeed, Toast.LENGTH_SHORT).show();
                 break;
             }
         }
@@ -90,7 +96,7 @@ public class RationalePermissionActivity extends AppCompatActivity implements Pe
     public void onFailed(int requestCode, List<String> deniedPermissions) {
         switch (requestCode) {
             case REQUEST_CODE_PERMISSION_LOCATION: {
-                Toast.makeText(this, "获取定位权限失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.message_location_failed, Toast.LENGTH_SHORT).show();
                 break;
             }
         }
@@ -129,9 +135,21 @@ public class RationalePermissionActivity extends AppCompatActivity implements Pe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case REQUEST_CODE_SETTING: {
-                Toast.makeText(this, "用户从设置回来了", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.message_setting_back, Toast.LENGTH_LONG).show();
                 break;
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home: {
+                finish();
+                break;
+            }
+        }
+        return true;
     }
 }

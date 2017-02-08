@@ -21,12 +21,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
-import com.yanzhenjie.permission.SettingService;
 
 import java.util.List;
 
@@ -46,6 +46,9 @@ public class ListenerActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_permission);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //noinspection ConstantConditions
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         findViewById(R.id.btn_request_single).setOnClickListener(this);
         findViewById(R.id.btn_request_multi).setOnClickListener(this);
@@ -87,11 +90,11 @@ public class ListenerActivity extends AppCompatActivity implements View.OnClickL
     public void onSucceed(int requestCode, List<String> grantPermissions) {
         switch (requestCode) {
             case REQUEST_CODE_PERMISSION_SD: {
-                Toast.makeText(this, "获取日历权限成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.message_calendar_succeed, Toast.LENGTH_SHORT).show();
                 break;
             }
             case REQUEST_CODE_PERMISSION_OTHER: {
-                Toast.makeText(this, "获取联系人、短信权限成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.message_post_succeed, Toast.LENGTH_SHORT).show();
                 break;
             }
         }
@@ -101,11 +104,11 @@ public class ListenerActivity extends AppCompatActivity implements View.OnClickL
     public void onFailed(int requestCode, List<String> deniedPermissions) {
         switch (requestCode) {
             case REQUEST_CODE_PERMISSION_SD: {
-                Toast.makeText(this, "获取日历权限失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.message_calendar_failed, Toast.LENGTH_SHORT).show();
                 break;
             }
             case REQUEST_CODE_PERMISSION_OTHER: {
-                Toast.makeText(this, "获取联系人、短信、SD卡权限失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.message_post_failed, Toast.LENGTH_SHORT).show();
                 break;
             }
         }
@@ -152,9 +155,21 @@ public class ListenerActivity extends AppCompatActivity implements View.OnClickL
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case REQUEST_CODE_SETTING: {
-                Toast.makeText(this, "用户从设置回来了", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.message_setting_back, Toast.LENGTH_LONG).show();
                 break;
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home: {
+                finish();
+                break;
+            }
+        }
+        return true;
     }
 }

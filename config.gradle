@@ -8,19 +8,19 @@ ext {
 
     android = [
             applicationId    : "com.yanzhenjie.permission.sample",
-            compileSdkVersion: 24,
-            buildToolsVersion: "24.0.3",
+            compileSdkVersion: 25,
+            buildToolsVersion: "25.0.2",
             minSdkVersion    : 11,
-            targetSdkVersion : 24,
+            targetSdkVersion : 25,
             versionCode      : 1,
             versionName      : "1.0"
     ]
 
 
     dependencies = [
-            appcompat  : 'com.android.support:appcompat-v7:24.2.1',
-            design     : 'com.android.support:design:24.2.1',
+            appcompat  : 'com.android.support:appcompat-v7:25.1.0',
+            design     : 'com.android.support:design:25.1.0',
             alertdialog: 'com.yanzhenjie.alertdialog:alertdialog:1.0.0',
-            permission : 'com.yanzhenjie:permission:1.0.4'
+            permission : 'com.yanzhenjie:permission:1.0.5'
     ]
 }

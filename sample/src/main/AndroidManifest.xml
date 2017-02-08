@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 Yan Zhenjie
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.yanzhenjie.permission.sample">
 
@@ -33,15 +48,15 @@
         </activity>
         <activity
             android:name=".PermissionActivity"
-            android:label="Activity申请权限"
+            android:label="@string/title_activity_request"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".RationalePermissionActivity"
-            android:label="用户拒绝多次，提醒用户"
+            android:label="@string/title_rationale"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".ListenerActivity"
-            android:label="通过Listener回调成功和失败"
+            android:label="@string/title_listener_request"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 

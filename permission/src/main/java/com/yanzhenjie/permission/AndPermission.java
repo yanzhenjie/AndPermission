@@ -71,19 +71,6 @@ public class AndPermission {
     }
 
     /**
-     * Get default rationale dialog.
-     *
-     * @param context   {@link Context}.
-     * @param rationale {@link Rationale}.
-     * @return {@link RationaleDialog}.
-     */
-    public static
-    @NonNull
-    RationaleDialog rationaleDialog(@NonNull Context context, Rationale rationale) {
-        return new RationaleDialog(context, rationale);
-    }
-
-    /**
      * Some privileges permanently disabled, may need to set up in the execute.
      *
      * @param fragment          {@link android.support.v4.app.Fragment}.
@@ -116,6 +103,19 @@ public class AndPermission {
             }
         }
         return false;
+    }
+
+    /**
+     * Get default rationale dialog.
+     *
+     * @param context   {@link Context}.
+     * @param rationale {@link Rationale}.
+     * @return {@link RationaleDialog}.
+     */
+    public static
+    @NonNull
+    RationaleDialog rationaleDialog(@NonNull Context context, Rationale rationale) {
+        return new RationaleDialog(context, rationale);
     }
 
     /**
@@ -293,8 +293,7 @@ public class AndPermission {
      * @param grantResults results.
      */
     public static void onRequestPermissionsResult(@NonNull android.support.v4.app.Fragment fragment, int
-            requestCode,
-                                                  @NonNull String[] permissions, int[] grantResults) {
+            requestCode, @NonNull String[] permissions, int[] grantResults) {
         callbackAnnotation(fragment, requestCode, permissions, grantResults);
     }
 

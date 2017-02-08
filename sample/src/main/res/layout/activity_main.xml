@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+    Copyright 2017 Yan Zhenjie
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -29,25 +45,25 @@
             android:id="@+id/btn_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="测试Activity" />
+            android:text="@string/btn_item_activity"/>
 
         <Button
             android:id="@+id/btn_rationale"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="用户拒绝多次，自动提醒用户权限重要性" />
+            android:text="@string/btn_item_rationale"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="上面权限申请失败和成功是反射调用方法的，如果你想用Listener方式，AndPermission完美支持两种方式。" />
+            android:text="@string/message_callback_describe"/>
 
         <Button
             android:id="@+id/btn_listener"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="通过Listener回调成功和失败（推荐）" />
+            android:text="@string/btn_item_listener"/>
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

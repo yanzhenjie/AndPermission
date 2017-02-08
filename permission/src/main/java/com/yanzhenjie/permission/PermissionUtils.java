@@ -32,7 +32,7 @@ class PermissionUtils {
         else if (o instanceof Fragment)
             return ((Fragment) o).getActivity();
         else if (o instanceof android.app.Fragment)
-            ((android.app.Fragment) o).getActivity();
+            return ((android.app.Fragment) o).getActivity();
         throw new IllegalArgumentException("The " + o.getClass().getName() + " is not support.");
     }
 

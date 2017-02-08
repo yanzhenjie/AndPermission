@@ -1,7 +1,7 @@
 apply plugin: rootProject.ext.plugins.maven
 apply plugin: rootProject.ext.plugins.bintray
 
-version = "1.0.4"
+version = "1.0.5"
 
 def siteUrl = 'https://github.com/yanzhenjie/AndPermission'
 def gitUrl = 'git@github.com:yanzhenjie/AndPermission.git'
@@ -64,6 +64,7 @@ bintray {
     pkg {
         repo = "maven"
         name = "permission"
+        userOrg = 'yolanda'
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]
