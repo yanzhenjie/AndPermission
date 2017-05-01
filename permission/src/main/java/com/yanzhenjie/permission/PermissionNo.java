@@ -21,6 +21,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * <p>The callback method when the permission is failure.</p>
  * Created by Yan Zhenjie on 2016/9/10.
  */
 @Retention(RetentionPolicy.RUNTIME)

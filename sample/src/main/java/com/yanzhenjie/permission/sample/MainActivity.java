@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Yan Zhenjie
+ * Copyright © Yan Zhenjie. All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_activity).setOnClickListener(this);
         findViewById(R.id.btn_rationale).setOnClickListener(this);
         findViewById(R.id.btn_listener).setOnClickListener(this);
+        findViewById(R.id.btn_other).setOnClickListener(this);
     }
 
     @Override
@@ -48,6 +49,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             case R.id.btn_rationale: {
                 startActivity(new Intent(this, RationalePermissionActivity.class));
+                break;
+            }
+            case R.id.btn_other: {
+                startActivity(new Intent(this, OtherActivity.class));
                 break;
             }
         }

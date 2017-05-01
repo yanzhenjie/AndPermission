@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 Yan Zhenjie
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<resources>
+
+    <string name="permission_cancel">取消</string>
+    <string name="permission_setting">去設置</string>
+    <string name="permission_title_permission_failed">權限申請失敗</string>
+    <string name="permission_message_permission_failed">我們需要的壹些權限被您拒絕或者系統發生錯誤申請失敗，請您到設置頁面手動授權，否則功能無法正常使用！</string>
+
+    <string name="permission_resume">繼續</string>
+    <string name="permission_title_permission_rationale">權限已被拒絕</string>
+    <string name="permission_message_permission_rationale">您已經拒絕過我們申請授權，請您同意授權，否則功能無法正常使用！</string>
+</resources>

@@ -1,7 +1,6 @@
 *.iml
 .gradle
 /local.properties
-/build
-/sample/build/
-/permission/build/
+build
 /.idea/
+/captures/

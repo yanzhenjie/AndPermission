@@ -24,6 +24,7 @@ import android.support.annotation.StringRes;
 import com.yanzhenjie.alertdialog.AlertDialog;
 
 /**
+ * <p>Default Rationale Dialog.</p>
  * Created by Yan Zhenjie on 2016/12/28.
  */
 public class RationaleDialog {
@@ -32,7 +33,7 @@ public class RationaleDialog {
     private Rationale mRationale;
 
     RationaleDialog(@NonNull Context context, @NonNull Rationale rationale) {
-        mBuilder = AlertDialog.build(context)
+        mBuilder = AlertDialog.newBuilder(context)
                 .setCancelable(false)
                 .setTitle(R.string.permission_title_permission_rationale)
                 .setMessage(R.string.permission_message_permission_rationale)
@@ -66,15 +67,13 @@ public class RationaleDialog {
     }
 
     @NonNull
-    public RationaleDialog setNegativeButton(@NonNull String text, @Nullable DialogInterface.OnClickListener
-            negativeListener) {
+    public RationaleDialog setNegativeButton(@NonNull String text, @Nullable DialogInterface.OnClickListener negativeListener) {
         mBuilder.setNegativeButton(text, negativeListener);
         return this;
     }
 
     @NonNull
-    public RationaleDialog setNegativeButton(@StringRes int text, @Nullable DialogInterface.OnClickListener
-            negativeListener) {
+    public RationaleDialog setNegativeButton(@StringRes int text, @Nullable DialogInterface.OnClickListener negativeListener) {
         mBuilder.setNegativeButton(text, negativeListener);
         return this;
     }

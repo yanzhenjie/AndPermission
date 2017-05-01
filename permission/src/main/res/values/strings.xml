@@ -16,12 +16,13 @@
 -->
 <resources>
 
-    <string name="permission_cancel">取消</string>
-    <string name="permission_setting">去设置</string>
-    <string name="permission_title_permission_failed">权限申请失败</string>
-    <string name="permission_message_permission_failed">我们需要的一些权限被您拒绝或者系统发生错误申请失败，请您到设置页面手动授权，否则功能无法正常使用！</string>
+    <string name="permission_cancel">Cancel</string>
+    <string name="permission_setting">Setting</string>
+    <string name="permission_title_permission_failed">Permission apply failure</string>
+    <string name="permission_message_permission_failed">We need some permissions are you refuse or system error, would you please go to Settings page manual authorization, otherwise the function to use!</string>
 
-    <string name="permission_resume">继续</string>
-    <string name="permission_title_permission_rationale">权限已被拒绝</string>
-    <string name="permission_message_permission_rationale">您已经拒绝过我们申请授权，请您同意授权，否则功能无法正常使用！</string>
+    <string name="permission_resume">Resume</string>
+    <string name="permission_title_permission_rationale">Permission denied</string>
+    <string name="permission_message_permission_rationale">You have rejected us for authorization, would you please authorize, otherwise the function to use!</string>
 </resources>
+

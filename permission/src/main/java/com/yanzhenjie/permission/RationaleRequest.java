@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Yan Zhenjie
+ * Copyright © Yan Zhenjie. All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,42 +18,19 @@ package com.yanzhenjie.permission;
 import android.support.annotation.NonNull;
 
 /**
- * Created by Yan Zhenjie on 2016/9/9.
+ * <p>Permission request and rationale.</p>
+ * Created by Yan Zhenjie on 2017/5/1.
  */
-public interface Permission {
-
-    /**
-     * Here to fill in all of this to apply for permission, can be a, can be more.
-     *
-     * @param permissions one or more permissions.
-     * @return {@link Permission}.
-     */
-    @NonNull
-    Permission permission(String... permissions);
-
-    /**
-     * Request code.
-     *
-     * @param requestCode int, the first parameter in callback {@code onRequestPermissionsResult(int, String[],
-     *                    int[])}}.
-     * @return {@link Permission}.
-     */
-    @NonNull
-    Permission requestCode(int requestCode);
+public interface RationaleRequest extends Request<RationaleRequest> {
 
     /**
      * With user privilege refused many times, the Listener will be called back, you can prompt the user
      * permissions role in this method.
      *
      * @param listener {@link RationaleListener}.
-     * @return {@link Permission}.
+     * @return {@link RationaleRequest}.
      */
     @NonNull
-    Permission rationale(RationaleListener listener);
-
-    /**
-     * Request permission.
-     */
-    void send();
+    RationaleRequest rationale(RationaleListener listener);
 
 }

@@ -14,5 +14,15 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<manifest
-    package="com.yanzhenjie.permission"/>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.yanzhenjie.permission">
+
+    <application>
+        <activity
+            android:name=".PermissionActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"/>
+    </application>
+
+</manifest>

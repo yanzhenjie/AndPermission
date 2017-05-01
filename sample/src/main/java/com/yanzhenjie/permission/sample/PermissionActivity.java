@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Yan Zhenjie
+ * Copyright © Yan Zhenjie. All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ package com.yanzhenjie.permission.sample;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -63,12 +62,15 @@ public class PermissionActivity extends AppCompatActivity implements View.OnClic
                 AndPermission.with(this)
                         .requestCode(REQUEST_CODE_PERMISSION_SD)
                         .permission(Manifest.permission.WRITE_CALENDAR)
-                        // rationale作用是：用户拒绝一次权限，再次申请时先征求用户同意，再打开授权对话框，避免用户勾选不再提示。
+                        .callback(this)
+                        // rationale作用是：用户拒绝一次权限，再次申请时先征求用户同意，再打开授权对话框；
+                        // 这样避免用户勾选不再提示，导致以后无法申请权限。
+                        // 你也可以不设置。
                         .rationale((requestCode, rationale) ->
                                 // 这里的对话框可以自定义，只要调用rationale.resume()就可以继续申请。
                                 AndPermission.rationaleDialog(PermissionActivity.this, rationale).show()
                         )
-                        .send();
+                        .start();
                 break;
             }
             case R.id.btn_request_multi: {
@@ -76,12 +78,15 @@ public class PermissionActivity extends AppCompatActivity implements View.OnClic
                 AndPermission.with(this)
                         .requestCode(REQUEST_CODE_PERMISSION_OTHER)
                         .permission(Manifest.permission.WRITE_CONTACTS, Manifest.permission.READ_SMS)
-                        // rationale作用是：用户拒绝一次权限，再次申请时先征求用户同意，再打开授权对话框，避免用户勾选不再提示。
+                        .callback(this)
+                        // rationale作用是：用户拒绝一次权限，再次申请时先征求用户同意，再打开授权对话框；
+                        // 这样避免用户勾选不再提示，导致以后无法申请权限。
+                        // 你也可以不设置。
                         .rationale((requestCode, rationale) ->
                                 // 这里的对话框可以自定义，只要调用rationale.resume()就可以继续申请。
                                 AndPermission.rationaleDialog(PermissionActivity.this, rationale).show()
                         )
-                        .send();
+                        .start();
                 break;
             }
         }
@@ -153,23 +158,6 @@ public class PermissionActivity extends AppCompatActivity implements View.OnClic
 
             // 更多自定dialog，请看上面。
         }
-    }
-
-    //----------------------------------权限回调处理----------------------------------//
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[]
-            grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        /**
-         * 转给AndPermission分析结果。
-         *
-         * @param object     要接受结果的Activity、Fragment。
-         * @param requestCode  请求码。
-         * @param permissions  权限数组，一个或者多个。
-         * @param grantResults 请求结果。
-         */
-        AndPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
     }
 
     @Override

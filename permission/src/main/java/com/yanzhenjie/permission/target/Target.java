@@ -13,17 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission;
+package com.yanzhenjie.permission.target;
+
+import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.NonNull;
 
 /**
- * <p>Cancelable.</p>
- * Created by Yan Zhenjie on 2016/12/28.
+ * <p>Request target.</p>
+ * Created by Yan Zhenjie on 2017/5/1.
  */
-public interface Cancelable {
+public interface Target {
 
-    /**
-     * Cancel the operation.
-     */
-    void cancel();
+    Context getContext();
+
+    boolean shouldShowRationalePermissions(@NonNull String... permissions);
+
+    void startActivity(Intent intent);
+
+    void startActivityForResult(Intent intent, int requestCode);
 
 }

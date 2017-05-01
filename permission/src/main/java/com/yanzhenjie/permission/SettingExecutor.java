@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Yan Zhenjie
+ * Copyright © Yan Zhenjie. All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,47 +15,38 @@
  */
 package com.yanzhenjie.permission;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 
+import com.yanzhenjie.permission.target.Target;
+
 /**
+ * <p>Setting executor.</p>
  * Created by Yan Zhenjie on 2016/12/28.
  */
 class SettingExecutor implements SettingService {
 
-    private Object object;
-    private int requestCode;
+    private Target target;
+    private int mRequestCode;
 
-    SettingExecutor(@NonNull Object mObject, int mRequestCode) {
-        object = mObject;
-        requestCode = mRequestCode;
+    SettingExecutor(@NonNull Target target, int requestCode) {
+        this.target = target;
+        this.mRequestCode = requestCode;
     }
 
     @Override
     public void execute() {
-        Context context = PermissionUtils.getContext(object);
+        Context context = target.getContext();
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         Uri uri = Uri.fromParts("package", context.getPackageName(), null);
         intent.setData(uri);
-        startForResult(object, intent, requestCode);
+        target.startActivityForResult(intent, mRequestCode);
     }
 
     @Override
     public void cancel() {
     }
-
-    private static void startForResult(Object object, Intent intent, int requestCode) {
-        if (object instanceof Activity) {
-            ((Activity) object).startActivityForResult(intent, requestCode);
-        } else if (object instanceof android.support.v4.app.Fragment) {
-            ((android.support.v4.app.Fragment) object).startActivityForResult(intent, requestCode);
-        } else if (object instanceof android.app.Fragment) {
-            ((android.app.Fragment) object).startActivityForResult(intent, requestCode);
-        }
-    }
-
 }

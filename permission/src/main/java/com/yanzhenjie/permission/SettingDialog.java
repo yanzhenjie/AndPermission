@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Yan Zhenjie
+ * Copyright © Yan Zhenjie. All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import android.support.annotation.StringRes;
 import com.yanzhenjie.alertdialog.AlertDialog;
 
 /**
+ * <p>Default Setting Dialog, have the ability to open Setting.</p>
  * Created by Yan Zhenjie on 2016/12/27.
  */
 public class SettingDialog {
@@ -32,7 +33,7 @@ public class SettingDialog {
     private SettingService mSettingService;
 
     SettingDialog(@NonNull Context context, @NonNull SettingService settingService) {
-        mBuilder = AlertDialog.build(context)
+        mBuilder = AlertDialog.newBuilder(context)
                 .setCancelable(false)
                 .setTitle(R.string.permission_title_permission_failed)
                 .setMessage(R.string.permission_message_permission_failed)

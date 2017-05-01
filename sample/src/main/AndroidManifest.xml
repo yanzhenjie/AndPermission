@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright 2017 Yan Zhenjie
+    Copyright © Yan Zhenjie. All Rights Reserved
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -31,10 +31,10 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true"
+        android:supportsRtl="false"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
@@ -57,6 +57,11 @@
         <activity
             android:name=".ListenerActivity"
             android:label="@string/title_listener_request"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".OtherActivity"
+            android:label="@string/title_other_request"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 

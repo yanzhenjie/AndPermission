@@ -15,15 +15,18 @@
  */
 package com.yanzhenjie.permission;
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 /**
+ * <p>Permission request callback.</p>
  * Created by Yan Zhenjie on 2016/9/17.
  */
 public interface PermissionListener {
 
-    void onSucceed(int requestCode, List<String> grantPermissions);
+    void onSucceed(int requestCode, @NonNull List<String> grantPermissions);
 
-    void onFailed(int requestCode, List<String> deniedPermissions);
+    void onFailed(int requestCode, @NonNull List<String> deniedPermissions);
 
 }
