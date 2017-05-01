@@ -7,6 +7,8 @@
 
 关于Android运行时权限6.0请看：[Android6.0 运行时权限管理最佳实践详解](http://blog.csdn.net/yanzhenjie1003/article/details/52503533)。  
 
+对于国产手机，我给出了兼容方案，请看[关于国产手机的兼容方案](#关于国产手机的兼容方案)，如果你有更好的方案，也请发[issue](https://github.com/yanzhenjie/AndPermission/issues)告之我，更加欢迎guys直接提PR上来。  
+
 ----
 # 特性
 1. 链式调用，一句话申请权限，为你省去复杂的逻辑判断。
@@ -155,7 +157,7 @@ private RationaleListener rationaleListener = (requestCode, rationale) -> {
 };
 ```
 
-## 提示用户在Setting中授权
+## 提示用户在系统设置中授权
 当用户拒绝权限并勾选了不再提示时，此时再次申请权限时将会直接回调申请失败，因此AndPermission提供了一个供用户在系统`Setting`中给我们授权的能力。  
 
 我们在授权失败的回调方法中添加如下代码，以下三种选择一种即可：
@@ -182,7 +184,7 @@ if (AndPermission.hasAlwaysDeniedPermission(activity, deniedPermissions)) {
 }
 ```
 
-如果你是在`Activity/Fragment`中调用的上述代码，那么当用户在系统`Setting`中操作完成后，会回调`Activity/Fragment`中的这个方法：
+如果你是在`Activity/Fragment`中调用的上述代码，那么当用户在系统`Setting`中操作完成后，会回调`Activity/Fragment`中的这个方法：  
 ```java
 @Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -197,7 +199,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 # 混淆
 1. 如果使用Listener接受回调结果，不用任何配置。  
-2. 使用注解的方式回调结果，在proguard-rules.pro中添加如下配置
+2. 使用注解的方式回调结果，在proguard-rules.pro中添加如下配置。
 ```
 -keepclassmembers class ** {
     @com.yanzhenjie.permission.PermissionYes <methods>;
@@ -206,6 +208,28 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     @com.yanzhenjie.permission.PermissionNo <methods>;
 }
 ```
+
+# 关于国产手机的兼容方案
+**AndPermission**是严格按照`Android`系统的`运行时权限`设计的，并最大限度上兼容了国产手机，目前发现的国产手机bug及解决方案：  
+
+* 部分中国厂商生产手机（例如小米某型号）的`Rationale`功能，在第一次拒绝后，第二次申请时不会返回`true`，并且会回调申请失败，也就是说在第一次决绝后默认勾选了`不再提示`，所以建议一定使用`SettingDialog`：[提示用户在系统设置中授权](#提示用户在系统设置中授权)。
+* 部分中国厂商生产手机（例如小米、华为某型号）在申请权限时，用户点击确定授权后，还是回调我们申请失败，这个时候其实我们是拥有权限的，所以我们可以在失败的方法中使用`AppOpsManager`进行权限判断，`AndPermission`已经封装好了：
+```
+if(AndPermission(context, permission1, permission2)) {
+    // 执行操作。
+}
+```
+* 部分中国厂商生产手机（例如vivo、pppo某型号）在用户允许权限，并且回调了权限授权陈功的方法，但是实际执行代码时并没有这个权限，建议开发者在回调成功的方法中也利用`AppOpsManager`判断下：
+```
+if(AndPermission(context, permission1, permission2)) {
+    // 执行操作。
+} else {
+    // 提醒用户手机问题，请用户去Setting中授权。这里可以使用AndPermission的SettingDialog。
+}
+```
+* 部分开发者反馈，在某些手机的`Setting`中授权后实际，检查时还是没有权限，部分执行代码也是没有权限，这种手机真的兼容不到了，我也觉得没必要兼容了，建议直接放弃这种平台。
+
+> 最后希望中国Android手机厂商早日修复这些问题，祝你们事业越来越成功，产品越做越好。
 
 # License
 ```text
