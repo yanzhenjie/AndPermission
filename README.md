@@ -15,7 +15,7 @@ Support the right to request for permission at anywhere.
 # Dependencies
 * Gradle
 ```groovy
-compile 'com.yanzhenjie:permission:1.0.6'
+compile 'com.yanzhenjie:permission:1.0.7'
 ```
 
 * Maven
@@ -23,7 +23,7 @@ compile 'com.yanzhenjie:permission:1.0.6'
 <dependency>
   <groupId>com.yanzhenjie</groupId>
   <artifactId>permission</artifactId>
-  <version>1.0.6</version>
+  <version>1.0.7</version>
   <type>pom</type>
 </dependency>
 ```
@@ -32,6 +32,8 @@ compile 'com.yanzhenjie:permission:1.0.6'
 It is recommended to download Demo and read README, which can help you understand.
 
 ## Request Permission
+**Attention:** You do not have to make any judgments before request permissions, `AndPermission` will automatically judge, no permissions will be requested.
+
 ```java
 // Activity:
 AndPermission.with(activity)

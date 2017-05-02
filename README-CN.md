@@ -22,7 +22,7 @@
 # 引用方法
 * Gradle
 ```groovy
-compile 'com.yanzhenjie:permission:1.0.6'
+compile 'com.yanzhenjie:permission:1.0.7'
 ```
 
 * Maven
@@ -30,7 +30,7 @@ compile 'com.yanzhenjie:permission:1.0.6'
 <dependency>
   <groupId>com.yanzhenjie</groupId>
   <artifactId>permission</artifactId>
-  <version>1.0.6</version>
+  <version>1.0.7</version>
   <type>pom</type>
 </dependency>
 ```
@@ -41,6 +41,7 @@ compile 'com.yanzhenjie:permission:1.0.6'
 我建议下载`Demo`并阅读`README`会帮助你理解。
 
 ## 申请权限
+**特别注意：**你在申请权限之前不用进行任何判断，`AndPermission`内部已经做了判断，如果有权限不会重复申请的。
 ```java
 // 在Activity：
 AndPermission.with(activity)
@@ -230,13 +231,13 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 * 部分中国厂商生产手机（例如小米某型号）的`Rationale`功能，在第一次拒绝后，第二次申请时不会返回`true`，并且会回调申请失败，也就是说在第一次决绝后默认勾选了`不再提示`，所以建议一定使用`SettingDialog`：[提示用户在系统设置中授权](#提示用户在系统设置中授权)。
 * 部分中国厂商生产手机（例如小米、华为某型号）在申请权限时，用户点击确定授权后，还是回调我们申请失败，这个时候其实我们是拥有权限的，所以我们可以在失败的方法中使用`AppOpsManager`进行权限判断，`AndPermission`已经封装好了：
 ```
-if(AndPermission(context, permission1, permission2)) {
+if(AndPermission.hasPermission(context, permission1, permission2)) {
     // 执行操作。
 }
 ```
-* 部分中国厂商生产手机（例如vivo、pppo某型号）在用户允许权限，并且回调了权限授权陈功的方法，但是实际执行代码时并没有这个权限，建议开发者在回调成功的方法中也利用`AppOpsManager`判断下：
+* 部分中国厂商生产手机（例如vivo、pppo某型号）在用户允许权限，并且回调了权限授权成功的方法，但是实际执行代码时并没有这个权限，建议开发者在回调成功的方法中也利用`AppOpsManager`判断下：
 ```
-if(AndPermission(context, permission1, permission2)) {
+if(AndPermission.hasPermission(context, permission1, permission2)) {
     // 执行操作。
 } else {
     // 提醒用户手机问题，请用户去Setting中授权。这里可以使用AndPermission的SettingDialog。

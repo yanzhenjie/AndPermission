@@ -17,9 +17,11 @@ package com.yanzhenjie.permission;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.AppOpsManagerCompat;
+import android.support.v4.content.ContextCompat;
 
 import com.yanzhenjie.permission.target.AppActivityTarget;
 import com.yanzhenjie.permission.target.AppFragmentTarget;
@@ -43,12 +45,13 @@ public class AndPermission {
      * @return true, other wise is false.
      */
     public static boolean hasPermission(@NonNull Context context, @NonNull String... permissions) {
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return true;
         for (String permission : permissions) {
             String op = AppOpsManagerCompat.permissionToOp(permission);
             int result = AppOpsManagerCompat.noteProxyOp(context, op, context.getPackageName());
-            if (result == AppOpsManagerCompat.MODE_IGNORED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                return false;
-            }
+            if (result == AppOpsManagerCompat.MODE_IGNORED) return false;
+            result = ContextCompat.checkSelfPermission(context, permission);
+            if(result != PackageManager.PERMISSION_GRANTED) return false;
         }
         return true;
     }
