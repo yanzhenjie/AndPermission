@@ -17,45 +17,45 @@
 <resources>
     <string name="app_name">AndPermission</string>
 
-    <string name="title_activity_request">Activity申请权限</string>
-    <string name="title_rationale">用户拒绝多次，提醒用户</string>
-    <string name="title_listener_request">通过Listener回调成功和失败</string>
-    <string name="title_other_request">在任何地方申请权限</string>
+    <string name="title_activity_request">Activity Request</string>
+    <string name="title_rationale">Rationale</string>
+    <string name="title_listener_request">Listener callback result</string>
+    <string name="title_other_request">Request Anywhere</string>
 
-    <string name="message_setting_back">用户从设置回来了</string>
+    <string name="message_setting_back">The user came back from the settings</string>
 
-    <string name="message_calendar_succeed">获取日历权限成功</string>
-    <string name="message_calendar_failed">获取日历权限失败</string>
+    <string name="message_calendar_succeed">Get calendar permission successful</string>
+    <string name="message_calendar_failed">Failed to get calendar permissions</string>
 
-    <string name="message_post_succeed">获取短信、SD卡权限成功</string>
-    <string name="message_post_failed">获取短信、SD卡权限失败</string>
+    <string name="message_post_succeed">Get SMS, SD card permissions are successful</string>
+    <string name="message_post_failed">Failed to get SMS, SD card permissions</string>
 
-    <string name="message_location_succeed">获取定位权限成功</string>
-    <string name="message_location_failed">获取定位权限失败</string>
+    <string name="message_location_succeed">Get location permission successfully</string>
+    <string name="message_location_failed">Failed to get location permissions</string>
 
-    <string name="message_sms_succeed">获取短信权限成功</string>
-    <string name="message_sms_failed">获取短信权限失败</string>
+    <string name="message_sms_succeed">Get SMS permission successfully</string>
+    <string name="message_sms_failed">Failed to get SMS permissions</string>
 
-    <string name="title_dialog">友情提示</string>
-    <string name="message_permission_failed">你拒绝了我们的权限申请，真是不能愉快的玩耍了！</string>
-    <string name="message_permission_rationale">您已拒绝过定位权限，没有定位权限无法为您推荐附近妹子，赶快定位权限给我！</string>
+    <string name="title_dialog">Tips</string>
+    <string name="message_permission_failed">You refused to apply for our permission, really can not play a happy!</string>
+    <string name="message_permission_rationale">You have denied permission to locate, no permission to locate you can not recommend nearby sister, you look at the office.</string>
 
-    <string name="btn_dialog_yes_permission">好，给你</string>
-    <string name="btn_dialog_no_permission">我拒绝</string>
+    <string name="btn_dialog_yes_permission">OK</string>
+    <string name="btn_dialog_no_permission">NO</string>
 
-    <string name="btn_item_activity">测试Activity</string>
-    <string name="btn_item_rationale">用户拒绝多次，自动提醒用户权限重要性</string>
-    <string name="message_callback_describe">上面权限申请失败和成功是反射调用方法的，如果你想用Listener方式，AndPermission完美支持两种方式。</string>
-    <string name="btn_item_listener">通过Listener回调成功和失败（推荐）</string>
-    <string name="btn_item_other">在任何地方申请权限</string>
+    <string name="btn_item_activity">Test Activity</string>
+    <string name="btn_item_rationale">Rationale Function</string>
+    <string name="message_callback_describe">Above the use of annotation callback results, the following is the use of Listener callback results.</string>
+    <string name="btn_item_listener">Listener callback result</string>
+    <string name="btn_item_other">Request Anywhere</string>
 
-    <string name="btn_req_single_calendar">申请日历权限</string>
-    <string name="btn_req_multi_sms">申请短信、SD卡权限</string>
+    <string name="btn_req_single_calendar">Request Calendar Permission</string>
+    <string name="btn_req_multi_sms">Request Calendar, SDCard Permission</string>
 
-    <string name="message_rationale_describe">为了测试rationale效果，请您先拒绝一次权限，然后再次申请时就可以看到rationale效果。（部分小米、华为可能没有rationale效果，但是AndPermission提供了Setting。）</string>
-    <string name="btn_req_location">申请定位权限</string>
+    <string name="message_rationale_describe">Please first deny a permission, and then apply again when you can see the rationale effect.</string>
+    <string name="btn_req_location">Request location permissions</string>
 
-    <string name="message_other_describe">这里的权限申请不是在Activity/Fragment中调用，而是委托一个类去调用。</string>
-    <string name="btn_req_sms">申请短信权限</string>
+    <string name="message_other_describe">Where the permission application is not in the Activity/Fragment call, but commissioned a class to call.</string>
+    <string name="btn_req_sms">Request SMS Permission</string>
 
 </resources>
