@@ -7,7 +7,7 @@
 
 关于Android运行时权限请看：[Android运行时权限管理最佳实践详解](http://blog.csdn.net/yanzhenjie1003/article/details/52503533)。  
 
-关于某些国产手机，我给出了适配方案，请看[国产手机适配方案](#国产手机适配方案)，如果你有更好的方案，请提交PR或者发[issue](https://github.com/yanzhenjie/AndPermission/issues)告之我。  
+对于国产手机运行结果和你的预期结果不一样，这可能是国产机的bug或者是特点，对此我给出了解决方案，请看[国产手机适配方案](#国产手机适配方案)，如果你有更好的方案，请提交PR或者发[issue](https://github.com/yanzhenjie/AndPermission/issues)告之我。  
 
 ----
 # 特性
@@ -228,22 +228,20 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 # 国产手机适配方案
 **AndPermission**是严格按照`Android`系统的`运行时权限`设计的，并最大限度上兼容了国产手机，目前发现的国产手机bug及解决方案：  
 
-* 部分中国厂商生产手机（例如小米某型号）的`Rationale`功能，在第一次拒绝后，第二次申请时不会返回`true`，并且会回调申请失败，也就是说在第一次决绝后默认勾选了`不再提示`，所以建议一定使用`SettingDialog`：[提示用户在系统设置中授权](#提示用户在系统设置中授权)。
-* 部分中国厂商生产手机（例如小米、华为某型号）在申请权限时，用户点击确定授权后，还是回调我们申请失败，这个时候其实我们是拥有权限的，所以我们可以在失败的方法中使用`AppOpsManager`进行权限判断，`AndPermission`已经封装好了：
-```
-if(AndPermission.hasPermission(context, permission1, permission2)) {
-    // 执行操作。
-}
-```
-* 部分中国厂商生产手机（例如vivo、pppo某型号）在用户允许权限，并且回调了权限授权成功的方法，但是实际执行代码时并没有这个权限，建议开发者在回调成功的方法中也利用`AppOpsManager`判断下：
-```
-if(AndPermission.hasPermission(context, permission1, permission2)) {
-    // 执行操作。
-} else {
-    // 提醒用户手机问题，请用户去Setting中授权。这里可以使用AndPermission的SettingDialog。
-}
-```
-* 部分开发者反馈，在某些手机的`Setting`中授权后实际，检查时还是没有权限，部分执行代码也是没有权限，这种手机真的兼容不到了，我也觉得没必要兼容了，建议直接放弃这种平台。
+1. 部分中国厂商生产手机（例如小米某型号）的`Rationale`功能，在第一次拒绝后，第二次申请时不会返回`true`，并且会回调申请失败，也就是说在第一次决绝后默认勾选了**不再提示**，所以建议一定使用`SettingDialog`：[提示用户在系统设置中授权](#提示用户在系统设置中授权)。
+
+2. 部分中国厂商生产手机（例如小米、华为某型号）在申请权限时，用户点击确定授权后，还是回调我们申请失败，这个时候其实我们是拥有权限的，建议在**失败**的回调房中调用`AppOpsManager`做权限判断：
+ `if(AndPermission.hasPermission()) {// 执行操作。}`
+
+3. 部分中国厂商生产手机在系统`Setting`中设置**[禁用/询问]**某权限，但是在申请此权限时却直接提示有权限，**这可能是厂商故意这样设计的，**当我们真正执行需要这个权限代码的时候系统会自动申请权限，但是为了兼容到其它手机，建议在**成功**的回调房中调用`AppOpsManager`做权限判断：
+ `if(AndPermission.hasPermission()) {// 执行操作。}`
+
+4. 部分中国厂商生产手机（例如vivo、pppo某型号）在用户允许权限，并且回调了权限授权成功的方法，但是实际执行代码时并没有这个权限，建议在**成功**的回调房中调用`AppOpsManager`做权限判断：
+ `if(AndPermission.hasPermission()) {// 有权限。}`
+
+5. 部分开发者反馈，在某些手机的`Setting`中授权后，检查时还是没有权限，执行响应的代码时应用崩溃（错误提示是没有权限），这种手机真的兼容不到了，我也觉得没必要兼容了，建议直接放弃这种平台。
+
+**建议：**建议在上述`if(AndPermission.hasPermission()) {}`加个`else{}`操作，并在`else{}`中使用`AndPermission`提供的`SettingDialog`能力提示用户去系统`Setting`中开启权限。
 
 > 最后希望咱中国Android手机厂商早日修复这些问题，祝你们事业越来越成功，产品越做越好。
 
