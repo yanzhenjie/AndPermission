@@ -1,5 +1,5 @@
 /*
- * Copyright © Yan Zhenjie. All Rights Reserved
+ * Copyright © Yan Zhenjie
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.AppOpsManagerCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 
 import com.yanzhenjie.permission.target.AppActivityTarget;
 import com.yanzhenjie.permission.target.AppFragmentTarget;
@@ -29,6 +30,7 @@ import com.yanzhenjie.permission.target.ContextTarget;
 import com.yanzhenjie.permission.target.SupportFragmentTarget;
 import com.yanzhenjie.permission.target.Target;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -45,13 +47,25 @@ public class AndPermission {
      * @return true, other wise is false.
      */
     public static boolean hasPermission(@NonNull Context context, @NonNull String... permissions) {
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return true;
+        return hasPermission(context, Arrays.asList(permissions));
+    }
+
+    /**
+     * Check if the calling context has a set of permissions.
+     *
+     * @param context     {@link Context}.
+     * @param permissions one or more permissions.
+     * @return true, other wise is false.
+     */
+    public static boolean hasPermission(@NonNull Context context, @NonNull List<String> permissions) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return true;
         for (String permission : permissions) {
             String op = AppOpsManagerCompat.permissionToOp(permission);
+            if (TextUtils.isEmpty(op)) continue;
             int result = AppOpsManagerCompat.noteProxyOp(context, op, context.getPackageName());
             if (result == AppOpsManagerCompat.MODE_IGNORED) return false;
             result = ContextCompat.checkSelfPermission(context, permission);
-            if(result != PackageManager.PERMISSION_GRANTED) return false;
+            if (result != PackageManager.PERMISSION_GRANTED) return false;
         }
         return true;
     }

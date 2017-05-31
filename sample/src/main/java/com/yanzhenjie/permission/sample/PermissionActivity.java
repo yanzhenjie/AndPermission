@@ -1,5 +1,5 @@
 /*
- * Copyright © Yan Zhenjie. All Rights Reserved
+ * Copyright © Yan Zhenjie
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package com.yanzhenjie.permission.sample;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -27,6 +28,8 @@ import android.widget.Toast;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionNo;
 import com.yanzhenjie.permission.PermissionYes;
+import com.yanzhenjie.permission.Rationale;
+import com.yanzhenjie.permission.RationaleListener;
 
 import java.util.List;
 
@@ -66,10 +69,14 @@ public class PermissionActivity extends AppCompatActivity implements View.OnClic
                         // rationale作用是：用户拒绝一次权限，再次申请时先征求用户同意，再打开授权对话框；
                         // 这样避免用户勾选不再提示，导致以后无法申请权限。
                         // 你也可以不设置。
-                        .rationale((requestCode, rationale) ->
+                        .rationale(new RationaleListener() {
+                            @Override
+                            public void showRequestPermissionRationale(int requestCode, Rationale rationale) {
                                 // 这里的对话框可以自定义，只要调用rationale.resume()就可以继续申请。
-                                AndPermission.rationaleDialog(PermissionActivity.this, rationale).show()
-                        )
+                                AndPermission.rationaleDialog(PermissionActivity.this, rationale)
+                                        .show();
+                            }
+                        })
                         .start();
                 break;
             }
@@ -82,10 +89,14 @@ public class PermissionActivity extends AppCompatActivity implements View.OnClic
                         // rationale作用是：用户拒绝一次权限，再次申请时先征求用户同意，再打开授权对话框；
                         // 这样避免用户勾选不再提示，导致以后无法申请权限。
                         // 你也可以不设置。
-                        .rationale((requestCode, rationale) ->
+                        .rationale(new RationaleListener() {
+                            @Override
+                            public void showRequestPermissionRationale(int requestCode, Rationale rationale) {
                                 // 这里的对话框可以自定义，只要调用rationale.resume()就可以继续申请。
-                                AndPermission.rationaleDialog(PermissionActivity.this, rationale).show()
-                        )
+                                AndPermission.rationaleDialog(PermissionActivity.this, rationale)
+                                        .show();
+                            }
+                        })
                         .start();
                 break;
             }
@@ -101,7 +112,7 @@ public class PermissionActivity extends AppCompatActivity implements View.OnClic
      * @param grantedPermissions AndPermission回调过来的申请成功的权限。
      */
     @PermissionYes(REQUEST_CODE_PERMISSION_SD)
-    private void getCalendarYes(List<String> grantedPermissions) {
+    private void getCalendarYes(@NonNull List<String> grantedPermissions) {
         Toast.makeText(this, R.string.message_calendar_succeed, Toast.LENGTH_SHORT).show();
     }
 
@@ -112,7 +123,7 @@ public class PermissionActivity extends AppCompatActivity implements View.OnClic
      * @param deniedPermissions AndPermission回调过来的申请失败的权限。
      */
     @PermissionNo(REQUEST_CODE_PERMISSION_SD)
-    private void getCalendarNo(List<String> deniedPermissions) {
+    private void getCalendarNo(@NonNull List<String> deniedPermissions) {
         Toast.makeText(this, R.string.message_calendar_failed, Toast.LENGTH_SHORT).show();
         // 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权。
         if (AndPermission.hasAlwaysDeniedPermission(this, deniedPermissions)) {
@@ -139,12 +150,12 @@ public class PermissionActivity extends AppCompatActivity implements View.OnClic
 
 
     @PermissionYes(REQUEST_CODE_PERMISSION_OTHER)
-    private void getMultiYes(List<String> grantedPermissions) {
+    private void getMultiYes(@NonNull List<String> grantedPermissions) {
         Toast.makeText(this, R.string.message_post_succeed, Toast.LENGTH_SHORT).show();
     }
 
     @PermissionNo(REQUEST_CODE_PERMISSION_OTHER)
-    private void getMultiNo(List<String> deniedPermissions) {
+    private void getMultiNo(@NonNull List<String> deniedPermissions) {
         Toast.makeText(this, R.string.message_post_failed, Toast.LENGTH_SHORT).show();
 
         // 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权。

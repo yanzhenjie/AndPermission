@@ -1,5 +1,5 @@
 /*
- * Copyright © Yan Zhenjie. All Rights Reserved
+ * Copyright © Yan Zhenjie
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package com.yanzhenjie.permission.sample;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -26,6 +27,8 @@ import android.widget.Toast;
 
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
+import com.yanzhenjie.permission.Rationale;
+import com.yanzhenjie.permission.RationaleListener;
 
 import java.util.List;
 
@@ -65,10 +68,14 @@ public class ListenerActivity extends AppCompatActivity implements View.OnClickL
                         // rationale作用是：用户拒绝一次权限，再次申请时先征求用户同意，再打开授权对话框；
                         // 这样避免用户勾选不再提示，导致以后无法申请权限。
                         // 你也可以不设置。
-                        .rationale((requestCode, rationale) ->
+                        .rationale(new RationaleListener() {
+                            @Override
+                            public void showRequestPermissionRationale(int requestCode, Rationale rationale) {
                                 // 这里的对话框可以自定义，只要调用rationale.resume()就可以继续申请。
-                                AndPermission.rationaleDialog(ListenerActivity.this, rationale).show()
-                        )
+                                AndPermission.rationaleDialog(ListenerActivity.this, rationale).
+                                        show();
+                            }
+                        })
                         .start();
                 break;
             }
@@ -81,10 +88,14 @@ public class ListenerActivity extends AppCompatActivity implements View.OnClickL
                         // rationale作用是：用户拒绝一次权限，再次申请时先征求用户同意，再打开授权对话框；
                         // 这样避免用户勾选不再提示，导致以后无法申请权限。
                         // 你也可以不设置。
-                        .rationale((requestCode, rationale) ->
+                        .rationale(new RationaleListener() {
+                            @Override
+                            public void showRequestPermissionRationale(int requestCode, Rationale rationale) {
                                 // 这里的对话框可以自定义，只要调用rationale.resume()就可以继续申请。
-                                AndPermission.rationaleDialog(ListenerActivity.this, rationale).show()
-                        )
+                                AndPermission.rationaleDialog(ListenerActivity.this, rationale)
+                                        .show();
+                            }
+                        })
                         .start();
                 break;
             }
@@ -96,7 +107,7 @@ public class ListenerActivity extends AppCompatActivity implements View.OnClickL
      */
     private PermissionListener permissionListener = new PermissionListener() {
         @Override
-        public void onSucceed(int requestCode, List<String> grantPermissions) {
+        public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
             switch (requestCode) {
                 case REQUEST_CODE_PERMISSION_SD: {
                     Toast.makeText(ListenerActivity.this, R.string.message_calendar_succeed, Toast.LENGTH_SHORT).show();
@@ -110,7 +121,7 @@ public class ListenerActivity extends AppCompatActivity implements View.OnClickL
         }
 
         @Override
-        public void onFailed(int requestCode, List<String> deniedPermissions) {
+        public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
             switch (requestCode) {
                 case REQUEST_CODE_PERMISSION_SD: {
                     Toast.makeText(ListenerActivity.this, R.string.message_calendar_failed, Toast.LENGTH_SHORT).show();
