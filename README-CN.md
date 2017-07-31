@@ -22,7 +22,7 @@
 # 引用方法
 * Gradle
 ```groovy
-compile 'com.yanzhenjie:permission:1.0.7'
+compile 'com.yanzhenjie:permission:1.0.8'
 ```
 
 * Maven
@@ -30,7 +30,7 @@ compile 'com.yanzhenjie:permission:1.0.7'
 <dependency>
   <groupId>com.yanzhenjie</groupId>
   <artifactId>permission</artifactId>
-  <version>1.0.7</version>
+  <version>1.0.8</version>
   <type>pom</type>
 </dependency>
 ```
@@ -247,7 +247,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 # License
 ```text
-Copyright © Yan Zhenjie. All Rights Reserved
+Copyright © Yan Zhenjie
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

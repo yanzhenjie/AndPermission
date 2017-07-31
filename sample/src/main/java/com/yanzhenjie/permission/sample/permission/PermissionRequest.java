@@ -1,5 +1,5 @@
 /*
- * Copyright © Yan Zhenjie. All Rights Reserved
+ * Copyright © Yan Zhenjie
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,10 @@ public class PermissionRequest {
     public void request() {
         AndPermission.with(mContext)
                 .requestCode(110)
-                .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .permission(
+                        Manifest.permission.SEND_SMS,
+                        Manifest.permission.READ_SMS
+                )
                 .callback(this)
                 .start();
     }
