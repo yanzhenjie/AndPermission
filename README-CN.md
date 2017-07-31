@@ -1,11 +1,10 @@
 # AndPermission
 
-严振杰的主页：[http://www.yanzhenjie.com](http://www.yanzhenjie.com)  
-严振杰的博客：[http://blog.yanzhenjie.com](http://blog.yanzhenjie.com)  
+我的主页：[http://www.yanzhenjie.com](http://www.yanzhenjie.com)  
 
-**欢迎加入QQ技术交流群：[46523908](https://jq.qq.com/?_wv=1027&k=489vOpV)**  
+欢迎关注我的微博：[http://weibo.com/yanzhenjieit](http://weibo.com/yanzhenjieit)  
 
-关于Android运行时权限请看：[Android运行时权限管理最佳实践详解](http://blog.csdn.net/yanzhenjie1003/article/details/52503533)。  
+**QQ技术交流群：[547839514](https://jq.qq.com/?_wv=1027&k=4Ev0ksp)**  
 
 对于国产手机运行结果和你的预期结果不一样，这可能是国产机的bug或者是特点，对此我给出了解决方案，请看[国产手机适配方案](#国产手机适配方案)，如果你有更好的方案，请提交PR或者发[issue](https://github.com/yanzhenjie/AndPermission/issues)告之我。  
 
@@ -22,7 +21,7 @@
 # 引用方法
 * Gradle
 ```groovy
-compile 'com.yanzhenjie:permission:1.0.8'
+compile 'com.yanzhenjie:permission:1.0.9'
 ```
 
 * Maven
@@ -30,7 +29,7 @@ compile 'com.yanzhenjie:permission:1.0.8'
 <dependency>
   <groupId>com.yanzhenjie</groupId>
   <artifactId>permission</artifactId>
-  <version>1.0.8</version>
+  <version>1.0.9</version>
   <type>pom</type>
 </dependency>
 ```
@@ -241,13 +240,25 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 5. 部分开发者反馈，在某些手机的`Setting`中授权后，检查时还是没有权限，执行响应的代码时应用崩溃（错误提示是没有权限），这种手机真的兼容不到了，我也觉得没必要兼容了，建议直接放弃这种平台。
 
-**建议：**建议在上述`if(AndPermission.hasPermission()) {}`加个`else{}`操作，并在`else{}`中使用`AndPermission`提供的`SettingDialog`能力提示用户去系统`Setting`中开启权限。
+我在开发中还遇到过一些情况，就不一一列举了，总结了一下这些情况都是回调结果和实际情况不符。
 
-> 最后希望咱中国Android手机厂商早日修复这些问题，祝你们事业越来越成功，产品越做越好。
+**建议：**如果你担心使用标准的权限策略会使App崩溃，那么建议在回调的`成功`和`失败`方法中都加这段代码判断实际权限：
+```
+if(AndPermission.hasPermission()) {
+    // TODO 执行拥有权限时的下一步。
+} else {
+    // 使用AndPermission提供的默认设置dialog，用户点击确定后会打开App的设置页面让用户授权。
+    AndPermission.defaultSettingDialog(this, requestCode).show();
+    
+    // 建议：自定义这个Dialog，提示具体需要开启什么权限，自定义Dialog具体实现上面有示例代码。
+}
+```
+
+`AndPermission.hasPermission()`的原理是在Android 6.0以下默认返回`true`，在6.0以上使用`AppOps`和`checkSelfPermission`检测权限全部通过则返回`true`，只有有一个没通过就返回`false`。
 
 # License
 ```text
-Copyright © Yan Zhenjie
+Copyright 2016 Yan Zhenjie
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

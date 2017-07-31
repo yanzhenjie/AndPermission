@@ -1,5 +1,5 @@
 ﻿# AndPermission
-Support the right to request for permission at anywhere.  
+Request for permission anywhere.
 
 [中文文档](./README-CN.md)  
 
@@ -15,7 +15,7 @@ Support the right to request for permission at anywhere.
 # Dependencies
 * Gradle
 ```groovy
-compile 'com.yanzhenjie:permission:1.0.8'
+compile 'com.yanzhenjie:permission:1.0.9'
 ```
 
 * Maven
@@ -23,7 +23,7 @@ compile 'com.yanzhenjie:permission:1.0.8'
 <dependency>
   <groupId>com.yanzhenjie</groupId>
   <artifactId>permission</artifactId>
-  <version>1.0.8</version>
+  <version>1.0.9</version>
   <type>pom</type>
 </dependency>
 ```
@@ -214,7 +214,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 # License
 ```text
-Copyright © Yan Zhenjie
+Copyright 2016 Yan Zhenjie
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
