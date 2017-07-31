@@ -17,7 +17,6 @@ package com.yanzhenjie.permission.target;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 
 /**
  * <p>Request target.</p>
@@ -26,8 +25,6 @@ import android.support.annotation.NonNull;
 public interface Target {
 
     Context getContext();
-
-    boolean shouldShowRationalePermissions(@NonNull String... permissions);
 
     void startActivity(Intent intent);
 

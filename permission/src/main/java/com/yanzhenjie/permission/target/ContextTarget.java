@@ -15,9 +15,9 @@
  */
 package com.yanzhenjie.permission.target;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 
 /**
  * <p>Context Wrapper.</p>
@@ -37,17 +37,13 @@ public class ContextTarget implements Target {
     }
 
     @Override
-    public boolean shouldShowRationalePermissions(@NonNull String... permissions) {
-        return false;
-    }
-
-    @Override
     public void startActivity(Intent intent) {
         mContext.startActivity(intent);
     }
 
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
-        mContext.startActivity(intent);
+        if (mContext instanceof Activity) ((Activity) mContext).startActivityForResult(intent, requestCode);
+        else mContext.startActivity(intent);
     }
 }

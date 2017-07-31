@@ -14,16 +14,10 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.yanzhenjie.permission">
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <application>
-        <activity
-            android:name=".PermissionActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:launchMode="standard"
-            android:theme="@style/permission_PermissionActivity"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"/>
-    </application>
+    <style name="permission_PermissionActivity" parent="@android:style/Theme.Translucent.NoTitleBar">
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent</item>
+    </style>
 
-</manifest>
+</resources>

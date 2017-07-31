@@ -28,7 +28,6 @@ import com.yanzhenjie.permission.target.AppActivityTarget;
 import com.yanzhenjie.permission.target.AppFragmentTarget;
 import com.yanzhenjie.permission.target.ContextTarget;
 import com.yanzhenjie.permission.target.SupportFragmentTarget;
-import com.yanzhenjie.permission.target.Target;
 
 import java.util.Arrays;
 import java.util.List;
@@ -78,8 +77,15 @@ public class AndPermission {
      * @return true, other wise is false.
      */
     public static boolean hasAlwaysDeniedPermission(@NonNull Activity activity, @NonNull List<String> deniedPermissions) {
-        Target target = new AppActivityTarget(activity);
-        return !target.shouldShowRationalePermissions(deniedPermissions.toArray(new String[deniedPermissions.size()]));
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false;
+
+        if (deniedPermissions.size() == 0) return false;
+
+        for (String permission : deniedPermissions) {
+            boolean rationale = activity.shouldShowRequestPermissionRationale(permission);
+            if (!rationale) return true;
+        }
+        return false;
     }
 
     /**
@@ -92,8 +98,15 @@ public class AndPermission {
     public static boolean hasAlwaysDeniedPermission(
             @NonNull android.support.v4.app.Fragment fragment,
             @NonNull List<String> deniedPermissions) {
-        Target target = new SupportFragmentTarget(fragment);
-        return !target.shouldShowRationalePermissions(deniedPermissions.toArray(new String[deniedPermissions.size()]));
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false;
+
+        if (deniedPermissions.size() == 0) return false;
+
+        for (String permission : deniedPermissions) {
+            boolean rationale = fragment.shouldShowRequestPermissionRationale(permission);
+            if (!rationale) return true;
+        }
+        return false;
     }
 
     /**
@@ -106,8 +119,38 @@ public class AndPermission {
     public static boolean hasAlwaysDeniedPermission(
             @NonNull android.app.Fragment fragment,
             @NonNull List<String> deniedPermissions) {
-        Target target = new AppFragmentTarget(fragment);
-        return !target.shouldShowRationalePermissions(deniedPermissions.toArray(new String[deniedPermissions.size()]));
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false;
+
+        if (deniedPermissions.size() == 0) return false;
+
+        for (String permission : deniedPermissions) {
+            boolean rationale = fragment.shouldShowRequestPermissionRationale(permission);
+            if (!rationale) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Some privileges permanently disabled, may need to set up in the execute.
+     *
+     * @param context           {@link Context}.
+     * @param deniedPermissions one or more permissions.
+     * @return true, other wise is false.
+     */
+    public static boolean hasAlwaysDeniedPermission(
+            @NonNull Context context,
+            @NonNull List<String> deniedPermissions) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false;
+
+        if (deniedPermissions.size() == 0) return false;
+
+        if (!(context instanceof Activity)) return false;
+
+        for (String permission : deniedPermissions) {
+            boolean rationale = ((Activity) context).shouldShowRequestPermissionRationale(permission);
+            if (!rationale) return true;
+        }
+        return false;
     }
 
     /**
@@ -233,7 +276,7 @@ public class AndPermission {
      */
     public static
     @NonNull
-    RationaleRequest with(@NonNull Activity activity) {
+    Request with(@NonNull Activity activity) {
         return new DefaultRequest(new AppActivityTarget(activity));
     }
 
@@ -245,7 +288,7 @@ public class AndPermission {
      */
     public static
     @NonNull
-    RationaleRequest with(@NonNull android.support.v4.app.Fragment fragment) {
+    Request with(@NonNull android.support.v4.app.Fragment fragment) {
         return new DefaultRequest(new SupportFragmentTarget(fragment));
     }
 
@@ -257,7 +300,7 @@ public class AndPermission {
      */
     public static
     @NonNull
-    RationaleRequest with(@NonNull android.app.Fragment fragment) {
+    Request with(@NonNull android.app.Fragment fragment) {
         return new DefaultRequest(new AppFragmentTarget(fragment));
     }
 

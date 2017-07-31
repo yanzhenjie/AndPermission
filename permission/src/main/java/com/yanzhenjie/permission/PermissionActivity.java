@@ -24,7 +24,9 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 
 /**
- * <p>Request permission.</p>
+ * <p>
+ * Request permission.
+ * </p>
  * Created by Yan Zhenjie on 2017/4/27.
  */
 @RequiresApi(api = Build.VERSION_CODES.M)
@@ -32,7 +34,12 @@ public final class PermissionActivity extends Activity {
 
     static final String KEY_INPUT_PERMISSIONS = "KEY_INPUT_PERMISSIONS";
 
+    private static RationaleListener mRationaleListener;
     private static PermissionListener mPermissionListener;
+
+    public static void setRationaleListener(RationaleListener rationaleListener) {
+        PermissionActivity.mRationaleListener = rationaleListener;
+    }
 
     public static void setPermissionListener(PermissionListener permissionListener) {
         mPermissionListener = permissionListener;
@@ -43,9 +50,25 @@ public final class PermissionActivity extends Activity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         String[] permissions = intent.getStringArrayExtra(KEY_INPUT_PERMISSIONS);
-        if (mPermissionListener == null || permissions == null)
+
+        if (permissions == null) {
             finish();
-        else
+            return;
+        }
+
+        if (mRationaleListener != null) {
+            boolean rationale = false;
+            for (String permission : permissions) {
+                rationale = shouldShowRequestPermissionRationale(permission);
+                if (rationale) break;
+            }
+            mRationaleListener.onRationaleResult(rationale);
+            mRationaleListener = null;
+            finish();
+            return;
+        }
+
+        if (mPermissionListener != null)
             requestPermissions(permissions, 1);
     }
 
@@ -55,6 +78,10 @@ public final class PermissionActivity extends Activity {
             mPermissionListener.onRequestPermissionsResult(permissions, grantResults);
         mPermissionListener = null;
         finish();
+    }
+
+    interface RationaleListener {
+        void onRationaleResult(boolean showRationale);
     }
 
     interface PermissionListener {

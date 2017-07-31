@@ -21,7 +21,7 @@ import android.support.annotation.NonNull;
  * <p>Permission request.</p>
  * Created by Yan Zhenjie on 2016/9/9.
  */
-public interface Request<T extends Request> {
+public interface Request {
 
     /**
      * Here to fill in all of this to apply for permission, can be a, can be more.
@@ -30,7 +30,17 @@ public interface Request<T extends Request> {
      * @return {@link Request}.
      */
     @NonNull
-    T permission(String... permissions);
+    Request permission(String... permissions);
+
+    /**
+     * With user privilege refused many times, the Listener will be called back, you can prompt the user
+     * permissions role in this method.
+     *
+     * @param listener {@link RationaleListener}.
+     * @return Request.
+     */
+    @NonNull
+    Request rationale(RationaleListener listener);
 
     /**
      * Request code.
@@ -40,14 +50,14 @@ public interface Request<T extends Request> {
      * @return {@link Request}.
      */
     @NonNull
-    T requestCode(int requestCode);
+    Request requestCode(int requestCode);
 
     /**
      * Set the callback object.
      *
      * @return {@link Request}.
      */
-    T callback(Object callback);
+    Request callback(Object callback);
 
     /**
      * Request permission.

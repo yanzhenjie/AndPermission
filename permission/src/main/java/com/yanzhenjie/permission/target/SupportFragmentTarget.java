@@ -17,8 +17,6 @@ package com.yanzhenjie.permission.target;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 /**
@@ -36,16 +34,6 @@ public class SupportFragmentTarget implements Target {
     @Override
     public Context getContext() {
         return mFragment.getContext();
-    }
-
-    @Override
-    public boolean shouldShowRationalePermissions(@NonNull String... permissions) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false;
-        for (String permission : permissions) {
-            boolean rationale = mFragment.shouldShowRequestPermissionRationale(permission);
-            if (rationale) return true;
-        }
-        return false;
     }
 
     @Override

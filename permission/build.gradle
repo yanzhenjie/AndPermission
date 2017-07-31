@@ -8,6 +8,8 @@ android {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
     }
+
+    resourcePrefix 'permission_'
 }
 
 dependencies {

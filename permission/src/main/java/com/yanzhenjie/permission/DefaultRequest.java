@@ -37,9 +37,9 @@ import java.util.List;
  * Created by Yan Zhenjie on 2016/9/9.
  */
 class DefaultRequest implements
-        Request<RationaleRequest>,
-        RationaleRequest,
+        Request,
         Rationale,
+        PermissionActivity.RationaleListener,
         PermissionActivity.PermissionListener {
 
     private static final String TAG = "AndPermission";
@@ -61,27 +61,27 @@ class DefaultRequest implements
 
     @NonNull
     @Override
-    public RationaleRequest permission(String... permissions) {
+    public Request permission(String... permissions) {
         this.mPermissions = permissions;
         return this;
     }
 
     @NonNull
     @Override
-    public RationaleRequest requestCode(int requestCode) {
+    public Request requestCode(int requestCode) {
         this.mRequestCode = requestCode;
         return this;
     }
 
     @Override
-    public RationaleRequest callback(Object callback) {
+    public Request callback(Object callback) {
         this.mCallback = callback;
         return this;
     }
 
     @NonNull
     @Override
-    public RationaleRequest rationale(RationaleListener listener) {
+    public Request rationale(RationaleListener listener) {
         this.mRationaleListener = listener;
         return this;
     }
@@ -101,23 +101,34 @@ class DefaultRequest implements
             // Denied mPermissions size > 0.
             if (mDeniedPermissions.length > 0) {
                 // Remind users of the purpose of mPermissions.
-                boolean showRationale = target.shouldShowRationalePermissions(mDeniedPermissions);
-                if (showRationale && mRationaleListener != null)
-                    mRationaleListener.showRequestPermissionRationale(mRequestCode, this);
-                else
-                    resume();
+                PermissionActivity.setRationaleListener(this);
+                Intent intent = new Intent(target.getContext(), PermissionActivity.class);
+                intent.putExtra(PermissionActivity.KEY_INPUT_PERMISSIONS, mDeniedPermissions);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                target.startActivity(intent);
             } else { // All permission granted.
                 callbackSucceed();
             }
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private static String[] getDeniedPermissions(Context context, @NonNull String... permissions) {
         List<String> deniedList = new ArrayList<>(1);
         for (String permission : permissions)
             if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED)
                 deniedList.add(permission);
         return deniedList.toArray(new String[deniedList.size()]);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void onRationaleResult(boolean showRationale) {
+        if (showRationale && mRationaleListener != null) {
+            mRationaleListener.showRequestPermissionRationale(mRequestCode, this);
+        } else {
+            resume();
+        }
     }
 
     @Override
