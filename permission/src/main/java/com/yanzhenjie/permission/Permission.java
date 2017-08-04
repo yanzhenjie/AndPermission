@@ -70,7 +70,6 @@ public final class Permission {
                     Manifest.permission.CALL_PHONE,
                     Manifest.permission.READ_CALL_LOG,
                     Manifest.permission.WRITE_CALL_LOG,
-                    Manifest.permission.ADD_VOICEMAIL,
                     Manifest.permission.USE_SIP,
                     Manifest.permission.PROCESS_OUTGOING_CALLS};
 
