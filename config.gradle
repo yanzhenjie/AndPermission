@@ -12,13 +12,13 @@ ext {
             buildToolsVersion: "25.0.3",
             minSdkVersion    : 11,
             targetSdkVersion : 25,
-            versionCode      : 1,
-            versionName      : "1.0"
+            versionCode      : 100,
+            versionName      : "1.1.0"
     ]
 
     maven = [
             // library
-            version       : "1.0.9",
+            version       : "1.1.0",
 
             siteUrl       : 'https://github.com/yanzhenjie/AndPermission',
             gitUrl        : 'git@github.com:yanzhenjie/AndPermission.git',
@@ -46,13 +46,12 @@ ext {
             bintrayLicense: "Apache-2.0"
     ]
 
-
     dependencies = [
             // library.
             alertDialog: 'com.yanzhenjie.alertdialog:alertdialog:1.0.1',
             appCompat  : 'com.android.support:appcompat-v7:25.3.1',
             // sample.
             design     : 'com.android.support:design:25.3.1',
-            permission : 'com.yanzhenjie:permission:1.0.9'
+            permission : 'com.yanzhenjie:permission:1.1.0'
     ]
 }
