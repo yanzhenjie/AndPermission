@@ -68,6 +68,19 @@ class DefaultRequest implements
 
     @NonNull
     @Override
+    public Request permission(String[]... permissionsArray) {
+        List<String> permissionList = new ArrayList<>();
+        for (String[] permissions : permissionsArray) {
+            for (String permission : permissions) {
+                permissionList.add(permission);
+            }
+        }
+        this.mPermissions = permissionList.toArray(new String[permissionList.size()]);
+        return this;
+    }
+
+    @NonNull
+    @Override
     public Request requestCode(int requestCode) {
         this.mRequestCode = requestCode;
         return this;

@@ -33,6 +33,15 @@ public interface Request {
     Request permission(String... permissions);
 
     /**
+     * Here to fill in all of this to apply for permission, can be a, can be more.
+     *
+     * @param permissionsArray one or more permissions.
+     * @return {@link Request}.
+     */
+    @NonNull
+    Request permission(String[]... permissionsArray);
+
+    /**
      * With user privilege refused many times, the Listener will be called back, you can prompt the user
      * permissions role in this method.
      *
