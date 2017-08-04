@@ -15,7 +15,6 @@
  */
 package com.yanzhenjie.permission.sample;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -26,6 +25,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
 import com.yanzhenjie.permission.PermissionListener;
 import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RationaleListener;
@@ -37,15 +37,15 @@ import java.util.List;
  */
 public class ListenerActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final int REQUEST_CODE_PERMISSION_SD = 100;
-    private static final int REQUEST_CODE_PERMISSION_OTHER = 101;
+    private static final int REQUEST_CODE_PERMISSION_SINGLE = 100;
+    private static final int REQUEST_CODE_PERMISSION_MULTI = 101;
 
     private static final int REQUEST_CODE_SETTING = 300;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_permission);
+        setContentView(R.layout.activity_listener);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -62,8 +62,8 @@ public class ListenerActivity extends AppCompatActivity implements View.OnClickL
             case R.id.btn_request_single: {
                 // 申请单个权限。
                 AndPermission.with(this)
-                        .requestCode(REQUEST_CODE_PERMISSION_SD)
-                        .permission(Manifest.permission.WRITE_CALENDAR)
+                        .requestCode(REQUEST_CODE_PERMISSION_SINGLE)
+                        .permission(Permission.CAMERA)
                         .callback(permissionListener)
                         // rationale作用是：用户拒绝一次权限，再次申请时先征求用户同意，再打开授权对话框；
                         // 这样避免用户勾选不再提示，导致以后无法申请权限。
@@ -72,8 +72,7 @@ public class ListenerActivity extends AppCompatActivity implements View.OnClickL
                             @Override
                             public void showRequestPermissionRationale(int requestCode, Rationale rationale) {
                                 // 这里的对话框可以自定义，只要调用rationale.resume()就可以继续申请。
-                                AndPermission.rationaleDialog(ListenerActivity.this, rationale).
-                                        show();
+                                AndPermission.rationaleDialog(ListenerActivity.this, rationale).show();
                             }
                         })
                         .start();
@@ -82,8 +81,8 @@ public class ListenerActivity extends AppCompatActivity implements View.OnClickL
             case R.id.btn_request_multi: {
                 // 申请多个权限。
                 AndPermission.with(this)
-                        .requestCode(REQUEST_CODE_PERMISSION_OTHER)
-                        .permission(Manifest.permission.WRITE_CONTACTS, Manifest.permission.READ_SMS)
+                        .requestCode(REQUEST_CODE_PERMISSION_MULTI)
+                        .permission(Permission.CONTACTS, Permission.SMS)
                         .callback(permissionListener)
                         // rationale作用是：用户拒绝一次权限，再次申请时先征求用户同意，再打开授权对话框；
                         // 这样避免用户勾选不再提示，导致以后无法申请权限。
@@ -92,8 +91,7 @@ public class ListenerActivity extends AppCompatActivity implements View.OnClickL
                             @Override
                             public void showRequestPermissionRationale(int requestCode, Rationale rationale) {
                                 // 这里的对话框可以自定义，只要调用rationale.resume()就可以继续申请。
-                                AndPermission.rationaleDialog(ListenerActivity.this, rationale)
-                                        .show();
+                                AndPermission.rationaleDialog(ListenerActivity.this, rationale).show();
                             }
                         })
                         .start();
@@ -109,12 +107,14 @@ public class ListenerActivity extends AppCompatActivity implements View.OnClickL
         @Override
         public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
             switch (requestCode) {
-                case REQUEST_CODE_PERMISSION_SD: {
-                    Toast.makeText(ListenerActivity.this, R.string.message_calendar_succeed, Toast.LENGTH_SHORT).show();
+                case REQUEST_CODE_PERMISSION_SINGLE: {
+                    // TODO do something.
+                    Toast.makeText(ListenerActivity.this, R.string.successfully, Toast.LENGTH_SHORT).show();
                     break;
                 }
-                case REQUEST_CODE_PERMISSION_OTHER: {
-                    Toast.makeText(ListenerActivity.this, R.string.message_post_succeed, Toast.LENGTH_SHORT).show();
+                case REQUEST_CODE_PERMISSION_MULTI: {
+                    // TODO do something.
+                    Toast.makeText(ListenerActivity.this, R.string.successfully, Toast.LENGTH_SHORT).show();
                     break;
                 }
             }
@@ -123,12 +123,14 @@ public class ListenerActivity extends AppCompatActivity implements View.OnClickL
         @Override
         public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
             switch (requestCode) {
-                case REQUEST_CODE_PERMISSION_SD: {
-                    Toast.makeText(ListenerActivity.this, R.string.message_calendar_failed, Toast.LENGTH_SHORT).show();
+                case REQUEST_CODE_PERMISSION_SINGLE: {
+                    // TODO The strategy after failure.
+                    Toast.makeText(ListenerActivity.this, R.string.failure, Toast.LENGTH_SHORT).show();
                     break;
                 }
-                case REQUEST_CODE_PERMISSION_OTHER: {
-                    Toast.makeText(ListenerActivity.this, R.string.message_post_failed, Toast.LENGTH_SHORT).show();
+                case REQUEST_CODE_PERMISSION_MULTI: {
+                    // TODO The strategy after failure.
+                    Toast.makeText(ListenerActivity.this, R.string.failure, Toast.LENGTH_SHORT).show();
                     break;
                 }
             }

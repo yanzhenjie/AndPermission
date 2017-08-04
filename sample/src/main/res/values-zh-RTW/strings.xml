@@ -15,47 +15,32 @@
     limitations under the License.
 -->
 <resources>
-    <string name="app_name">AndPermission</string>
+    <string name="ok">好的</string>
+    <string name="no">就不</string>
 
-    <string name="title_activity_request">Activity申請權限</string>
-    <string name="title_rationale">用戶拒絕多次，提醒用戶</string>
-    <string name="title_listener_request">通過Listener回調成功和失敗</string>
-    <string name="title_other_request">在任何地方申請權限</string>
+    <string name="permission_calendar">日歷</string>
+    <string name="permission_calendar_storage">麥克風，存儲卡</string>
 
-    <string name="message_setting_back">用戶從設置回來了</string>
+    <string name="permission_camera">相機</string>
+    <string name="permission_contact_sms">聯系人，短信</string>
 
-    <string name="message_calendar_succeed">獲取日歷權限成功</string>
-    <string name="message_calendar_failed">獲取日歷權限失敗</string>
+    <string name="permission_phone">手機狀態，定位</string>
+    <string name="describe_anywhere">在任何地方申請權限，並不是在Activity/Fragment中</string>
 
-    <string name="message_post_succeed">獲取短信、SD卡權限成功</string>
-    <string name="message_post_failed">獲取短信、SD卡權限失敗</string>
+    <string name="permission_sensors">傳感器</string>
+    <string name="describe_rationale">請在第壹次申請時拒絕，下次再次申請就會提示用戶</string>
 
-    <string name="message_location_succeed">獲取定位權限成功</string>
-    <string name="message_location_failed">獲取定位權限失敗</string>
+    <string name="title_annotation_request">Annotation回調結果</string>
+    <string name="title_listener_request">Listener回調結果</string>
+    <string name="title_other_request">在任意位置請求權限</string>
+    <string name="title_rationale_request">重復請求權限彈出說明</string>
 
-    <string name="message_sms_succeed">獲取短信權限成功</string>
-    <string name="message_sms_failed">獲取短信權限失敗</string>
+    <string name="message_setting_back">用戶從設置回來</string>
 
-    <string name="title_dialog">友情提示</string>
-    <string name="message_permission_failed">妳拒絕了我們的權限申請，真是不能愉快的玩耍了！</string>
-    <string name="message_permission_rationale">您已拒絕過定位權限，沒有定位權限無法為您推薦附近妹子，趕快定位權限給我！</string>
+    <string name="successfully">成功了</string>
+    <string name="failure">失敗了</string>
 
-    <string name="btn_dialog_yes_permission">好，給妳</string>
-    <string name="btn_dialog_no_permission">我拒絕</string>
-
-    <string name="btn_item_activity">測試Activity</string>
-    <string name="btn_item_rationale">用戶拒絕多次，自動提醒用戶權限重要性</string>
-    <string name="message_callback_describe">上面權限申請失敗和成功是反射調用方法的，如果妳想用Listener方式，AndPermission完美支持兩種方式。</string>
-    <string name="btn_item_listener">通過Listener回調成功和失敗（推薦）</string>
-    <string name="btn_item_other">在任何地方申請權限</string>
-
-    <string name="btn_req_single_calendar">申請日歷權限</string>
-    <string name="btn_req_multi_sms">申請短信、SD卡權限</string>
-
-    <string name="message_rationale_describe">為了測試rationale效果，請您先拒絕壹次權限，然後再次申請時就可以看到rationale效果。（部分小米、華為可能沒有rationale效果，但是AndPermission提供了Setting。）</string>
-    <string name="btn_req_location">申請定位權限</string>
-
-    <string name="message_other_describe">這裏的權限申請不是在Activity/Fragment中調用，而是委托壹個類去調用。</string>
-    <string name="btn_req_sms">申請短信權限</string>
+    <string name="title_dialog">提示</string>
+    <string name="message_permission_failed">我們需要的壹些必要權限被禁止，請授權給我們。</string>
 
 </resources>

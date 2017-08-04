@@ -15,7 +15,6 @@
  */
 package com.yanzhenjie.permission.sample;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,6 +27,7 @@ import android.widget.Toast;
 
 import com.yanzhenjie.alertdialog.AlertDialog;
 import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
 import com.yanzhenjie.permission.PermissionListener;
 import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RationaleListener;
@@ -37,29 +37,29 @@ import java.util.List;
 /**
  * Created by Yan Zhenjie on 2016/9/10.
  */
-public class RationalePermissionActivity extends AppCompatActivity {
+public class RationaleActivity extends AppCompatActivity {
 
-    private static final int REQUEST_CODE_PERMISSION_LOCATION = 100;
+    private static final int REQUEST_CODE_PERMISSION = 100;
 
     private static final int REQUEST_CODE_SETTING = 300;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rationale_permission);
+        setContentView(R.layout.activity_rationale);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        findViewById(R.id.btn_request_location).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_request).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 申请权限。
-                AndPermission.with(RationalePermissionActivity.this)
-                        .requestCode(REQUEST_CODE_PERMISSION_LOCATION)
-                        .permission(Manifest.permission.ACCESS_FINE_LOCATION)
+                AndPermission.with(RationaleActivity.this)
+                        .requestCode(REQUEST_CODE_PERMISSION)
+                        .permission(Permission.SENSORS)
                         .callback(permissionListener)
                         // rationale作用是：用户拒绝一次权限，再次申请时先征求用户同意，再打开授权对话框；
                         // 这样避免用户勾选不再提示，导致以后无法申请权限。
@@ -77,9 +77,8 @@ public class RationalePermissionActivity extends AppCompatActivity {
         @Override
         public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
             switch (requestCode) {
-                case REQUEST_CODE_PERMISSION_LOCATION: {
-                    Toast.makeText(RationalePermissionActivity.this, R.string.message_location_succeed, Toast.LENGTH_SHORT)
-                            .show();
+                case REQUEST_CODE_PERMISSION: {
+                    Toast.makeText(RationaleActivity.this, R.string.successfully, Toast.LENGTH_SHORT).show();
                     break;
                 }
             }
@@ -88,16 +87,16 @@ public class RationalePermissionActivity extends AppCompatActivity {
         @Override
         public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
             switch (requestCode) {
-                case REQUEST_CODE_PERMISSION_LOCATION: {
-                    Toast.makeText(RationalePermissionActivity.this, R.string.message_location_failed, Toast.LENGTH_SHORT).show();
+                case REQUEST_CODE_PERMISSION: {
+                    Toast.makeText(RationaleActivity.this, R.string.failure, Toast.LENGTH_SHORT).show();
                     break;
                 }
             }
 
             // 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权。
-            if (AndPermission.hasAlwaysDeniedPermission(RationalePermissionActivity.this, deniedPermissions)) {
+            if (AndPermission.hasAlwaysDeniedPermission(RationaleActivity.this, deniedPermissions)) {
                 // 第一种：用默认的提示语。
-                AndPermission.defaultSettingDialog(RationalePermissionActivity.this, REQUEST_CODE_SETTING).show();
+                AndPermission.defaultSettingDialog(RationaleActivity.this, REQUEST_CODE_SETTING).show();
 
                 // 第二种：用自定义的提示语。
 //             AndPermission.defaultSettingDialog(this, REQUEST_CODE_SETTING)
@@ -126,17 +125,17 @@ public class RationalePermissionActivity extends AppCompatActivity {
             // AndPermission.rationaleDialog(Context, Rationale).show();
 
             // 自定义对话框。
-            AlertDialog.newBuilder(RationalePermissionActivity.this)
+            AlertDialog.newBuilder(RationaleActivity.this)
                     .setTitle(R.string.title_dialog)
-                    .setMessage(R.string.message_permission_rationale)
-                    .setPositiveButton(R.string.btn_dialog_yes_permission, new DialogInterface.OnClickListener() {
+                    .setMessage(R.string.message_permission_failed)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
                             rationale.resume();
                         }
                     })
-                    .setNegativeButton(R.string.btn_dialog_no_permission, new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();

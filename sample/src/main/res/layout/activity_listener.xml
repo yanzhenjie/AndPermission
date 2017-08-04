@@ -42,35 +42,16 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <Button
-            android:id="@+id/btn_annotation"
+            android:id="@+id/btn_request_single"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/title_annotation_request"/>
+            android:text="@string/permission_camera"/>
 
         <Button
-            android:id="@+id/btn_listener"
+            android:id="@+id/btn_request_multi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/title_listener_request"/>
-
-        <Button
-            android:id="@+id/btn_other"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/title_other_request"/>
-
-        <Button
-            android:id="@+id/btn_rationale"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/title_rationale_request"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="@string/describe_rationale"/>
-
+            android:text="@string/permission_contact_sms"/>
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

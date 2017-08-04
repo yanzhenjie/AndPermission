@@ -28,30 +28,30 @@ import com.yanzhenjie.permission.sample.permission.PermissionRequest;
 /**
  * Created by Yan Zhenjie on 2017/5/1.
  */
-public class OtherActivity extends AppCompatActivity implements View.OnClickListener {
+public class AnyWhereActivity extends AppCompatActivity implements View.OnClickListener {
 
     private PermissionRequest permissionRequest;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_other);
+        setContentView(R.layout.activity_anywhere);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        findViewById(R.id.btn_req_sms).setOnClickListener(this);
+        findViewById(R.id.btn_req).setOnClickListener(this);
         permissionRequest = new PermissionRequest(this, new PermissionRequest.PermissionCallback() {
             @Override
             public void onSuccessful() {
-                Toast.makeText(OtherActivity.this, R.string.message_sms_succeed, Toast.LENGTH_LONG).show();
+                Toast.makeText(AnyWhereActivity.this, R.string.successfully, Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onFailure() {
-                Toast.makeText(OtherActivity.this, R.string.message_sms_failed, Toast.LENGTH_LONG).show();
+                Toast.makeText(AnyWhereActivity.this, R.string.failure, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -60,7 +60,7 @@ public class OtherActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.btn_req_sms: {
+            case R.id.btn_req: {
                 permissionRequest.request();
                 break;
             }

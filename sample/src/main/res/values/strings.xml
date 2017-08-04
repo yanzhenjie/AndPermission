@@ -17,45 +17,32 @@
 <resources>
     <string name="app_name">AndPermission</string>
 
-    <string name="title_activity_request">Activity Request</string>
-    <string name="title_rationale">Rationale</string>
+    <string name="ok">OK</string>
+    <string name="no">NO</string>
+
+    <string name="permission_calendar">Calendar</string>
+    <string name="permission_calendar_storage">Microphone, Storage</string>
+
+    <string name="permission_camera">Camera</string>
+    <string name="permission_contact_sms">Contact, SMS</string>
+
+    <string name="permission_phone">Phone State, Location</string>
+    <string name="describe_anywhere">Where the permission application is not in the Activity/Fragment call, but commissioned a class to call.</string>
+
+    <string name="permission_sensors">Sensors</string>
+    <string name="describe_rationale">Please first deny a permission, and then apply again when you can see the rationale effect.</string>
+
+    <string name="title_annotation_request">Annotation callback result</string>
     <string name="title_listener_request">Listener callback result</string>
     <string name="title_other_request">Request Anywhere</string>
+    <string name="title_rationale_request">Rationale before request</string>
 
     <string name="message_setting_back">The user came back from the settings</string>
 
-    <string name="message_calendar_succeed">Get calendar permission successful</string>
-    <string name="message_calendar_failed">Failed to get calendar permissions</string>
-
-    <string name="message_post_succeed">Get SMS, SD card permissions are successful</string>
-    <string name="message_post_failed">Failed to get SMS, SD card permissions</string>
-
-    <string name="message_location_succeed">Get location permission successfully</string>
-    <string name="message_location_failed">Failed to get location permissions</string>
-
-    <string name="message_sms_succeed">Get SMS permission successfully</string>
-    <string name="message_sms_failed">Failed to get SMS permissions</string>
+    <string name="successfully">Successful</string>
+    <string name="failure">Failure</string>
 
     <string name="title_dialog">Tips</string>
-    <string name="message_permission_failed">You refused to apply for our permission, really can not play a happy!</string>
-    <string name="message_permission_rationale">You have denied permission to locate, no permission to locate you can not recommend nearby sister, you look at the office.</string>
-
-    <string name="btn_dialog_yes_permission">OK</string>
-    <string name="btn_dialog_no_permission">NO</string>
-
-    <string name="btn_item_activity">Test Activity</string>
-    <string name="btn_item_rationale">Rationale Function</string>
-    <string name="message_callback_describe">Above the use of annotation callback results, the following is the use of Listener callback results.</string>
-    <string name="btn_item_listener">Listener callback result</string>
-    <string name="btn_item_other">Request Anywhere</string>
-
-    <string name="btn_req_single_calendar">Request Calendar Permission</string>
-    <string name="btn_req_multi_sms">Request Calendar, SDCard Permission</string>
-
-    <string name="message_rationale_describe">Please first deny a permission, and then apply again when you can see the rationale effect.</string>
-    <string name="btn_req_location">Request location permissions</string>
-
-    <string name="message_other_describe">Where the permission application is not in the Activity/Fragment call, but commissioned a class to call.</string>
-    <string name="btn_req_sms">Request SMS Permission</string>
+    <string name="message_permission_failed">We need some of the necessary authority to be prohibited, please authorize us.</string>
 
 </resources>

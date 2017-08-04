@@ -41,17 +41,18 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <Button
-            android:id="@+id/btn_request_single"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/btn_req_single_calendar"/>
+            android:layout_margin="@dimen/dp_10"
+            android:text="@string/describe_anywhere"/>
 
         <Button
-            android:id="@+id/btn_request_multi"
+            android:id="@+id/btn_req"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/btn_req_multi_sms"/>
+            android:text="@string/permission_phone"/>
+
     </LinearLayout>
 
 

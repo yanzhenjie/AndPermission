@@ -45,13 +45,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dp_10"
-            android:text="@string/message_rationale_describe"/>
+            android:text="@string/describe_rationale"/>
 
         <Button
-            android:id="@+id/btn_request_location"
+            android:id="@+id/btn_request"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/btn_req_location"/>
+            android:text="@string/permission_sensors"/>
 
     </LinearLayout>
 

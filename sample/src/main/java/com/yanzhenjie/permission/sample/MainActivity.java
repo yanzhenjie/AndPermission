@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        findViewById(R.id.btn_activity).setOnClickListener(this);
+        findViewById(R.id.btn_annotation).setOnClickListener(this);
         findViewById(R.id.btn_rationale).setOnClickListener(this);
         findViewById(R.id.btn_listener).setOnClickListener(this);
         findViewById(R.id.btn_other).setOnClickListener(this);
@@ -39,20 +39,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_activity: {
-                startActivity(new Intent(this, PermissionActivity.class));
+            case R.id.btn_annotation: {
+                startActivity(new Intent(this, AnnotationActivity.class));
                 break;
             }
             case R.id.btn_listener: {
                 startActivity(new Intent(this, ListenerActivity.class));
                 break;
             }
-            case R.id.btn_rationale: {
-                startActivity(new Intent(this, RationalePermissionActivity.class));
+            case R.id.btn_other: {
+                startActivity(new Intent(this, AnyWhereActivity.class));
                 break;
             }
-            case R.id.btn_other: {
-                startActivity(new Intent(this, OtherActivity.class));
+            case R.id.btn_rationale: {
+                startActivity(new Intent(this, RationaleActivity.class));
                 break;
             }
         }

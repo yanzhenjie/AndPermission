@@ -15,47 +15,33 @@
     limitations under the License.
 -->
 <resources>
-    <string name="app_name">AndPermission</string>
 
-    <string name="title_activity_request">Activity申请权限</string>
-    <string name="title_rationale">用户拒绝多次，提醒用户</string>
-    <string name="title_listener_request">通过Listener回调成功和失败</string>
-    <string name="title_other_request">在任何地方申请权限</string>
+    <string name="ok">好的</string>
+    <string name="no">就不</string>
 
-    <string name="message_setting_back">用户从设置回来了</string>
+    <string name="permission_calendar">日历</string>
+    <string name="permission_calendar_storage">麦克风，存储卡</string>
 
-    <string name="message_calendar_succeed">获取日历权限成功</string>
-    <string name="message_calendar_failed">获取日历权限失败</string>
+    <string name="permission_camera">相机</string>
+    <string name="permission_contact_sms">联系人，短信</string>
 
-    <string name="message_post_succeed">获取短信、SD卡权限成功</string>
-    <string name="message_post_failed">获取短信、SD卡权限失败</string>
+    <string name="permission_phone">手机状态，定位</string>
+    <string name="describe_anywhere">在任何地方申请权限，并不是在Activity/Fragment中</string>
 
-    <string name="message_location_succeed">获取定位权限成功</string>
-    <string name="message_location_failed">获取定位权限失败</string>
+    <string name="permission_sensors">传感器</string>
+    <string name="describe_rationale">请在第一次申请时拒绝，下次再次申请就会提示用户</string>
 
-    <string name="message_sms_succeed">获取短信权限成功</string>
-    <string name="message_sms_failed">获取短信权限失败</string>
+    <string name="title_annotation_request">Annotation回调结果</string>
+    <string name="title_listener_request">Listener回调结果</string>
+    <string name="title_other_request">在任意位置请求权限</string>
+    <string name="title_rationale_request">重复请求权限弹出说明</string>
 
-    <string name="title_dialog">友情提示</string>
-    <string name="message_permission_failed">你拒绝了我们的权限申请，真是不能愉快的玩耍了！</string>
-    <string name="message_permission_rationale">您已拒绝过定位权限，没有定位权限无法为您推荐附近妹子，赶快定位权限给我！</string>
+    <string name="message_setting_back">用户从设置回来</string>
 
-    <string name="btn_dialog_yes_permission">好，给你</string>
-    <string name="btn_dialog_no_permission">我拒绝</string>
+    <string name="successfully">成功了</string>
+    <string name="failure">失败了</string>
 
-    <string name="btn_item_activity">测试Activity</string>
-    <string name="btn_item_rationale">用户拒绝多次，自动提醒用户权限重要性</string>
-    <string name="message_callback_describe">上面权限申请失败和成功是反射调用方法的，如果你想用Listener方式，AndPermission完美支持两种方式。</string>
-    <string name="btn_item_listener">通过Listener回调成功和失败（推荐）</string>
-    <string name="btn_item_other">在任何地方申请权限</string>
-
-    <string name="btn_req_single_calendar">申请日历权限</string>
-    <string name="btn_req_multi_sms">申请短信、SD卡权限</string>
-
-    <string name="message_rationale_describe">为了测试rationale效果，请您先拒绝一次权限，然后再次申请时就可以看到rationale效果。（部分小米、华为可能没有rationale效果，但是AndPermission提供了Setting。）</string>
-    <string name="btn_req_location">申请定位权限</string>
-
-    <string name="message_other_describe">这里的权限申请不是在Activity/Fragment中调用，而是委托一个类去调用。</string>
-    <string name="btn_req_sms">申请短信权限</string>
+    <string name="title_dialog">提示</string>
+    <string name="message_permission_failed">我们需要的一些必要权限被禁止，请授权给我们。</string>
 
 </resources>
