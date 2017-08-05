@@ -1,6 +1,6 @@
 ﻿Request for permission anywhere, and compatible with Android O.
 
-[Why is it compatible with Android O ?](https://developer.android.com/preview/behavior-changes.html#rmp).
+[Why is it compatible with Android O ?](https://developer.android.com/preview/behavior-changes.html#rmp)
 
 [中文文档](./README-CN.md)  
 

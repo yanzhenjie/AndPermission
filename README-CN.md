@@ -3,19 +3,16 @@
 
 **QQ技术交流群：[547839514](https://jq.qq.com/?_wv=1027&k=4Ev0ksp)**  
 
-`AndPermission`是一个运行权限管理库，兼容`Android O`，同时最大程度上兼容了国产机。  
-
-如果你不知道运行时权限为什么需要兼容`Android O`，你可以看这几篇文章：  
+AndPermission是一个运行权限管理库，兼容Android O，同时最大程度上兼容了国产机。  
 [Android8.0运行时权限策略变化和适配方案](http://blog.csdn.net/yanzhenjie1003/article/details/76719487)  
-[Google官文：Android O 行为变更](https://developer.android.com/preview/behavior-changes.html#rmp)
 
 ----
 # 特性
-1. 支持申请权限组，兼容`Android8.0`，最大程度上兼容国产机。
+1. 支持申请权限组，兼容Android8.0，最大程度上兼容国产机。
 2. 链式调用，一句话申请权限，不需要判断版本和是否拥有某权限。
 3. 支持注解回调结果、支持`Listener`回调结果。
-4. 对于某个权限拒绝过一次后，下次申请可以使用**`RationaleDailog`**提示用户权限的重要性，面得被用户勾选**不再提示**从而再也申请不了权限（只能在系统Setting中授权）。
-5. 就算用户拒绝权限并勾选**不再提示**，可使用**`SettingDialog`**提示用户去设置中授权。
+4. 对于某个权限拒绝过一次后，下次申请可以使用`RationaleDailog`提示用户权限的重要性，面得被用户勾选**不再提示**从而再也申请不了权限（只能在系统`Setting`中授权）。
+5. 就算用户拒绝权限并勾选**不再提示**，可使用`SettingDialog`提示用户去设置中授权。
 6. `RationaleDialog`和`SettingDialog`允许开发者自定义。
 7. `AndPermission`自带默认对话框除可自定义外，也支持国际化。
 8. 支持在任何地方申请权限，不仅限于`Activity`和`Fragment`等。
@@ -258,7 +255,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 我在开发中还遇到过一些情况，就不一一列举了，总结了一下这些情况都是回调结果和实际情况不符。
 
-**建议一：**如果你担心使用标准的权限策略会使App崩溃，那么建议在回调的`成功`和`失败`方法中都加这段代码判断实际权限：
+**建议一**：如果你担心使用标准的权限策略会使App崩溃，那么建议在回调的`成功`和`失败`方法中都加这段代码判断实际权限：
 ```
 if(AndPermission.hasPermission()) {
     // TODO 执行拥有权限时的下一步。
@@ -272,7 +269,7 @@ if(AndPermission.hasPermission()) {
 
 `AndPermission.hasPermission()`的原理是在Android 6.0以下默认返回`true`，在6.0以上使用`AppOps`和`checkSelfPermission`检测权限全部通过则返回`true`，只有有一个没通过就返回`false`。
 
-**建议二：**在实际开发中，比如小米手机，它有自己的一套权限管理系统，并不完全遵循系统的运行时权限策略，这种情况下的解决方案还是遵循**建议一**，但是不要使用`SettingDialog`的方式，而是直接提示用去打开系统`Setting`自行授权，或者你也可以在用户点击了**确定**按钮后直接打开系统`Setting`让用户授权。
+**建议二**：在实际开发中，比如小米手机，它有自己的一套权限管理系统，并不完全遵循系统的运行时权限策略，这种情况下的解决方案还是遵循**建议一**，但是不要使用`SettingDialog`的方式，而是直接提示用去打开系统`Setting`自行授权，或者你也可以在用户点击了**确定**按钮后直接打开系统`Setting`让用户授权。
 
 # License
 ```text
