@@ -1,5 +1,6 @@
-﻿# AndPermission
-Request for permission anywhere.
+﻿Request for permission anywhere, and compatible with Android O.
+
+[Why is it compatible with Android O ?](https://developer.android.com/preview/behavior-changes.html#rmp).
 
 [中文文档](./README-CN.md)  
 
@@ -15,7 +16,7 @@ Request for permission anywhere.
 # Dependencies
 * Gradle
 ```groovy
-compile 'com.yanzhenjie:permission:1.0.9'
+compile 'com.yanzhenjie:permission:1.1.0'
 ```
 
 * Maven
@@ -23,7 +24,7 @@ compile 'com.yanzhenjie:permission:1.0.9'
 <dependency>
   <groupId>com.yanzhenjie</groupId>
   <artifactId>permission</artifactId>
-  <version>1.0.9</version>
+  <version>1.1.0</version>
   <type>pom</type>
 </dependency>
 ```
@@ -38,7 +39,7 @@ It is recommended to download Demo and read README, which can help you understan
 // Activity:
 AndPermission.with(activity)
     .requestCode(100)
-    .permission(Manifest.permission.WRITE_CONTACTS)
+    .permission(Permission.SMS)
     .rationale(...)
     .callback(...)
     .start();
@@ -47,9 +48,9 @@ AndPermission.with(activity)
 AndPermission.with(fragment)
     .requestCode(100)
     .permission(
-        // Multiple permissions, array form.
-        Manifest.permission.WRITE_CONTACTS,
-        Manifest.permission.READ_SMS
+        // Multiple permissions group.
+        Permission.SMS,
+        Permission.LOCATION
     )
     .rationale(...)
     .callback(...)
@@ -58,6 +59,22 @@ AndPermission.with(fragment)
 // Anywhere:
 AndPermission.with(context)
     .requestCode(100)
+    .permission(Permission.SMS)
+    .rationale(...)
+    .callback(...)
+    .start();
+
+// If only want to request a permission: 
+AndPermission.with(this)
+    .requestCode(300)
+    .permission(Manifest.permission.WRITE_CONTACTS)
+    .rationale(...)
+    .callback(...)
+    .start();
+
+// If only want to request some permissions: 
+AndPermission.with(this)
+    .requestCode(300)
     .permission(
         Manifest.permission.WRITE_CONTACTS,
         Manifest.permission.READ_SMS

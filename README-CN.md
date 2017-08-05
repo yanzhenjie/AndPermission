@@ -1,27 +1,29 @@
-# AndPermission
-
 我的主页：[http://www.yanzhenjie.com](http://www.yanzhenjie.com)  
-
 欢迎关注我的微博：[http://weibo.com/yanzhenjieit](http://weibo.com/yanzhenjieit)  
 
 **QQ技术交流群：[547839514](https://jq.qq.com/?_wv=1027&k=4Ev0ksp)**  
 
-对于国产手机运行结果和你的预期结果不一样，这可能是国产机的bug或者是特点，对此我给出了解决方案，请看[国产手机适配方案](#国产手机适配方案)，如果你有更好的方案，请提交PR或者发[issue](https://github.com/yanzhenjie/AndPermission/issues)告之我。  
+`AndPermission`是一个运行权限管理库，兼容`Android O`，同时最大程度上兼容了国产机。  
+
+如果你不知道运行时权限为什么需要兼容`Android O`，你可以看这几篇文章：  
+[Android8.0运行时权限策略变化和适配方案](http://blog.csdn.net/yanzhenjie1003/article/details/76719487)  
+[Google官文：Android O 行为变更](https://developer.android.com/preview/behavior-changes.html#rmp)
 
 ----
 # 特性
-1. 链式调用，一句话申请权限，为你省去复杂的逻辑判断。
-2. 支持注解回调结果、支持Listener回调结果。
-3. **拒绝一次**某权限后，再次申请该权限时可使用`Rationale`向用户说明申请该权限的目的，在用户同意后再继续申请，避免用户勾选**不再提示**而导致不能再次申请该权限。
-4. 就算用户拒绝权限并勾选**不再提示**，可使用`SettingDialog`提示用户去设置中授权。
-5. `RationaleDialog`和`SettingDialog`允许开发者自定义。
-6. `AndPermission`自带默认对话框除可自定义外，也支持国际化。
-7. 支持在任何地方申请权限，不仅限于`Activity`和`Fragment`等。
+1. 支持申请权限组，兼容`Android8.0`，最大程度上兼容国产机。
+2. 链式调用，一句话申请权限，不需要判断版本和是否拥有某权限。
+3. 支持注解回调结果、支持`Listener`回调结果。
+4. 对于某个权限拒绝过一次后，下次申请可以使用**`RationaleDailog`**提示用户权限的重要性，面得被用户勾选**不再提示**从而再也申请不了权限（只能在系统Setting中授权）。
+5. 就算用户拒绝权限并勾选**不再提示**，可使用**`SettingDialog`**提示用户去设置中授权。
+6. `RationaleDialog`和`SettingDialog`允许开发者自定义。
+7. `AndPermission`自带默认对话框除可自定义外，也支持国际化。
+8. 支持在任何地方申请权限，不仅限于`Activity`和`Fragment`等。
 
 # 引用方法
 * Gradle
 ```groovy
-compile 'com.yanzhenjie:permission:1.0.9'
+compile 'com.yanzhenjie:permission:1.1.0'
 ```
 
 * Maven
@@ -29,34 +31,32 @@ compile 'com.yanzhenjie:permission:1.0.9'
 <dependency>
   <groupId>com.yanzhenjie</groupId>
   <artifactId>permission</artifactId>
-  <version>1.0.9</version>
+  <version>1.1.0</version>
   <type>pom</type>
 </dependency>
 ```
-
-* Eclipse 请放弃治疗
 
 # 使用介绍
 我建议下载`Demo`并阅读`README`会帮助你理解。
 
 ## 申请权限
-**特别注意：**你在申请权限之前不用进行任何判断，`AndPermission`内部已经做了判断，如果有权限不会重复申请的。
+**特别注意：**你在申请权限之前不需要判断版本和是否拥有某权限。
 ```java
 // 在Activity：
 AndPermission.with(activity)
     .requestCode(100)
-    .permission(Manifest.permission.WRITE_CONTACTS)
+    .permission(Permission.SMS)
     .rationale(...)
     .callback(...)
     .start();
 
 // 在Fragment：
 AndPermission.with(fragment)
-    .requestCode(100)
+    .requestCode(101)
     .permission(
-        // 多个权限，以数组的形式传入。
-        Manifest.permission.WRITE_CONTACTS,
-        Manifest.permission.READ_SMS
+        // 申请多个权限组方式：
+        Permission.LOCATION,
+        Permissioin.STORAGE
     )
     .rationale(...)
     .callback(...)
@@ -64,7 +64,23 @@ AndPermission.with(fragment)
 
 // 在其它任何地方：
 AndPermission.with(context)
-    .requestCode(100)
+    .requestCode(102)
+    .permission(Permission.LOCATION)
+    .rationale(...)
+    .callback(...)
+    .start();
+
+// 如果你不想申请权限组，仅仅想申请某一个权限：
+AndPermission.with(this)
+    .requestCode(300)
+    .permission(Manifest.permission.WRITE_CONTACTS)
+    .rationale(...)
+    .callback(...)
+    .start();
+
+// 如果你不想申请权限组，仅仅想申请某几个权限：
+AndPermission.with(this)
+    .requestCode(300)
     .permission(
         Manifest.permission.WRITE_CONTACTS,
         Manifest.permission.READ_SMS
@@ -130,7 +146,7 @@ private void getPermissionNo(List<String> deniedPermissions) {
 }
 ```
 
-如果你会用了，你就可以大刀阔斧的干了，博客中讲到的各种复杂逻辑，`AndPermission`自动完成。
+如果你会用了，你就可以大刀阔斧的干了，其它复杂的判断逻辑，`AndPermission`自动完成。
 
 ## Rationale能力
 `Android`运行时权限有一个特点，在拒绝过一次权限后，再此申请该权限，在申请框会多一个**[不再提示]**的复选框，当用户勾选了**[不再提示]**并拒绝了权限后，下次再申请该权限将直接回调申请失败。  
@@ -204,7 +220,7 @@ if (AndPermission.hasAlwaysDeniedPermission(activity, deniedPermissions)) {
 @Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     switch (requestCode) {
-        case 400: { // 这个400就是你上面传入的数字。
+        case 400: { // 这个400就是上面defineSettingDialog()的第二个参数。
             // 你可以在这里检查你需要的权限是否被允许，并做相应的操作。
             break;
         }
@@ -242,7 +258,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 我在开发中还遇到过一些情况，就不一一列举了，总结了一下这些情况都是回调结果和实际情况不符。
 
-**建议：**如果你担心使用标准的权限策略会使App崩溃，那么建议在回调的`成功`和`失败`方法中都加这段代码判断实际权限：
+**建议一：**如果你担心使用标准的权限策略会使App崩溃，那么建议在回调的`成功`和`失败`方法中都加这段代码判断实际权限：
 ```
 if(AndPermission.hasPermission()) {
     // TODO 执行拥有权限时的下一步。
@@ -255,6 +271,8 @@ if(AndPermission.hasPermission()) {
 ```
 
 `AndPermission.hasPermission()`的原理是在Android 6.0以下默认返回`true`，在6.0以上使用`AppOps`和`checkSelfPermission`检测权限全部通过则返回`true`，只有有一个没通过就返回`false`。
+
+**建议二：**在实际开发中，比如小米手机，它有自己的一套权限管理系统，并不完全遵循系统的运行时权限策略，这种情况下的解决方案还是遵循**建议一**，但是不要使用`SettingDialog`的方式，而是直接提示用去打开系统`Setting`自行授权，或者你也可以在用户点击了**确定**按钮后直接打开系统`Setting`让用户授权。
 
 # License
 ```text
