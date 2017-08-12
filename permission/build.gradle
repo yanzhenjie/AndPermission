@@ -17,4 +17,4 @@ dependencies {
     compile rootProject.ext.dependencies.alertDialog
 }
 
-apply from: "https://github.com/yanzhenjie/bintray/blob/master/bintray.gradle?raw=true"
+apply from: "https://github.com/yanzhenjie/bintray/blob/master/maven-auto.gradle?raw=true"
