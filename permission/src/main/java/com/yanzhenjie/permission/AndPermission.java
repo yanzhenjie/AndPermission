@@ -59,12 +59,14 @@ public class AndPermission {
     public static boolean hasPermission(@NonNull Context context, @NonNull List<String> permissions) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return true;
         for (String permission : permissions) {
+            int result = ContextCompat.checkSelfPermission(context, permission);
+            if (result == PackageManager.PERMISSION_DENIED) return false;
+
             String op = AppOpsManagerCompat.permissionToOp(permission);
             if (TextUtils.isEmpty(op)) continue;
-            int result = AppOpsManagerCompat.noteProxyOp(context, op, context.getPackageName());
-            if (result == AppOpsManagerCompat.MODE_IGNORED) return false;
-            result = ContextCompat.checkSelfPermission(context, permission);
-            if (result != PackageManager.PERMISSION_GRANTED) return false;
+            result = AppOpsManagerCompat.noteProxyOp(context, op, context.getPackageName());
+            if (result != AppOpsManagerCompat.MODE_ALLOWED) return false;
+
         }
         return true;
     }

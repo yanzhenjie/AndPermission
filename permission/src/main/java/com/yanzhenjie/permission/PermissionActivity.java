@@ -34,15 +34,15 @@ public final class PermissionActivity extends Activity {
 
     static final String KEY_INPUT_PERMISSIONS = "KEY_INPUT_PERMISSIONS";
 
-    private static RationaleListener mRationaleListener;
-    private static PermissionListener mPermissionListener;
+    private static RationaleListener sRationaleListener;
+    private static PermissionListener sPermissionListener;
 
     public static void setRationaleListener(RationaleListener rationaleListener) {
-        PermissionActivity.mRationaleListener = rationaleListener;
+        PermissionActivity.sRationaleListener = rationaleListener;
     }
 
     public static void setPermissionListener(PermissionListener permissionListener) {
-        mPermissionListener = permissionListener;
+        sPermissionListener = permissionListener;
     }
 
     @Override
@@ -56,28 +56,33 @@ public final class PermissionActivity extends Activity {
             return;
         }
 
-        if (mRationaleListener != null) {
+        if (sRationaleListener != null) {
             boolean rationale = false;
             for (String permission : permissions) {
                 rationale = shouldShowRequestPermissionRationale(permission);
                 if (rationale) break;
             }
-            mRationaleListener.onRationaleResult(rationale);
-            mRationaleListener = null;
+            sRationaleListener.onRationaleResult(rationale);
             finish();
             return;
         }
 
-        if (mPermissionListener != null)
+        if (sPermissionListener != null)
             requestPermissions(permissions, 1);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (mPermissionListener != null)
-            mPermissionListener.onRequestPermissionsResult(permissions, grantResults);
-        mPermissionListener = null;
+        if (sPermissionListener != null)
+            sPermissionListener.onRequestPermissionsResult(permissions, grantResults);
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        sRationaleListener = null;
+        sPermissionListener = null;
+        super.onDestroy();
     }
 
     interface RationaleListener {
