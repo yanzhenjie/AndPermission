@@ -3,6 +3,7 @@
 [Why is it compatible with Android O ?](https://developer.android.com/preview/behavior-changes.html#rmp)
 
 [中文文档](./README-CN.md)  
+只针对中国开发者：[国产机兼容方案](https://github.com/yanzhenjie/AndPermission/blob/master/README-CN.md#国产手机适配方案)  
 
 ----
 # Features
@@ -16,7 +17,7 @@
 # Dependencies
 * Gradle
 ```groovy
-compile 'com.yanzhenjie:permission:1.1.0'
+compile 'com.yanzhenjie:permission:1.1.1'
 ```
 
 * Maven
@@ -24,7 +25,7 @@ compile 'com.yanzhenjie:permission:1.1.0'
 <dependency>
   <groupId>com.yanzhenjie</groupId>
   <artifactId>permission</artifactId>
-  <version>1.1.0</version>
+  <version>1.1.1</version>
   <type>pom</type>
 </dependency>
 ```

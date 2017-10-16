@@ -20,7 +20,7 @@ AndPermission是一个运行权限管理库，兼容Android O，同时最大程�
 # 引用方法
 * Gradle
 ```groovy
-compile 'com.yanzhenjie:permission:1.1.0'
+compile 'com.yanzhenjie:permission:1.1.1'
 ```
 
 * Maven
@@ -28,7 +28,7 @@ compile 'com.yanzhenjie:permission:1.1.0'
 <dependency>
   <groupId>com.yanzhenjie</groupId>
   <artifactId>permission</artifactId>
-  <version>1.1.0</version>
+  <version>1.1.1</version>
   <type>pom</type>
 </dependency>
 ```
