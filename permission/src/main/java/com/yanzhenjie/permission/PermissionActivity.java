@@ -52,6 +52,8 @@ public final class PermissionActivity extends Activity {
         String[] permissions = intent.getStringArrayExtra(KEY_INPUT_PERMISSIONS);
 
         if (permissions == null) {
+            sRationaleListener = null;
+            sPermissionListener = null;
             finish();
             return;
         }
@@ -63,6 +65,7 @@ public final class PermissionActivity extends Activity {
                 if (rationale) break;
             }
             sRationaleListener.onRationaleResult(rationale);
+            sRationaleListener = null;
             finish();
             return;
         }
@@ -75,14 +78,8 @@ public final class PermissionActivity extends Activity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (sPermissionListener != null)
             sPermissionListener.onRequestPermissionsResult(permissions, grantResults);
-        finish();
-    }
-
-    @Override
-    protected void onDestroy() {
-        sRationaleListener = null;
         sPermissionListener = null;
-        super.onDestroy();
+        finish();
     }
 
     interface RationaleListener {
