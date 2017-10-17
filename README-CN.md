@@ -20,7 +20,7 @@ AndPermission是一个运行权限管理库，兼容Android O，同时最大程�
 # 引用方法
 * Gradle
 ```groovy
-compile 'com.yanzhenjie:permission:1.1.1'
+compile 'com.yanzhenjie:permission:1.1.2'
 ```
 
 * Maven
@@ -28,7 +28,7 @@ compile 'com.yanzhenjie:permission:1.1.1'
 <dependency>
   <groupId>com.yanzhenjie</groupId>
   <artifactId>permission</artifactId>
-  <version>1.1.1</version>
+  <version>1.1.2</version>
   <type>pom</type>
 </dependency>
 ```
@@ -37,7 +37,7 @@ compile 'com.yanzhenjie:permission:1.1.1'
 我建议下载`Demo`并阅读`README`会帮助你理解。
 
 ## 申请权限
-**特别注意：**你在申请权限之前不需要判断版本和是否拥有某权限。
+**特别注意**：你在申请权限之前不需要判断版本和是否拥有某权限。
 ```java
 // 在Activity：
 AndPermission.with(activity)
@@ -146,7 +146,7 @@ private void getPermissionNo(List<String> deniedPermissions) {
 如果你会用了，你就可以大刀阔斧的干了，其它复杂的判断逻辑，`AndPermission`自动完成。
 
 ## Rationale能力
-`Android`运行时权限有一个特点，在拒绝过一次权限后，再此申请该权限，在申请框会多一个**[不再提示]**的复选框，当用户勾选了**[不再提示]**并拒绝了权限后，下次再申请该权限将直接回调申请失败。  
+`Android`运行时权限有一个特点，在拒绝过一次权限后，再此申请该权限，在申请框会多一个**不再提示**的复选框，当用户勾选了**不再提示**并拒绝了权限后，下次再申请该权限将直接回调申请失败。  
 因此`Rationale`功能是在用户拒绝一次权限后，再次申请时检测到已经申请过一次该权限了，允许开发者弹窗说明申请权限的目的，获取用户的同意后再申请权限，避免用户勾选不再提示，导致不能再次申请权限。  
 
 ### 方式一：使用AndPermssion默认MD风格对话框

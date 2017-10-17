@@ -17,7 +17,7 @@
 # Dependencies
 * Gradle
 ```groovy
-compile 'com.yanzhenjie:permission:1.1.1'
+compile 'com.yanzhenjie:permission:1.1.2'
 ```
 
 * Maven
@@ -25,7 +25,7 @@ compile 'com.yanzhenjie:permission:1.1.1'
 <dependency>
   <groupId>com.yanzhenjie</groupId>
   <artifactId>permission</artifactId>
-  <version>1.1.1</version>
+  <version>1.1.2</version>
   <type>pom</type>
 </dependency>
 ```
