@@ -7,13 +7,14 @@ ext {
     ]
 
     android = [
-            applicationId    : "com.yanzhenjie.permission.sample",
-            compileSdkVersion: 25,
-            buildToolsVersion: "25.0.3",
-            minSdkVersion    : 11,
-            targetSdkVersion : 25,
-            versionCode      : 102,
-            versionName      : "1.1.2"
+            applicationId       : "com.yanzhenjie.permission.sample",
+            compileSdkVersion   : 25,
+            buildToolsVersion   : "25.0.3",
+            libraryMinSdkVersion: 11,
+            sampleMinSdkVersion : 14,
+            targetSdkVersion    : 25,
+            versionCode         : 102,
+            versionName         : "1.1.2"
     ]
 
     bintray = [
@@ -47,11 +48,11 @@ ext {
     ]
 
     dependencies = [
-            // library.
-            alertDialog: 'com.yanzhenjie.alertdialog:alertdialog:1.0.1',
+            fragment   : 'com.android.support:support-fragment:25.3.1',
             appCompat  : 'com.android.support:appcompat-v7:25.3.1',
-            // sample.
             design     : 'com.android.support:design:25.3.1',
+
+            alertDialog: 'com.yanzhenjie.alertdialog:alertdialog:1.0.1',
             permission : 'com.yanzhenjie:permission:1.1.2'
     ]
 }
