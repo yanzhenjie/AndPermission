@@ -13,37 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission.target;
+package com.yanzhenjie.permission.source;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 
 /**
- * <p>Context Wrapper.</p>
+ * <p>android.support.v4.app.Fragment Wrapper.</p>
  * Created by Yan Zhenjie on 2017/5/1.
  */
-public class ContextTarget implements Target {
+public class SupportFragmentSource extends Source {
 
-    private Context mContext;
+    private Fragment mFragment;
 
-    public ContextTarget(Context context) {
-        this.mContext = context;
+    public SupportFragmentSource(Fragment fragment) {
+        this.mFragment = fragment;
     }
 
     @Override
     public Context getContext() {
-        return mContext;
+        return mFragment.getContext();
     }
 
     @Override
     public void startActivity(Intent intent) {
-        mContext.startActivity(intent);
-    }
-
-    @Override
-    public void startActivityForResult(Intent intent, int requestCode) {
-        if (mContext instanceof Activity) ((Activity) mContext).startActivityForResult(intent, requestCode);
-        else mContext.startActivity(intent);
+        mFragment.startActivity(intent);
     }
 }

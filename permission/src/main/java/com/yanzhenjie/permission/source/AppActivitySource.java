@@ -13,21 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission.target;
+package com.yanzhenjie.permission.source;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
 /**
- * <p>Request target.</p>
+ * <p>Activity Wrapper.</p>
  * Created by Yan Zhenjie on 2017/5/1.
  */
-public interface Target {
+public class AppActivitySource extends Source {
 
-    Context getContext();
+    private Activity mActivity;
 
-    void startActivity(Intent intent);
+    public AppActivitySource(Activity activity) {
+        this.mActivity = activity;
+    }
 
-    void startActivityForResult(Intent intent, int requestCode);
+    @Override
+    public Context getContext() {
+        return mActivity;
+    }
 
+    @Override
+    public void startActivity(Intent intent) {
+        mActivity.startActivity(intent);
+    }
 }

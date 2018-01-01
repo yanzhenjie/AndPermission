@@ -15,12 +15,13 @@
     limitations under the License.
 -->
 <resources>
-
-    <style name="permission_PermissionActivity" parent="@android:style/Theme.Translucent.NoTitleBar">
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowDisablePreview">true</item>
-    </style>
-
+    <string name="permission_name_calendar">Calendar</string>
+    <string name="permission_name_camera">Camera</string>
+    <string name="permission_name_contacts">Contacts</string>
+    <string name="permission_name_location">Location</string>
+    <string name="permission_name_microphone">Microphone</string>
+    <string name="permission_name_phone">Phone</string>
+    <string name="permission_name_sensors">Body Sensors</string>
+    <string name="permission_name_sms">SMS</string>
+    <string name="permission_name_storage">Storage</string>
 </resources>

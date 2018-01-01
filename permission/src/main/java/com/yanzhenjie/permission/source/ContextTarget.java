@@ -13,17 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission;
+package com.yanzhenjie.permission.source;
+
+import android.content.Context;
+import android.content.Intent;
 
 /**
- * <p>Cancelable.</p>
- * Created by Yan Zhenjie on 2016/12/28.
+ * <p>Context Wrapper.</p>
+ * Created by Yan Zhenjie on 2017/5/1.
  */
-public interface Cancelable {
+public class ContextTarget extends Source {
 
-    /**
-     * Cancel the operation.
-     */
-    void cancel();
+    private Context mContext;
 
+    public ContextTarget(Context context) {
+        this.mContext = context;
+    }
+
+    @Override
+    public Context getContext() {
+        return mContext;
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        mContext.startActivity(intent);
+    }
 }

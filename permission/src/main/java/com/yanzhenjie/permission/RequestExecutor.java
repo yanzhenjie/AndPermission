@@ -15,18 +15,20 @@
  */
 package com.yanzhenjie.permission;
 
-import android.support.annotation.NonNull;
-
-import java.util.List;
-
 /**
- * <p>Permission request callback.</p>
- * Created by Yan Zhenjie on 2016/9/17.
+ * <p>Request executor.</p>
+ * Created by Yan Zhenjie on 2016/9/10.
  */
-public interface PermissionListener {
+public interface RequestExecutor {
 
-    void onSucceed(int requestCode, @NonNull List<String> grantPermissions);
+    /**
+     * Go request permission.
+     */
+    void execute();
 
-    void onFailed(int requestCode, @NonNull List<String> deniedPermissions);
+    /**
+     * Cancel the operation.
+     */
+    void cancel();
 
 }

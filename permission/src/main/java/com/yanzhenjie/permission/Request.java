@@ -24,57 +24,34 @@ import android.support.annotation.NonNull;
 public interface Request {
 
     /**
-     * Here to fill in all of this to apply for permission, can be a, can be more.
-     *
-     * @param permissions one or more permissions.
-     * @return {@link Request}.
+     * One or more permissions.
      */
     @NonNull
     Request permission(String... permissions);
 
     /**
-     * Here to fill in all of this to apply for permission, can be a, can be more.
-     *
-     * @param permissionsArray one or more permissions.
-     * @return {@link Request}.
+     * One or more permission groups.
      */
     @NonNull
-    Request permission(String[]... permissionsArray);
+    Request permission(String[]... groups);
 
     /**
-     * With user privilege refused many times, the Listener will be called back, you can prompt the user
-     * permissions role in this method.
-     *
-     * @param listener {@link RationaleListener}.
-     * @return Request.
+     * Set request rationale.
      */
     @NonNull
     Request rationale(RationaleListener listener);
 
     /**
-     * Request code.
-     *
-     * @param requestCode int, the first parameter in callback {@code onRequestPermissionsResult(int, String[],
-     *                    int[])}}.
-     * @return {@link Request}.
+     * Action to be taken when all permissions are granted.
      */
     @NonNull
-    Request requestCode(int requestCode);
+    Request onGranted(Action granted);
 
     /**
-     * Set the callback object.
-     *
-     * @return {@link Request}.
+     * Action to be taken when all permissions are denied.
      */
-    Request callback(Object callback);
-
-    /**
-     * Request permission.
-     *
-     * @deprecated use {@link #start()} instead.
-     */
-    @Deprecated
-    void send();
+    @NonNull
+    Request onDenied(Action denied);
 
     /**
      * Request permission.

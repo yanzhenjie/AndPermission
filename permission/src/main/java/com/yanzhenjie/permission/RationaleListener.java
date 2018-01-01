@@ -15,10 +15,22 @@
  */
 package com.yanzhenjie.permission;
 
+import android.content.Context;
+
+import java.util.List;
+
 /**
- * <p>Rationale callback.</p>
+ * <p>Rationale listener</p>
  * Created by Yan Zhenjie on 2016/9/10.
  */
 public interface RationaleListener {
-    void showRequestPermissionRationale(int requestCode, Rationale rationale);
+
+    /**
+     * Show rationale of permissions to user.
+     *
+     * @param context     context.
+     * @param permissions show rationale permissions.
+     * @param executor    executor.
+     */
+    void showRationale(Context context, List<String> permissions, RequestExecutor executor);
 }

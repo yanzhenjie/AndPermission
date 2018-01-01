@@ -5,7 +5,7 @@ android {
     buildToolsVersion rootProject.ext.android.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion rootProject.ext.android.minSdkVersion
+        minSdkVersion rootProject.ext.android.libraryMinSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
     }
 
@@ -13,8 +13,7 @@ android {
 }
 
 dependencies {
-    compile rootProject.ext.dependencies.appCompat
-    compile rootProject.ext.dependencies.alertDialog
+    compile rootProject.ext.dependencies.fragment
 }
 
 apply from: "https://github.com/yanzhenjie/bintray/blob/master/maven.gradle?raw=true"

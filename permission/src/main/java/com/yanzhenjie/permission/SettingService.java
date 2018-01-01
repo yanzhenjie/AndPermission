@@ -19,11 +19,15 @@ package com.yanzhenjie.permission;
  * <p>Setting Service.</p>
  * Created by Yan Zhenjie on 2016/12/28.
  */
-public interface SettingService extends Cancelable {
+public interface SettingService {
 
     /**
      * Execute setting.
      */
     void execute();
 
+    /**
+     * Cancel the operation.
+     */
+    void cancel();
 }

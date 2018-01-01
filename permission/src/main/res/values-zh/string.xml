@@ -15,12 +15,13 @@
     limitations under the License.
 -->
 <resources>
-
-    <style name="permission_PermissionActivity" parent="@android:style/Theme.Translucent.NoTitleBar">
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowDisablePreview">true</item>
-    </style>
-
+    <string name="permission_name_calendar">日历</string>
+    <string name="permission_name_camera">相机</string>
+    <string name="permission_name_contacts">通讯录</string>
+    <string name="permission_name_location">位置信息</string>
+    <string name="permission_name_microphone">麦克风</string>
+    <string name="permission_name_phone">电话</string>
+    <string name="permission_name_sensors">身体传感器</string>
+    <string name="permission_name_sms">短信</string>
+    <string name="permission_name_storage">存储空间</string>
 </resources>
