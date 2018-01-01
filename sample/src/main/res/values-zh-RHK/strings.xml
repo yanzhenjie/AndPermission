@@ -15,32 +15,25 @@
     limitations under the License.
 -->
 <resources>
-    <string name="ok">好的</string>
-    <string name="no">就不</string>
-
-    <string name="permission_calendar">日歷</string>
-    <string name="permission_calendar_storage">麥克風，存儲卡</string>
+    <string name="setting">設置</string>
+    <string name="resume">繼續</string>
+    <string name="cancel">取消</string>
+    <string name="ok">好</string>
+    <string name="no">不</string>
 
     <string name="permission_camera">相機</string>
-    <string name="permission_contact_sms">聯系人，短信</string>
+    <string name="permission_contact_location">聯繫人, 位置</string>
 
-    <string name="permission_phone">手機狀態，定位</string>
-    <string name="describe_anywhere">在任何地方申請權限，並不是在Activity/Fragment中</string>
+    <string name="permission_calendar">日曆</string>
+    <string name="permission_microphone_storage">麥克風, 存儲</string>
 
-    <string name="permission_sensors">傳感器</string>
-    <string name="describe_rationale">請在第壹次申請時拒絕，下次再次申請就會提示用戶</string>
+    <string name="permission_phone">電話</string>
+    <string name="permission_sensors_sms">身體傳感器, 短訊</string>
 
-    <string name="title_annotation_request">Annotation回調結果</string>
-    <string name="title_listener_request">Listener回調結果</string>
-    <string name="title_other_request">在任意位置請求權限</string>
-    <string name="title_rationale_request">重復請求權限彈出說明</string>
-
-    <string name="message_setting_back">用戶從設置回來</string>
-
-    <string name="successfully">成功了</string>
-    <string name="failure">失敗了</string>
+    <string name="successfully">成功</string>
+    <string name="failure">失敗</string>
 
     <string name="title_dialog">提示</string>
-    <string name="message_permission_failed">我們需要的壹些必要權限被禁止，請授權給我們。</string>
-
+    <string name="message_permission_rationale">允許以下權限以便程序繼續執行：\n\n%1$s</string>
+    <string name="message_permission_always_failed">我們需要以下權限，請在設置中為我們開啟：\n\n%1$s</string>
 </resources>

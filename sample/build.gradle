@@ -6,20 +6,18 @@ android {
 
     defaultConfig {
         applicationId rootProject.ext.android.applicationId
-        minSdkVersion rootProject.ext.android.minSdkVersion
+        minSdkVersion rootProject.ext.android.sampleMinSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
-    }
 }
 
 dependencies {
-    compile rootProject.ext.dependencies.permission
+//    compile rootProject.ext.dependencies.permission
+    compile project(':permission')
 
     compile rootProject.ext.dependencies.appCompat
     compile rootProject.ext.dependencies.design
+    compile rootProject.ext.dependencies.alertDialog
 }

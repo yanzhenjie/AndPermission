@@ -14,8 +14,9 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.yanzhenjie.permission.sample">
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.yanzhenjie.permission.sample">
 
     <uses-permission android:name="android.permission.READ_CALENDAR"/>
     <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
@@ -65,23 +66,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".AnnotationActivity"
-            android:label="@string/title_annotation_request"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name=".RationaleActivity"
-            android:label="@string/title_rationale_request"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name=".ListenerActivity"
-            android:label="@string/title_listener_request"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
-        <activity
-            android:name=".AnyWhereActivity"
-            android:label="@string/title_other_request"
-            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

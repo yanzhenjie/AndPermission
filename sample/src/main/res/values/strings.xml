@@ -17,32 +17,26 @@
 <resources>
     <string name="app_name">AndPermission</string>
 
+    <string name="setting">Setting</string>
+    <string name="resume">Resume</string>
+    <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
     <string name="no">NO</string>
 
-    <string name="permission_calendar">Calendar</string>
-    <string name="permission_calendar_storage">Microphone, Storage</string>
-
     <string name="permission_camera">Camera</string>
-    <string name="permission_contact_sms">Contact, SMS</string>
+    <string name="permission_contact_location">Contact, Location</string>
 
-    <string name="permission_phone">Phone State, Location</string>
-    <string name="describe_anywhere">Where the permission application is not in the Activity/Fragment call, but commissioned a class to call.</string>
+    <string name="permission_calendar">Calendar</string>
+    <string name="permission_microphone_storage">Microphone, Storage</string>
 
-    <string name="permission_sensors">Sensors</string>
-    <string name="describe_rationale">Please first deny a permission, and then apply again when you can see the rationale effect.</string>
-
-    <string name="title_annotation_request">Annotation callback result</string>
-    <string name="title_listener_request">Listener callback result</string>
-    <string name="title_other_request">Request Anywhere</string>
-    <string name="title_rationale_request">Rationale before request</string>
-
-    <string name="message_setting_back">The user came back from the settings</string>
+    <string name="permission_phone">Phone</string>
+    <string name="permission_sensors_sms">Sensors, SMS</string>
 
     <string name="successfully">Successful</string>
     <string name="failure">Failure</string>
 
     <string name="title_dialog">Tips</string>
-    <string name="message_permission_failed">We need some of the necessary authority to be prohibited, please authorize us.</string>
+    <string name="message_permission_rationale">Grant the following permissions to continue the program:\n\n%1$s</string>
+    <string name="message_permission_always_failed">We need these permissions, please give us permission in the settings:\n\n%1$s</string>
 
 </resources>

@@ -15,13 +15,30 @@
  */
 package com.yanzhenjie.permission.sample;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.yanzhenjie.permission.Action;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.RationaleListener;
+
+import java.util.List;
+
+/**
+ * Created by Yan Zhenjie on 2016/9/17.
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private RationaleListener mRationaleListener;
+    private PermissionSetting mSetting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,31 +47,181 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        findViewById(R.id.btn_annotation).setOnClickListener(this);
-        findViewById(R.id.btn_rationale).setOnClickListener(this);
-        findViewById(R.id.btn_listener).setOnClickListener(this);
-        findViewById(R.id.btn_other).setOnClickListener(this);
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        findViewById(R.id.btn_request_camera).setOnClickListener(this);
+        findViewById(R.id.btn_request_contact_location).setOnClickListener(this);
+        findViewById(R.id.btn_request_calendar).setOnClickListener(this);
+        findViewById(R.id.btn_request__microphone_storage).setOnClickListener(this);
+        findViewById(R.id.btn_request_phone).setOnClickListener(this);
+        findViewById(R.id.btn_request_sensors_sms).setOnClickListener(this);
+
+        mRationaleListener = new DefaultRationale();
+        mSetting = new PermissionSetting(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_annotation: {
-                startActivity(new Intent(this, AnnotationActivity.class));
+            case R.id.btn_request_camera: {
+                AndPermission.with(this)
+                        .permission(Permission.CAMERA)
+                        .rationale(mRationaleListener)
+                        .onGranted(new Action() {
+                            @Override
+                            public void onAction(@NonNull List<String> permissions) {
+                                toast(R.string.successfully);
+                            }
+                        })
+                        .onDenied(new Action() {
+                            @Override
+                            public void onAction(@NonNull List<String> permissions) {
+                                toast(R.string.failure);
+                                if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
+                                    mSetting.showSetting(permissions);
+                                }
+                            }
+                        })
+                        .start();
                 break;
             }
-            case R.id.btn_listener: {
-                startActivity(new Intent(this, ListenerActivity.class));
+            case R.id.btn_request_contact_location: {
+                AndPermission.with(this)
+                        .permission(
+                                Permission.Group.CONTACTS,
+                                Permission.Group.LOCATION
+                        )
+                        .rationale(mRationaleListener)
+                        .onGranted(new Action() {
+                            @Override
+                            public void onAction(@NonNull List<String> permissions) {
+                                toast(R.string.successfully);
+                            }
+                        })
+                        .onDenied(new Action() {
+                            @Override
+                            public void onAction(@NonNull List<String> permissions) {
+                                toast(R.string.failure);
+                                if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
+                                    mSetting.showSetting(permissions);
+                                }
+                            }
+                        })
+                        .start();
                 break;
             }
-            case R.id.btn_other: {
-                startActivity(new Intent(this, AnyWhereActivity.class));
+            case R.id.btn_request_calendar: {
+                AndPermission.with(this)
+                        .permission(Permission.Group.CALENDAR)
+                        .rationale(mRationaleListener)
+                        .onGranted(new Action() {
+                            @Override
+                            public void onAction(@NonNull List<String> permissions) {
+                                toast(R.string.successfully);
+                            }
+                        })
+                        .onDenied(new Action() {
+                            @Override
+                            public void onAction(@NonNull List<String> permissions) {
+                                toast(R.string.failure);
+                                if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
+                                    mSetting.showSetting(permissions);
+                                }
+                            }
+                        })
+                        .start();
                 break;
             }
-            case R.id.btn_rationale: {
-                startActivity(new Intent(this, RationaleActivity.class));
+            case R.id.btn_request__microphone_storage: {
+                AndPermission.with(this)
+                        .permission(
+                                Permission.Group.MICROPHONE,
+                                Permission.Group.STORAGE
+                        )
+                        .rationale(mRationaleListener)
+                        .onGranted(new Action() {
+                            @Override
+                            public void onAction(@NonNull List<String> permissions) {
+                                toast(R.string.successfully);
+                            }
+                        })
+                        .onDenied(new Action() {
+                            @Override
+                            public void onAction(@NonNull List<String> permissions) {
+                                toast(R.string.failure);
+                                if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
+                                    mSetting.showSetting(permissions);
+                                }
+                            }
+                        })
+                        .start();
+                break;
+            }
+            case R.id.btn_request_phone: {
+                AndPermission.with(this)
+                        .permission(Permission.Group.PHONE)
+                        .rationale(mRationaleListener)
+                        .onGranted(new Action() {
+                            @Override
+                            public void onAction(@NonNull List<String> permissions) {
+                                toast(R.string.successfully);
+                            }
+                        })
+                        .onDenied(new Action() {
+                            @Override
+                            public void onAction(@NonNull List<String> permissions) {
+                                toast(R.string.failure);
+                                if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
+                                    mSetting.showSetting(permissions);
+                                }
+                            }
+                        })
+                        .start();
+                break;
+            }
+            case R.id.btn_request_sensors_sms: {
+                AndPermission.with(this)
+                        .permission(
+                                Permission.Group.SMS,
+                                Permission.Group.SENSORS
+                        )
+                        .rationale(mRationaleListener)
+                        .onGranted(new Action() {
+                            @Override
+                            public void onAction(@NonNull List<String> permissions) {
+                                toast(R.string.successfully);
+                            }
+                        })
+                        .onDenied(new Action() {
+                            @Override
+                            public void onAction(@NonNull List<String> permissions) {
+                                toast(R.string.failure);
+                                if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
+                                    mSetting.showSetting(permissions);
+                                }
+                            }
+                        })
+                        .start();
                 break;
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home: {
+                finish();
+                break;
+            }
+        }
+        return true;
+    }
+
+    protected void toast(@StringRes int message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
