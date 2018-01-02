@@ -25,42 +25,37 @@ import android.support.annotation.NonNull;
 
 import com.yanzhenjie.permission.source.Source;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 /**
  * <p>Setting executor.</p>
  * Created by Yan Zhenjie on 2016/12/28.
  */
 class SettingExecutor implements SettingService {
 
-    private static final String PACKAGE = "package";
+    private static final String DEFAULT_PACKAGE_KEY = "package";
     private static final String MARK = Build.MANUFACTURER.toLowerCase();
 
     private static final String HUAWEI_MARK = "huawei";
     private static final String HUAWEI_PKG = "com.huawei.systemmanager";
     private static final String HUAWEI_CLASS = "com.huawei.permissionmanager.ui.MainActivity";
 
-
     private static final String XIAOMI_MARK = "xiaomi";
     private static final String XIAOMI_ACTION = "miui.intent.action.APP_PERM_EDITOR";
-    private static final String XIAOMI_PKG = "com.miui.securitycenter";
-    private static final String XIAOMI_MIUI7_CLASS = "com.miui.permcenter.permissions.AppPermissionsEditorActivity";
-    private static final String XIAOMI_MIUI8_CLASS = "com.miui.permcenter.permissions.PermissionsEditorActivity";
+    private static final String XIAOMI_PACKAGE_KEY = "extra_pkgname";
 
     private static final String OPPO_MARK = "oppo";
     private static final String OPPO_PKG = "com.coloros.safecenter";
-    private static final String OPPO_CLASS = "com.coloros.safecenter.permission.singlepage.PermissionSinglePageActivity";
+    private static final String OPPO_CLASS = "com.coloros.safecenter.permission.PermissionManagerActivity";
 
     private static final String VIVO_MARK = "vivo";
+    private static final String VIVO_PACKAGE_KEY = "packagename";
     private static final String VIVO_PKG = "com.iqoo.secure";
-    private static final String VIVO_CLASS = "com.iqoo.secure.safeguard.SoftPermissionDetailActivity ";
-//    private static final String VIVO_PKG = "com.vivo.permissionmanager";
-//    private static final String VIVO_CLASS = "com.vivo.permissionmanager.activity.PurviewTabActivity";
+    private static final String VIVO_CLASS = "com.iqoo.secure.safeguard.SoftPermissionDetailActivity";
 
     private static final String MEIZU_MARK = "meizu";
+    private static final String MEIZU_ACTION = "com.meizu.safe.security.SHOW_APPSEC";
+    private static final String MEIZU_PACKAGE_KEY = "packageName";
     private static final String MEIZU_PKG = "com.meizu.safe";
-    private static final String MEIZU_N_CLASS = "com.meizu.safe.permission.PermissionMainActivity";
+    private static final String MEIZU_N_CLASS = "com.meizu.safe.security.AppSecActivity";
 
     private Source mTarget;
 
@@ -71,39 +66,41 @@ class SettingExecutor implements SettingService {
     @Override
     public void execute() {
         Context context = mTarget.getContext();
-        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(PACKAGE, context.getPackageName());
-        intent.setData(Uri.fromParts(PACKAGE, context.getPackageName(), null));
-
+        Intent intent = null;
         if (HUAWEI_MARK.contains(MARK)) {
+            intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setData(Uri.fromParts(DEFAULT_PACKAGE_KEY, context.getPackageName(), null));
+            intent.putExtra(DEFAULT_PACKAGE_KEY, context.getPackageName());
             intent.setComponent(new ComponentName(HUAWEI_PKG, HUAWEI_CLASS));
         } else if (XIAOMI_MARK.contains(MARK)) {
-            String property = getMIUIProperty();
-            if (property.contains("7") || property.contains("6")) {
-                intent = new Intent(XIAOMI_ACTION);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("extra_pkgname", context.getPackageName());
-                intent.setComponent(new ComponentName(XIAOMI_PKG, XIAOMI_MIUI7_CLASS));
-            } else if (property.contains("8") || property.contains("9")) {
-                intent = new Intent(XIAOMI_ACTION);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("extra_pkgname", context.getPackageName());
-                intent.setComponent(new ComponentName(XIAOMI_PKG, XIAOMI_MIUI8_CLASS));
-            } else {
-                // use default.
-            }
+            intent = new Intent(XIAOMI_ACTION);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(XIAOMI_PACKAGE_KEY, context.getPackageName());
         } else if (OPPO_MARK.contains(MARK)) {
-//            intent = context.getPackageManager().getLaunchIntentForPackage(OPPO_PKG);
+            intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(DEFAULT_PACKAGE_KEY, context.getPackageName());
+            intent.setComponent(new ComponentName(OPPO_PKG, OPPO_CLASS));
         } else if (VIVO_MARK.contains(MARK)) {
+            intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(VIVO_PACKAGE_KEY, context.getPackageName());
             intent.setComponent(new ComponentName(VIVO_PKG, VIVO_CLASS));
         } else if (MEIZU_MARK.contains(MARK)) {
+            intent = new Intent(MEIZU_ACTION);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(MEIZU_PACKAGE_KEY, context.getPackageName());
             intent.setComponent(new ComponentName(MEIZU_PKG, MEIZU_N_CLASS));
         }
-        try {
-            mTarget.startActivity(intent);
-        } catch (Exception e) {
+        if (intent == null) {
             openAppDetailsSetting(mTarget.getContext());
+        } else {
+            try {
+                mTarget.startActivity(intent);
+            } catch (Exception e) {
+                openAppDetailsSetting(mTarget.getContext());
+            }
         }
     }
 
@@ -114,26 +111,7 @@ class SettingExecutor implements SettingService {
     private static void openAppDetailsSetting(Context context) {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(PACKAGE, context.getPackageName());
-        intent.setData(Uri.fromParts(PACKAGE, context.getPackageName(), null));
+        intent.setData(Uri.fromParts(DEFAULT_PACKAGE_KEY, context.getPackageName(), null));
         context.startActivity(intent);
-    }
-
-    private static String getMIUIProperty() {
-        BufferedReader reader = null;
-        try {
-            Process p = Runtime.getRuntime().exec("getprop ro.miui.ui.version.name");
-            reader = new BufferedReader(new InputStreamReader(p.getInputStream()), 32);
-            return reader.readLine();
-        } catch (Exception ignored) {
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (Exception ignored) {
-                }
-            }
-        }
-        return "";
     }
 }
