@@ -76,6 +76,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/permission_sensors_sms"/>
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_10"/>
+
+        <Button
+            android:id="@+id/btn_request_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="打开权限设置页面"/>
+
+        <Button
+            android:id="@+id/btn_request_setting_window"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="打开Window权限设置页面"/>
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

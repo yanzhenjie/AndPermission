@@ -24,6 +24,8 @@ import android.os.Process;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.yanzhenjie.permission.setting.FloatWindowSetting;
+import com.yanzhenjie.permission.setting.PermissionSetting;
 import com.yanzhenjie.permission.source.AppActivitySource;
 import com.yanzhenjie.permission.source.ContextTarget;
 import com.yanzhenjie.permission.source.FragmentSource;
@@ -280,8 +282,8 @@ public class AndPermission {
      * @return {@link SettingService}.
      */
     @NonNull
-    public static SettingService settingService(@NonNull Activity activity) {
-        return new SettingExecutor(new AppActivitySource(activity));
+    public static SettingService permissionSetting(@NonNull Activity activity) {
+        return new PermissionSetting(new AppActivitySource(activity));
     }
 
     /**
@@ -291,8 +293,8 @@ public class AndPermission {
      * @return {@link SettingService}.
      */
     @NonNull
-    public static SettingService settingService(@NonNull android.support.v4.app.Fragment fragment) {
-        return new SettingExecutor(new SupportFragmentSource(fragment));
+    public static SettingService permissionSetting(@NonNull android.support.v4.app.Fragment fragment) {
+        return new PermissionSetting(new SupportFragmentSource(fragment));
     }
 
     /**
@@ -302,8 +304,8 @@ public class AndPermission {
      * @return {@link SettingService}.
      */
     @NonNull
-    public static SettingService settingService(@NonNull android.app.Fragment fragment) {
-        return new SettingExecutor(new FragmentSource(fragment));
+    public static SettingService permissionSetting(@NonNull android.app.Fragment fragment) {
+        return new PermissionSetting(new FragmentSource(fragment));
     }
 
     /**
@@ -313,8 +315,52 @@ public class AndPermission {
      * @return {@link SettingService}.
      */
     @NonNull
-    public static SettingService settingService(@NonNull Context context) {
-        return new SettingExecutor(new ContextTarget(context));
+    public static SettingService permissionSetting(@NonNull Context context) {
+        return new PermissionSetting(new ContextTarget(context));
+    }
+
+    /**
+     * Create a service that opens the FloatWindow setting page.
+     *
+     * @param activity {@link Activity}.
+     * @return {@link SettingService}.
+     */
+    @NonNull
+    public static SettingService alertWindowSetting(@NonNull Activity activity) {
+        return new FloatWindowSetting(new AppActivitySource(activity));
+    }
+
+    /**
+     * Create a service that opens the FloatWindow setting page.
+     *
+     * @param fragment {@link android.support.v4.app.Fragment}.
+     * @return {@link SettingService}.
+     */
+    @NonNull
+    public static SettingService alertWindowSetting(@NonNull android.support.v4.app.Fragment fragment) {
+        return new PermissionSetting(new SupportFragmentSource(fragment));
+    }
+
+    /**
+     * Create a service that opens the FloatWindow setting page.
+     *
+     * @param fragment {@link android.app.Fragment}.
+     * @return {@link SettingService}.
+     */
+    @NonNull
+    public static SettingService alertWindowSetting(@NonNull android.app.Fragment fragment) {
+        return new PermissionSetting(new FragmentSource(fragment));
+    }
+
+    /**
+     * Create a service that opens the FloatWindow setting page.
+     *
+     * @param context {@link android.app.Fragment}.
+     * @return {@link SettingService}.
+     */
+    @NonNull
+    public static SettingService alertWindowSetting(@NonNull Context context) {
+        return new PermissionSetting(new ContextTarget(context));
     }
 
     /**

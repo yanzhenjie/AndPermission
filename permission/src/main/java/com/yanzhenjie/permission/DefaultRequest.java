@@ -91,7 +91,7 @@ class DefaultRequest implements Request, RequestExecutor, PermissionActivity.Per
     @Override
     public void start() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            callbackSucceed();
+            onRequestPermissionsResult(mPermissions);
         } else {
             List<String> deniedList = getDeniedPermissions(mSource, mPermissions);
             mDeniedPermissions = deniedList.toArray(new String[deniedList.size()]);
@@ -108,7 +108,6 @@ class DefaultRequest implements Request, RequestExecutor, PermissionActivity.Per
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onRequestPermissionsResult(@NonNull String[] permissions) {
         List<String> deniedList = getDeniedPermissions(mSource, permissions);
@@ -124,7 +123,6 @@ class DefaultRequest implements Request, RequestExecutor, PermissionActivity.Per
         PermissionActivity.requestPermission(mSource.getContext(), mDeniedPermissions, this);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void cancel() {
         onRequestPermissionsResult(mDeniedPermissions);

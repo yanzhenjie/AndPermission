@@ -15,6 +15,7 @@
  */
 package com.yanzhenjie.permission.sample;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
@@ -23,6 +24,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yanzhenjie.permission.Action;
@@ -60,6 +62,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mRationaleListener = new DefaultRationale();
         mSetting = new PermissionSetting(this);
+
+        TextView tvMessage = (TextView) findViewById(R.id.tv_message);
+        tvMessage.setText("品牌字符串：" + Build.MANUFACTURER);
+
+        findViewById(R.id.btn_request_setting).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AndPermission.permissionSetting(MainActivity.this)
+                        .execute();
+            }
+        });
+        findViewById(R.id.btn_request_setting_window).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AndPermission.alertWindowSetting(MainActivity.this)
+                        .execute();
+            }
+        });
     }
 
     @Override

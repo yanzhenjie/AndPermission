@@ -43,7 +43,7 @@ public final class PermissionSetting {
         List<String> permissionNames = Permission.transformText(mContext, permissions);
         String message = mContext.getString(R.string.message_permission_always_failed, TextUtils.join("\n", permissionNames));
 
-        final SettingService settingService = AndPermission.settingService(mContext);
+        final SettingService settingService = AndPermission.permissionSetting(mContext);
         AlertDialog.newBuilder(mContext)
                 .setCancelable(false)
                 .setTitle(R.string.title_dialog)

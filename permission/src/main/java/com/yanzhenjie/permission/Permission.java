@@ -27,6 +27,8 @@ import java.util.List;
  */
 public final class Permission {
 
+    public static final String ALERT_WINDOW = "android.permission.SYSTEM_ALERT_WINDOW";
+
     public static final String READ_CALENDAR = "android.permission.READ_CALENDAR";
     public static final String WRITE_CALENDAR = "android.permission.WRITE_CALENDAR";
 
@@ -60,6 +62,8 @@ public final class Permission {
     public static final String WRITE_EXTERNAL_STORAGE = "android.permission.WRITE_EXTERNAL_STORAGE";
 
     public static final class Group {
+        public static final String[] WINDOW = new String[]{Permission.ALERT_WINDOW};
+
         public static final String[] CALENDAR = new String[]{
                 Permission.READ_CALENDAR,
                 Permission.WRITE_CALENDAR};
