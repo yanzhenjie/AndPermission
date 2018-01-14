@@ -47,6 +47,7 @@ public final class Permission {
     public static final String CALL_PHONE = "android.permission.CALL_PHONE";
     public static final String READ_CALL_LOG = "android.permission.READ_CALL_LOG";
     public static final String WRITE_CALL_LOG = "android.permission.WRITE_CALL_LOG";
+    public static final String ADD_VOICEMAIL = "android.permission.ANSWER_PHONE_CALLS";
     public static final String USE_SIP = "android.permission.USE_SIP";
     public static final String PROCESS_OUTGOING_CALLS = "android.permission.PROCESS_OUTGOING_CALLS";
 
@@ -86,6 +87,7 @@ public final class Permission {
                 Permission.CALL_PHONE,
                 Permission.READ_CALL_LOG,
                 Permission.WRITE_CALL_LOG,
+                Permission.ADD_VOICEMAIL,
                 Permission.USE_SIP,
                 Permission.PROCESS_OUTGOING_CALLS};
 
