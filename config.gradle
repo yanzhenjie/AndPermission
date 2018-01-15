@@ -7,14 +7,13 @@ ext {
     ]
 
     android = [
-            applicationId       : "com.yanzhenjie.permission.sample",
-            compileSdkVersion   : 25,
-            buildToolsVersion   : "25.0.3",
-            libraryMinSdkVersion: 11,
-            sampleMinSdkVersion : 14,
-            targetSdkVersion    : 25,
-            versionCode         : 102,
-            versionName         : "1.1.2"
+            applicationId    : "com.yanzhenjie.permission.sample",
+            compileSdkVersion: 25,
+            buildToolsVersion: "25.0.3",
+            minSdkVersion    : 11,
+            targetSdkVersion : 25,
+            versionCode      : 102,
+            versionName      : "1.1.2"
     ]
 
     bintray = [
