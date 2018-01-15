@@ -20,7 +20,6 @@ package com.yanzhenjie.permission.checker;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
-import android.hardware.SensorManager;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Environment;
@@ -33,6 +32,7 @@ import android.support.annotation.RequiresApi;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import com.yanzhenjie.permission.ApLog;
 import com.yanzhenjie.permission.Permission;
 
 import java.io.File;
@@ -108,7 +108,7 @@ public class StrictChecker implements PermissionChecker {
                 case Permission.PROCESS_OUTGOING_CALLS:
                     return mChecker.hasPermission(context, permission);
                 case Permission.BODY_SENSORS:
-                    return checkBodySensors(context);
+                    return mChecker.hasPermission(context, permission);
                 case Permission.SEND_SMS:
                 case Permission.RECEIVE_MMS:
                     return mChecker.hasPermission(context, permission);
@@ -125,6 +125,7 @@ public class StrictChecker implements PermissionChecker {
                     return mChecker.hasPermission(context, permission);
             }
         } catch (Throwable e) {
+            ApLog.e(e);
             return false;
         }
     }
@@ -213,13 +214,6 @@ public class StrictChecker implements PermissionChecker {
     private static boolean checkWriteCallLog(Context context) throws Throwable {
         ContentResolver resolver = context.getContentResolver();
         CallLogWriteTest test = new CallLogWriteTest(resolver);
-        test.test();
-        return true;
-    }
-
-    private static boolean checkBodySensors(Context context) throws Throwable {
-        SensorManager sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        PermissionTest test = new SensorTest(sensorManager);
         test.test();
         return true;
     }
