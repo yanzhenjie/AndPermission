@@ -19,7 +19,6 @@ package com.yanzhenjie.permission.checker;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.net.Uri;
 import android.provider.CallLog;
 
 /**
@@ -41,9 +40,9 @@ public class CallLogWriteTest implements PermissionTest {
             content.put(CallLog.Calls.NUMBER, "1");
             content.put(CallLog.Calls.DATE, 20080808);
             content.put(CallLog.Calls.NEW, "0");
-            mResolver.insert(Uri.parse("content://call_log/calls"), content);
+            mResolver.insert(CallLog.Calls.CONTENT_URI, content);
         } finally {
-            mResolver.delete(Uri.parse("content://call_log/calls"), "number=?", new String[]{"1"});
+            mResolver.delete(CallLog.Calls.CONTENT_URI, CallLog.Calls.NUMBER + "=?", new String[]{"1"});
         }
     }
 }

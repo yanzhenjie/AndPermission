@@ -32,6 +32,9 @@ import java.util.List;
  */
 public class StandardChecker implements PermissionChecker {
 
+    public StandardChecker() {
+    }
+
     @Override
     public boolean hasPermission(@NonNull Context context, @NonNull String... permissions) {
         return hasPermission(context, Arrays.asList(permissions));

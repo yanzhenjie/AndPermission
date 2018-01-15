@@ -22,102 +22,135 @@ import android.content.Context;
 import android.database.Cursor;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
-import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.provider.CalendarContract;
+import android.provider.CallLog;
 import android.provider.ContactsContract;
+import android.provider.Telephony;
 import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import com.yanzhenjie.permission.ApLog;
 import com.yanzhenjie.permission.Permission;
 
 import java.io.File;
 import java.util.List;
-
-import static android.content.Context.LOCATION_SERVICE;
-import static android.content.Context.SENSOR_SERVICE;
-import static android.content.Context.TELEPHONY_SERVICE;
 
 /**
  * Created by YanZhenjie on 2018/1/7.
  */
 public class StrictChecker implements PermissionChecker {
 
+    private PermissionChecker mChecker = new StandardChecker();
+
+    public StrictChecker() {
+    }
+
     @Override
     public boolean hasPermission(@NonNull Context context, @NonNull String... permissions) {
-        return false;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return true;
+
+        for (String permission : permissions) {
+            if (!hasPermission(context, permission)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public boolean hasPermission(@NonNull Context context, @NonNull List<String> permissions) {
-        return false;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return true;
+
+        for (String permission : permissions) {
+            if (!hasPermission(context, permission)) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    private static boolean isPermissionGranted(Context activity, String permission) {
+    private boolean hasPermission(Context context, String permission) {
         try {
             switch (permission) {
                 case Permission.READ_CALENDAR:
-                    return checkReadCalendar(activity);
+                    return checkReadCalendar(context);
                 case Permission.WRITE_CALENDAR:
-                    return true;
+                    return checkWriteCalendar(context);
                 case Permission.CAMERA:
-                    return true;
+                    return checkCamera();
                 case Permission.READ_CONTACTS:
-                    return checkReadContacts(activity);
+                    return checkReadContacts(context);
                 case Permission.WRITE_CONTACTS:
-                    return checkWriteContacts(activity);
+                    return checkWriteContacts(context);
                 case Permission.GET_ACCOUNTS:
-                    return true;
+                    return mChecker.hasPermission(context, permission);
                 case Permission.ACCESS_COARSE_LOCATION:
                 case Permission.ACCESS_FINE_LOCATION:
-                    return checkLocation(activity);
+                    return checkLocation(context);
                 case Permission.RECORD_AUDIO:
                     return checkRecordAudio();
                 case Permission.READ_PHONE_STATE:
-                    return checkReadPhoneState(activity);
+                    return checkReadPhoneState(context);
                 case Permission.CALL_PHONE:
-                    return true;
+                    return mChecker.hasPermission(context, permission);
                 case Permission.READ_CALL_LOG:
-                    return checkReadCallLog(activity);
+                    return checkReadCallLog(context);
                 case Permission.WRITE_CALL_LOG:
-                    return checkWriteCallLog(activity);
+                    return checkWriteCallLog(context);
                 case Permission.ADD_VOICEMAIL:
-                    return true;
+                    return mChecker.hasPermission(context, permission);
                 case Permission.USE_SIP:
-                    return true;
+                    return mChecker.hasPermission(context, permission);
                 case Permission.PROCESS_OUTGOING_CALLS:
-                    return true;
+                    return mChecker.hasPermission(context, permission);
                 case Permission.BODY_SENSORS:
-                    return checkBodySensors(activity);
+                    return checkBodySensors(context);
                 case Permission.SEND_SMS:
                 case Permission.RECEIVE_MMS:
-                    return true;
+                    return mChecker.hasPermission(context, permission);
                 case Permission.READ_SMS:
-                    return checkReadSms(activity);
+                    return checkReadSms(context);
                 case Permission.RECEIVE_WAP_PUSH:
                 case Permission.RECEIVE_SMS:
-                    return true;
+                    return mChecker.hasPermission(context, permission);
                 case Permission.READ_EXTERNAL_STORAGE:
                     return checkReadStorage();
                 case Permission.WRITE_EXTERNAL_STORAGE:
                     return checkWriteStorage();
                 default:
-                    return true;
+                    return mChecker.hasPermission(context, permission);
             }
         } catch (Throwable e) {
+            ApLog.w("检查权限：" + permission, e);
             return false;
         }
     }
 
     private static boolean checkReadCalendar(Context context) throws Throwable {
         ContentResolver resolver = context.getContentResolver();
-        Cursor cursor = resolver.query(Uri.parse("content://com.android.calendar/calendars"), null, null, null, null);
+        Cursor cursor = resolver.query(CalendarContract.Calendars.CONTENT_URI, null, null, null, null);
         if (cursor != null) {
             cursor.close();
             return true;
         } else {
             return false;
         }
+    }
+
+    private static boolean checkWriteCalendar(Context context) throws Throwable {
+        ContentResolver resolver = context.getContentResolver();
+        PermissionTest test = new CalendarWriteTest(resolver);
+        test.test();
+        return true;
+    }
+
+    private static boolean checkCamera() throws Throwable {
+        PermissionTest test = new CameraTest();
+        test.test();
+        return true;
     }
 
     private static boolean checkReadContacts(Context context) throws Throwable {
@@ -139,7 +172,7 @@ public class StrictChecker implements PermissionChecker {
     }
 
     private static boolean checkLocation(Context context) throws Throwable {
-        final LocationManager locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+        final LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         List<String> list = locationManager.getProviders(true);
 
         if (list.contains(LocationManager.GPS_PROVIDER)) {
@@ -160,13 +193,13 @@ public class StrictChecker implements PermissionChecker {
     }
 
     private static boolean checkReadPhoneState(Context context) throws Throwable {
-        TelephonyManager service = (TelephonyManager) context.getSystemService(TELEPHONY_SERVICE);
+        TelephonyManager service = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         return !TextUtils.isEmpty(service.getDeviceId()) || !TextUtils.isEmpty(service.getSubscriberId());
     }
 
     private static boolean checkReadCallLog(Context context) throws Throwable {
         ContentResolver resolver = context.getContentResolver();
-        Cursor cursor = resolver.query(Uri.parse("content://call_log/calls"), null, null, null, null);
+        Cursor cursor = resolver.query(CallLog.Calls.CONTENT_URI, null, null, null, null);
         if (cursor != null) {
             cursor.close();
             return true;
@@ -183,7 +216,7 @@ public class StrictChecker implements PermissionChecker {
     }
 
     private static boolean checkBodySensors(Context context) throws Throwable {
-        SensorManager sensorManager = (SensorManager) context.getSystemService(SENSOR_SERVICE);
+        SensorManager sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         PermissionTest test = new SensorTest(sensorManager);
         test.test();
         return true;
@@ -191,7 +224,7 @@ public class StrictChecker implements PermissionChecker {
 
     private static boolean checkReadSms(Context context) throws Throwable {
         ContentResolver resolver = context.getContentResolver();
-        Cursor cursor = resolver.query(Uri.parse("content://sms/"), null, null, null, null);
+        Cursor cursor = resolver.query(Telephony.Sms.CONTENT_URI, null, null, null, null);
         if (cursor != null) {
             cursor.close();
             return true;

@@ -16,15 +16,11 @@
 package com.yanzhenjie.permission;
 
 import android.app.Activity;
-import android.app.AppOpsManager;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.os.Process;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
-import com.yanzhenjie.permission.setting.FloatWindowSetting;
+import com.yanzhenjie.permission.checker.PermissionChecker;
+import com.yanzhenjie.permission.checker.StrictChecker;
 import com.yanzhenjie.permission.setting.PermissionSetting;
 import com.yanzhenjie.permission.source.AppActivitySource;
 import com.yanzhenjie.permission.source.ContextTarget;
@@ -32,7 +28,6 @@ import com.yanzhenjie.permission.source.FragmentSource;
 import com.yanzhenjie.permission.source.Source;
 import com.yanzhenjie.permission.source.SupportFragmentSource;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -41,15 +36,19 @@ import java.util.List;
  */
 public class AndPermission {
 
+    private static final PermissionChecker PERMISSION_CHECKER = new StrictChecker();
+
     /**
      * Check if the calling context has a set of permissions.
      *
      * @param context     {@link Context}.
      * @param permissions one or more permissions.
      * @return true, other wise is false.
+     * @deprecated You do not need to do any permission checking.
      */
+    @Deprecated
     public static boolean hasPermission(@NonNull Context context, @NonNull String... permissions) {
-        return hasPermission(context, Arrays.asList(permissions));
+        return PERMISSION_CHECKER.hasPermission(context, permissions);
     }
 
     /**
@@ -58,28 +57,11 @@ public class AndPermission {
      * @param context     {@link Context}.
      * @param permissions one or more permissions.
      * @return true, other wise is false.
+     * @deprecated You do not need to do any permission checking.
      */
+    @Deprecated
     public static boolean hasPermission(@NonNull Context context, @NonNull List<String> permissions) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return true;
-        for (String permission : permissions) {
-            int result = context.checkPermission(permission, android.os.Process.myPid(), Process.myUid());
-            if (result == PackageManager.PERMISSION_DENIED) {
-                return false;
-            }
-
-            String op = AppOpsManager.permissionToOp(permission);
-            if (TextUtils.isEmpty(op)) {
-                return false;
-            }
-
-            AppOpsManager appOpsManager = context.getSystemService(AppOpsManager.class);
-            result = appOpsManager.noteProxyOp(op, context.getPackageName());
-            if (result != AppOpsManager.MODE_ALLOWED) {
-                return false;
-            }
-
-        }
-        return true;
+        return PERMISSION_CHECKER.hasPermission(context, permissions);
     }
 
     /**
@@ -141,7 +123,7 @@ public class AndPermission {
             @NonNull Source source,
             @NonNull List<String> permissions) {
         for (String permission : permissions) {
-            if (!AndPermission.hasPermission(source.getContext(), permissions) && !source.isShowRationalePermission(permission)) {
+            if (!PERMISSION_CHECKER.hasPermission(source.getContext(), permissions) && !source.isShowRationalePermission(permission)) {
                 return true;
             }
         }
@@ -316,50 +298,6 @@ public class AndPermission {
      */
     @NonNull
     public static SettingService permissionSetting(@NonNull Context context) {
-        return new PermissionSetting(new ContextTarget(context));
-    }
-
-    /**
-     * Create a service that opens the FloatWindow setting page.
-     *
-     * @param activity {@link Activity}.
-     * @return {@link SettingService}.
-     */
-    @NonNull
-    public static SettingService alertWindowSetting(@NonNull Activity activity) {
-        return new FloatWindowSetting(new AppActivitySource(activity));
-    }
-
-    /**
-     * Create a service that opens the FloatWindow setting page.
-     *
-     * @param fragment {@link android.support.v4.app.Fragment}.
-     * @return {@link SettingService}.
-     */
-    @NonNull
-    public static SettingService alertWindowSetting(@NonNull android.support.v4.app.Fragment fragment) {
-        return new PermissionSetting(new SupportFragmentSource(fragment));
-    }
-
-    /**
-     * Create a service that opens the FloatWindow setting page.
-     *
-     * @param fragment {@link android.app.Fragment}.
-     * @return {@link SettingService}.
-     */
-    @NonNull
-    public static SettingService alertWindowSetting(@NonNull android.app.Fragment fragment) {
-        return new PermissionSetting(new FragmentSource(fragment));
-    }
-
-    /**
-     * Create a service that opens the FloatWindow setting page.
-     *
-     * @param context {@link android.app.Fragment}.
-     * @return {@link SettingService}.
-     */
-    @NonNull
-    public static SettingService alertWindowSetting(@NonNull Context context) {
         return new PermissionSetting(new ContextTarget(context));
     }
 

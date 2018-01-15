@@ -24,47 +24,66 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 
-import java.util.UUID;
-
 /**
  * Created by YanZhenjie on 2018/1/14.
  */
 class ContactsWriteTest implements PermissionTest {
 
+    private static final String DISPLAY_NAME = "PERMISSION";
+
     private ContentResolver mResolver;
-    private String mDisplayName;
 
     ContactsWriteTest(ContentResolver resolver) {
         this.mResolver = resolver;
-        mDisplayName = UUID.randomUUID().toString();
     }
 
     @Override
     public void test() throws Throwable {
-        try {
-            ContentValues values = new ContentValues();
-            Uri rawContactUri = mResolver.insert(ContactsContract.RawContacts.CONTENT_URI, values);
-            values.put(ContactsContract.Contacts.Data.RAW_CONTACT_ID, ContentUris.parseId(rawContactUri));
-            values.put(ContactsContract.Contacts.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE);
-            values.put(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, mDisplayName);
-            values.put(ContactsContract.CommonDataKinds.Phone.NUMBER, "1");
-            mResolver.insert(ContactsContract.Data.CONTENT_URI, values);
-        } finally {
-            delete();
+        Cursor cursor = mResolver.query(ContactsContract.Data.CONTENT_URI,
+                new String[]{ContactsContract.Data._ID},
+                ContactsContract.Data.DISPLAY_NAME + "=?",
+                new String[]{DISPLAY_NAME},
+                null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                long dataId = cursor.getLong(0);
+                cursor.close();
+                update(dataId);
+            } else {
+                cursor.close();
+                insert();
+            }
         }
     }
 
-    private void delete() {
-        Uri uri = Uri.parse("content://com.android.contacts/raw_contacts");
-        Cursor cursor = mResolver.query(uri, new String[]{ContactsContract.Contacts.Data._ID}, "display_name=?", new String[]{mDisplayName}, null);
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                int id = cursor.getInt(0);
-                mResolver.delete(uri, "display_name=?", new String[]{mDisplayName});
-                uri = Uri.parse("content://com.android.contacts/data");
-                mResolver.delete(uri, "raw_contact_id=?", new String[]{Integer.toString(id)});
-            }
-            cursor.close();
-        }
+    private void insert() {
+        ContentValues values = new ContentValues();
+        Uri contractUri = mResolver.insert(ContactsContract.RawContacts.CONTENT_URI, values);
+        long contactId = ContentUris.parseId(contractUri);
+
+        values.put(ContactsContract.Data.RAW_CONTACT_ID, contactId);
+        values.put(ContactsContract.Data.DATA1, DISPLAY_NAME);
+        values.put(ContactsContract.Data.DATA2, DISPLAY_NAME);
+        values.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE);
+        mResolver.insert(ContactsContract.Data.CONTENT_URI, values);
+
+//        Uri resourceUri = mResolver.insert(ContactsContract.Data.CONTENT_URI, values);
+//        long dataId = ContentUris.parseId(resourceUri);
+//        delete(contactId, dataId);
+    }
+
+    private void delete(long contactId, long dataId) {
+        mResolver.delete(ContactsContract.RawContacts.CONTENT_URI, ContactsContract.RawContacts._ID + "=?", new String[]{Long.toString(contactId)});
+        mResolver.delete(ContactsContract.Data.CONTENT_URI, ContactsContract.Data._ID + "=?", new String[]{Long.toString(dataId)});
+    }
+
+    private void update(long dataId) {
+        ContentValues values = new ContentValues();
+        values.put(ContactsContract.Data.DATA1, DISPLAY_NAME);
+        values.put(ContactsContract.Data.DATA2, DISPLAY_NAME);
+        mResolver.update(ContactsContract.Data.CONTENT_URI,
+                values,
+                ContactsContract.Data._ID + "=? and " + ContactsContract.Data.MIMETYPE + "=?",
+                new String[]{Long.toString(dataId), ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE});
     }
 }

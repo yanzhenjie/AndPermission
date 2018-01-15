@@ -25,7 +25,6 @@ import android.os.Bundle;
 /**
  * Created by YanZhenjie on 2018/1/14.
  */
-@SuppressWarnings("MissingPermission")
 class LocationTest implements PermissionTest, LocationListener {
 
     private LocationManager mManager;
