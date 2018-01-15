@@ -26,9 +26,7 @@ import java.util.List;
  * Created by YanZhenjie on 2017/8/4.
  */
 public final class Permission {
-
-    public static final String ALERT_WINDOW = "android.permission.SYSTEM_ALERT_WINDOW";
-
+    
     public static final String READ_CALENDAR = "android.permission.READ_CALENDAR";
     public static final String WRITE_CALENDAR = "android.permission.WRITE_CALENDAR";
 
@@ -63,8 +61,6 @@ public final class Permission {
     public static final String WRITE_EXTERNAL_STORAGE = "android.permission.WRITE_EXTERNAL_STORAGE";
 
     public static final class Group {
-        public static final String[] WINDOW = new String[]{Permission.ALERT_WINDOW};
-
         public static final String[] CALENDAR = new String[]{
                 Permission.READ_CALENDAR,
                 Permission.WRITE_CALENDAR};
@@ -87,9 +83,7 @@ public final class Permission {
                 Permission.CALL_PHONE,
                 Permission.READ_CALL_LOG,
                 Permission.WRITE_CALL_LOG,
-                Permission.ADD_VOICEMAIL,
-                Permission.USE_SIP,
-                Permission.PROCESS_OUTGOING_CALLS};
+                Permission.USE_SIP};
 
         public static final String[] SENSORS = new String[]{Permission.BODY_SENSORS};
 

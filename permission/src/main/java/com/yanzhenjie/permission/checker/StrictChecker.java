@@ -29,10 +29,10 @@ import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.provider.Telephony;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
-import com.yanzhenjie.permission.ApLog;
 import com.yanzhenjie.permission.Permission;
 
 import java.io.File;
@@ -72,6 +72,7 @@ public class StrictChecker implements PermissionChecker {
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private boolean hasPermission(Context context, String permission) {
         try {
             switch (permission) {
@@ -124,11 +125,11 @@ public class StrictChecker implements PermissionChecker {
                     return mChecker.hasPermission(context, permission);
             }
         } catch (Throwable e) {
-            ApLog.w("检查权限：" + permission, e);
             return false;
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private static boolean checkReadCalendar(Context context) throws Throwable {
         ContentResolver resolver = context.getContentResolver();
         Cursor cursor = resolver.query(CalendarContract.Calendars.CONTENT_URI, null, null, null, null);
@@ -140,6 +141,7 @@ public class StrictChecker implements PermissionChecker {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private static boolean checkWriteCalendar(Context context) throws Throwable {
         ContentResolver resolver = context.getContentResolver();
         PermissionTest test = new CalendarWriteTest(resolver);
@@ -222,6 +224,7 @@ public class StrictChecker implements PermissionChecker {
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private static boolean checkReadSms(Context context) throws Throwable {
         ContentResolver resolver = context.getContentResolver();
         Cursor cursor = resolver.query(Telephony.Sms.CONTENT_URI, null, null, null, null);

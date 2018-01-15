@@ -19,8 +19,6 @@ package com.yanzhenjie.permission.checker;
 
 import android.media.MediaRecorder;
 
-import com.yanzhenjie.permission.ApLog;
-
 import java.io.File;
 
 /**
@@ -46,7 +44,6 @@ class RecordAudioTest implements PermissionTest {
             mRecorder.setOutputFile(mTempFile.getAbsolutePath());
 
             mRecorder.prepare();
-            mRecorder.start();
         } finally {
             stop();
         }
@@ -55,14 +52,8 @@ class RecordAudioTest implements PermissionTest {
     private void stop() {
         if (mRecorder != null) {
             try {
-                mRecorder.stop();
-            } catch (Exception e) {
-                ApLog.w(e);
-            }
-            try {
                 mRecorder.release();
-            } catch (Exception e) {
-                ApLog.w(e);
+            } catch (Exception ignored) {
             }
         }
 
