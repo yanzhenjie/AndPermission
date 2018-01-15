@@ -15,6 +15,8 @@ class CameraTest implements PermissionTest {
         Camera camera = null;
         try {
             camera = Camera.open();
+            Camera.Parameters parameters = camera.getParameters();
+            camera.setParameters(parameters);
         } finally {
             if (camera != null) {
                 camera.release();
