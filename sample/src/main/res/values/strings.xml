@@ -24,13 +24,16 @@
     <string name="no">NO</string>
 
     <string name="permission_camera">Camera</string>
-    <string name="permission_contact_location">Contact, Location</string>
+    <string name="permission_contact">Contact</string>
+    <string name="permission_location">Location</string>
 
     <string name="permission_calendar">Calendar</string>
-    <string name="permission_microphone_storage">Microphone, Storage</string>
+    <string name="permission_microphone">Microphone</string>
+    <string name="permission_storage">Storage</string>
 
     <string name="permission_phone">Phone</string>
-    <string name="permission_sensors_sms">Sensors, SMS</string>
+    <string name="permission_sensors">Sensors</string>
+    <string name="permission_sms">SMS</string>
 
     <string name="successfully">Successful</string>
     <string name="failure">Failure</string>

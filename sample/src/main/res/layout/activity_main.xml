@@ -35,47 +35,70 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <Button
-            android:id="@+id/btn_request_camera"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/permission_camera"/>
+        <TableRow>
 
-        <Button
-            android:id="@+id/btn_request_contact_location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/permission_contact_location"/>
+            <Button
+                android:id="@+id/btn_request_camera"
+                style="@style/ButtonStyle"
+                android:text="@string/permission_camera"/>
 
-        <Button
-            android:id="@+id/btn_request_calendar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/permission_calendar"/>
+            <Button
+                android:id="@+id/btn_request_contact"
+                style="@style/ButtonStyle"
+                android:text="@string/permission_contact"/>
+        </TableRow>
 
-        <Button
-            android:id="@+id/btn_request__microphone_storage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/permission_microphone_storage"/>
+        <TableRow>
 
-        <Button
-            android:id="@+id/btn_request_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/permission_phone"/>
+            <Button
+                android:id="@+id/btn_request_location"
+                style="@style/ButtonStyle"
+                android:text="@string/permission_location"/>
 
-        <Button
-            android:id="@+id/btn_request_sensors_sms"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/permission_sensors_sms"/>
-    </LinearLayout>
+            <Button
+                android:id="@+id/btn_request_calendar"
+                style="@style/ButtonStyle"
+                android:text="@string/permission_calendar"/>
+        </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/btn_request_microphone"
+                style="@style/ButtonStyle"
+                android:text="@string/permission_microphone"/>
+
+            <Button
+                android:id="@+id/btn_request_storage"
+                style="@style/ButtonStyle"
+                android:text="@string/permission_storage"/>
+        </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/btn_request_phone"
+                style="@style/ButtonStyle"
+                android:text="@string/permission_phone"/>
+
+            <Button
+                android:id="@+id/btn_request_sensors"
+                style="@style/ButtonStyle"
+                android:text="@string/permission_sensors"/>
+        </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/btn_request_sms"
+                style="@style/ButtonStyle"
+                android:text="@string/permission_sms"/>
+        </TableRow>
+    </TableLayout>
 
 </android.support.design.widget.CoordinatorLayout>

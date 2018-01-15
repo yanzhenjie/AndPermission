@@ -22,13 +22,16 @@
     <string name="no">不</string>
 
     <string name="permission_camera">相机</string>
-    <string name="permission_contact_location">联系人, 位置</string>
+    <string name="permission_contact">联系人</string>
+    <string name="permission_location">位置</string>
 
     <string name="permission_calendar">日历</string>
-    <string name="permission_microphone_storage">麦克风, 存储</string>
+    <string name="permission_microphone">麦克风</string>
+    <string name="permission_storage">存储</string>
 
     <string name="permission_phone">电话</string>
-    <string name="permission_sensors_sms">身体传感器, 短信</string>
+    <string name="permission_sensors">身体传感器</string>
+    <string name="permission_sms">短信</string>
 
     <string name="successfully">成功</string>
     <string name="failure">失败</string>

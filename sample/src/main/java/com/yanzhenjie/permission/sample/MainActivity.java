@@ -52,11 +52,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         findViewById(R.id.btn_request_camera).setOnClickListener(this);
-        findViewById(R.id.btn_request_contact_location).setOnClickListener(this);
+        findViewById(R.id.btn_request_contact).setOnClickListener(this);
+        findViewById(R.id.btn_request_location).setOnClickListener(this);
         findViewById(R.id.btn_request_calendar).setOnClickListener(this);
-        findViewById(R.id.btn_request__microphone_storage).setOnClickListener(this);
+        findViewById(R.id.btn_request_microphone).setOnClickListener(this);
+        findViewById(R.id.btn_request_storage).setOnClickListener(this);
         findViewById(R.id.btn_request_phone).setOnClickListener(this);
-        findViewById(R.id.btn_request_sensors_sms).setOnClickListener(this);
+        findViewById(R.id.btn_request_sensors).setOnClickListener(this);
+        findViewById(R.id.btn_request_sms).setOnClickListener(this);
 
         mRationaleListener = new DefaultRationale();
         mSetting = new PermissionSetting(this);
@@ -66,147 +69,104 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_request_camera: {
-                AndPermission.with(this)
-                        .permission(Permission.Group.CAMERA)
-                        .rationale(mRationaleListener)
-                        .onGranted(new Action() {
-                            @Override
-                            public void onAction(@NonNull List<String> permissions) {
-                                toast(R.string.successfully);
-                            }
-                        })
-                        .onDenied(new Action() {
-                            @Override
-                            public void onAction(@NonNull List<String> permissions) {
-                                toast(R.string.failure);
-                                if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
-                                    mSetting.showSetting(permissions);
-                                }
-                            }
-                        })
-                        .start();
+                requestPermission(Permission.Group.CAMERA, new Action() {
+                    @Override
+                    public void onAction(List<String> permissions) {
+                        toast(R.string.successfully);
+                    }
+                });
                 break;
             }
-            case R.id.btn_request_contact_location: {
-                AndPermission.with(this)
-                        .permission(
-                                Permission.Group.CONTACTS,
-                                Permission.Group.LOCATION
-                        )
-                        .rationale(mRationaleListener)
-                        .onGranted(new Action() {
-                            @Override
-                            public void onAction(@NonNull List<String> permissions) {
-                                toast(R.string.successfully);
-                            }
-                        })
-                        .onDenied(new Action() {
-                            @Override
-                            public void onAction(@NonNull List<String> permissions) {
-                                toast(R.string.failure);
-                                if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
-                                    mSetting.showSetting(permissions);
-                                }
-                            }
-                        })
-                        .start();
+            case R.id.btn_request_contact: {
+                requestPermission(Permission.Group.CONTACTS, new Action() {
+                    @Override
+                    public void onAction(List<String> permissions) {
+                        toast(R.string.successfully);
+                    }
+                });
+                break;
+            }
+            case R.id.btn_request_location: {
+                requestPermission(Permission.Group.LOCATION, new Action() {
+                    @Override
+                    public void onAction(List<String> permissions) {
+                        toast(R.string.successfully);
+                    }
+                });
                 break;
             }
             case R.id.btn_request_calendar: {
-                AndPermission.with(this)
-                        .permission(Permission.Group.CALENDAR)
-                        .rationale(mRationaleListener)
-                        .onGranted(new Action() {
-                            @Override
-                            public void onAction(@NonNull List<String> permissions) {
-                                toast(R.string.successfully);
-                            }
-                        })
-                        .onDenied(new Action() {
-                            @Override
-                            public void onAction(@NonNull List<String> permissions) {
-                                toast(R.string.failure);
-                                if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
-                                    mSetting.showSetting(permissions);
-                                }
-                            }
-                        })
-                        .start();
+                requestPermission(Permission.Group.CALENDAR, new Action() {
+                    @Override
+                    public void onAction(List<String> permissions) {
+                        toast(R.string.successfully);
+                    }
+                });
                 break;
             }
-            case R.id.btn_request__microphone_storage: {
-                AndPermission.with(this)
-                        .permission(
-                                Permission.Group.MICROPHONE,
-                                Permission.Group.STORAGE
-                        )
-                        .rationale(mRationaleListener)
-                        .onGranted(new Action() {
-                            @Override
-                            public void onAction(@NonNull List<String> permissions) {
-                                toast(R.string.successfully);
-                            }
-                        })
-                        .onDenied(new Action() {
-                            @Override
-                            public void onAction(@NonNull List<String> permissions) {
-                                toast(R.string.failure);
-                                if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
-                                    mSetting.showSetting(permissions);
-                                }
-                            }
-                        })
-                        .start();
+            case R.id.btn_request_microphone: {
+                requestPermission(Permission.Group.MICROPHONE, new Action() {
+                    @Override
+                    public void onAction(List<String> permissions) {
+                        toast(R.string.successfully);
+                    }
+                });
+                break;
+            }
+            case R.id.btn_request_storage: {
+                requestPermission(Permission.Group.STORAGE, new Action() {
+                    @Override
+                    public void onAction(List<String> permissions) {
+                        toast(R.string.successfully);
+                    }
+                });
                 break;
             }
             case R.id.btn_request_phone: {
-                AndPermission.with(this)
-                        .permission(Permission.Group.PHONE)
-                        .rationale(mRationaleListener)
-                        .onGranted(new Action() {
-                            @Override
-                            public void onAction(@NonNull List<String> permissions) {
-                                toast(R.string.successfully);
-                            }
-                        })
-                        .onDenied(new Action() {
-                            @Override
-                            public void onAction(@NonNull List<String> permissions) {
-                                toast(R.string.failure);
-                                if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
-                                    mSetting.showSetting(permissions);
-                                }
-                            }
-                        })
-                        .start();
+                requestPermission(Permission.Group.PHONE, new Action() {
+                    @Override
+                    public void onAction(List<String> permissions) {
+                        toast(R.string.successfully);
+                    }
+                });
                 break;
             }
-            case R.id.btn_request_sensors_sms: {
-                AndPermission.with(this)
-                        .permission(
-                                Permission.Group.SMS,
-                                Permission.Group.SENSORS
-                        )
-                        .rationale(mRationaleListener)
-                        .onGranted(new Action() {
-                            @Override
-                            public void onAction(@NonNull List<String> permissions) {
-                                toast(R.string.successfully);
-                            }
-                        })
-                        .onDenied(new Action() {
-                            @Override
-                            public void onAction(@NonNull List<String> permissions) {
-                                toast(R.string.failure);
-                                if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
-                                    mSetting.showSetting(permissions);
-                                }
-                            }
-                        })
-                        .start();
+            case R.id.btn_request_sensors: {
+                requestPermission(Permission.Group.SENSORS, new Action() {
+                    @Override
+                    public void onAction(List<String> permissions) {
+                        toast(R.string.successfully);
+                    }
+                });
+                break;
+            }
+            case R.id.btn_request_sms: {
+                requestPermission(Permission.Group.SMS, new Action() {
+                    @Override
+                    public void onAction(List<String> permissions) {
+                        toast(R.string.successfully);
+                    }
+                });
                 break;
             }
         }
+    }
+
+    private void requestPermission(String[] permissions, Action onSucceed) {
+        AndPermission.with(this)
+                .permission(permissions)
+                .rationale(mRationaleListener)
+                .onGranted(onSucceed)
+                .onDenied(new Action() {
+                    @Override
+                    public void onAction(@NonNull List<String> permissions) {
+                        toast(R.string.failure);
+                        if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
+                            mSetting.showSetting(permissions);
+                        }
+                    }
+                })
+                .start();
     }
 
     @Override
