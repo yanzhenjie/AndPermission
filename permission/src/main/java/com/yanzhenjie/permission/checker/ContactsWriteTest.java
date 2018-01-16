@@ -40,15 +40,15 @@ class ContactsWriteTest implements PermissionTest {
     @Override
     public boolean test() throws Throwable {
         Cursor cursor = mResolver.query(ContactsContract.Data.CONTENT_URI,
-                new String[]{ContactsContract.Data._ID},
-                ContactsContract.Data.DISPLAY_NAME + "=?",
-                new String[]{DISPLAY_NAME},
+                new String[]{ContactsContract.Data.RAW_CONTACT_ID},
+                ContactsContract.Data.MIMETYPE + "=? and " + ContactsContract.Data.DATA1 + "=?",
+                new String[]{ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE, DISPLAY_NAME},
                 null);
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-                long dataId = cursor.getLong(0);
+                long rawContactId = cursor.getLong(0);
                 cursor.close();
-                return update(dataId);
+                return update(rawContactId);
             } else {
                 cursor.close();
                 return insert();
@@ -59,15 +59,15 @@ class ContactsWriteTest implements PermissionTest {
 
     private boolean insert() {
         ContentValues values = new ContentValues();
-        Uri contractUri = mResolver.insert(ContactsContract.RawContacts.CONTENT_URI, values);
-        long contactId = ContentUris.parseId(contractUri);
+        Uri rawContractUri = mResolver.insert(ContactsContract.RawContacts.CONTENT_URI, values);
+        long rawContactId = ContentUris.parseId(rawContractUri);
 
-        values.put(ContactsContract.Data.RAW_CONTACT_ID, contactId);
+        values.put(ContactsContract.Data.RAW_CONTACT_ID, rawContactId);
         values.put(ContactsContract.Data.DATA1, DISPLAY_NAME);
         values.put(ContactsContract.Data.DATA2, DISPLAY_NAME);
         values.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE);
-        Uri resourceUri = mResolver.insert(ContactsContract.Data.CONTENT_URI, values);
-        return ContentUris.parseId(resourceUri) > 0;
+        Uri dataUri = mResolver.insert(ContactsContract.Data.CONTENT_URI, values);
+        return ContentUris.parseId(dataUri) > 0;
     }
 
     private void delete(long contactId, long dataId) {
@@ -75,14 +75,13 @@ class ContactsWriteTest implements PermissionTest {
         mResolver.delete(ContactsContract.Data.CONTENT_URI, ContactsContract.Data._ID + "=?", new String[]{Long.toString(dataId)});
     }
 
-    private boolean update(long dataId) {
+    private boolean update(long rawContactId) {
         ContentValues values = new ContentValues();
+        values.put(ContactsContract.Data.RAW_CONTACT_ID, rawContactId);
         values.put(ContactsContract.Data.DATA1, DISPLAY_NAME);
         values.put(ContactsContract.Data.DATA2, DISPLAY_NAME);
-        int updateCount = mResolver.update(ContactsContract.Data.CONTENT_URI,
-                values,
-                ContactsContract.Data._ID + "=? and " + ContactsContract.Data.MIMETYPE + "=?",
-                new String[]{Long.toString(dataId), ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE});
-        return updateCount > 0;
+        values.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE);
+        Uri dataUri = mResolver.insert(ContactsContract.Data.CONTENT_URI, values);
+        return ContentUris.parseId(dataUri) > 0;
     }
 }
