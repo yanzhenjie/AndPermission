@@ -18,8 +18,13 @@
 package com.yanzhenjie.permission.checker;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
+import android.net.Uri;
 import android.provider.CallLog;
+import android.support.annotation.RequiresPermission;
+
+import com.yanzhenjie.permission.Permission;
 
 /**
  * Created by YanZhenjie on 2018/1/14.
@@ -32,15 +37,17 @@ public class CallLogWriteTest implements PermissionTest {
         this.mResolver = resolver;
     }
 
+    @RequiresPermission(Permission.WRITE_CALL_LOG)
     @Override
-    public void test() throws Throwable {
+    public boolean test() throws Throwable {
         try {
             ContentValues content = new ContentValues();
             content.put(CallLog.Calls.TYPE, CallLog.Calls.INCOMING_TYPE);
             content.put(CallLog.Calls.NUMBER, "1");
             content.put(CallLog.Calls.DATE, 20080808);
             content.put(CallLog.Calls.NEW, "0");
-            mResolver.insert(CallLog.Calls.CONTENT_URI, content);
+            Uri resourceUri = mResolver.insert(CallLog.Calls.CONTENT_URI, content);
+            return ContentUris.parseId(resourceUri) > 0;
         } finally {
             mResolver.delete(CallLog.Calls.CONTENT_URI, CallLog.Calls.NUMBER + "=?", new String[]{"1"});
         }

@@ -1,6 +1,7 @@
 package com.yanzhenjie.permission.checker;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.graphics.Color;
 import android.net.Uri;
@@ -26,7 +27,7 @@ class CalendarWriteTest implements PermissionTest {
     }
 
     @Override
-    public void test() throws Throwable {
+    public boolean test() throws Throwable {
         try {
             TimeZone timeZone = TimeZone.getDefault();
             ContentValues value = new ContentValues();
@@ -47,10 +48,15 @@ class CalendarWriteTest implements PermissionTest {
                     .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, NAME)
                     .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL)
                     .build();
-            mResolver.insert(insertUri, value);
+            Uri resourceUri = mResolver.insert(insertUri, value);
+            return ContentUris.parseId(resourceUri) > 0;
         } finally {
-            Uri deleteUri = CalendarContract.Calendars.CONTENT_URI.buildUpon().build();
-            mResolver.delete(deleteUri, CalendarContract.Calendars.ACCOUNT_NAME + "=?", new String[]{ACCOUNT});
+            delete();
         }
+    }
+
+    private void delete() {
+        Uri deleteUri = CalendarContract.Calendars.CONTENT_URI.buildUpon().build();
+        mResolver.delete(deleteUri, CalendarContract.Calendars.ACCOUNT_NAME + "=?", new String[]{ACCOUNT});
     }
 }

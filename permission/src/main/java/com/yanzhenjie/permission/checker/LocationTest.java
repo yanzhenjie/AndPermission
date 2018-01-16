@@ -34,8 +34,9 @@ class LocationTest implements PermissionTest, LocationListener {
     }
 
     @Override
-    public void test() throws Throwable {
+    public boolean test() throws Throwable {
         mManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0F, this);
+        return true;
     }
 
     @Override

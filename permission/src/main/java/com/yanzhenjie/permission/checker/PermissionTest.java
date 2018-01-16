@@ -22,5 +22,5 @@ package com.yanzhenjie.permission.checker;
  */
 interface PermissionTest {
 
-    void test() throws Throwable;
+    boolean test() throws Throwable;
 }

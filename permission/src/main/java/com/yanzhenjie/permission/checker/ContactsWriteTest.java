@@ -38,7 +38,7 @@ class ContactsWriteTest implements PermissionTest {
     }
 
     @Override
-    public void test() throws Throwable {
+    public boolean test() throws Throwable {
         Cursor cursor = mResolver.query(ContactsContract.Data.CONTENT_URI,
                 new String[]{ContactsContract.Data._ID},
                 ContactsContract.Data.DISPLAY_NAME + "=?",
@@ -48,15 +48,16 @@ class ContactsWriteTest implements PermissionTest {
             if (cursor.moveToFirst()) {
                 long dataId = cursor.getLong(0);
                 cursor.close();
-                update(dataId);
+                return update(dataId);
             } else {
                 cursor.close();
-                insert();
+                return insert();
             }
         }
+        return false;
     }
 
-    private void insert() {
+    private boolean insert() {
         ContentValues values = new ContentValues();
         Uri contractUri = mResolver.insert(ContactsContract.RawContacts.CONTENT_URI, values);
         long contactId = ContentUris.parseId(contractUri);
@@ -65,11 +66,8 @@ class ContactsWriteTest implements PermissionTest {
         values.put(ContactsContract.Data.DATA1, DISPLAY_NAME);
         values.put(ContactsContract.Data.DATA2, DISPLAY_NAME);
         values.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE);
-        mResolver.insert(ContactsContract.Data.CONTENT_URI, values);
-
-//        Uri resourceUri = mResolver.insert(ContactsContract.Data.CONTENT_URI, values);
-//        long dataId = ContentUris.parseId(resourceUri);
-//        delete(contactId, dataId);
+        Uri resourceUri = mResolver.insert(ContactsContract.Data.CONTENT_URI, values);
+        return ContentUris.parseId(resourceUri) > 0;
     }
 
     private void delete(long contactId, long dataId) {
@@ -77,13 +75,14 @@ class ContactsWriteTest implements PermissionTest {
         mResolver.delete(ContactsContract.Data.CONTENT_URI, ContactsContract.Data._ID + "=?", new String[]{Long.toString(dataId)});
     }
 
-    private void update(long dataId) {
+    private boolean update(long dataId) {
         ContentValues values = new ContentValues();
         values.put(ContactsContract.Data.DATA1, DISPLAY_NAME);
         values.put(ContactsContract.Data.DATA2, DISPLAY_NAME);
-        mResolver.update(ContactsContract.Data.CONTENT_URI,
+        int updateCount = mResolver.update(ContactsContract.Data.CONTENT_URI,
                 values,
                 ContactsContract.Data._ID + "=? and " + ContactsContract.Data.MIMETYPE + "=?",
                 new String[]{Long.toString(dataId), ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE});
+        return updateCount > 0;
     }
 }

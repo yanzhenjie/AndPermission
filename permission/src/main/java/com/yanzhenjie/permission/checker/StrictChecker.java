@@ -50,7 +50,7 @@ public class StrictChecker implements PermissionChecker {
 
     @Override
     public boolean hasPermission(@NonNull Context context, @NonNull String... permissions) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return true;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) return true;
 
         for (String permission : permissions) {
             if (!hasPermission(context, permission)) {
@@ -62,7 +62,7 @@ public class StrictChecker implements PermissionChecker {
 
     @Override
     public boolean hasPermission(@NonNull Context context, @NonNull List<String> permissions) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return true;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) return true;
 
         for (String permission : permissions) {
             if (!hasPermission(context, permission)) {
@@ -81,7 +81,7 @@ public class StrictChecker implements PermissionChecker {
                 case Permission.WRITE_CALENDAR:
                     return checkWriteCalendar(context);
                 case Permission.CAMERA:
-                    return checkCamera();
+                    return checkCamera(context);
                 case Permission.READ_CONTACTS:
                     return checkReadContacts(context);
                 case Permission.WRITE_CONTACTS:
@@ -146,14 +146,12 @@ public class StrictChecker implements PermissionChecker {
     private static boolean checkWriteCalendar(Context context) throws Throwable {
         ContentResolver resolver = context.getContentResolver();
         PermissionTest test = new CalendarWriteTest(resolver);
-        test.test();
-        return true;
+        return test.test();
     }
 
-    private static boolean checkCamera() throws Throwable {
-        PermissionTest test = new CameraTest();
-        test.test();
-        return true;
+    private static boolean checkCamera(Context context) throws Throwable {
+        PermissionTest test = new CameraTest(context);
+        return test.test();
     }
 
     private static boolean checkReadContacts(Context context) throws Throwable {
@@ -170,8 +168,7 @@ public class StrictChecker implements PermissionChecker {
     private static boolean checkWriteContacts(Context context) throws Throwable {
         ContentResolver resolver = context.getContentResolver();
         PermissionTest test = new ContactsWriteTest(resolver);
-        test.test();
-        return true;
+        return test.test();
     }
 
     private static boolean checkLocation(Context context) throws Throwable {
@@ -184,15 +181,13 @@ public class StrictChecker implements PermissionChecker {
             return true;
         } else {
             PermissionTest test = new LocationTest(locationManager);
-            test.test();
-            return true;
+            return test.test();
         }
     }
 
     private static boolean checkRecordAudio() throws Throwable {
         PermissionTest test = new RecordAudioTest();
-        test.test();
-        return true;
+        return test.test();
     }
 
     private static boolean checkReadPhoneState(Context context) throws Throwable {
@@ -213,9 +208,8 @@ public class StrictChecker implements PermissionChecker {
 
     private static boolean checkWriteCallLog(Context context) throws Throwable {
         ContentResolver resolver = context.getContentResolver();
-        CallLogWriteTest test = new CallLogWriteTest(resolver);
-        test.test();
-        return true;
+        PermissionTest test = new CallLogWriteTest(resolver);
+        return test.test();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -231,12 +225,13 @@ public class StrictChecker implements PermissionChecker {
     }
 
     private static boolean checkReadStorage() throws Throwable {
-        File file = new File(Environment.getExternalStorageDirectory().getPath());
-        return file.canRead();
+        File directory = Environment.getExternalStorageDirectory();
+        return directory.canRead() && directory.list() != null;
     }
 
     private static boolean checkWriteStorage() throws Throwable {
-        File file = Environment.getExternalStorageDirectory();
-        return file.canWrite();
+        File directory = Environment.getExternalStorageDirectory();
+        File tempFile = File.createTempFile("permission", "test", directory);
+        return directory.canWrite() && tempFile.exists() && tempFile.delete();
     }
 }

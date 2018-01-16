@@ -34,7 +34,7 @@ class RecordAudioTest implements PermissionTest {
     }
 
     @Override
-    public void test() throws Throwable {
+    public boolean test() throws Throwable {
         try {
             mTempFile = File.createTempFile("permission", "test");
 
@@ -42,8 +42,9 @@ class RecordAudioTest implements PermissionTest {
             mRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
             mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
             mRecorder.setOutputFile(mTempFile.getAbsolutePath());
-
             mRecorder.prepare();
+            mRecorder.start();
+            return true;
         } finally {
             stop();
         }
@@ -51,6 +52,10 @@ class RecordAudioTest implements PermissionTest {
 
     private void stop() {
         if (mRecorder != null) {
+            try {
+                mRecorder.stop();
+            } catch (Exception ignored) {
+            }
             try {
                 mRecorder.release();
             } catch (Exception ignored) {
