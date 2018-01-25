@@ -23,7 +23,7 @@ import android.text.TextUtils;
 
 import com.yanzhenjie.alertdialog.AlertDialog;
 import com.yanzhenjie.permission.Permission;
-import com.yanzhenjie.permission.RationaleListener;
+import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RequestExecutor;
 
 import java.util.List;
@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * Created by YanZhenjie on 2018/1/1.
  */
-public final class DefaultRationale implements RationaleListener {
+public final class DefaultRationale implements Rationale {
 
     @Override
     public void showRationale(Context context, List<String> permissions, final RequestExecutor executor) {

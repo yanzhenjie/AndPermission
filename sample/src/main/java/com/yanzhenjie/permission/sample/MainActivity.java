@@ -28,7 +28,7 @@ import android.widget.Toast;
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
-import com.yanzhenjie.permission.RationaleListener;
+import com.yanzhenjie.permission.Rationale;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ import java.util.List;
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private RationaleListener mRationaleListener;
+    private Rationale mRationale;
     private PermissionSetting mSetting;
 
     @Override
@@ -61,7 +61,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_request_sensors).setOnClickListener(this);
         findViewById(R.id.btn_request_sms).setOnClickListener(this);
 
-        mRationaleListener = new DefaultRationale();
+        findViewById(R.id.btn_setting).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AndPermission.permissionSetting(MainActivity.this)
+                        .execute();
+            }
+        });
+
+        mRationale = new DefaultRationale();
         mSetting = new PermissionSetting(this);
     }
 
@@ -155,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void requestPermission(String[] permissions, Action onSucceed) {
         AndPermission.with(this)
                 .permission(permissions)
-                .rationale(mRationaleListener)
+                .rationale(mRationale)
                 .onGranted(onSucceed)
                 .onDenied(new Action() {
                     @Override

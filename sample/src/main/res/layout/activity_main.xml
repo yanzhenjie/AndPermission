@@ -99,6 +99,14 @@
                 style="@style/ButtonStyle"
                 android:text="@string/permission_sms"/>
         </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/btn_setting"
+                style="@style/ButtonStyle"
+                android:text="@string/permission_setting"/>
+        </TableRow>
     </TableLayout>
 
 </android.support.design.widget.CoordinatorLayout>

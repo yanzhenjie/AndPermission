@@ -39,4 +39,6 @@
     <string name="title_dialog">提示</string>
     <string name="message_permission_rationale">允許以下權限以便程序繼續執行：\n\n%1$s</string>
     <string name="message_permission_always_failed">我們需要以下權限，請在設置中為我們開啟：\n\n%1$s</string>
+
+    <string name="permission_setting">權限設置</string>
 </resources>

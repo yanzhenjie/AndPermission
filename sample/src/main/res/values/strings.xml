@@ -42,4 +42,6 @@
     <string name="message_permission_rationale">Grant the following permissions to continue the program:\n\n%1$s</string>
     <string name="message_permission_always_failed">We need these permissions, please give us permission in the settings:\n\n%1$s</string>
 
+    <string name="permission_setting">Permission Setting</string>
+
 </resources>
