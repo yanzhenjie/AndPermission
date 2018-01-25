@@ -16,39 +16,36 @@
 package com.yanzhenjie.permission.checker;
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
-import android.net.Uri;
-import android.provider.CallLog;
+import android.database.Cursor;
+import android.os.Build;
+import android.provider.CalendarContract;
+import android.support.annotation.RequiresApi;
 import android.support.annotation.RequiresPermission;
 
 import com.yanzhenjie.permission.Permission;
 
 /**
- * Created by YanZhenjie on 2018/1/14.
+ * Created by YanZhenjie on 2018/1/25.
  */
-class CallLogWriteTest implements PermissionTest {
+class CalendarReadTest implements PermissionTest {
 
     private ContentResolver mResolver;
 
-    CallLogWriteTest(Context context) {
-        this.mResolver = context.getContentResolver();
+    CalendarReadTest(Context context) {
+        mResolver = context.getContentResolver();
     }
 
-    @RequiresPermission(Permission.WRITE_CALL_LOG)
+    @RequiresPermission(Permission.READ_CALENDAR)
+    @RequiresApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     public boolean test() throws Throwable {
-        try {
-            ContentValues content = new ContentValues();
-            content.put(CallLog.Calls.TYPE, CallLog.Calls.INCOMING_TYPE);
-            content.put(CallLog.Calls.NUMBER, "1");
-            content.put(CallLog.Calls.DATE, 20080808);
-            content.put(CallLog.Calls.NEW, "0");
-            Uri resourceUri = mResolver.insert(CallLog.Calls.CONTENT_URI, content);
-            return ContentUris.parseId(resourceUri) > 0;
-        } finally {
-            mResolver.delete(CallLog.Calls.CONTENT_URI, CallLog.Calls.NUMBER + "=?", new String[]{"1"});
+        Cursor cursor = mResolver.query(CalendarContract.Calendars.CONTENT_URI, null, null, null, null);
+        if (cursor != null) {
+            cursor.close();
+            return true;
+        } else {
+            return false;
         }
     }
 }

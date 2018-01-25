@@ -15,10 +15,23 @@
  */
 package com.yanzhenjie.permission.checker;
 
-/**
- * Created by YanZhenjie on 2018/1/14.
- */
-interface PermissionTest {
+import android.content.Context;
+import android.support.annotation.NonNull;
 
-    boolean test() throws Throwable;
+import java.util.List;
+
+/**
+ * Created by YanZhenjie on 2018/1/25.
+ */
+public final class DeniedChecker implements PermissionChecker {
+
+    @Override
+    public boolean hasPermission(@NonNull Context context, @NonNull String... permissions) {
+        return false;
+    }
+
+    @Override
+    public boolean hasPermission(@NonNull Context context, @NonNull List<String> permissions) {
+        return false;
+    }
 }

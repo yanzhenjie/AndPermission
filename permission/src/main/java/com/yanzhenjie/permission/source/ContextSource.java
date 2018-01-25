@@ -13,12 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission.checker;
+package com.yanzhenjie.permission.source;
+
+import android.content.Context;
+import android.content.Intent;
 
 /**
- * Created by YanZhenjie on 2018/1/14.
+ * <p>Context Wrapper.</p>
+ * Created by Yan Zhenjie on 2017/5/1.
  */
-interface PermissionTest {
+public class ContextSource extends Source {
 
-    boolean test() throws Throwable;
+    private Context mContext;
+
+    public ContextSource(Context context) {
+        this.mContext = context;
+    }
+
+    @Override
+    public Context getContext() {
+        return mContext;
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        mContext.startActivity(intent);
+    }
 }

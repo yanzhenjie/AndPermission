@@ -13,24 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission;
+package com.yanzhenjie.permission.checker;
 
-import android.content.Context;
+import android.os.Environment;
 
-import java.util.List;
+import java.io.File;
 
 /**
- * <p>Rationale listener</p>
- * Created by Yan Zhenjie on 2016/9/10.
+ * Created by YanZhenjie on 2018/1/16.
  */
-public interface RationaleListener {
+class StorageReadTest implements PermissionTest {
 
-    /**
-     * Show rationale of permissions to user.
-     *
-     * @param context     context.
-     * @param permissions show rationale permissions.
-     * @param executor    executor.
-     */
-    void showRationale(Context context, List<String> permissions, RequestExecutor executor);
+    StorageReadTest() {
+    }
+
+    @Override
+    public boolean test() throws Throwable {
+        File directory = Environment.getExternalStorageDirectory();
+        if (directory.exists() && directory.canRead()) {
+            long modified = directory.lastModified();
+            String[] pathList = directory.list();
+            return modified > 0 && pathList != null;
+        }
+        return false;
+    }
 }

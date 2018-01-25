@@ -13,30 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission.source;
+package com.yanzhenjie.permission.checker;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 /**
- * <p>Context Wrapper.</p>
- * Created by Yan Zhenjie on 2017/5/1.
+ * Created by YanZhenjie on 2018/1/25.
  */
-public class ContextTarget extends Source {
+class PhoneStateReadTest implements PermissionTest {
 
     private Context mContext;
 
-    public ContextTarget(Context context) {
+    PhoneStateReadTest(Context context) {
         this.mContext = context;
     }
 
+    @SuppressLint("HardwareIds")
     @Override
-    public Context getContext() {
-        return mContext;
-    }
-
-    @Override
-    public void startActivity(Intent intent) {
-        mContext.startActivity(intent);
+    public boolean test() throws Throwable {
+        TelephonyManager service = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+        return !TextUtils.isEmpty(service.getDeviceId()) || !TextUtils.isEmpty(service.getSubscriberId());
     }
 }

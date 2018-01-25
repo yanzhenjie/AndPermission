@@ -39,7 +39,7 @@ public interface Request {
      * Set request rationale.
      */
     @NonNull
-    Request rationale(RationaleListener listener);
+    Request rationale(Rationale listener);
 
     /**
      * Action to be taken when all permissions are granted.

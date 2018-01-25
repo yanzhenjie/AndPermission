@@ -17,13 +17,16 @@ package com.yanzhenjie.permission;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 
+import com.yanzhenjie.permission.checker.DeniedChecker;
 import com.yanzhenjie.permission.checker.PermissionChecker;
-import com.yanzhenjie.permission.checker.StrictChecker;
+import com.yanzhenjie.permission.checker.EnsureChecker;
 import com.yanzhenjie.permission.setting.PermissionSetting;
 import com.yanzhenjie.permission.source.AppActivitySource;
-import com.yanzhenjie.permission.source.ContextTarget;
+import com.yanzhenjie.permission.source.ContextSource;
 import com.yanzhenjie.permission.source.FragmentSource;
 import com.yanzhenjie.permission.source.Source;
 import com.yanzhenjie.permission.source.SupportFragmentSource;
@@ -36,32 +39,20 @@ import java.util.List;
  */
 public class AndPermission {
 
-    private static final PermissionChecker PERMISSION_CHECKER = new StrictChecker();
-
     /**
-     * Check if the calling context has a set of permissions.
-     *
-     * @param context     {@link Context}.
-     * @param permissions one or more permissions.
-     * @return true, other wise is false.
-     * @deprecated You do not need to do any permission checking.
+     * Permissions checker.
      */
-    @Deprecated
-    public static boolean hasPermission(@NonNull Context context, @NonNull String... permissions) {
-        return PERMISSION_CHECKER.hasPermission(context, permissions);
-    }
+    private static final PermissionChecker CHECKER;
+    private static final RequestFactory FACTORY;
 
-    /**
-     * Check if the calling context has a set of permissions.
-     *
-     * @param context     {@link Context}.
-     * @param permissions one or more permissions.
-     * @return true, other wise is false.
-     * @deprecated You do not need to do any permission checking.
-     */
-    @Deprecated
-    public static boolean hasPermission(@NonNull Context context, @NonNull List<String> permissions) {
-        return PERMISSION_CHECKER.hasPermission(context, permissions);
+    static {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            CHECKER = new EnsureChecker();
+            FACTORY = new MRequestFactory();
+        } else {
+            CHECKER = new DeniedChecker();
+            FACTORY = new LRequestFactory();
+        }
     }
 
     /**
@@ -113,7 +104,7 @@ public class AndPermission {
     public static boolean hasAlwaysDeniedPermission(
             @NonNull Context context,
             @NonNull List<String> permissions) {
-        return hasAlwaysDeniedPermission(new ContextTarget(context), permissions);
+        return hasAlwaysDeniedPermission(new ContextSource(context), permissions);
     }
 
     /**
@@ -123,7 +114,7 @@ public class AndPermission {
             @NonNull Source source,
             @NonNull List<String> permissions) {
         for (String permission : permissions) {
-            if (!PERMISSION_CHECKER.hasPermission(source.getContext(), permissions) && !source.isShowRationalePermission(permission)) {
+            if (!CHECKER.hasPermission(source.getContext(), permissions) && !source.isShowRationalePermission(permission)) {
                 return true;
             }
         }
@@ -179,7 +170,7 @@ public class AndPermission {
     public static boolean hasAlwaysDeniedPermission(
             @NonNull Context context,
             @NonNull String[] permissions) {
-        return hasAlwaysDeniedPermission(new ContextTarget(context), permissions);
+        return hasAlwaysDeniedPermission(new ContextSource(context), permissions);
     }
 
     /**
@@ -189,7 +180,7 @@ public class AndPermission {
             @NonNull Source source,
             @NonNull String[] permissions) {
         for (String permission : permissions) {
-            if (!AndPermission.hasPermission(source.getContext(), permissions) && !source.isShowRationalePermission(permission)) {
+            if (!CHECKER.hasPermission(source.getContext(), permissions) && !source.isShowRationalePermission(permission)) {
                 return true;
             }
         }
@@ -245,7 +236,7 @@ public class AndPermission {
     public static boolean isAlwaysDeniedPermission(
             @NonNull Context context,
             @NonNull String permissions) {
-        return isAlwaysDeniedPermission(new ContextTarget(context), permissions);
+        return isAlwaysDeniedPermission(new ContextSource(context), permissions);
     }
 
     /**
@@ -254,7 +245,7 @@ public class AndPermission {
     private static boolean isAlwaysDeniedPermission(
             @NonNull Source source,
             @NonNull String permission) {
-        return !AndPermission.hasPermission(source.getContext(), permission) && !source.isShowRationalePermission(permission);
+        return !CHECKER.hasPermission(source.getContext(), permission) && !source.isShowRationalePermission(permission);
     }
 
     /**
@@ -298,54 +289,76 @@ public class AndPermission {
      */
     @NonNull
     public static SettingService permissionSetting(@NonNull Context context) {
-        return new PermissionSetting(new ContextTarget(context));
+        return new PermissionSetting(new ContextSource(context));
     }
 
     /**
-     * In the Activity.
+     * With Activity.
      *
      * @param activity {@link Activity}.
      * @return {@link Request}.
      */
     @NonNull
     public static Request with(@NonNull Activity activity) {
-        return new DefaultRequest(new AppActivitySource(activity));
+        return FACTORY.create(new AppActivitySource(activity));
     }
 
     /**
-     * In the Activity.
+     * With android.support.v4.app.Fragment.
      *
      * @param fragment {@link android.support.v4.app.Fragment}.
      * @return {@link Request}.
      */
     @NonNull
     public static Request with(@NonNull android.support.v4.app.Fragment fragment) {
-        return new DefaultRequest(new SupportFragmentSource(fragment));
+        return FACTORY.create(new SupportFragmentSource(fragment));
     }
 
     /**
-     * In the Activity.
+     * With android.app.Fragment.
      *
      * @param fragment {@link android.app.Fragment}.
      * @return {@link Request}.
      */
     @NonNull
     public static Request with(@NonNull android.app.Fragment fragment) {
-        return new DefaultRequest(new FragmentSource(fragment));
+        return FACTORY.create(new FragmentSource(fragment));
     }
 
     /**
-     * Anywhere..
+     * With context.
      *
      * @param context {@link Context}.
      * @return {@link Request}.
      */
     @NonNull
     public static Request with(@NonNull Context context) {
-        return new DefaultRequest(new ContextTarget(context));
+        return FACTORY.create(new ContextSource(context));
     }
 
     private AndPermission() {
+    }
+
+    private interface RequestFactory {
+        /**
+         * Create permission request.
+         */
+        Request create(Source source);
+    }
+
+    private static class LRequestFactory implements RequestFactory {
+        @Override
+        public Request create(Source source) {
+            return new LRequest(source);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private static class MRequestFactory implements RequestFactory {
+        @Override
+        public Request create(Source source) {
+            return new MRequest(source);
+        }
     }
 
 }

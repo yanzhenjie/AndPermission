@@ -13,12 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission.checker;
+package com.yanzhenjie.permission;
+
+import android.content.Context;
+
+import java.util.List;
 
 /**
- * Created by YanZhenjie on 2018/1/14.
+ * <p>Rationale listener</p>
+ * Created by Yan Zhenjie on 2016/9/10.
  */
-interface PermissionTest {
+public interface Rationale {
 
-    boolean test() throws Throwable;
+    /**
+     * Show rationale of permissions to user.
+     *
+     * @param context     context.
+     * @param permissions show rationale permissions.
+     * @param executor    executor.
+     */
+    void showRationale(Context context, List<String> permissions, RequestExecutor executor);
 }

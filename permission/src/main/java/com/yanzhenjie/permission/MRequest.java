@@ -19,6 +19,8 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 
+import com.yanzhenjie.permission.checker.PermissionChecker;
+import com.yanzhenjie.permission.checker.EnsureChecker;
 import com.yanzhenjie.permission.source.Source;
 
 import java.util.ArrayList;
@@ -31,20 +33,21 @@ import static java.util.Arrays.asList;
  * <p>Request permission and callback.</p>
  * Created by Yan Zhenjie on 2016/9/9.
  */
-class DefaultRequest implements Request, RequestExecutor, PermissionActivity.PermissionListener {
+@RequiresApi(api = Build.VERSION_CODES.M)
+class MRequest implements Request, RequestExecutor, PermissionActivity.PermissionListener {
 
-    private static final String TAG = "AndPermission";
+    private static final PermissionChecker CHECKER = new EnsureChecker();
 
     private Source mSource;
 
     private String[] mPermissions;
-    private RationaleListener mRationaleListener;
+    private Rationale mRationaleListener;
     private Action mGranted;
     private Action mDenied;
 
     private String[] mDeniedPermissions;
 
-    DefaultRequest(Source source) {
+    MRequest(Source source) {
         this.mSource = source;
     }
 
@@ -69,7 +72,7 @@ class DefaultRequest implements Request, RequestExecutor, PermissionActivity.Per
 
     @NonNull
     @Override
-    public Request rationale(RationaleListener listener) {
+    public Request rationale(Rationale listener) {
         this.mRationaleListener = listener;
         return this;
     }
@@ -90,31 +93,18 @@ class DefaultRequest implements Request, RequestExecutor, PermissionActivity.Per
 
     @Override
     public void start() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            onRequestPermissionsResult(mPermissions);
-        } else {
-            List<String> deniedList = getDeniedPermissions(mSource, mPermissions);
-            mDeniedPermissions = deniedList.toArray(new String[deniedList.size()]);
-            if (mDeniedPermissions.length > 0) {
-                List<String> rationaleList = getRationalePermissions(mSource, mDeniedPermissions);
-                if (rationaleList.size() > 0 && mRationaleListener != null) {
-                    mRationaleListener.showRationale(mSource.getContext(), rationaleList, this);
-                } else {
-                    execute();
-                }
+        List<String> deniedList = getDeniedPermissions(mSource, mPermissions);
+        mDeniedPermissions = deniedList.toArray(new String[deniedList.size()]);
+        if (mDeniedPermissions.length > 0) {
+            List<String> rationaleList = getRationalePermissions(mSource, mDeniedPermissions);
+            if (rationaleList.size() > 0 && mRationaleListener != null) {
+                mRationaleListener.showRationale(mSource.getContext(), rationaleList, this);
             } else {
-                callbackSucceed();
+                execute();
             }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(@NonNull String[] permissions) {
-        List<String> deniedList = getDeniedPermissions(mSource, permissions);
-        if (deniedList.isEmpty())
+        } else {
             callbackSucceed();
-        else
-            callbackFailed(deniedList);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -128,12 +118,27 @@ class DefaultRequest implements Request, RequestExecutor, PermissionActivity.Per
         onRequestPermissionsResult(mDeniedPermissions);
     }
 
+    @Override
+    public void onRequestPermissionsResult(@NonNull String[] permissions) {
+        List<String> deniedList = getDeniedPermissions(mSource, permissions);
+        if (deniedList.isEmpty()) {
+            callbackSucceed();
+        } else {
+            callbackFailed(deniedList);
+        }
+    }
+
     /**
      * Callback acceptance status.
      */
     private void callbackSucceed() {
         if (mGranted != null) {
-            mGranted.onAction(asList(mPermissions));
+            List<String> permissionList = asList(mPermissions);
+            try {
+                mGranted.onAction(permissionList);
+            } catch (Exception e) {
+                mDenied.onAction(permissionList);
+            }
         }
     }
 
@@ -152,7 +157,7 @@ class DefaultRequest implements Request, RequestExecutor, PermissionActivity.Per
     private static List<String> getDeniedPermissions(@NonNull Source source, @NonNull String... permissions) {
         List<String> deniedList = new ArrayList<>(1);
         for (String permission : permissions) {
-            if (!AndPermission.hasPermission(source.getContext(), permission)) {
+            if (!CHECKER.hasPermission(source.getContext(), permission)) {
                 deniedList.add(permission);
             }
         }

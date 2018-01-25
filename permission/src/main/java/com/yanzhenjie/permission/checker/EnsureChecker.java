@@ -21,26 +21,20 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 /**
- * Created by YanZhenjie on 2018/1/7.
+ * Created by YanZhenjie on 2018/1/25.
  */
-public interface PermissionChecker {
+public final class EnsureChecker implements PermissionChecker {
 
-    /**
-     * Check if the calling context has a set of permissions.
-     *
-     * @param context     {@link Context}.
-     * @param permissions one or more permissions.
-     * @return true, other wise is false.
-     */
-    boolean hasPermission(@NonNull Context context, @NonNull String... permissions);
-    
-    /**
-     * Check if the calling context has a set of permissions.
-     *
-     * @param context     {@link Context}.
-     * @param permissions one or more permissions.
-     * @return true, other wise is false.
-     */
-    boolean hasPermission(@NonNull Context context, @NonNull List<String> permissions);
+    private static final PermissionChecker CHECKER_STANDARD = new StandardChecker();
+    private static final PermissionChecker CHECKER_STRICT = new StrictChecker();
 
+    @Override
+    public boolean hasPermission(@NonNull Context context, @NonNull String... permissions) {
+        return CHECKER_STANDARD.hasPermission(context, permissions) && CHECKER_STRICT.hasPermission(context, permissions);
+    }
+
+    @Override
+    public boolean hasPermission(@NonNull Context context, @NonNull List<String> permissions) {
+        return CHECKER_STANDARD.hasPermission(context, permissions) && CHECKER_STRICT.hasPermission(context, permissions);
+    }
 }

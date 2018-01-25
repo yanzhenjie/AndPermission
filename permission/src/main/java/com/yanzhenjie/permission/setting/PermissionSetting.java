@@ -22,7 +22,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.widget.Toast;
 
 import com.yanzhenjie.permission.SettingService;
 import com.yanzhenjie.permission.source.Source;
@@ -33,40 +32,38 @@ import com.yanzhenjie.permission.source.Source;
  */
 public class PermissionSetting implements SettingService {
 
-    private static final String DEFAULT_PACKAGE_KEY = "package";
     private static final String MARK = Build.MANUFACTURER.toLowerCase();
 
-    private Context mContext;
+    private Source mSource;
 
     public PermissionSetting(@NonNull Source source) {
-        this.mContext = source.getContext();
+        this.mSource = source;
     }
 
     @Override
     public void execute() {
         Intent intent;
         if (MARK.contains("huawei")) {
-            intent = huaweiApi(mContext);
+            intent = huaweiApi(mSource.getContext());
         } else if (MARK.contains("xiaomi")) {
-            intent = xiaomiApi(mContext);
+            intent = xiaomiApi(mSource.getContext());
         } else if (MARK.contains("oppo")) {
-            intent = oppoApi(mContext);
+            intent = oppoApi(mSource.getContext());
         } else if (MARK.contains("vivo")) {
-            intent = vivoApi(mContext);
+            intent = vivoApi(mSource.getContext());
         } else if (MARK.contains("samsung")) {
-            intent = samsungApi(mContext);
+            intent = samsungApi(mSource.getContext());
         } else if (MARK.contains("meizu")) {
-            intent = meizuApi(mContext);
+            intent = meizuApi(mSource.getContext());
         } else if (MARK.contains("smartisan")) {
-            intent = smartisanApi(mContext);
+            intent = smartisanApi(mSource.getContext());
         } else {
-            intent = defaultApi(mContext);
+            intent = defaultApi(mSource.getContext());
         }
         try {
-            mContext.startActivity(intent);
+            mSource.startActivity(intent);
         } catch (Exception e) {
-            Toast.makeText(mContext, "发生异常，打开默认页面", Toast.LENGTH_LONG).show();
-            mContext.startActivity(defaultApi(mContext));
+            mSource.startActivity(defaultApi(mSource.getContext()));
         }
     }
 
@@ -80,7 +77,7 @@ public class PermissionSetting implements SettingService {
     private static Intent defaultApi(Context context) {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setData(Uri.fromParts(DEFAULT_PACKAGE_KEY, context.getPackageName(), null));
+        intent.setData(Uri.fromParts("package", context.getPackageName(), null));
         return intent;
     }
 
@@ -114,7 +111,11 @@ public class PermissionSetting implements SettingService {
         Intent intent = new Intent();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("packagename", context.getPackageName());
-        intent.setComponent(new ComponentName("com.iqoo.secure", "com.iqoo.secure.safeguard.SoftPermissionDetailActivity"));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            intent.setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.SoftPermissionDetailActivity"));
+        } else {
+            intent.setComponent(new ComponentName("com.iqoo.secure", "com.iqoo.secure.safeguard.SoftPermissionDetailActivity"));
+        }
         return intent;
     }
 
@@ -129,6 +130,9 @@ public class PermissionSetting implements SettingService {
      * Meizu phone to achieve the method.
      */
     private static Intent meizuApi(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            return defaultApi(context);
+        }
         Intent intent = new Intent("com.meizu.safe.security.SHOW_APPSEC");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("packageName", context.getPackageName());
