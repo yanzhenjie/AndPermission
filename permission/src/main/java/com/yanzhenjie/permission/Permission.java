@@ -84,7 +84,8 @@ public final class Permission {
                 Permission.READ_CALL_LOG,
                 Permission.WRITE_CALL_LOG,
                 Permission.ADD_VOICEMAIL,
-                Permission.USE_SIP};
+                Permission.USE_SIP,
+                Permission.PROCESS_OUTGOING_CALLS};
 
         public static final String[] SENSORS = new String[]{Permission.BODY_SENSORS};
 
