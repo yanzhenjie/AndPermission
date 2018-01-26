@@ -20,7 +20,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -77,94 +79,200 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_request_camera: {
-                requestPermission(Permission.Group.CAMERA, new Action() {
-                    @Override
-                    public void onAction(List<String> permissions) {
-                        toast(R.string.successfully);
-                    }
-                });
+                requestPermission(Permission.Group.CAMERA);
                 break;
             }
             case R.id.btn_request_contact: {
-                requestPermission(Permission.Group.CONTACTS, new Action() {
+                PopupMenu popupMenu = createMenu(v, getResources().getStringArray(R.array.contacts));
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
-                    public void onAction(List<String> permissions) {
-                        toast(R.string.successfully);
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int order = item.getOrder();
+                        switch (order) {
+                            case 0: {
+                                requestPermission(Permission.READ_CONTACTS);
+                                break;
+                            }
+                            case 1: {
+                                requestPermission(Permission.WRITE_CONTACTS);
+                                break;
+                            }
+                            case 2: {
+                                requestPermission(Permission.GET_ACCOUNTS);
+                                break;
+                            }
+                            case 3: {
+                                requestPermission(Permission.Group.CONTACTS);
+                                break;
+                            }
+                        }
+                        return true;
                     }
                 });
+                popupMenu.show();
                 break;
             }
             case R.id.btn_request_location: {
-                requestPermission(Permission.Group.LOCATION, new Action() {
-                    @Override
-                    public void onAction(List<String> permissions) {
-                        toast(R.string.successfully);
-                    }
-                });
+                requestPermission(Permission.Group.LOCATION);
                 break;
             }
             case R.id.btn_request_calendar: {
-                requestPermission(Permission.Group.CALENDAR, new Action() {
+                PopupMenu popupMenu = createMenu(v, getResources().getStringArray(R.array.calendar));
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
-                    public void onAction(List<String> permissions) {
-                        toast(R.string.successfully);
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int order = item.getOrder();
+                        switch (order) {
+                            case 0: {
+                                requestPermission(Permission.READ_CALENDAR);
+                                break;
+                            }
+                            case 1: {
+                                requestPermission(Permission.WRITE_CALENDAR);
+                                break;
+                            }
+                            case 2: {
+                                requestPermission(Permission.Group.CALENDAR);
+                                break;
+                            }
+                        }
+                        return true;
                     }
                 });
+                popupMenu.show();
                 break;
             }
             case R.id.btn_request_microphone: {
-                requestPermission(Permission.Group.MICROPHONE, new Action() {
-                    @Override
-                    public void onAction(List<String> permissions) {
-                        toast(R.string.successfully);
-                    }
-                });
+                requestPermission(Permission.Group.MICROPHONE);
                 break;
             }
             case R.id.btn_request_storage: {
-                requestPermission(Permission.Group.STORAGE, new Action() {
+                PopupMenu popupMenu = createMenu(v, getResources().getStringArray(R.array.storage));
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
-                    public void onAction(List<String> permissions) {
-                        toast(R.string.successfully);
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int order = item.getOrder();
+                        switch (order) {
+                            case 0: {
+                                requestPermission(Permission.READ_EXTERNAL_STORAGE);
+                                break;
+                            }
+                            case 1: {
+                                requestPermission(Permission.WRITE_EXTERNAL_STORAGE);
+                                break;
+                            }
+                            case 2: {
+                                requestPermission(Permission.Group.STORAGE);
+                                break;
+                            }
+                        }
+                        return true;
                     }
                 });
+                popupMenu.show();
                 break;
             }
             case R.id.btn_request_phone: {
-                requestPermission(Permission.Group.PHONE, new Action() {
+                PopupMenu popupMenu = createMenu(v, getResources().getStringArray(R.array.phone));
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
-                    public void onAction(List<String> permissions) {
-                        toast(R.string.successfully);
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int order = item.getOrder();
+                        switch (order) {
+                            case 0: {
+                                requestPermission(Permission.READ_PHONE_STATE);
+                                break;
+                            }
+                            case 1: {
+                                requestPermission(Permission.CALL_PHONE);
+                                break;
+                            }
+                            case 2: {
+                                requestPermission(Permission.READ_CALL_LOG);
+                                break;
+                            }
+                            case 3: {
+                                requestPermission(Permission.WRITE_CALL_LOG);
+                                break;
+                            }
+                            case 4: {
+                                requestPermission(Permission.ADD_VOICEMAIL);
+                                break;
+                            }
+                            case 5: {
+                                requestPermission(Permission.USE_SIP);
+                                break;
+                            }
+                            case 6: {
+                                requestPermission(Permission.PROCESS_OUTGOING_CALLS);
+                                break;
+                            }
+                            case 7: {
+                                requestPermission(Permission.Group.PHONE);
+                                break;
+                            }
+                        }
+                        return true;
                     }
                 });
+                popupMenu.show();
                 break;
             }
             case R.id.btn_request_sensors: {
-                requestPermission(Permission.Group.SENSORS, new Action() {
-                    @Override
-                    public void onAction(List<String> permissions) {
-                        toast(R.string.successfully);
-                    }
-                });
+                requestPermission(Permission.Group.SENSORS);
                 break;
             }
             case R.id.btn_request_sms: {
-                requestPermission(Permission.Group.SMS, new Action() {
+                PopupMenu popupMenu = createMenu(v, getResources().getStringArray(R.array.sms));
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
-                    public void onAction(List<String> permissions) {
-                        toast(R.string.successfully);
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int order = item.getOrder();
+                        switch (order) {
+                            case 0: {
+                                requestPermission(Permission.SEND_SMS);
+                                break;
+                            }
+                            case 1: {
+                                requestPermission(Permission.RECEIVE_SMS);
+                                break;
+                            }
+                            case 2: {
+                                requestPermission(Permission.READ_SMS);
+                                break;
+                            }
+                            case 3: {
+                                requestPermission(Permission.RECEIVE_WAP_PUSH);
+                                break;
+                            }
+                            case 4: {
+                                requestPermission(Permission.RECEIVE_MMS);
+                                break;
+                            }
+                            case 5: {
+                                requestPermission(Permission.Group.SMS);
+                                break;
+                            }
+                        }
+                        return true;
                     }
                 });
+                popupMenu.show();
                 break;
             }
         }
     }
 
-    private void requestPermission(String[] permissions, Action onSucceed) {
+    private void requestPermission(String... permissions) {
         AndPermission.with(this)
                 .permission(permissions)
                 .rationale(mRationale)
-                .onGranted(onSucceed)
+                .onGranted(new Action() {
+                    @Override
+                    public void onAction(List<String> permissions) {
+                        toast(R.string.successfully);
+                    }
+                })
                 .onDenied(new Action() {
                     @Override
                     public void onAction(@NonNull List<String> permissions) {
@@ -175,6 +283,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 })
                 .start();
+    }
+
+    /**
+     * Create menu.
+     */
+    private PopupMenu createMenu(View v, String[] menuArray) {
+        PopupMenu popupMenu = new PopupMenu(this, v);
+        Menu menu = popupMenu.getMenu();
+        for (String menuText : menuArray) {
+            menu.add(menuText);
+        }
+        return popupMenu;
     }
 
     @Override

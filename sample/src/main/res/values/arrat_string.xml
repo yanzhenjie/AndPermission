@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 Yan Zhenjie
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<resources>
+    <string-array name="calendar">
+        <item>Read_Calendar</item>
+        <item>Write_Calendar</item>
+        <item>All</item>
+    </string-array>
+
+    <string-array name="contacts">
+        <item>Read_Contacts</item>
+        <item>Write_Contacts</item>
+        <item>Get_Accounts</item>
+        <item>All</item>
+    </string-array>
+
+    <string-array name="phone">
+        <item>Read_Phone_State</item>
+        <item>Call_Phone</item>
+        <item>Read_Call_Log</item>
+        <item>Write_Call_Log</item>
+        <item>Add_Voicemail</item>
+        <item>Use_Sip</item>
+        <item>Process_Outgoing_Calls</item>
+        <item>All</item>
+    </string-array>
+
+    <string-array name="sms">
+        <item>Send_SMS</item>
+        <item>Receive_SMS</item>
+        <item>Read_SMS</item>
+        <item>Receive_Wap_Push</item>
+        <item>Receive_MMS</item>
+        <item>All</item>
+    </string-array>
+
+    <string-array name="storage">
+        <item>Read_External_Storage</item>
+        <item>write_External_Storage</item>
+        <item>All</item>
+    </string-array>
+</resources>
