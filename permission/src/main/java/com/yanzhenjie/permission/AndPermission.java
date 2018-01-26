@@ -21,9 +21,6 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 
-import com.yanzhenjie.permission.checker.DeniedChecker;
-import com.yanzhenjie.permission.checker.PermissionChecker;
-import com.yanzhenjie.permission.checker.EnsureChecker;
 import com.yanzhenjie.permission.setting.PermissionSetting;
 import com.yanzhenjie.permission.source.AppActivitySource;
 import com.yanzhenjie.permission.source.ContextSource;
@@ -39,18 +36,12 @@ import java.util.List;
  */
 public class AndPermission {
 
-    /**
-     * Permissions checker.
-     */
-    private static final PermissionChecker CHECKER;
     private static final RequestFactory FACTORY;
 
     static {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            CHECKER = new EnsureChecker();
             FACTORY = new MRequestFactory();
         } else {
-            CHECKER = new DeniedChecker();
             FACTORY = new LRequestFactory();
         }
     }
@@ -71,40 +62,40 @@ public class AndPermission {
     /**
      * Some privileges permanently disabled, may need to set up in the execute.
      *
-     * @param fragment    {@link android.support.v4.app.Fragment}.
-     * @param permissions one or more permissions.
+     * @param fragment          {@link android.support.v4.app.Fragment}.
+     * @param deniedPermissions one or more permissions.
      * @return true, other wise is false.
      */
     public static boolean hasAlwaysDeniedPermission(
             @NonNull android.support.v4.app.Fragment fragment,
-            @NonNull List<String> permissions) {
-        return hasAlwaysDeniedPermission(new SupportFragmentSource(fragment), permissions);
+            @NonNull List<String> deniedPermissions) {
+        return hasAlwaysDeniedPermission(new SupportFragmentSource(fragment), deniedPermissions);
     }
 
     /**
      * Some privileges permanently disabled, may need to set up in the execute.
      *
-     * @param fragment    {@link android.app.Fragment}.
-     * @param permissions one or more permissions.
+     * @param fragment          {@link android.app.Fragment}.
+     * @param deniedPermissions one or more permissions.
      * @return true, other wise is false.
      */
     public static boolean hasAlwaysDeniedPermission(
             @NonNull android.app.Fragment fragment,
-            @NonNull List<String> permissions) {
-        return hasAlwaysDeniedPermission(new FragmentSource(fragment), permissions);
+            @NonNull List<String> deniedPermissions) {
+        return hasAlwaysDeniedPermission(new FragmentSource(fragment), deniedPermissions);
     }
 
     /**
      * Some privileges permanently disabled, may need to set up in the execute.
      *
-     * @param context     {@link Context}.
-     * @param permissions one or more permissions.
+     * @param context           {@link Context}.
+     * @param deniedPermissions one or more permissions.
      * @return true, other wise is false.
      */
     public static boolean hasAlwaysDeniedPermission(
             @NonNull Context context,
-            @NonNull List<String> permissions) {
-        return hasAlwaysDeniedPermission(new ContextSource(context), permissions);
+            @NonNull List<String> deniedPermissions) {
+        return hasAlwaysDeniedPermission(new ContextSource(context), deniedPermissions);
     }
 
     /**
@@ -112,9 +103,9 @@ public class AndPermission {
      */
     private static boolean hasAlwaysDeniedPermission(
             @NonNull Source source,
-            @NonNull List<String> permissions) {
-        for (String permission : permissions) {
-            if (!CHECKER.hasPermission(source.getContext(), permissions) && !source.isShowRationalePermission(permission)) {
+            @NonNull List<String> deniedPermissions) {
+        for (String permission : deniedPermissions) {
+            if (!source.isShowRationalePermission(permission)) {
                 return true;
             }
         }
@@ -130,47 +121,47 @@ public class AndPermission {
      */
     public static boolean hasAlwaysDeniedPermission(
             @NonNull Activity activity,
-            @NonNull String[] deniedPermissions) {
+            @NonNull String... deniedPermissions) {
         return hasAlwaysDeniedPermission(new AppActivitySource(activity), deniedPermissions);
     }
 
     /**
      * Some privileges permanently disabled, may need to set up in the execute.
      *
-     * @param fragment    {@link android.support.v4.app.Fragment}.
-     * @param permissions one or more permissions.
+     * @param fragment          {@link android.support.v4.app.Fragment}.
+     * @param deniedPermissions one or more permissions.
      * @return true, other wise is false.
      */
     public static boolean hasAlwaysDeniedPermission(
             @NonNull android.support.v4.app.Fragment fragment,
-            @NonNull String[] permissions) {
-        return hasAlwaysDeniedPermission(new SupportFragmentSource(fragment), permissions);
+            @NonNull String... deniedPermissions) {
+        return hasAlwaysDeniedPermission(new SupportFragmentSource(fragment), deniedPermissions);
     }
 
     /**
      * Some privileges permanently disabled, may need to set up in the execute.
      *
-     * @param fragment    {@link android.app.Fragment}.
-     * @param permissions one or more permissions.
+     * @param fragment          {@link android.app.Fragment}.
+     * @param deniedPermissions one or more permissions.
      * @return true, other wise is false.
      */
     public static boolean hasAlwaysDeniedPermission(
             @NonNull android.app.Fragment fragment,
-            @NonNull String[] permissions) {
-        return hasAlwaysDeniedPermission(new FragmentSource(fragment), permissions);
+            @NonNull String... deniedPermissions) {
+        return hasAlwaysDeniedPermission(new FragmentSource(fragment), deniedPermissions);
     }
 
     /**
      * Some privileges permanently disabled, may need to set up in the execute.
      *
-     * @param context     {@link Context}.
-     * @param permissions one or more permissions.
+     * @param context           {@link Context}.
+     * @param deniedPermissions one or more permissions.
      * @return true, other wise is false.
      */
     public static boolean hasAlwaysDeniedPermission(
             @NonNull Context context,
-            @NonNull String[] permissions) {
-        return hasAlwaysDeniedPermission(new ContextSource(context), permissions);
+            @NonNull String... deniedPermissions) {
+        return hasAlwaysDeniedPermission(new ContextSource(context), deniedPermissions);
     }
 
     /**
@@ -178,74 +169,13 @@ public class AndPermission {
      */
     private static boolean hasAlwaysDeniedPermission(
             @NonNull Source source,
-            @NonNull String[] permissions) {
-        for (String permission : permissions) {
-            if (!CHECKER.hasPermission(source.getContext(), permissions) && !source.isShowRationalePermission(permission)) {
+            @NonNull String... deniedPermissions) {
+        for (String permission : deniedPermissions) {
+            if (!source.isShowRationalePermission(permission)) {
                 return true;
             }
         }
         return false;
-    }
-
-    /**
-     * Is it always denied permission.
-     *
-     * @param activity    {@link Activity}.
-     * @param permissions one or more permissions.
-     * @return true, other wise is false.
-     */
-    public static boolean isAlwaysDeniedPermission(
-            @NonNull Activity activity,
-            @NonNull String permissions) {
-        return isAlwaysDeniedPermission(new AppActivitySource(activity), permissions);
-    }
-
-    /**
-     * Is it always denied permission.
-     *
-     * @param fragment    {@link android.support.v4.app.Fragment}.
-     * @param permissions one or more permissions.
-     * @return true, other wise is false.
-     */
-    public static boolean isAlwaysDeniedPermission(
-            @NonNull android.support.v4.app.Fragment fragment,
-            @NonNull String permissions) {
-        return isAlwaysDeniedPermission(new SupportFragmentSource(fragment), permissions);
-    }
-
-    /**
-     * Is it always denied permission.
-     *
-     * @param fragment    {@link android.app.Fragment}.
-     * @param permissions one or more permissions.
-     * @return true, other wise is false.
-     */
-    public static boolean isAlwaysDeniedPermission(
-            @NonNull android.app.Fragment fragment,
-            @NonNull String permissions) {
-        return isAlwaysDeniedPermission(new FragmentSource(fragment), permissions);
-    }
-
-    /**
-     * Is it always denied permission.
-     *
-     * @param context     {@link Context}.
-     * @param permissions one or more permissions.
-     * @return true, other wise is false.
-     */
-    public static boolean isAlwaysDeniedPermission(
-            @NonNull Context context,
-            @NonNull String permissions) {
-        return isAlwaysDeniedPermission(new ContextSource(context), permissions);
-    }
-
-    /**
-     * Has always been denied permission.
-     */
-    private static boolean isAlwaysDeniedPermission(
-            @NonNull Source source,
-            @NonNull String permission) {
-        return !CHECKER.hasPermission(source.getContext(), permission) && !source.isShowRationalePermission(permission);
     }
 
     /**

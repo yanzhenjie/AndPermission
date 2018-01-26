@@ -20,7 +20,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 
 import com.yanzhenjie.permission.checker.PermissionChecker;
-import com.yanzhenjie.permission.checker.EnsureChecker;
+import com.yanzhenjie.permission.checker.StandardChecker;
+import com.yanzhenjie.permission.checker.StrictChecker;
 import com.yanzhenjie.permission.source.Source;
 
 import java.util.ArrayList;
@@ -36,7 +37,8 @@ import static java.util.Arrays.asList;
 @RequiresApi(api = Build.VERSION_CODES.M)
 class MRequest implements Request, RequestExecutor, PermissionActivity.PermissionListener {
 
-    private static final PermissionChecker CHECKER = new EnsureChecker();
+    private static final PermissionChecker CHECKER = new StandardChecker();
+    private static final PermissionChecker CHECKER_STRICT = new StrictChecker();
 
     private Source mSource;
 
@@ -93,7 +95,7 @@ class MRequest implements Request, RequestExecutor, PermissionActivity.Permissio
 
     @Override
     public void start() {
-        List<String> deniedList = getDeniedPermissions(mSource, mPermissions);
+        List<String> deniedList = getDeniedPermissions(CHECKER, mSource, mPermissions);
         mDeniedPermissions = deniedList.toArray(new String[deniedList.size()]);
         if (mDeniedPermissions.length > 0) {
             List<String> rationaleList = getRationalePermissions(mSource, mDeniedPermissions);
@@ -120,7 +122,7 @@ class MRequest implements Request, RequestExecutor, PermissionActivity.Permissio
 
     @Override
     public void onRequestPermissionsResult(@NonNull String[] permissions) {
-        List<String> deniedList = getDeniedPermissions(mSource, permissions);
+        List<String> deniedList = getDeniedPermissions(CHECKER_STRICT, mSource, permissions);
         if (deniedList.isEmpty()) {
             callbackSucceed();
         } else {
@@ -154,10 +156,10 @@ class MRequest implements Request, RequestExecutor, PermissionActivity.Permissio
     /**
      * Get denied permissions.
      */
-    private static List<String> getDeniedPermissions(@NonNull Source source, @NonNull String... permissions) {
+    private static List<String> getDeniedPermissions(PermissionChecker checker, @NonNull Source source, @NonNull String... permissions) {
         List<String> deniedList = new ArrayList<>(1);
         for (String permission : permissions) {
-            if (!CHECKER.hasPermission(source.getContext(), permission)) {
+            if (!checker.hasPermission(source.getContext(), permission)) {
                 deniedList.add(permission);
             }
         }
