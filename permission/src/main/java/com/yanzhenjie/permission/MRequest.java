@@ -19,9 +19,9 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 
+import com.yanzhenjie.permission.checker.DoubleChecker;
 import com.yanzhenjie.permission.checker.PermissionChecker;
 import com.yanzhenjie.permission.checker.StandardChecker;
-import com.yanzhenjie.permission.checker.StrictChecker;
 import com.yanzhenjie.permission.source.Source;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ import static java.util.Arrays.asList;
 class MRequest implements Request, RequestExecutor, PermissionActivity.PermissionListener {
 
     private static final PermissionChecker CHECKER = new StandardChecker();
-    private static final PermissionChecker CHECKER_STRICT = new StrictChecker();
+    private static final PermissionChecker DOUBLE_CHECKER = new DoubleChecker();
 
     private Source mSource;
 
@@ -122,7 +122,7 @@ class MRequest implements Request, RequestExecutor, PermissionActivity.Permissio
 
     @Override
     public void onRequestPermissionsResult(@NonNull String[] permissions) {
-        List<String> deniedList = getDeniedPermissions(CHECKER_STRICT, mSource, permissions);
+        List<String> deniedList = getDeniedPermissions(DOUBLE_CHECKER, mSource, permissions);
         if (deniedList.isEmpty()) {
             callbackSucceed();
         } else {

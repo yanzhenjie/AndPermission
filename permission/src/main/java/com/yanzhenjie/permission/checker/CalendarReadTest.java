@@ -40,9 +40,14 @@ class CalendarReadTest implements PermissionTest {
     @RequiresApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     public boolean test() throws Throwable {
-        Cursor cursor = mResolver.query(CalendarContract.Calendars.CONTENT_URI, null, null, null, null);
+        String[] projection = new String[]{CalendarContract.Calendars._ID, CalendarContract.Calendars.NAME};
+        Cursor cursor = mResolver.query(CalendarContract.Calendars.CONTENT_URI, projection, null, null, null);
         if (cursor != null) {
-            cursor.close();
+            try {
+                CursorTest.read(cursor);
+            } finally {
+                cursor.close();
+            }
             return true;
         } else {
             return false;

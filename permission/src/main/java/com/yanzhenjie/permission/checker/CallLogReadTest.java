@@ -37,9 +37,14 @@ class CallLogReadTest implements PermissionTest {
     @RequiresPermission(Permission.READ_CALL_LOG)
     @Override
     public boolean test() throws Throwable {
-        Cursor cursor = mResolver.query(CallLog.Calls.CONTENT_URI, null, null, null, null);
+        String[] projection = new String[]{CallLog.Calls._ID, CallLog.Calls.NUMBER, CallLog.Calls.TYPE};
+        Cursor cursor = mResolver.query(CallLog.Calls.CONTENT_URI, projection, null, null, null);
         if (cursor != null) {
-            cursor.close();
+            try {
+                CursorTest.read(cursor);
+            } finally {
+                cursor.close();
+            }
             return true;
         } else {
             return false;

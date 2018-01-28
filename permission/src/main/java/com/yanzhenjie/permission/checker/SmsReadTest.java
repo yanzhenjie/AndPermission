@@ -36,9 +36,14 @@ class SmsReadTest implements PermissionTest {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public boolean test() throws Throwable {
-        Cursor cursor = mResolver.query(Telephony.Sms.CONTENT_URI, null, null, null, null);
+        String[] projection = new String[]{Telephony.Sms._ID, Telephony.Sms.ADDRESS, Telephony.Sms.PERSON, Telephony.Sms.BODY};
+        Cursor cursor = mResolver.query(Telephony.Sms.CONTENT_URI, projection, null, null, null);
         if (cursor != null) {
-            cursor.close();
+            try {
+                CursorTest.read(cursor);
+            } finally {
+                cursor.close();
+            }
             return true;
         } else {
             return false;
