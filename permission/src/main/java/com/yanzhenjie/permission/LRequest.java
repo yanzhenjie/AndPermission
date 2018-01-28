@@ -96,7 +96,14 @@ class LRequest implements Request {
      */
     private void callbackSucceed() {
         if (mGranted != null) {
-            mGranted.onAction(asList(mPermissions));
+            List<String> permissionList = asList(mPermissions);
+            try {
+                mGranted.onAction(permissionList);
+            } catch (Exception e) {
+                if (mDenied != null) {
+                    mDenied.onAction(permissionList);
+                }
+            }
         }
     }
 

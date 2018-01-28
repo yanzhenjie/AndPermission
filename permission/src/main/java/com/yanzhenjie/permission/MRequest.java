@@ -139,7 +139,9 @@ class MRequest implements Request, RequestExecutor, PermissionActivity.Permissio
             try {
                 mGranted.onAction(permissionList);
             } catch (Exception e) {
-                mDenied.onAction(permissionList);
+                if (mDenied != null) {
+                    mDenied.onAction(permissionList);
+                }
             }
         }
     }
