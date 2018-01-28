@@ -16,4 +16,4 @@ dependencies {
     compile rootProject.ext.dependencies.fragment
 }
 
-apply from: "https://github.com/yanzhenjie/bintray/blob/master/maven.gradle?raw=true"
+apply from: "https://raw.githubusercontent.com/yanzhenjie/bintray/master/maven.gradle"
