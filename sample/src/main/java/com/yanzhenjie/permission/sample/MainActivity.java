@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        int order = item.getOrder();
+                        int order = item.getItemId();
                         switch (order) {
                             case 0: {
                                 requestPermission(Permission.READ_CONTACTS);
@@ -285,14 +285,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .start();
     }
 
+    private void requestPermission(String[]... permissions) {
+        AndPermission.with(this)
+                .permission(permissions)
+                .rationale(mRationale)
+                .onGranted(new Action() {
+                    @Override
+                    public void onAction(List<String> permissions) {
+                        toast(R.string.successfully);
+                    }
+                })
+                .onDenied(new Action() {
+                    @Override
+                    public void onAction(@NonNull List<String> permissions) {
+                        toast(R.string.failure);
+                        if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
+                            mSetting.showSetting(permissions);
+                        }
+                    }
+                })
+                .start();
+    }
+
     /**
      * Create menu.
      */
     private PopupMenu createMenu(View v, String[] menuArray) {
         PopupMenu popupMenu = new PopupMenu(this, v);
         Menu menu = popupMenu.getMenu();
-        for (String menuText : menuArray) {
-            menu.add(menuText);
+        for (int i = 0; i < menuArray.length; i++) {
+            String menuText = menuArray[i];
+            menu.add(0, i, i, menuText);
         }
         return popupMenu;
     }
