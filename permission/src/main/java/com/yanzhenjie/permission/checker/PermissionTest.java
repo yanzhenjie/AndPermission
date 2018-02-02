@@ -28,6 +28,7 @@ interface PermissionTest {
         public static void read(Cursor cursor) {
             int count = cursor.getCount();
             if (count > 0) {
+                cursor.moveToFirst();
                 int type = cursor.getType(0);
                 switch (type) {
                     case Cursor.FIELD_TYPE_BLOB:
