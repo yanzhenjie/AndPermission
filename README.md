@@ -21,7 +21,7 @@ For usage and other information see [Document](http://yanzhenjie.github.io/AndPe
 
 * Gradle
 ```
-implementation 'com.yanzhenjie:permission:2.0.0-alpha'
+implementation 'com.yanzhenjie:permission:2.0.0-rc1'
 ```
 
 * Maven
@@ -29,7 +29,7 @@ implementation 'com.yanzhenjie:permission:2.0.0-alpha'
 <dependency>
   <groupId>com.yanzhenjie</groupId>
   <artifactId>permission</artifactId>
-  <version>2.0.0-alpha</version>
+  <version>2.0.0-rc1</version>
 </dependency>
 ```
 
