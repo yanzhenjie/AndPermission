@@ -54,6 +54,22 @@ public final class PermissionActivity extends Activity {
         context.startActivity(intent);
     }
 
+    /**
+     * Request for permissions with requestCode
+     * @param activity
+     * @param permissions
+     * @param permissionListener
+     * @param requestCode
+     */
+    public static void requestPermission(Activity activity, String[] permissions, PermissionListener permissionListener, int requestCode) {
+        sPermissionListener = permissionListener;
+
+        Intent intent = new Intent(activity, PermissionActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(KEY_INPUT_PERMISSIONS, permissions);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

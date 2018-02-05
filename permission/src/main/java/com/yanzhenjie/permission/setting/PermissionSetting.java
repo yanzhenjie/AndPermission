@@ -15,6 +15,7 @@
  */
 package com.yanzhenjie.permission.setting;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -42,6 +43,27 @@ public class PermissionSetting implements SettingService {
 
     @Override
     public void execute() {
+        Intent intent = getPermissionIntent();
+        try {
+            mSource.startActivity(intent);
+        } catch (Exception e) {
+            mSource.startActivity(defaultApi(mSource.getContext()));
+        }
+    }
+
+    @Override
+    public void execute(int requestCode) {
+        Intent intent = getPermissionIntent();
+        if (mSource.getContext() instanceof Activity) {
+            try {
+                ((Activity) mSource.getContext()).startActivityForResult(intent, requestCode);
+            } catch (Exception e) {
+                ((Activity) mSource.getContext()).startActivityForResult(defaultApi(mSource.getContext()), requestCode);
+            }
+        }
+    }
+
+    private Intent getPermissionIntent() {
         Intent intent;
         if (MARK.contains("huawei")) {
             intent = huaweiApi(mSource.getContext());
@@ -60,11 +82,7 @@ public class PermissionSetting implements SettingService {
         } else {
             intent = defaultApi(mSource.getContext());
         }
-        try {
-            mSource.startActivity(intent);
-        } catch (Exception e) {
-            mSource.startActivity(defaultApi(mSource.getContext()));
-        }
+        return intent;
     }
 
     @Override

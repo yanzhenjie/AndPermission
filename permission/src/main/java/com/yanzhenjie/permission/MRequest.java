@@ -15,6 +15,7 @@
  */
 package com.yanzhenjie.permission;
 
+import android.app.Activity;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -48,6 +49,7 @@ class MRequest implements Request, RequestExecutor, PermissionActivity.Permissio
     private Action mDenied;
 
     private String[] mDeniedPermissions;
+    private int mPermissionCode;
 
     MRequest(Source source) {
         this.mSource = source;
@@ -93,6 +95,13 @@ class MRequest implements Request, RequestExecutor, PermissionActivity.Permissio
         return this;
     }
 
+    @NonNull
+    @Override
+    public Request permissionRequestCode(int requestCode) {
+        this.mPermissionCode = requestCode;
+        return this;
+    }
+
     @Override
     public void start() {
         List<String> deniedList = getDeniedPermissions(CHECKER, mSource, mPermissions);
@@ -112,7 +121,11 @@ class MRequest implements Request, RequestExecutor, PermissionActivity.Permissio
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void execute() {
-        PermissionActivity.requestPermission(mSource.getContext(), mDeniedPermissions, this);
+        if (mPermissionCode != 0 && mSource.getContext() instanceof Activity) {
+            PermissionActivity.requestPermission((Activity) mSource.getContext(), mDeniedPermissions, this, mPermissionCode);
+        } else {
+            PermissionActivity.requestPermission(mSource.getContext(), mDeniedPermissions, this);
+        }
     }
 
     @Override
