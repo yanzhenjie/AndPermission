@@ -27,6 +27,12 @@ public interface SettingService {
     void execute();
 
     /**
+     * Execute setting with requestCode
+     * @param requestCode
+     */
+    void execute(int requestCode);
+
+    /**
      * Cancel the operation.
      */
     void cancel();
