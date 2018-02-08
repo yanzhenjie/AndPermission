@@ -18,7 +18,7 @@ ext {
 
     bintray = [
             // library
-            version       : "2.0.0-rc1",
+            version       : "2.0.0-rc2",
 
             siteUrl       : 'https://github.com/yanzhenjie/AndPermission',
             gitUrl        : 'git@github.com:yanzhenjie/AndPermission.git',
@@ -52,6 +52,6 @@ ext {
             design     : 'com.android.support:design:25.3.1',
 
             alertDialog: 'com.yanzhenjie.alertdialog:alertdialog:1.0.1',
-            permission : 'com.yanzhenjie:permission:2.0.0-rc1'
+            permission : 'com.yanzhenjie:permission:2.0.0-rc2'
     ]
 }
