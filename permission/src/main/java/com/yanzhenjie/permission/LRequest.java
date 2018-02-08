@@ -82,12 +82,6 @@ class LRequest implements Request {
         return this;
     }
 
-    @NonNull
-    @Override
-    public Request permissionRequestCode(int requestCode) {
-        return this;
-    }
-
     @Override
     public void start() {
         List<String> deniedList = getDeniedPermissions(mSource, mPermissions);

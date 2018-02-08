@@ -54,14 +54,6 @@ public interface Request {
     Request onDenied(Action denied);
 
     /**
-     * set start PermissionActivity requestCode
-     * @param requestCode
-     * @return
-     */
-    @NonNull
-    Request permissionRequestCode(int requestCode);
-
-    /**
      * Request permission.
      */
     void start();
