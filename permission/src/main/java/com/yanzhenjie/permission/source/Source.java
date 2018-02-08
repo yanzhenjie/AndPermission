@@ -32,6 +32,8 @@ public abstract class Source {
 
     public abstract void startActivity(Intent intent);
 
+    public abstract void startActivityForResult(Intent intent, int requestCode);
+
     /**
      * Show permissions rationale?
      */

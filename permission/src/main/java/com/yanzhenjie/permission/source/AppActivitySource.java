@@ -40,4 +40,9 @@ public class AppActivitySource extends Source {
     public void startActivity(Intent intent) {
         mActivity.startActivity(intent);
     }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        mActivity.startActivityForResult(intent, requestCode);
+    }
 }

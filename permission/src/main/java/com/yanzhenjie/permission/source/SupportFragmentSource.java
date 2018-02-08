@@ -40,4 +40,9 @@ public class SupportFragmentSource extends Source {
     public void startActivity(Intent intent) {
         mFragment.startActivity(intent);
     }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        mFragment.startActivityForResult(intent, requestCode);
+    }
 }

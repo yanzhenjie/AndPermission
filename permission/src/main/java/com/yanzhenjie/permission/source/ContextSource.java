@@ -39,4 +39,9 @@ public class ContextSource extends Source {
     public void startActivity(Intent intent) {
         mContext.startActivity(intent);
     }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        mContext.startActivity(intent);
+    }
 }

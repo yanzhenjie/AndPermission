@@ -15,7 +15,6 @@
  */
 package com.yanzhenjie.permission.setting;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -43,7 +42,7 @@ public class PermissionSetting implements SettingService {
 
     @Override
     public void execute() {
-        Intent intent = getPermissionIntent();
+        Intent intent = obtainSettingIntent();
         try {
             mSource.startActivity(intent);
         } catch (Exception e) {
@@ -53,40 +52,35 @@ public class PermissionSetting implements SettingService {
 
     @Override
     public void execute(int requestCode) {
-        Intent intent = getPermissionIntent();
-        if (mSource.getContext() instanceof Activity) {
-            try {
-                ((Activity) mSource.getContext()).startActivityForResult(intent, requestCode);
-            } catch (Exception e) {
-                ((Activity) mSource.getContext()).startActivityForResult(defaultApi(mSource.getContext()), requestCode);
-            }
+        Intent intent = obtainSettingIntent();
+        try {
+            mSource.startActivityForResult(intent, requestCode);
+        } catch (Exception e) {
+            mSource.startActivityForResult(defaultApi(mSource.getContext()), requestCode);
         }
-    }
-
-    private Intent getPermissionIntent() {
-        Intent intent;
-        if (MARK.contains("huawei")) {
-            intent = huaweiApi(mSource.getContext());
-        } else if (MARK.contains("xiaomi")) {
-            intent = xiaomiApi(mSource.getContext());
-        } else if (MARK.contains("oppo")) {
-            intent = oppoApi(mSource.getContext());
-        } else if (MARK.contains("vivo")) {
-            intent = vivoApi(mSource.getContext());
-        } else if (MARK.contains("samsung")) {
-            intent = samsungApi(mSource.getContext());
-        } else if (MARK.contains("meizu")) {
-            intent = meizuApi(mSource.getContext());
-        } else if (MARK.contains("smartisan")) {
-            intent = smartisanApi(mSource.getContext());
-        } else {
-            intent = defaultApi(mSource.getContext());
-        }
-        return intent;
     }
 
     @Override
     public void cancel() {
+    }
+
+    private Intent obtainSettingIntent() {
+        if (MARK.contains("huawei")) {
+            return huaweiApi(mSource.getContext());
+        } else if (MARK.contains("xiaomi")) {
+            return xiaomiApi(mSource.getContext());
+        } else if (MARK.contains("oppo")) {
+            return oppoApi(mSource.getContext());
+        } else if (MARK.contains("vivo")) {
+            return vivoApi(mSource.getContext());
+        } else if (MARK.contains("samsung")) {
+            return samsungApi(mSource.getContext());
+        } else if (MARK.contains("meizu")) {
+            return meizuApi(mSource.getContext());
+        } else if (MARK.contains("smartisan")) {
+            return smartisanApi(mSource.getContext());
+        }
+        return defaultApi(mSource.getContext());
     }
 
     /**
