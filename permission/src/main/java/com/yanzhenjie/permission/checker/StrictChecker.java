@@ -35,7 +35,7 @@ public final class StrictChecker implements PermissionChecker {
 
     @Override
     public boolean hasPermission(@NonNull Context context, @NonNull String... permissions) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return true;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) return true;
 
         for (String permission : permissions) {
             if (!hasPermission(context, permission)) {
@@ -47,7 +47,7 @@ public final class StrictChecker implements PermissionChecker {
 
     @Override
     public boolean hasPermission(@NonNull Context context, @NonNull List<String> permissions) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return true;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) return true;
 
         for (String permission : permissions) {
             if (!hasPermission(context, permission)) {
