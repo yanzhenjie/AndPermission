@@ -88,7 +88,6 @@ public class PermissionSetting implements SettingService {
      */
     private static Intent defaultApi(Context context) {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setData(Uri.fromParts("package", context.getPackageName(), null));
         return intent;
     }
@@ -101,7 +100,6 @@ public class PermissionSetting implements SettingService {
             return defaultApi(context);
         }
         Intent intent = new Intent();
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.permissionmanager.ui.MainActivity"));
         return intent;
     }
@@ -111,7 +109,6 @@ public class PermissionSetting implements SettingService {
      */
     private static Intent xiaomiApi(Context context) {
         Intent intent = new Intent("miui.intent.action.APP_PERM_EDITOR");
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("extra_pkgname", context.getPackageName());
         return intent;
     }
@@ -121,7 +118,6 @@ public class PermissionSetting implements SettingService {
      */
     private static Intent vivoApi(Context context) {
         Intent intent = new Intent();
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("packagename", context.getPackageName());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             intent.setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.SoftPermissionDetailActivity"));
@@ -146,7 +142,6 @@ public class PermissionSetting implements SettingService {
             return defaultApi(context);
         }
         Intent intent = new Intent("com.meizu.safe.security.SHOW_APPSEC");
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("packageName", context.getPackageName());
         intent.setComponent(new ComponentName("com.meizu.safe", "com.meizu.safe.security.AppSecActivity"));
         return intent;
