@@ -214,7 +214,7 @@ public class AndPermission {
     /**
      * Create a service that opens the permission setting page.
      *
-     * @param context {@link android.app.Fragment}.
+     * @param context {@link Context}.
      * @return {@link SettingService}.
      */
     @NonNull
