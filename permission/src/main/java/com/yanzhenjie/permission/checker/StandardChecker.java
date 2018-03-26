@@ -50,7 +50,7 @@ public final class StandardChecker implements PermissionChecker {
 
             String op = AppOpsManager.permissionToOp(permission);
             if (TextUtils.isEmpty(op)) {
-                return true;
+                continue;
             }
 
             AppOpsManager appOpsManager = context.getSystemService(AppOpsManager.class);
