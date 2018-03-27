@@ -12,13 +12,13 @@ ext {
             buildToolsVersion: "26.0.3",
             minSdkVersion    : 14,
             targetSdkVersion : 26,
-            versionCode      : 103,
+            versionCode      : 104,
             versionName      : "2.0.0"
     ]
 
     bintray = [
             // library
-            version       : "2.0.0-rc3",
+            version       : "2.0.0-rc4",
 
             siteUrl       : 'https://github.com/yanzhenjie/AndPermission',
             gitUrl        : 'git@github.com:yanzhenjie/AndPermission.git',
@@ -52,6 +52,6 @@ ext {
             design     : 'com.android.support:design:26.1.0',
 
             alertDialog: 'com.yanzhenjie.alertdialog:alertdialog:1.0.1',
-            permission : 'com.yanzhenjie:permission:2.0.0-rc3'
+            permission : 'com.yanzhenjie:permission:2.0.0-rc4'
     ]
 }
