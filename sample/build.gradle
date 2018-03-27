@@ -11,30 +11,12 @@ android {
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
     }
-
-    buildTypes {
-        debug {
-            debuggable true
-            zipAlignEnabled false
-            minifyEnabled false
-            shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-
-        release {
-            debuggable false
-            zipAlignEnabled true
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
 }
 
 dependencies {
-    compile rootProject.ext.dependencies.permission
+    implementation rootProject.ext.dependencies.permission
 
-    compile rootProject.ext.dependencies.appCompat
-    compile rootProject.ext.dependencies.design
-    compile rootProject.ext.dependencies.alertDialog
+    implementation rootProject.ext.dependencies.appCompat
+    implementation rootProject.ext.dependencies.design
+    implementation rootProject.ext.dependencies.alertDialog
 }
