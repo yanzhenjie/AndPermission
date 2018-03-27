@@ -65,21 +65,18 @@ public final class PermissionActivity extends Activity {
         if (permissions != null && sPermissionListener != null) {
             requestPermissions(permissions, 1);
         } else {
+            sPermissionListener = null;
             finish();
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (sPermissionListener != null)
+        if (sPermissionListener != null) {
             sPermissionListener.onRequestPermissionsResult(permissions);
+            sPermissionListener = null;
+        }
         finish();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        sPermissionListener = null;
     }
 
     @Override

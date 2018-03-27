@@ -16,6 +16,8 @@
 package com.yanzhenjie.permission;
 
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 
@@ -37,6 +39,7 @@ import static java.util.Arrays.asList;
 @RequiresApi(api = Build.VERSION_CODES.M)
 class MRequest implements Request, RequestExecutor, PermissionActivity.PermissionListener {
 
+    private static final Handler HANDLER = new Handler(Looper.getMainLooper());
     private static final PermissionChecker CHECKER = new StandardChecker();
     private static final PermissionChecker DOUBLE_CHECKER = new DoubleChecker();
 
@@ -121,13 +124,18 @@ class MRequest implements Request, RequestExecutor, PermissionActivity.Permissio
     }
 
     @Override
-    public void onRequestPermissionsResult(@NonNull String[] permissions) {
-        List<String> deniedList = getDeniedPermissions(DOUBLE_CHECKER, mSource, permissions);
-        if (deniedList.isEmpty()) {
-            callbackSucceed();
-        } else {
-            callbackFailed(deniedList);
-        }
+    public void onRequestPermissionsResult(@NonNull final String[] permissions) {
+        HANDLER.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                List<String> deniedList = getDeniedPermissions(DOUBLE_CHECKER, mSource, permissions);
+                if (deniedList.isEmpty()) {
+                    callbackSucceed();
+                } else {
+                    callbackFailed(deniedList);
+                }
+            }
+        }, 250);
     }
 
     /**
