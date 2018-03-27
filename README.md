@@ -13,15 +13,13 @@ Simplify request run time permission process. AndPermission supports request per
 * Multiple permissions
 * Multiple permission groups
 
-For usage and other information see [Document](http://yanzhenjie.github.io/AndPermission).  
-
-[中文文档-中国开发者必看](http://yanzhenjie.github.io/AndPermission/cn)
+For usage and other information see document: [English](http://yanzhenjie.github.io/AndPermission) | [中文](http://yanzhenjie.github.io/AndPermission/cn).
 
 ## Download
 
 * Gradle
 ```
-implementation 'com.yanzhenjie:permission:2.0.0-rc3'
+implementation 'com.yanzhenjie:permission:2.0.0-rc4'
 ```
 
 * Maven
@@ -29,11 +27,11 @@ implementation 'com.yanzhenjie:permission:2.0.0-rc3'
 <dependency>
   <groupId>com.yanzhenjie</groupId>
   <artifactId>permission</artifactId>
-  <version>2.0.0-rc3</version>
+  <version>2.0.0-rc4</version>
 </dependency>
 ```
 
-AndPermission requires at minimum Java 7 or Android 3.0(Api level 11) .
+AndPermission requires at minimum Java 7 or Android 4.0(Api level 14) .
 
 ## ProGuard
 If you are using ProGuard you might need to add the following options:
