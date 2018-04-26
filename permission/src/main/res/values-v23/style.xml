@@ -16,15 +16,9 @@
 -->
 <resources>
 
-    <style name="Permission" />
-
-    <style name="Permission.Theme" parent="@android:style/Theme.Translucent.NoTitleBar">
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowDisablePreview">true</item>
+    <style name="Permission.Theme.Activity">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
-
-    <style name="Permission.Theme.Activity" />
 
 </resources>

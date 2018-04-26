@@ -45,6 +45,7 @@ public final class PermissionActivity extends Activity {
     /**
      * Request for permissions.
      */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public static void requestPermission(Context context, String[] permissions, PermissionListener permissionListener) {
         sPermissionListener = permissionListener;
 

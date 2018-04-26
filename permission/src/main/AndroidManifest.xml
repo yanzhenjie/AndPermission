@@ -22,7 +22,7 @@
             android:name=".PermissionActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="standard"
-            android:theme="@style/permission_PermissionActivity"
+            android:theme="@style/Permission.Theme.Activity"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden"/>
     </application>
 
