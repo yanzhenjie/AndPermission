@@ -31,11 +31,11 @@ class StorageWriteTest implements PermissionTest {
     public boolean test() throws Throwable {
         File directory = Environment.getExternalStorageDirectory();
         if (!directory.exists() || !directory.canWrite()) return false;
-        File file = new File(directory, "ANDROID.PERMISSION.TEST");
-        if (file.exists()) {
-            return file.delete();
-        } else {
-            return file.createNewFile();
-        }
+        File parent = new File(directory, "Android");
+        if (parent.exists() && parent.isFile()) if (!parent.delete()) return false;
+        if (!parent.exists()) if (!parent.mkdirs()) return false;
+        File file = new File(parent, "ANDROID.PERMISSION.TEST");
+        if (file.exists()) return file.delete();
+        else return file.createNewFile();
     }
 }
