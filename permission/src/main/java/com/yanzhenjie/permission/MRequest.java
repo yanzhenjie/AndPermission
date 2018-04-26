@@ -120,15 +120,15 @@ class MRequest implements Request, RequestExecutor, PermissionActivity.Permissio
 
     @Override
     public void cancel() {
-        onRequestPermissionsResult(mDeniedPermissions);
+        onRequestPermissionsResult();
     }
 
     @Override
-    public void onRequestPermissionsResult(@NonNull final String[] permissions) {
+    public void onRequestPermissionsResult() {
         HANDLER.postDelayed(new Runnable() {
             @Override
             public void run() {
-                List<String> deniedList = getDeniedPermissions(DOUBLE_CHECKER, mSource, permissions);
+                List<String> deniedList = getDeniedPermissions(DOUBLE_CHECKER, mSource, mDeniedPermissions);
                 if (deniedList.isEmpty()) {
                     callbackSucceed();
                 } else {

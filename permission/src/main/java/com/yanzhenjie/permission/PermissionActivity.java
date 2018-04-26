@@ -73,7 +73,7 @@ public final class PermissionActivity extends Activity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (sPermissionListener != null) {
-            sPermissionListener.onRequestPermissionsResult(permissions);
+            sPermissionListener.onRequestPermissionsResult();
             sPermissionListener = null;
         }
         finish();
@@ -91,7 +91,7 @@ public final class PermissionActivity extends Activity {
      * permission callback.
      */
     interface PermissionListener {
-        void onRequestPermissionsResult(@NonNull String[] permissions);
+        void onRequestPermissionsResult();
     }
 
     /**
