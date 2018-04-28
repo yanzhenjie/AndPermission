@@ -19,9 +19,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.CallLog;
-import android.support.annotation.RequiresPermission;
-
-import com.yanzhenjie.permission.Permission;
 
 /**
  * Created by YanZhenjie on 2018/1/25.
@@ -34,7 +31,6 @@ class CallLogReadTest implements PermissionTest {
         mResolver = context.getContentResolver();
     }
 
-    @RequiresPermission(Permission.READ_CALL_LOG)
     @Override
     public boolean test() throws Throwable {
         String[] projection = new String[]{CallLog.Calls._ID, CallLog.Calls.NUMBER, CallLog.Calls.TYPE};

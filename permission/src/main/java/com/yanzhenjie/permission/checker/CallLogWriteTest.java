@@ -21,9 +21,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
 import android.provider.CallLog;
-import android.support.annotation.RequiresPermission;
-
-import com.yanzhenjie.permission.Permission;
 
 /**
  * Created by YanZhenjie on 2018/1/14.
@@ -36,7 +33,6 @@ class CallLogWriteTest implements PermissionTest {
         this.mResolver = context.getContentResolver();
     }
 
-    @RequiresPermission(Permission.WRITE_CALL_LOG)
     @Override
     public boolean test() throws Throwable {
         try {

@@ -21,9 +21,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.CalendarContract;
-import android.support.annotation.RequiresApi;
 
 import java.util.TimeZone;
 
@@ -41,7 +39,6 @@ class CalendarWriteTest implements PermissionTest {
         this.mResolver = context.getContentResolver();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     public boolean test() throws Throwable {
         try {

@@ -20,9 +20,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.VoicemailContract;
-import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 
 /**
@@ -36,7 +34,6 @@ class AddVoicemailTest implements PermissionTest {
         mResolver = context.getContentResolver();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     public boolean test() throws Throwable {
         try {

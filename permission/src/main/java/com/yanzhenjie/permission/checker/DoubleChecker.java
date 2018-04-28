@@ -16,7 +16,6 @@
 package com.yanzhenjie.permission.checker;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import java.util.List;
 
@@ -29,13 +28,13 @@ public final class DoubleChecker implements PermissionChecker {
     private static final PermissionChecker STRICT_CHECKER = new StrictChecker();
 
     @Override
-    public boolean hasPermission(@NonNull Context context, @NonNull String... permissions) {
+    public boolean hasPermission(Context context, String... permissions) {
         return STANDARD_CHECKER.hasPermission(context, permissions)
                 && STRICT_CHECKER.hasPermission(context, permissions);
     }
 
     @Override
-    public boolean hasPermission(@NonNull Context context, @NonNull List<String> permissions) {
+    public boolean hasPermission(Context context, List<String> permissions) {
         return STANDARD_CHECKER.hasPermission(context, permissions)
                 && STRICT_CHECKER.hasPermission(context, permissions);
     }

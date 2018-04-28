@@ -16,7 +16,6 @@
 package com.yanzhenjie.permission.checker;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import java.util.List;
 
@@ -32,7 +31,7 @@ public interface PermissionChecker {
      * @param permissions one or more permissions.
      * @return true, other wise is false.
      */
-    boolean hasPermission(@NonNull Context context, @NonNull String... permissions);
+    boolean hasPermission(Context context, String... permissions);
     
     /**
      * Check if the calling context has a set of permissions.
@@ -41,6 +40,6 @@ public interface PermissionChecker {
      * @param permissions one or more permissions.
      * @return true, other wise is false.
      */
-    boolean hasPermission(@NonNull Context context, @NonNull List<String> permissions);
+    boolean hasPermission(Context context, List<String> permissions);
 
 }

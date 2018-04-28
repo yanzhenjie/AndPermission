@@ -15,11 +15,8 @@
  */
 package com.yanzhenjie.permission;
 
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 
 import com.yanzhenjie.permission.checker.DoubleChecker;
 import com.yanzhenjie.permission.checker.PermissionChecker;
@@ -36,7 +33,6 @@ import static java.util.Arrays.asList;
  * <p>Request permission and callback.</p>
  * Created by Yan Zhenjie on 2016/9/9.
  */
-@RequiresApi(api = Build.VERSION_CODES.M)
 class MRequest implements Request, RequestExecutor, PermissionActivity.PermissionListener {
 
     private static final Handler HANDLER = new Handler(Looper.getMainLooper());
@@ -56,14 +52,12 @@ class MRequest implements Request, RequestExecutor, PermissionActivity.Permissio
         this.mSource = source;
     }
 
-    @NonNull
     @Override
     public Request permission(String... permissions) {
         this.mPermissions = permissions;
         return this;
     }
 
-    @NonNull
     @Override
     public Request permission(String[]... groups) {
         List<String> permissionList = new ArrayList<>();
@@ -75,21 +69,18 @@ class MRequest implements Request, RequestExecutor, PermissionActivity.Permissio
     }
 
 
-    @NonNull
     @Override
     public Request rationale(Rationale listener) {
         this.mRationaleListener = listener;
         return this;
     }
 
-    @NonNull
     @Override
     public Request onGranted(Action granted) {
         this.mGranted = granted;
         return this;
     }
 
-    @NonNull
     @Override
     public Request onDenied(Action denied) {
         this.mDenied = denied;
@@ -112,7 +103,6 @@ class MRequest implements Request, RequestExecutor, PermissionActivity.Permissio
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void execute() {
         PermissionActivity.requestPermission(mSource.getContext(), mDeniedPermissions, this);
@@ -157,7 +147,7 @@ class MRequest implements Request, RequestExecutor, PermissionActivity.Permissio
     /**
      * Callback rejected state.
      */
-    private void callbackFailed(@NonNull List<String> deniedList) {
+    private void callbackFailed(List<String> deniedList) {
         if (mDenied != null) {
             mDenied.onAction(deniedList);
         }
@@ -166,7 +156,7 @@ class MRequest implements Request, RequestExecutor, PermissionActivity.Permissio
     /**
      * Get denied permissions.
      */
-    private static List<String> getDeniedPermissions(PermissionChecker checker, @NonNull Source source, @NonNull String... permissions) {
+    private static List<String> getDeniedPermissions(PermissionChecker checker, Source source, String... permissions) {
         List<String> deniedList = new ArrayList<>(1);
         for (String permission : permissions) {
             if (!checker.hasPermission(source.getContext(), permission)) {
@@ -179,7 +169,7 @@ class MRequest implements Request, RequestExecutor, PermissionActivity.Permissio
     /**
      * Get permissions to show rationale.
      */
-    private static List<String> getRationalePermissions(@NonNull Source source, @NonNull String... permissions) {
+    private static List<String> getRationalePermissions(Source source, String... permissions) {
         List<String> rationaleList = new ArrayList<>(1);
         for (String permission : permissions) {
             if (source.isShowRationalePermission(permission)) {

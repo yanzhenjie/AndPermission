@@ -19,7 +19,6 @@ import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import java.util.Arrays;
@@ -34,12 +33,12 @@ public final class StandardChecker implements PermissionChecker {
     }
 
     @Override
-    public boolean hasPermission(@NonNull Context context, @NonNull String... permissions) {
+    public boolean hasPermission(Context context, String... permissions) {
         return hasPermission(context, Arrays.asList(permissions));
     }
 
     @Override
-    public boolean hasPermission(@NonNull Context context, @NonNull List<String> permissions) {
+    public boolean hasPermission(Context context, List<String> permissions) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return true;
 
         for (String permission : permissions) {

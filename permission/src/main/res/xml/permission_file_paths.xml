@@ -15,6 +15,14 @@
     limitations under the License.
 -->
 <paths>
+    <files-path
+        name="file_path"
+        path="."/>
+
+    <cache-path
+        name="cache_path"
+        path="."/>
+
     <external-path
         name="external_path"
         path="."/>
@@ -27,12 +35,7 @@
         name="external_cache_path"
         path="."/>
 
-    <files-path
-        name="file_path"
+    <external-media-path
+        name="external_media_path"
         path="."/>
-
-    <cache-path
-        name="cache_path"
-        path="."/>
-
 </paths>

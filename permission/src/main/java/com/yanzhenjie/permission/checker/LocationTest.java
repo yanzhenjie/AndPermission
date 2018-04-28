@@ -20,9 +20,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.annotation.RequiresPermission;
-
-import com.yanzhenjie.permission.Permission;
 
 import java.util.List;
 
@@ -37,7 +34,6 @@ class LocationTest implements PermissionTest {
         this.mManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
     }
 
-    @RequiresPermission(anyOf = {Permission.ACCESS_FINE_LOCATION, Permission.ACCESS_COARSE_LOCATION})
     @Override
     public boolean test() throws Throwable {
         List<String> list = mManager.getProviders(true);

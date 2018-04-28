@@ -25,7 +25,7 @@ import java.io.File;
 class RecordAudioTest implements PermissionTest {
 
     private File mTempFile = null;
-    private MediaRecorder mRecorder = null;
+    private MediaRecorder mRecorder;
 
     RecordAudioTest() {
         mRecorder = new MediaRecorder();

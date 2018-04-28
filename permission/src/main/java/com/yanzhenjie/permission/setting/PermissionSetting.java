@@ -21,7 +21,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 
 import com.yanzhenjie.permission.SettingService;
 import com.yanzhenjie.permission.source.Source;
@@ -36,7 +35,7 @@ public class PermissionSetting implements SettingService {
 
     private Source mSource;
 
-    public PermissionSetting(@NonNull Source source) {
+    public PermissionSetting(Source source) {
         this.mSource = source;
     }
 

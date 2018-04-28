@@ -15,8 +15,6 @@
  */
 package com.yanzhenjie.permission;
 
-import android.support.annotation.NonNull;
-
 import com.yanzhenjie.permission.checker.PermissionChecker;
 import com.yanzhenjie.permission.checker.StrictChecker;
 import com.yanzhenjie.permission.source.Source;
@@ -44,14 +42,12 @@ class LRequest implements Request {
         this.mSource = source;
     }
 
-    @NonNull
     @Override
     public Request permission(String... permissions) {
         this.mPermissions = permissions;
         return this;
     }
 
-    @NonNull
     @Override
     public Request permission(String[]... groups) {
         List<String> permissionList = new ArrayList<>();
@@ -62,20 +58,17 @@ class LRequest implements Request {
         return this;
     }
 
-    @NonNull
     @Override
     public Request rationale(Rationale listener) {
         return this;
     }
 
-    @NonNull
     @Override
     public Request onGranted(Action granted) {
         this.mGranted = granted;
         return this;
     }
 
-    @NonNull
     @Override
     public Request onDenied(Action denied) {
         this.mDenied = denied;
@@ -110,7 +103,7 @@ class LRequest implements Request {
     /**
      * Callback rejected state.
      */
-    private void callbackFailed(@NonNull List<String> deniedList) {
+    private void callbackFailed(List<String> deniedList) {
         if (mDenied != null) {
             mDenied.onAction(deniedList);
         }
@@ -119,7 +112,7 @@ class LRequest implements Request {
     /**
      * Get denied permissions.
      */
-    private static List<String> getDeniedPermissions(@NonNull Source source, @NonNull String... permissions) {
+    private static List<String> getDeniedPermissions(Source source, String... permissions) {
         List<String> deniedList = new ArrayList<>(1);
         for (String permission : permissions) {
             if (!CHECKER.hasPermission(source.getContext(), permission)) {

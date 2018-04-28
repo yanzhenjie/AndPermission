@@ -20,8 +20,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 
 /**
  * Created by YanZhenjie on 2018/1/25.
@@ -34,7 +32,6 @@ class SensorsTest implements PermissionTest {
         this.mContext = context;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT_WATCH)
     @Override
     public boolean test() throws Throwable {
         SensorManager sensorManager = (SensorManager) mContext.getSystemService(Context.SENSOR_SERVICE);

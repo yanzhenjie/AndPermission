@@ -18,8 +18,6 @@ package com.yanzhenjie.permission.checker;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 
 import com.yanzhenjie.permission.Permission;
 
@@ -34,7 +32,7 @@ public final class StrictChecker implements PermissionChecker {
     }
 
     @Override
-    public boolean hasPermission(@NonNull Context context, @NonNull String... permissions) {
+    public boolean hasPermission(Context context, String... permissions) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return true;
 
         for (String permission : permissions) {
@@ -46,7 +44,7 @@ public final class StrictChecker implements PermissionChecker {
     }
 
     @Override
-    public boolean hasPermission(@NonNull Context context, @NonNull List<String> permissions) {
+    public boolean hasPermission(Context context, List<String> permissions) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return true;
 
         for (String permission : permissions) {
@@ -57,7 +55,6 @@ public final class StrictChecker implements PermissionChecker {
         return true;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private boolean hasPermission(Context context, String permission) {
         try {
             switch (permission) {

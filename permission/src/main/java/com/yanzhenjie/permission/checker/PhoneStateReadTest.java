@@ -38,8 +38,7 @@ class PhoneStateReadTest implements PermissionTest {
         if (service.getPhoneType() == TelephonyManager.PHONE_TYPE_NONE) {
             return true;
         } else {
-            return !TextUtils.isEmpty(service.getDeviceId())
-                    || !TextUtils.isEmpty(service.getSubscriberId());
+            return !TextUtils.isEmpty(service.getDeviceId()) || !TextUtils.isEmpty(service.getSubscriberId());
         }
     }
 }

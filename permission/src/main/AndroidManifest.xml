@@ -26,7 +26,7 @@
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
 
         <provider
-            android:name=".CompatFileProvider"
+            android:name=".FileProvider"
             android:authorities="${applicationId}.file.path.share"
             android:exported="false"
             android:grantUriPermissions="true">

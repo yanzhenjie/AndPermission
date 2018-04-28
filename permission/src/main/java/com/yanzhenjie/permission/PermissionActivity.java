@@ -21,9 +21,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -35,7 +32,6 @@ import android.view.WindowManager;
  * </p>
  * Created by Yan Zhenjie on 2017/4/27.
  */
-@RequiresApi(api = Build.VERSION_CODES.M)
 public final class PermissionActivity extends Activity {
 
     private static final String KEY_INPUT_PERMISSIONS = "KEY_INPUT_PERMISSIONS";
@@ -45,7 +41,6 @@ public final class PermissionActivity extends Activity {
     /**
      * Request for permissions.
      */
-    @RequiresApi(api = Build.VERSION_CODES.M)
     public static void requestPermission(Context context, String[] permissions, PermissionListener permissionListener) {
         sPermissionListener = permissionListener;
 
@@ -56,7 +51,7 @@ public final class PermissionActivity extends Activity {
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         invasionStatusBar(this);
 
@@ -72,7 +67,7 @@ public final class PermissionActivity extends Activity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (sPermissionListener != null) {
             sPermissionListener.onRequestPermissionsResult();
             sPermissionListener = null;
