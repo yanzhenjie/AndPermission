@@ -42,7 +42,12 @@ public class ContextSource extends Source {
 
     @Override
     public void startActivity(Intent intent) {
-        mContext.startActivity(intent);
+        if (mContext instanceof Activity) {
+            mContext.startActivity(intent);
+        } else {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
+        }
     }
 
     @Override
