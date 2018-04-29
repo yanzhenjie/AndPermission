@@ -15,8 +15,6 @@
  */
 package com.yanzhenjie.permission;
 
-import android.app.Activity;
-import android.app.Service;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
@@ -25,10 +23,8 @@ import android.support.v4.app.Fragment;
 import com.yanzhenjie.permission.checker.PermissionChecker;
 import com.yanzhenjie.permission.checker.StandardChecker;
 import com.yanzhenjie.permission.setting.PermissionSetting;
-import com.yanzhenjie.permission.source.ActivitySource;
 import com.yanzhenjie.permission.source.ContextSource;
 import com.yanzhenjie.permission.source.FragmentSource;
-import com.yanzhenjie.permission.source.ServiceSource;
 import com.yanzhenjie.permission.source.Source;
 import com.yanzhenjie.permission.source.SupportFragmentSource;
 
@@ -41,142 +37,33 @@ import java.util.List;
 public class AndPermission {
 
     /**
-     * Classic permission checker.
-     */
-    private static final PermissionChecker PERMISSION_CHECKER = new StandardChecker();
-
-    /**
-     * Judgment already has the target permission.
+     * With {@link Fragment}.
      *
-     * @param context     {@link Context}.
-     * @param permissions one or more permissions.
-     * @return true, other wise is false.
+     * @param fragment {@link Fragment}.
+     * @return {@link Options}.
      */
-    public static boolean hasPermissions(Context context, String... permissions) {
-        return PERMISSION_CHECKER.hasPermission(context, permissions);
+    public static Options with(Fragment fragment) {
+        return new Options(new SupportFragmentSource(fragment));
     }
 
     /**
-     * Judgment already has the target permission.
+     * With {@link android.app.Fragment}.
      *
-     * @param fragment    {@link Fragment}.
-     * @param permissions one or more permissions.
-     * @return true, other wise is false.
+     * @param fragment {@link android.app.Fragment}.
+     * @return {@link Options}.
      */
-    public static boolean hasPermissions(Fragment fragment, String... permissions) {
-        return PERMISSION_CHECKER.hasPermission(fragment.getContext(), permissions);
+    public static Options with(android.app.Fragment fragment) {
+        return new Options(new FragmentSource(fragment));
     }
 
     /**
-     * Judgment already has the target permission.
+     * With context.
      *
-     * @param fragment    {@link android.app.Fragment}.
-     * @param permissions one or more permissions.
-     * @return true, other wise is false.
+     * @param context {@link Context}.
+     * @return {@link Options}.
      */
-    public static boolean hasPermissions(android.app.Fragment fragment, String... permissions) {
-        return PERMISSION_CHECKER.hasPermission(fragment.getActivity(), permissions);
-    }
-
-    /**
-     * Judgment already has the target permission.
-     *
-     * @param context     {@link Context}.
-     * @param permissions one or more permission groups.
-     * @return true, other wise is false.
-     */
-    public static boolean hasPermissions(Context context, String[]... permissions) {
-        for (String[] permission : permissions) {
-            boolean hasPermission = PERMISSION_CHECKER.hasPermission(context, permission);
-            if (!hasPermission) return false;
-        }
-        return true;
-    }
-
-    /**
-     * Judgment already has the target permission.
-     *
-     * @param fragment    {@link Fragment}.
-     * @param permissions one or more permission groups.
-     * @return true, other wise is false.
-     */
-    public static boolean hasPermissions(Fragment fragment, String[]... permissions) {
-        for (String[] permission : permissions) {
-            boolean hasPermission = PERMISSION_CHECKER.hasPermission(fragment.getContext(), permission);
-            if (!hasPermission) return false;
-        }
-        return true;
-    }
-
-    /**
-     * Judgment already has the target permission.
-     *
-     * @param fragment    {@link android.app.Fragment}.
-     * @param permissions one or more permission groups.
-     * @return true, other wise is false.
-     */
-    public static boolean hasPermissions(android.app.Fragment fragment, String[]... permissions) {
-        for (String[] permission : permissions) {
-            boolean hasPermission = PERMISSION_CHECKER.hasPermission(fragment.getActivity(), permission);
-            if (!hasPermission) return false;
-        }
-        return true;
-    }
-
-    /**
-     * Judgment already has the target permission.
-     *
-     * @param context     {@link Context}.
-     * @param permissions some set of permissions.
-     * @return true, other wise is false.
-     */
-    public static boolean hasPermissions(Context context, List<String>... permissions) {
-        for (List<String> permission : permissions) {
-            boolean hasPermission = PERMISSION_CHECKER.hasPermission(context, permission);
-            if (!hasPermission) return false;
-        }
-        return true;
-    }
-
-    /**
-     * Judgment already has the target permission.
-     *
-     * @param fragment    {@link Fragment}.
-     * @param permissions some set of permissions.
-     * @return true, other wise is false.
-     */
-    public static boolean hasPermissions(Fragment fragment, List<String>... permissions) {
-        for (List<String> permission : permissions) {
-            boolean hasPermission = PERMISSION_CHECKER.hasPermission(fragment.getContext(), permission);
-            if (!hasPermission) return false;
-        }
-        return true;
-    }
-
-    /**
-     * Judgment already has the target permission.
-     *
-     * @param fragment    {@link android.app.Fragment}.
-     * @param permissions some set of permissions.
-     * @return true, other wise is false.
-     */
-    public static boolean hasPermissions(android.app.Fragment fragment, List<String>... permissions) {
-        for (List<String> permission : permissions) {
-            boolean hasPermission = PERMISSION_CHECKER.hasPermission(fragment.getActivity(), permission);
-            if (!hasPermission) return false;
-        }
-        return true;
-    }
-
-    /**
-     * Some privileges permanently disabled, may need to set up in the execute.
-     *
-     * @param activity          {@link Activity}.
-     * @param deniedPermissions one or more permissions.
-     * @return true, other wise is false.
-     */
-    public static boolean hasAlwaysDeniedPermission(Activity activity, List<String> deniedPermissions) {
-        return hasAlwaysDeniedPermission(new ActivitySource(activity), deniedPermissions);
+    public static Options with(Context context) {
+        return new Options(new ContextSource(context));
     }
 
     /**
@@ -227,17 +114,6 @@ public class AndPermission {
     /**
      * Some privileges permanently disabled, may need to set up in the execute.
      *
-     * @param activity          {@link Activity}.
-     * @param deniedPermissions one or more permissions.
-     * @return true, other wise is false.
-     */
-    public static boolean hasAlwaysDeniedPermission(Activity activity, String... deniedPermissions) {
-        return hasAlwaysDeniedPermission(new ActivitySource(activity), deniedPermissions);
-    }
-
-    /**
-     * Some privileges permanently disabled, may need to set up in the execute.
-     *
      * @param fragment          {@link Fragment}.
      * @param deniedPermissions one or more permissions.
      * @return true, other wise is false.
@@ -255,17 +131,6 @@ public class AndPermission {
      */
     public static boolean hasAlwaysDeniedPermission(android.app.Fragment fragment, String... deniedPermissions) {
         return hasAlwaysDeniedPermission(new FragmentSource(fragment), deniedPermissions);
-    }
-
-    /**
-     * Some privileges permanently disabled, may need to set up in the execute.
-     *
-     * @param service           {@link Service}.
-     * @param deniedPermissions one or more permissions.
-     * @return true, other wise is false.
-     */
-    public static boolean hasAlwaysDeniedPermission(Service service, String... deniedPermissions) {
-        return hasAlwaysDeniedPermission(new ServiceSource(service), deniedPermissions);
     }
 
     /**
@@ -294,16 +159,6 @@ public class AndPermission {
     /**
      * Create a service that opens the permission setting page.
      *
-     * @param activity {@link Activity}.
-     * @return {@link SettingService}.
-     */
-    public static SettingService permissionSetting(Activity activity) {
-        return new PermissionSetting(new ActivitySource(activity));
-    }
-
-    /**
-     * Create a service that opens the permission setting page.
-     *
      * @param fragment {@link Fragment}.
      * @return {@link SettingService}.
      */
@@ -324,16 +179,6 @@ public class AndPermission {
     /**
      * Create a service that opens the permission setting page.
      *
-     * @param service {@link Service}.
-     * @return {@link SettingService}.
-     */
-    public static SettingService permissionSetting(Service service) {
-        return new PermissionSetting(new ServiceSource(service));
-    }
-
-    /**
-     * Create a service that opens the permission setting page.
-     *
      * @param context {@link Context}.
      * @return {@link SettingService}.
      */
@@ -342,60 +187,107 @@ public class AndPermission {
     }
 
     /**
-     * With Activity.
-     *
-     * @param activity {@link Activity}.
-     * @return {@link Options}.
+     * Classic permission checker.
      */
-    public static Options with(Activity activity) {
-        return new Options(new ActivitySource(activity));
+    private static final PermissionChecker PERMISSION_CHECKER = new StandardChecker();
+
+    /**
+     * Judgment already has the target permission.
+     *
+     * @param fragment    {@link Fragment}.
+     * @param permissions one or more permissions.
+     * @return true, other wise is false.
+     */
+    public static boolean hasPermissions(Fragment fragment, String... permissions) {
+        return hasPermissions(fragment.getContext(), permissions);
     }
 
     /**
-     * With {@link Fragment}.
+     * Judgment already has the target permission.
      *
-     * @param fragment {@link Fragment}.
-     * @return {@link Options}.
+     * @param fragment    {@link android.app.Fragment}.
+     * @param permissions one or more permissions.
+     * @return true, other wise is false.
      */
-    public static Options with(Fragment fragment) {
-        return new Options(new SupportFragmentSource(fragment));
+    public static boolean hasPermissions(android.app.Fragment fragment, String... permissions) {
+        return hasPermissions(fragment.getActivity(), permissions);
     }
 
     /**
-     * With {@link android.app.Fragment}.
+     * Judgment already has the target permission.
      *
-     * @param fragment {@link android.app.Fragment}.
-     * @return {@link Options}.
+     * @param context     {@link Context}.
+     * @param permissions one or more permissions.
+     * @return true, other wise is false.
      */
-    public static Options with(android.app.Fragment fragment) {
-        return new Options(new FragmentSource(fragment));
+    public static boolean hasPermissions(Context context, String... permissions) {
+        return PERMISSION_CHECKER.hasPermission(context, permissions);
     }
 
     /**
-     * With service.
+     * Judgment already has the target permission.
      *
-     * @param service {@link Service}.
-     * @return {@link Options}.
+     * @param fragment    {@link Fragment}.
+     * @param permissions one or more permission groups.
+     * @return true, other wise is false.
      */
-    public static Options with(Service service) {
-        return new Options(new ServiceSource(service));
+    public static boolean hasPermissions(Fragment fragment, String[]... permissions) {
+        return hasPermissions(fragment.getContext(), permissions);
     }
 
     /**
-     * With context.
+     * Judgment already has the target permission.
      *
-     * @param context {@link Context}.
-     * @return {@link Options}.
+     * @param fragment    {@link android.app.Fragment}.
+     * @param permissions one or more permission groups.
+     * @return true, other wise is false.
      */
-    public static Options with(Context context) {
-        return new Options(new ContextSource(context));
+    public static boolean hasPermissions(android.app.Fragment fragment, String[]... permissions) {
+        return hasPermissions(fragment.getActivity(), permissions);
+    }
+
+    /**
+     * Judgment already has the target permission.
+     *
+     * @param context     {@link Context}.
+     * @param permissions one or more permission groups.
+     * @return true, other wise is false.
+     */
+    public static boolean hasPermissions(Context context, String[]... permissions) {
+        for (String[] permission : permissions) {
+            boolean hasPermission = PERMISSION_CHECKER.hasPermission(context, permission);
+            if (!hasPermission) return false;
+        }
+        return true;
     }
 
     /**
      * Get compatible Android 7.0 and lower versions of Uri.
      *
-     * @param context context.
-     * @param file    file.
+     * @param fragment {@link Fragment}.
+     * @param file     apk file.
+     * @return uri.
+     */
+    public static Uri getFileUri(Fragment fragment, File file) {
+        return getFileUri(fragment.getContext(), file);
+    }
+
+    /**
+     * Get compatible Android 7.0 and lower versions of Uri.
+     *
+     * @param fragment {@link android.app.Fragment}.
+     * @param file     apk file.
+     * @return uri.
+     */
+    public static Uri getFileUri(android.app.Fragment fragment, File file) {
+        return getFileUri(fragment.getActivity(), file);
+    }
+
+    /**
+     * Get compatible Android 7.0 and lower versions of Uri.
+     *
+     * @param context {@link Context}.
+     * @param file    apk file.
      * @return uri.
      */
     public static Uri getFileUri(Context context, File file) {
