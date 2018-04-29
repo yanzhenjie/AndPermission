@@ -137,7 +137,7 @@ public class PermissionSetting implements SettingService {
      * Meizu phone to achieve the method.
      */
     private static Intent meizuApi(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return defaultApi(context);
         }
         Intent intent = new Intent("com.meizu.safe.security.SHOW_APPSEC");
