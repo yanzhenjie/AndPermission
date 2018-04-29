@@ -15,8 +15,13 @@
  */
 package com.yanzhenjie.permission.source;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
+
+import java.lang.reflect.Method;
 
 /**
  * <p>Context Wrapper.</p>
@@ -42,6 +47,32 @@ public class ContextSource extends Source {
 
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
-        mContext.startActivity(intent);
+        if (mContext instanceof Activity) {
+            Activity activity = (Activity) mContext;
+            activity.startActivityForResult(intent, requestCode);
+        } else {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
+        }
+    }
+
+    @Override
+    public boolean isShowRationalePermission(String permission) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false;
+
+        if (mContext instanceof Activity) {
+            Activity activity = (Activity) mContext;
+            return activity.shouldShowRequestPermissionRationale(permission);
+        }
+
+        PackageManager packageManager = mContext.getPackageManager();
+        Class<?> pkManagerClass = packageManager.getClass();
+        try {
+            Method method = pkManagerClass.getMethod("shouldShowRequestPermissionRationale", String.class);
+            if (!method.isAccessible()) method.setAccessible(true);
+            return (boolean) method.invoke(packageManager, permission);
+        } catch (Exception ignored) {
+            return false;
+        }
     }
 }
