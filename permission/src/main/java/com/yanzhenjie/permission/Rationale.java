@@ -25,6 +25,13 @@ import java.util.List;
  */
 public interface Rationale {
 
+    Rationale DEFAULT = new Rationale() {
+        @Override
+        public void showRationale(Context context, List<String> permissions, RequestExecutor executor) {
+            executor.execute();
+        }
+    };
+
     /**
      * Show rationale of permissions to user.
      *

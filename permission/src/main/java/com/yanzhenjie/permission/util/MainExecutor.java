@@ -13,18 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission;
+package com.yanzhenjie.permission.util;
 
-import java.util.List;
+import android.os.Handler;
+import android.os.Looper;
 
 /**
- * Created by YanZhenjie on 2018/1/1.
+ * Created by YanZhenjie on 2018/4/28.
  */
-public interface Action {
-    /**
-     * An action.
-     *
-     * @param permissions the current action under permissions.
-     */
-    void onAction(List<String> permissions);
+public class MainExecutor {
+
+    private static final Handler HANDLER = new Handler(Looper.getMainLooper());
+
+    public MainExecutor() {
+    }
+
+    public void post(Runnable r) {
+        HANDLER.post(r);
+    }
+
+    public void postDelayed(Runnable r, long delayMillis) {
+        HANDLER.postDelayed(r, delayMillis);
+    }
 }

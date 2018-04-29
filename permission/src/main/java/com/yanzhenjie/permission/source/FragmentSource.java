@@ -18,6 +18,7 @@ package com.yanzhenjie.permission.source;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 /**
  * <p>android.app.Fragment Wrapper.</p>
@@ -44,5 +45,11 @@ public class FragmentSource extends Source {
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
         mFragment.startActivityForResult(intent, requestCode);
+    }
+
+    @Override
+    public boolean isShowRationalePermission(String permission) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false;
+        return mFragment.shouldShowRequestPermissionRationale(permission);
     }
 }

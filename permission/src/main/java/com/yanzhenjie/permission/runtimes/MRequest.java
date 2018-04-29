@@ -13,36 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission;
+package com.yanzhenjie.permission.runtimes;
 
-import android.os.Handler;
-import android.os.Looper;
-
+import com.yanzhenjie.permission.Action;
+import com.yanzhenjie.permission.PermissionActivity;
+import com.yanzhenjie.permission.Rationale;
+import com.yanzhenjie.permission.RequestExecutor;
 import com.yanzhenjie.permission.checker.DoubleChecker;
 import com.yanzhenjie.permission.checker.PermissionChecker;
 import com.yanzhenjie.permission.checker.StandardChecker;
 import com.yanzhenjie.permission.source.Source;
+import com.yanzhenjie.permission.util.MainExecutor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static java.util.Arrays.asList;
 
 /**
- * <p>Request permission and callback.</p>
- * Created by Yan Zhenjie on 2016/9/9.
+ * Created by YanZhenjie on 2016/9/9.
  */
-class MRequest implements Request, RequestExecutor, PermissionActivity.PermissionListener {
+class MRequest implements PermissionRequest, RequestExecutor, PermissionActivity.RequestListener {
 
-    private static final Handler HANDLER = new Handler(Looper.getMainLooper());
+    private static final MainExecutor EXECUTOR = new MainExecutor();
     private static final PermissionChecker CHECKER = new StandardChecker();
     private static final PermissionChecker DOUBLE_CHECKER = new DoubleChecker();
 
     private Source mSource;
 
     private String[] mPermissions;
-    private Rationale mRationaleListener;
+    private Rationale mRationaleListener = Rationale.DEFAULT;
     private Action mGranted;
     private Action mDenied;
 
@@ -53,36 +53,25 @@ class MRequest implements Request, RequestExecutor, PermissionActivity.Permissio
     }
 
     @Override
-    public Request permission(String... permissions) {
+    public PermissionRequest permission(String... permissions) {
         this.mPermissions = permissions;
         return this;
     }
 
     @Override
-    public Request permission(String[]... groups) {
-        List<String> permissionList = new ArrayList<>();
-        for (String[] group : groups) {
-            permissionList.addAll(Arrays.asList(group));
-        }
-        this.mPermissions = permissionList.toArray(new String[permissionList.size()]);
-        return this;
-    }
-
-
-    @Override
-    public Request rationale(Rationale listener) {
+    public PermissionRequest rationale(Rationale listener) {
         this.mRationaleListener = listener;
         return this;
     }
 
     @Override
-    public Request onGranted(Action granted) {
+    public PermissionRequest onGranted(Action granted) {
         this.mGranted = granted;
         return this;
     }
 
     @Override
-    public Request onDenied(Action denied) {
+    public PermissionRequest onDenied(Action denied) {
         this.mDenied = denied;
         return this;
     }
@@ -93,7 +82,7 @@ class MRequest implements Request, RequestExecutor, PermissionActivity.Permissio
         mDeniedPermissions = deniedList.toArray(new String[deniedList.size()]);
         if (mDeniedPermissions.length > 0) {
             List<String> rationaleList = getRationalePermissions(mSource, mDeniedPermissions);
-            if (rationaleList.size() > 0 && mRationaleListener != null) {
+            if (rationaleList.size() > 0) {
                 mRationaleListener.showRationale(mSource.getContext(), rationaleList, this);
             } else {
                 execute();
@@ -110,12 +99,12 @@ class MRequest implements Request, RequestExecutor, PermissionActivity.Permissio
 
     @Override
     public void cancel() {
-        onRequestPermissionsResult();
+        onRequestCallback();
     }
 
     @Override
-    public void onRequestPermissionsResult() {
-        HANDLER.postDelayed(new Runnable() {
+    public void onRequestCallback() {
+        EXECUTOR.postDelayed(new Runnable() {
             @Override
             public void run() {
                 List<String> deniedList = getDeniedPermissions(DOUBLE_CHECKER, mSource, mDeniedPermissions);

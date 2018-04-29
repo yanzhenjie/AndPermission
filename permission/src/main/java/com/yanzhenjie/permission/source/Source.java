@@ -20,13 +20,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
-import java.lang.reflect.Method;
-
 /**
  * <p>The source of the request.</p>
  * Created by Yan Zhenjie on 2017/5/1.
  */
 public abstract class Source {
+
+    private PackageManager mPackageManager;
 
     public abstract Context getContext();
 
@@ -34,21 +34,15 @@ public abstract class Source {
 
     public abstract void startActivityForResult(Intent intent, int requestCode);
 
-    /**
-     * Show permissions rationale?
-     */
-    public final boolean isShowRationalePermission(String permission) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false;
+    public abstract boolean isShowRationalePermission(String permission);
 
-        PackageManager packageManager = getContext().getPackageManager();
-        Class<?> pkManagerClass = packageManager.getClass();
-        try {
-            Method method = pkManagerClass.getMethod("shouldShowRequestPermissionRationale", String.class);
-            if (!method.isAccessible()) method.setAccessible(true);
-            return (boolean) method.invoke(packageManager, permission);
-        } catch (Exception ignored) {
-            return false;
+    public final boolean canRequestPackageInstalls() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (mPackageManager == null) {
+                mPackageManager = getContext().getPackageManager();
+            }
+            return mPackageManager.canRequestPackageInstalls();
         }
+        return true;
     }
-
 }

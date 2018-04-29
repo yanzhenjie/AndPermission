@@ -13,18 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission;
+package com.yanzhenjie.permission.install;
 
-import java.util.List;
+import com.yanzhenjie.permission.Options;
+import com.yanzhenjie.permission.source.Source;
 
 /**
- * Created by YanZhenjie on 2018/1/1.
+ * Created by YanZhenjie on 2018/4/28.
  */
-public interface Action {
-    /**
-     * An action.
-     *
-     * @param permissions the current action under permissions.
-     */
-    void onAction(List<String> permissions);
+public class NRequestFactory implements Options.InstallRequestFactory {
+    @Override
+    public InstallRequest create(Source source) {
+        return new NRequest(source);
+    }
 }

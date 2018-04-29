@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission;
+package com.yanzhenjie.permission.runtimes;
 
+import com.yanzhenjie.permission.Action;
+import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.checker.PermissionChecker;
 import com.yanzhenjie.permission.checker.StrictChecker;
 import com.yanzhenjie.permission.source.Source;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -28,7 +29,7 @@ import static java.util.Arrays.asList;
 /**
  * Created by YanZhenjie on 2018/1/25.
  */
-class LRequest implements Request {
+class LRequest implements PermissionRequest {
 
     private static final PermissionChecker CHECKER = new StrictChecker();
 
@@ -43,34 +44,24 @@ class LRequest implements Request {
     }
 
     @Override
-    public Request permission(String... permissions) {
+    public PermissionRequest permission(String... permissions) {
         this.mPermissions = permissions;
         return this;
     }
 
     @Override
-    public Request permission(String[]... groups) {
-        List<String> permissionList = new ArrayList<>();
-        for (String[] group : groups) {
-            permissionList.addAll(Arrays.asList(group));
-        }
-        this.mPermissions = permissionList.toArray(new String[permissionList.size()]);
+    public PermissionRequest rationale(Rationale listener) {
         return this;
     }
 
     @Override
-    public Request rationale(Rationale listener) {
-        return this;
-    }
-
-    @Override
-    public Request onGranted(Action granted) {
+    public PermissionRequest onGranted(Action granted) {
         this.mGranted = granted;
         return this;
     }
 
     @Override
-    public Request onDenied(Action denied) {
+    public PermissionRequest onDenied(Action denied) {
         this.mDenied = denied;
         return this;
     }

@@ -18,16 +18,17 @@ package com.yanzhenjie.permission.source;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 /**
  * <p>Activity Wrapper.</p>
  * Created by Yan Zhenjie on 2017/5/1.
  */
-public class AppActivitySource extends Source {
+public class ActivitySource extends Source {
 
     private Activity mActivity;
 
-    public AppActivitySource(Activity activity) {
+    public ActivitySource(Activity activity) {
         this.mActivity = activity;
     }
 
@@ -44,5 +45,11 @@ public class AppActivitySource extends Source {
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
         mActivity.startActivityForResult(intent, requestCode);
+    }
+
+    @Override
+    public boolean isShowRationalePermission(String permission) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false;
+        return mActivity.shouldShowRequestPermissionRationale(permission);
     }
 }

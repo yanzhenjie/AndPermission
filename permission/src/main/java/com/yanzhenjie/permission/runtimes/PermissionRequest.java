@@ -13,42 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission;
+package com.yanzhenjie.permission.runtimes;
+
+import com.yanzhenjie.permission.Action;
+import com.yanzhenjie.permission.Rationale;
 
 /**
  * <p>Permission request.</p>
  * Created by Yan Zhenjie on 2016/9/9.
  */
-public interface Request {
+public interface PermissionRequest {
 
     /**
      * One or more permissions.
      */
-    Request permission(String... permissions);
-
-    /**
-     * One or more permission groups.
-     */
-    Request permission(String[]... groups);
+    PermissionRequest permission(String... permissions);
 
     /**
      * Set request rationale.
      */
-    Request rationale(Rationale listener);
+    PermissionRequest rationale(Rationale listener);
 
     /**
      * Action to be taken when all permissions are granted.
      */
-    Request onGranted(Action granted);
+    PermissionRequest onGranted(Action granted);
 
     /**
      * Action to be taken when all permissions are denied.
      */
-    Request onDenied(Action denied);
+    PermissionRequest onDenied(Action denied);
 
     /**
      * Request permission.
      */
     void start();
-
 }

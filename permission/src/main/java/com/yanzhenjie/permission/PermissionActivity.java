@@ -19,8 +19,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -34,19 +36,36 @@ import android.view.WindowManager;
  */
 public final class PermissionActivity extends Activity {
 
+    private static final String KEY_INPUT_OPERATION = "KEY_INPUT_OPERATION";
+    private static final int VALUE_INPUT_RUNTIMES = 1;
+    private static final int VALUE_INPUT_INSTALL = 2;
+
     private static final String KEY_INPUT_PERMISSIONS = "KEY_INPUT_PERMISSIONS";
 
-    private static PermissionListener sPermissionListener;
+    private static RequestListener sRequestListener;
 
     /**
      * Request for permissions.
      */
-    public static void requestPermission(Context context, String[] permissions, PermissionListener permissionListener) {
-        sPermissionListener = permissionListener;
+    public static void requestPermission(Context context, String[] permissions, RequestListener requestListener) {
+        PermissionActivity.sRequestListener = requestListener;
 
         Intent intent = new Intent(context, PermissionActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(KEY_INPUT_OPERATION, VALUE_INPUT_RUNTIMES);
         intent.putExtra(KEY_INPUT_PERMISSIONS, permissions);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    /**
+     * Request for package install.
+     */
+    public static void requestInstall(Context context, RequestListener requestListener) {
+        PermissionActivity.sRequestListener = requestListener;
+
+        Intent intent = new Intent(context, PermissionActivity.class);
+        intent.putExtra(KEY_INPUT_OPERATION, VALUE_INPUT_INSTALL);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
@@ -56,21 +75,45 @@ public final class PermissionActivity extends Activity {
         invasionStatusBar(this);
 
         Intent intent = getIntent();
-        String[] permissions = intent.getStringArrayExtra(KEY_INPUT_PERMISSIONS);
-
-        if (permissions != null && sPermissionListener != null) {
-            requestPermissions(permissions, 1);
-        } else {
-            sPermissionListener = null;
-            finish();
+        int operation = intent.getIntExtra(KEY_INPUT_OPERATION, 0);
+        switch (operation) {
+            case VALUE_INPUT_RUNTIMES: {
+                String[] permissions = intent.getStringArrayExtra(KEY_INPUT_PERMISSIONS);
+                if (permissions != null && sRequestListener != null) {
+                    requestPermissions(permissions, 1);
+                } else {
+                    finish();
+                }
+                break;
+            }
+            case VALUE_INPUT_INSTALL: {
+                if (sRequestListener != null) {
+                    Intent manageIntent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
+                    manageIntent.setData(Uri.fromParts("package", getPackageName(), null));
+                    startActivityForResult(manageIntent, 1);
+                } else {
+                    finish();
+                }
+                break;
+            }
+            default: {
+                throw new AssertionError("This should not be the case.");
+            }
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (sPermissionListener != null) {
-            sPermissionListener.onRequestPermissionsResult();
-            sPermissionListener = null;
+        if (sRequestListener != null) {
+            sRequestListener.onRequestCallback();
+        }
+        finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (sRequestListener != null) {
+            sRequestListener.onRequestCallback();
         }
         finish();
     }
@@ -83,11 +126,17 @@ public final class PermissionActivity extends Activity {
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    public void finish() {
+        sRequestListener = null;
+        super.finish();
+    }
+
     /**
      * permission callback.
      */
-    interface PermissionListener {
-        void onRequestPermissionsResult();
+    public interface RequestListener {
+        void onRequestCallback();
     }
 
     /**

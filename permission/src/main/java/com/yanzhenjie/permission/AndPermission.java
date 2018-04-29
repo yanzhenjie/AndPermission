@@ -21,7 +21,7 @@ import android.net.Uri;
 import android.os.Build;
 
 import com.yanzhenjie.permission.setting.PermissionSetting;
-import com.yanzhenjie.permission.source.AppActivitySource;
+import com.yanzhenjie.permission.source.ActivitySource;
 import com.yanzhenjie.permission.source.ContextSource;
 import com.yanzhenjie.permission.source.FragmentSource;
 import com.yanzhenjie.permission.source.Source;
@@ -31,20 +31,9 @@ import java.io.File;
 import java.util.List;
 
 /**
- * <p>Request the entrance.</p>
  * Created by Yan Zhenjie on 2016/9/9.
  */
 public class AndPermission {
-
-    private static final RequestFactory FACTORY;
-
-    static {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            FACTORY = new MRequestFactory();
-        } else {
-            FACTORY = new LRequestFactory();
-        }
-    }
 
     /**
      * Some privileges permanently disabled, may need to set up in the execute.
@@ -54,7 +43,7 @@ public class AndPermission {
      * @return true, other wise is false.
      */
     public static boolean hasAlwaysDeniedPermission(Activity activity, List<String> deniedPermissions) {
-        return hasAlwaysDeniedPermission(new AppActivitySource(activity), deniedPermissions);
+        return hasAlwaysDeniedPermission(new ActivitySource(activity), deniedPermissions);
     }
 
     /**
@@ -110,7 +99,7 @@ public class AndPermission {
      * @return true, other wise is false.
      */
     public static boolean hasAlwaysDeniedPermission(Activity activity, String... deniedPermissions) {
-        return hasAlwaysDeniedPermission(new AppActivitySource(activity), deniedPermissions);
+        return hasAlwaysDeniedPermission(new ActivitySource(activity), deniedPermissions);
     }
 
     /**
@@ -165,7 +154,7 @@ public class AndPermission {
      * @return {@link SettingService}.
      */
     public static SettingService permissionSetting(Activity activity) {
-        return new PermissionSetting(new AppActivitySource(activity));
+        return new PermissionSetting(new ActivitySource(activity));
     }
 
     /**
@@ -202,64 +191,40 @@ public class AndPermission {
      * With Activity.
      *
      * @param activity {@link Activity}.
-     * @return {@link Request}.
+     * @return {@link Options}.
      */
-    public static Request with(Activity activity) {
-        return FACTORY.create(new AppActivitySource(activity));
+    public static Options with(Activity activity) {
+        return new Options(new ActivitySource(activity));
     }
 
     /**
      * With android.support.v4.app.Fragment.
      *
      * @param fragment {@link android.support.v4.app.Fragment}.
-     * @return {@link Request}.
+     * @return {@link Options}.
      */
-    public static Request with(android.support.v4.app.Fragment fragment) {
-        return FACTORY.create(new SupportFragmentSource(fragment));
+    public static Options with(android.support.v4.app.Fragment fragment) {
+        return new Options(new SupportFragmentSource(fragment));
     }
 
     /**
      * With android.app.Fragment.
      *
      * @param fragment {@link android.app.Fragment}.
-     * @return {@link Request}.
+     * @return {@link Options}.
      */
-    public static Request with(android.app.Fragment fragment) {
-        return FACTORY.create(new FragmentSource(fragment));
+    public static Options with(android.app.Fragment fragment) {
+        return new Options(new FragmentSource(fragment));
     }
 
     /**
      * With context.
      *
      * @param context {@link Context}.
-     * @return {@link Request}.
+     * @return {@link Options}.
      */
-    public static Request with(Context context) {
-        return FACTORY.create(new ContextSource(context));
-    }
-
-    private AndPermission() {
-    }
-
-    private interface RequestFactory {
-        /**
-         * Create permission request.
-         */
-        Request create(Source source);
-    }
-
-    private static class LRequestFactory implements RequestFactory {
-        @Override
-        public Request create(Source source) {
-            return new LRequest(source);
-        }
-    }
-
-    private static class MRequestFactory implements RequestFactory {
-        @Override
-        public Request create(Source source) {
-            return new MRequest(source);
-        }
+    public static Options with(Context context) {
+        return new Options(new ContextSource(context));
     }
 
     /**
@@ -274,5 +239,8 @@ public class AndPermission {
             return FileProvider.getUriForFile(context, context.getPackageName() + ".file.path.share", file);
         }
         return Uri.fromFile(file);
+    }
+
+    private AndPermission() {
     }
 }
