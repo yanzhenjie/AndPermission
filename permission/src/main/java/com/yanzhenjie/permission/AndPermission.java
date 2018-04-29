@@ -16,6 +16,7 @@
 package com.yanzhenjie.permission;
 
 import android.app.Activity;
+import android.app.Service;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
@@ -24,6 +25,7 @@ import com.yanzhenjie.permission.setting.PermissionSetting;
 import com.yanzhenjie.permission.source.ActivitySource;
 import com.yanzhenjie.permission.source.ContextSource;
 import com.yanzhenjie.permission.source.FragmentSource;
+import com.yanzhenjie.permission.source.ServiceSource;
 import com.yanzhenjie.permission.source.Source;
 import com.yanzhenjie.permission.source.SupportFragmentSource;
 
@@ -215,6 +217,16 @@ public class AndPermission {
      */
     public static Options with(android.app.Fragment fragment) {
         return new Options(new FragmentSource(fragment));
+    }
+
+    /**
+     * With service.
+     *
+     * @param service {@link Service}.
+     * @return {@link Options}.
+     */
+    public static Options with(Service service) {
+        return new Options(new ServiceSource(service));
     }
 
     /**
