@@ -51,7 +51,6 @@ ext {
             appCompat  : 'com.android.support:appcompat-v7:27.1.1',
             design     : 'com.android.support:design:27.1.1',
 
-            alertDialog: 'com.yanzhenjie.alertdialog:alertdialog:1.0.1',
             permission : 'com.yanzhenjie:permission:2.0.0-rc4'
     ]
 }

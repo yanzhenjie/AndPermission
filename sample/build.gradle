@@ -18,5 +18,4 @@ dependencies {
 
     implementation rootProject.ext.dependencies.appCompat
     implementation rootProject.ext.dependencies.design
-    implementation rootProject.ext.dependencies.alertDialog
 }

@@ -17,9 +17,9 @@ package com.yanzhenjie.permission.sample;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 
-import com.yanzhenjie.alertdialog.AlertDialog;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.yanzhenjie.permission.SettingService;
@@ -42,7 +42,7 @@ public final class PermissionSetting {
         String message = mContext.getString(R.string.message_permission_always_failed, TextUtils.join("\n", permissionNames));
 
         final SettingService settingService = AndPermission.permissionSetting(mContext);
-        AlertDialog.newBuilder(mContext)
+        new AlertDialog.Builder(mContext)
                 .setCancelable(false)
                 .setTitle(R.string.title_dialog)
                 .setMessage(message)
