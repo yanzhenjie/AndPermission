@@ -25,6 +25,7 @@ import com.yanzhenjie.permission.PermissionActivity;
 import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RequestExecutor;
 import com.yanzhenjie.permission.source.Source;
+import com.yanzhenjie.permission.util.MainExecutor;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -34,6 +35,8 @@ import java.util.List;
  * Created by YanZhenjie on 2018/4/28.
  */
 class ORequest implements InstallRequest, RequestExecutor, PermissionActivity.RequestListener {
+
+    private static final MainExecutor EXECUTOR = new MainExecutor();
 
     private Source mSource;
 
@@ -94,12 +97,17 @@ class ORequest implements InstallRequest, RequestExecutor, PermissionActivity.Re
 
     @Override
     public void onRequestCallback() {
-        if (mSource.canRequestPackageInstalls()) {
-            callbackSucceed();
-            install();
-        } else {
-            callbackFailed();
-        }
+        EXECUTOR.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mSource.canRequestPackageInstalls()) {
+                    callbackSucceed();
+                    install();
+                } else {
+                    callbackFailed();
+                }
+            }
+        }, 100);
     }
 
     /**

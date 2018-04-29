@@ -114,7 +114,7 @@ class MRequest implements PermissionRequest, RequestExecutor, PermissionActivity
                     callbackFailed(deniedList);
                 }
             }
-        }, 250);
+        }, 100);
     }
 
     /**
