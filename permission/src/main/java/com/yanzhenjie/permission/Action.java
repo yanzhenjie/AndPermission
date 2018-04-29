@@ -15,16 +15,14 @@
  */
 package com.yanzhenjie.permission;
 
-import java.util.List;
-
 /**
  * Created by YanZhenjie on 2018/1/1.
  */
-public interface Action {
+public interface Action<T> {
     /**
      * An action.
      *
-     * @param permissions the current action under permissions.
+     * @param data the data.
      */
-    void onAction(List<String> permissions);
+    void onAction(T data);
 }

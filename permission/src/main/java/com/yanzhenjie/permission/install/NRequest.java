@@ -20,13 +20,10 @@ import android.net.Uri;
 
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
-import com.yanzhenjie.permission.Permission;
 import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.source.Source;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by YanZhenjie on 2018/4/28.
@@ -36,7 +33,7 @@ class NRequest implements InstallRequest {
     private Source mSource;
 
     private File mFile;
-    private Action mGranted;
+    private Action<File> mGranted;
 
     NRequest(Source source) {
         this.mSource = source;
@@ -49,12 +46,12 @@ class NRequest implements InstallRequest {
     }
 
     @Override
-    public InstallRequest rationale(Rationale listener) {
+    public InstallRequest rationale(Rationale<File> rationale) {
         return this;
     }
 
     @Override
-    public InstallRequest onGranted(Action granted) {
+    public InstallRequest onGranted(Action<File> granted) {
         this.mGranted = granted;
         return this;
     }
@@ -87,9 +84,7 @@ class NRequest implements InstallRequest {
      */
     private void callbackSucceed() {
         if (mGranted != null) {
-            List<String> permissions = new ArrayList<>();
-            permissions.add(Permission.PackageInstall.REQUEST_INSTALL_PACKAGES);
-            mGranted.onAction(permissions);
+            mGranted.onAction(mFile);
         }
     }
 }

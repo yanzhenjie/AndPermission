@@ -17,27 +17,17 @@ package com.yanzhenjie.permission;
 
 import android.content.Context;
 
-import java.util.List;
-
 /**
- * <p>Rationale listener</p>
  * Created by Yan Zhenjie on 2016/9/10.
  */
-public interface Rationale {
-
-    Rationale DEFAULT = new Rationale() {
-        @Override
-        public void showRationale(Context context, List<String> permissions, RequestExecutor executor) {
-            executor.execute();
-        }
-    };
+public interface Rationale<T> {
 
     /**
-     * Show rationale of permissions to user.
+     * Show rationale to user.
      *
-     * @param context     context.
-     * @param permissions show rationale permissions.
-     * @param executor    executor.
+     * @param context  context.
+     * @param data     the data.
+     * @param executor executor.
      */
-    void showRationale(Context context, List<String> permissions, RequestExecutor executor);
+    void showRationale(Context context, T data, RequestExecutor executor);
 }

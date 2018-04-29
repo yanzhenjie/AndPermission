@@ -15,6 +15,9 @@
  */
 package com.yanzhenjie.permission.runtimes;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.PermissionActivity;
 import com.yanzhenjie.permission.Rationale;
@@ -42,9 +45,14 @@ class MRequest implements PermissionRequest, RequestExecutor, PermissionActivity
     private Source mSource;
 
     private String[] mPermissions;
-    private Rationale mRationaleListener = Rationale.DEFAULT;
-    private Action mGranted;
-    private Action mDenied;
+    private Rationale<List<String>> mRationale = new Rationale<List<String>>() {
+        @Override
+        public void showRationale(Context context, List<String> data, RequestExecutor executor) {
+            executor.execute();
+        }
+    };
+    private Action<List<String>> mGranted;
+    private Action<List<String>> mDenied;
 
     private String[] mDeniedPermissions;
 
@@ -59,19 +67,19 @@ class MRequest implements PermissionRequest, RequestExecutor, PermissionActivity
     }
 
     @Override
-    public PermissionRequest rationale(Rationale listener) {
-        this.mRationaleListener = listener;
+    public PermissionRequest rationale(Rationale<List<String>> rationale) {
+        this.mRationale = rationale;
         return this;
     }
 
     @Override
-    public PermissionRequest onGranted(Action granted) {
+    public PermissionRequest onGranted(Action<List<String>> granted) {
         this.mGranted = granted;
         return this;
     }
 
     @Override
-    public PermissionRequest onDenied(Action denied) {
+    public PermissionRequest onDenied(Action<List<String>> denied) {
         this.mDenied = denied;
         return this;
     }
@@ -83,7 +91,7 @@ class MRequest implements PermissionRequest, RequestExecutor, PermissionActivity
         if (mDeniedPermissions.length > 0) {
             List<String> rationaleList = getRationalePermissions(mSource, mDeniedPermissions);
             if (rationaleList.size() > 0) {
-                mRationaleListener.showRationale(mSource.getContext(), rationaleList, this);
+                mRationale.showRationale(mSource.getContext(), rationaleList, this);
             } else {
                 execute();
             }
@@ -126,6 +134,7 @@ class MRequest implements PermissionRequest, RequestExecutor, PermissionActivity
             try {
                 mGranted.onAction(permissionList);
             } catch (Exception e) {
+                Log.e("AndPermission", "Please check the onGranted() method body for bugs.", e);
                 if (mDenied != null) {
                     mDenied.onAction(permissionList);
                 }

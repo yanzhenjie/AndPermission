@@ -35,17 +35,17 @@ public interface InstallRequest {
     /**
      * Set request rationale.
      */
-    InstallRequest rationale(Rationale listener);
+    InstallRequest rationale(Rationale<File> rationale);
 
     /**
      * Action to be taken when all permissions are granted.
      */
-    InstallRequest onGranted(Action granted);
+    InstallRequest onGranted(Action<File> granted);
 
     /**
      * Action to be taken when all permissions are denied.
      */
-    InstallRequest onDenied(Action denied);
+    InstallRequest onDenied(Action<File> denied);
 
     /**
      * Start install.

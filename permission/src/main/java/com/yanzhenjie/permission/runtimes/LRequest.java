@@ -36,8 +36,8 @@ class LRequest implements PermissionRequest {
     private Source mSource;
 
     private String[] mPermissions;
-    private Action mGranted;
-    private Action mDenied;
+    private Action<List<String>> mGranted;
+    private Action<List<String>> mDenied;
 
     LRequest(Source source) {
         this.mSource = source;
@@ -50,18 +50,18 @@ class LRequest implements PermissionRequest {
     }
 
     @Override
-    public PermissionRequest rationale(Rationale listener) {
+    public PermissionRequest rationale(Rationale<List<String>> rationale) {
         return this;
     }
 
     @Override
-    public PermissionRequest onGranted(Action granted) {
+    public PermissionRequest onGranted(Action<List<String>> granted) {
         this.mGranted = granted;
         return this;
     }
 
     @Override
-    public PermissionRequest onDenied(Action denied) {
+    public PermissionRequest onDenied(Action<List<String>> denied) {
         this.mDenied = denied;
         return this;
     }

@@ -15,12 +15,12 @@
  */
 package com.yanzhenjie.permission.install;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
-import com.yanzhenjie.permission.Permission;
 import com.yanzhenjie.permission.PermissionActivity;
 import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RequestExecutor;
@@ -28,8 +28,6 @@ import com.yanzhenjie.permission.source.Source;
 import com.yanzhenjie.permission.util.MainExecutor;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by YanZhenjie on 2018/4/28.
@@ -41,9 +39,14 @@ class ORequest implements InstallRequest, RequestExecutor, PermissionActivity.Re
     private Source mSource;
 
     private File mFile;
-    private Rationale mRationaleListener = Rationale.DEFAULT;
-    private Action mGranted;
-    private Action mDenied;
+    private Rationale<File> mRationale = new Rationale<File>() {
+        @Override
+        public void showRationale(Context context, File data, RequestExecutor executor) {
+            executor.execute();
+        }
+    };
+    private Action<File> mGranted;
+    private Action<File> mDenied;
 
     ORequest(Source source) {
         this.mSource = source;
@@ -56,19 +59,19 @@ class ORequest implements InstallRequest, RequestExecutor, PermissionActivity.Re
     }
 
     @Override
-    public InstallRequest rationale(Rationale listener) {
-        this.mRationaleListener = listener;
+    public InstallRequest rationale(Rationale<File> rationale) {
+        this.mRationale = rationale;
         return this;
     }
 
     @Override
-    public InstallRequest onGranted(Action granted) {
+    public InstallRequest onGranted(Action<File> granted) {
         this.mGranted = granted;
         return this;
     }
 
     @Override
-    public InstallRequest onDenied(Action denied) {
+    public InstallRequest onDenied(Action<File> denied) {
         this.mDenied = denied;
         return this;
     }
@@ -79,9 +82,7 @@ class ORequest implements InstallRequest, RequestExecutor, PermissionActivity.Re
             callbackSucceed();
             install();
         } else {
-            List<String> permissions = new ArrayList<>();
-            permissions.add(Permission.PackageInstall.REQUEST_INSTALL_PACKAGES);
-            mRationaleListener.showRationale(mSource.getContext(), permissions, this);
+            mRationale.showRationale(mSource.getContext(), mFile, this);
         }
     }
 
@@ -127,9 +128,7 @@ class ORequest implements InstallRequest, RequestExecutor, PermissionActivity.Re
      */
     private void callbackSucceed() {
         if (mGranted != null) {
-            List<String> permissions = new ArrayList<>();
-            permissions.add(Permission.PackageInstall.REQUEST_INSTALL_PACKAGES);
-            mGranted.onAction(permissions);
+            mGranted.onAction(mFile);
         }
     }
 
@@ -138,9 +137,7 @@ class ORequest implements InstallRequest, RequestExecutor, PermissionActivity.Re
      */
     private void callbackFailed() {
         if (mDenied != null) {
-            List<String> permissions = new ArrayList<>();
-            permissions.add(Permission.PackageInstall.REQUEST_INSTALL_PACKAGES);
-            mDenied.onAction(permissions);
+            mDenied.onAction(mFile);
         }
     }
 }

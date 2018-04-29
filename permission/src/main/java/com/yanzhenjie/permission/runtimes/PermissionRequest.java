@@ -18,6 +18,8 @@ package com.yanzhenjie.permission.runtimes;
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.Rationale;
 
+import java.util.List;
+
 /**
  * <p>Permission request.</p>
  * Created by Yan Zhenjie on 2016/9/9.
@@ -32,17 +34,17 @@ public interface PermissionRequest {
     /**
      * Set request rationale.
      */
-    PermissionRequest rationale(Rationale listener);
+    PermissionRequest rationale(Rationale<List<String>> rationale);
 
     /**
      * Action to be taken when all permissions are granted.
      */
-    PermissionRequest onGranted(Action granted);
+    PermissionRequest onGranted(Action<List<String>> granted);
 
     /**
      * Action to be taken when all permissions are denied.
      */
-    PermissionRequest onDenied(Action denied);
+    PermissionRequest onDenied(Action<List<String>> denied);
 
     /**
      * Request permission.
