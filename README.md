@@ -1,43 +1,41 @@
 ﻿# AndPermission
-Simplify request run time permission process. AndPermission supports request permissions on Android 5.0 (Api Level 21) and higher, which will return success directly on systems that are lower than Android 5.0.
+Simplify the process of requesting permission on Android.
+* Request runtime permissions on Android 6.0 or higher.
+* Share private files on Android 7.0 or higher.
+* Install the app on Android 8.0 or higher.
 
-1. Where to use ?
-* With Activity
-* With Fragment
-* With SupportFragment(In the support library)
-* With Context
+```java
+AndPermission.with(this)
+  .runtime()
+  .permission(Permission.Group.STORAGE)
+  .onGranted(permissions -> {
+    // TODO ...
+  })
+  .onDenied(permissions -> {
+    // TODO ...
+  })
+  .start();
+```
 
-2. Multiple forms
-* Single permission
-* Single permission group
-* Multiple permissions
-* Multiple permission groups
-
-For usage and other information see document: [English](http://yanzhenjie.github.io/AndPermission) | [中文](http://yanzhenjie.github.io/AndPermission/cn).
+For documentation and additional information see [the website](http://yanzhenjie.github.io/AndPermission).
 
 ## Download
-
-* Gradle
 ```
-implementation 'com.yanzhenjie:permission:2.0.0-rc4'
+implementation 'com.yanzhenjie:permission:2.0.0-rc5'
 ```
-
-* Maven
-```
-<dependency>
-  <groupId>com.yanzhenjie</groupId>
-  <artifactId>permission</artifactId>
-  <version>2.0.0-rc4</version>
-</dependency>
-```
-
 AndPermission requires at minimum Java 7 or Android 4.0(Api level 14) .
+
+## Plan
+Request `SYSTEM_ALERT_WINDOW` permission at runtime, you can track [the progress of task](https://github.com/yanzhenjie/AndPermission/projects).
 
 ## ProGuard
 If you are using ProGuard you might need to add the following options:
 ```
 -dontwarn com.yanzhenjie.permission.**
 ```
+
+## Contributing
+Before submitting pull requests, contributors must abide by the [agreement](CONTRIBUTING.md) .
 
 ## License
 ```text
