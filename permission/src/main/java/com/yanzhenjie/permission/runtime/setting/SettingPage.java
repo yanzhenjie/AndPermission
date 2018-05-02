@@ -1,5 +1,5 @@
 /*
- * Copyright © Yan Zhenjie
+ * Copyright 2018 Yan Zhenjie
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission.setting;
+package com.yanzhenjie.permission.runtime.setting;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -22,64 +22,51 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 
-import com.yanzhenjie.permission.SettingService;
 import com.yanzhenjie.permission.source.Source;
 
 /**
- * <p>Setting executor.</p>
- * Created by Yan Zhenjie on 2016/12/28.
+ * Created by YanZhenjie on 2018/4/30.
  */
-public class PermissionSetting implements SettingService {
+public class SettingPage {
 
     private static final String MARK = Build.MANUFACTURER.toLowerCase();
 
     private Source mSource;
 
-    public PermissionSetting(Source source) {
+    public SettingPage(Source source) {
         this.mSource = source;
     }
 
-    @Override
-    public void execute() {
-        Intent intent = obtainSettingIntent();
-        try {
-            mSource.startActivity(intent);
-        } catch (Exception e) {
-            mSource.startActivity(defaultApi(mSource.getContext()));
+    /**
+     * Start.
+     *
+     * @param requestCode this code will be returned in onActivityResult() when the activity exits.
+     */
+    public void start(int requestCode) {
+        Intent intent;
+        if (MARK.contains("huawei")) {
+            intent = huaweiApi(mSource.getContext());
+        } else if (MARK.contains("xiaomi")) {
+            intent = xiaomiApi(mSource.getContext());
+        } else if (MARK.contains("oppo")) {
+            intent = oppoApi(mSource.getContext());
+        } else if (MARK.contains("vivo")) {
+            intent = vivoApi(mSource.getContext());
+        } else if (MARK.contains("samsung")) {
+            intent = samsungApi(mSource.getContext());
+        } else if (MARK.contains("meizu")) {
+            intent = meizuApi(mSource.getContext());
+        } else if (MARK.contains("smartisan")) {
+            intent = smartisanApi(mSource.getContext());
+        } else {
+            intent = defaultApi(mSource.getContext());
         }
-    }
-
-    @Override
-    public void execute(int requestCode) {
-        Intent intent = obtainSettingIntent();
         try {
             mSource.startActivityForResult(intent, requestCode);
         } catch (Exception e) {
-            mSource.startActivityForResult(defaultApi(mSource.getContext()), requestCode);
+            intent = defaultApi(mSource.getContext());
+            mSource.startActivityForResult(intent, requestCode);
         }
-    }
-
-    @Override
-    public void cancel() {
-    }
-
-    private Intent obtainSettingIntent() {
-        if (MARK.contains("huawei")) {
-            return huaweiApi(mSource.getContext());
-        } else if (MARK.contains("xiaomi")) {
-            return xiaomiApi(mSource.getContext());
-        } else if (MARK.contains("oppo")) {
-            return oppoApi(mSource.getContext());
-        } else if (MARK.contains("vivo")) {
-            return vivoApi(mSource.getContext());
-        } else if (MARK.contains("samsung")) {
-            return samsungApi(mSource.getContext());
-        } else if (MARK.contains("meizu")) {
-            return meizuApi(mSource.getContext());
-        } else if (MARK.contains("smartisan")) {
-            return smartisanApi(mSource.getContext());
-        }
-        return defaultApi(mSource.getContext());
     }
 
     /**

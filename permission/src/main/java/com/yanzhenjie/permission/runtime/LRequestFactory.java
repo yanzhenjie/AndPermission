@@ -13,15 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission.runtimes;
+package com.yanzhenjie.permission.runtime;
 
-import com.yanzhenjie.permission.Options;
 import com.yanzhenjie.permission.source.Source;
 
 /**
  * Created by YanZhenjie on 2018/4/28.
  */
-public class LRequestFactory implements Options.PermissionRequestFactory {
+public class LRequestFactory implements Runtime.PermissionRequestFactory {
     @Override
     public PermissionRequest create(Source source) {
         return new LRequest(source);

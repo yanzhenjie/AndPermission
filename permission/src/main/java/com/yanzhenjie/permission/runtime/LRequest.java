@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission.runtimes;
+package com.yanzhenjie.permission.runtime;
 
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.Rationale;

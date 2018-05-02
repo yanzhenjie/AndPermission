@@ -28,6 +28,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.yanzhenjie.permission.runtime.setting.SettingPage;
+import com.yanzhenjie.permission.source.ContextSource;
+
 /**
  * <p>
  * Request permission.
@@ -37,8 +40,9 @@ import android.view.WindowManager;
 public final class PermissionActivity extends Activity {
 
     private static final String KEY_INPUT_OPERATION = "KEY_INPUT_OPERATION";
-    private static final int VALUE_INPUT_RUNTIMES = 1;
-    private static final int VALUE_INPUT_INSTALL = 2;
+    private static final int VALUE_INPUT_PERMISSION = 1;
+    private static final int VALUE_INPUT_PERMISSION_SETTING = 2;
+    private static final int VALUE_INPUT_INSTALL = 3;
 
     private static final String KEY_INPUT_PERMISSIONS = "KEY_INPUT_PERMISSIONS";
 
@@ -51,8 +55,20 @@ public final class PermissionActivity extends Activity {
         PermissionActivity.sRequestListener = requestListener;
 
         Intent intent = new Intent(context, PermissionActivity.class);
-        intent.putExtra(KEY_INPUT_OPERATION, VALUE_INPUT_RUNTIMES);
+        intent.putExtra(KEY_INPUT_OPERATION, VALUE_INPUT_PERMISSION);
         intent.putExtra(KEY_INPUT_PERMISSIONS, permissions);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    /**
+     * Request for setting.
+     */
+    public static void permissionSetting(Context context, RequestListener requestListener) {
+        PermissionActivity.sRequestListener = requestListener;
+
+        Intent intent = new Intent(context, PermissionActivity.class);
+        intent.putExtra(KEY_INPUT_OPERATION, VALUE_INPUT_PERMISSION_SETTING);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
@@ -77,10 +93,19 @@ public final class PermissionActivity extends Activity {
         Intent intent = getIntent();
         int operation = intent.getIntExtra(KEY_INPUT_OPERATION, 0);
         switch (operation) {
-            case VALUE_INPUT_RUNTIMES: {
+            case VALUE_INPUT_PERMISSION: {
                 String[] permissions = intent.getStringArrayExtra(KEY_INPUT_PERMISSIONS);
                 if (permissions != null && sRequestListener != null) {
-                    requestPermissions(permissions, 1);
+                    requestPermissions(permissions, VALUE_INPUT_PERMISSION);
+                } else {
+                    finish();
+                }
+                break;
+            }
+            case VALUE_INPUT_PERMISSION_SETTING: {
+                if (sRequestListener != null) {
+                    SettingPage setting = new SettingPage(new ContextSource(this));
+                    setting.start(VALUE_INPUT_PERMISSION_SETTING);
                 } else {
                     finish();
                 }
@@ -90,7 +115,7 @@ public final class PermissionActivity extends Activity {
                 if (sRequestListener != null) {
                     Intent manageIntent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
                     manageIntent.setData(Uri.fromParts("package", getPackageName(), null));
-                    startActivityForResult(manageIntent, 1);
+                    startActivityForResult(manageIntent, VALUE_INPUT_INSTALL);
                 } else {
                     finish();
                 }

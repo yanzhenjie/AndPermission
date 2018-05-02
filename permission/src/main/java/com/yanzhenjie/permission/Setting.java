@@ -13,17 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission.runtimes;
-
-import com.yanzhenjie.permission.Options;
-import com.yanzhenjie.permission.source.Source;
+package com.yanzhenjie.permission;
 
 /**
- * Created by YanZhenjie on 2018/4/28.
+ * Created by YanZhenjie on 2018/4/30.
  */
-public class MRequestFactory implements Options.PermissionRequestFactory {
-    @Override
-    public PermissionRequest create(Source source) {
-        return new MRequest(source);
+public interface Setting extends SettingService {
+    /**
+     * The action when the user comebacks.
+     */
+    Setting onComeback(Setting.Action comeback);
+
+    /**
+     * SettingPage setting.
+     */
+    void start();
+
+    /**
+     * An action.
+     */
+    interface Action {
+        void onAction();
     }
 }

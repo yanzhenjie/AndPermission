@@ -20,43 +20,23 @@ import android.os.Build;
 import com.yanzhenjie.permission.install.InstallRequest;
 import com.yanzhenjie.permission.install.NRequestFactory;
 import com.yanzhenjie.permission.install.ORequestFactory;
-import com.yanzhenjie.permission.runtimes.LRequestFactory;
-import com.yanzhenjie.permission.runtimes.MRequestFactory;
-import com.yanzhenjie.permission.runtimes.PermissionRequest;
+import com.yanzhenjie.permission.runtime.PermissionRequest;
+import com.yanzhenjie.permission.runtime.Runtime;
 import com.yanzhenjie.permission.source.Source;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by YanZhenjie on 2018/4/28.
  */
 public class Options {
 
-    private static final PermissionRequestFactory PERMISSION_FACTORY;
-    private static final InstallRequestFactory INSTALL_FACTORY;
+    private static final InstallRequestFactory FACTORY;
 
     static {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            PERMISSION_FACTORY = new MRequestFactory();
-        } else {
-            PERMISSION_FACTORY = new LRequestFactory();
-        }
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            INSTALL_FACTORY = new ORequestFactory();
+            FACTORY = new ORequestFactory();
         } else {
-            INSTALL_FACTORY = new NRequestFactory();
+            FACTORY = new NRequestFactory();
         }
-    }
-
-    public interface PermissionRequestFactory {
-        /**
-         * Create permission request.
-         */
-        PermissionRequest create(Source source);
     }
 
     public interface InstallRequestFactory {
@@ -74,34 +54,35 @@ public class Options {
 
     /**
      * One or more permissions.
+     *
+     * @deprecated use {@link Options#runtime()} instead.
      */
+    @Deprecated
     public PermissionRequest permission(String... permissions) {
-        return PERMISSION_FACTORY.create(mSource).permission(permissions);
+        return runtime().permission(permissions);
     }
 
     /**
      * One or more permission groups.
+     *
+     * @deprecated use {@link Options#runtime()} instead.
      */
+    @Deprecated
     public PermissionRequest permission(String[]... groups) {
-        List<String> permissionList = new ArrayList<>();
-        for (String[] group : groups) {
-            permissionList.addAll(Arrays.asList(group));
-        }
-        String[] permissions = permissionList.toArray(new String[permissionList.size()]);
-        return PERMISSION_FACTORY.create(mSource).permission(permissions);
+        return runtime().permission(groups);
     }
 
     /**
-     * The file path.
+     * Handle runtime permissions.
      */
-    public InstallRequest install(String path) {
-        return install(new File(path));
+    public Runtime runtime() {
+        return new Runtime(mSource);
     }
 
     /**
-     * The file.
+     * Handle request package install permission.
      */
-    public InstallRequest install(File file) {
-        return INSTALL_FACTORY.create(mSource).file(file);
+    public InstallRequest install() {
+        return FACTORY.create(mSource);
     }
 }

@@ -22,7 +22,7 @@ import android.support.v4.app.Fragment;
 
 import com.yanzhenjie.permission.checker.PermissionChecker;
 import com.yanzhenjie.permission.checker.StandardChecker;
-import com.yanzhenjie.permission.setting.PermissionSetting;
+import com.yanzhenjie.permission.runtime.Runtime;
 import com.yanzhenjie.permission.source.ContextSource;
 import com.yanzhenjie.permission.source.FragmentSource;
 import com.yanzhenjie.permission.source.Source;
@@ -160,30 +160,36 @@ public class AndPermission {
      * Create a service that opens the permission setting page.
      *
      * @param fragment {@link Fragment}.
-     * @return {@link SettingService}.
+     * @return {@link Setting}.
+     * @deprecated use {@link Runtime#setting()} instead. Such as: {@code AndPermission.with().runtime().setting()}.
      */
-    public static SettingService permissionSetting(Fragment fragment) {
-        return new PermissionSetting(new SupportFragmentSource(fragment));
+    @Deprecated
+    public static Setting permissionSetting(Fragment fragment) {
+        return AndPermission.with(fragment).runtime().setting();
     }
 
     /**
      * Create a service that opens the permission setting page.
      *
      * @param fragment {@link android.app.Fragment}.
-     * @return {@link SettingService}.
+     * @return {@link Setting}.
+     * @deprecated use {@link Runtime#setting()} instead. Such as: {@code AndPermission.with().runtime().setting()}.
      */
-    public static SettingService permissionSetting(android.app.Fragment fragment) {
-        return new PermissionSetting(new FragmentSource(fragment));
+    @Deprecated
+    public static Setting permissionSetting(android.app.Fragment fragment) {
+        return AndPermission.with(fragment).runtime().setting();
     }
 
     /**
      * Create a service that opens the permission setting page.
      *
      * @param context {@link Context}.
-     * @return {@link SettingService}.
+     * @return {@link Setting}.
+     * @deprecated use {@link Runtime#setting()} instead. Such as: {@code AndPermission.with().runtime().setting()}.
      */
-    public static SettingService permissionSetting(Context context) {
-        return new PermissionSetting(new ContextSource(context));
+    @Deprecated
+    public static Setting permissionSetting(Context context) {
+        return AndPermission.with(context).runtime().setting();
     }
 
     /**

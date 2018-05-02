@@ -18,21 +18,33 @@ package com.yanzhenjie.permission;
 /**
  * <p>Setting Service.</p>
  * Created by Yan Zhenjie on 2016/12/28.
+ *
+ * @deprecated use {@link Setting} instead.
  */
+@Deprecated
 public interface SettingService {
 
     /**
      * Execute setting.
+     *
+     * @deprecated use {@link Setting#start()} instead.
      */
+    @Deprecated
     void execute();
 
     /**
      * Execute setting with requestCode.
+     *
+     * @deprecated use {@link Setting#onComeback(Setting.Action)} and {@link Setting#start()} instead.
      */
+    @Deprecated
     void execute(int requestCode);
 
     /**
      * Cancel the operation.
+     *
+     * @deprecated this method has no effect and does not need to be called.
      */
+    @Deprecated
     void cancel();
 }
