@@ -60,10 +60,6 @@ public final class Permission {
     public static final String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
     public static final String WRITE_EXTERNAL_STORAGE = "android.permission.WRITE_EXTERNAL_STORAGE";
 
-    public static final class PackageInstall {
-        public static final String REQUEST_INSTALL_PACKAGES = "android.permission.REQUEST_INSTALL_PACKAGES";
-    }
-
     public static final class Group {
         public static final String[] CALENDAR = new String[]{
                 Permission.READ_CALENDAR,
