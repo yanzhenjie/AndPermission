@@ -18,7 +18,7 @@ ext {
 
     bintray = [
             // library
-            version       : "2.0.0-rc4",
+            version       : "2.0.0-rc5",
 
             siteUrl       : 'https://github.com/yanzhenjie/AndPermission',
             gitUrl        : 'git@github.com:yanzhenjie/AndPermission.git',
@@ -47,10 +47,10 @@ ext {
     ]
 
     dependencies = [
-            fragment   : 'com.android.support:support-fragment:27.1.1',
-            appCompat  : 'com.android.support:appcompat-v7:27.1.1',
-            design     : 'com.android.support:design:27.1.1',
+            fragment  : 'com.android.support:support-fragment:27.1.1',
+            appCompat : 'com.android.support:appcompat-v7:27.1.1',
+            design    : 'com.android.support:design:27.1.1',
 
-            permission : 'com.yanzhenjie:permission:2.0.0-rc4'
+            permission: 'com.yanzhenjie:permission:2.0.0-rc5'
     ]
 }
