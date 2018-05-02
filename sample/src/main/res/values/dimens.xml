@@ -15,5 +15,6 @@
     limitations under the License.
 -->
 <resources>
+    <dimen name="dp_1">1dp</dimen>
     <dimen name="dp_10">10dp</dimen>
 </resources>

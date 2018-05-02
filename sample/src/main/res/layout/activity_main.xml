@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
     Copyright © Yan Zhenjie
 
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,98 +13,95 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/Permission.MatchParent"
     android:fitsSystemWindows="true">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+    <android.support.design.widget.AppBarLayout style="@style/Permission.AppBar">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+            style="@style/Permission.Toolbar"
+            android:background="?attr/colorPrimary" />
 
     </android.support.design.widget.AppBarLayout>
 
     <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        style="@style/Permission.MatchParent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <TableRow>
 
             <Button
                 android:id="@+id/btn_request_camera"
-                style="@style/ButtonStyle"
-                android:text="@string/permission_camera"/>
+                style="@style/Permission.Button"
+                android:text="@string/permission_camera" />
 
             <Button
                 android:id="@+id/btn_request_contact"
-                style="@style/ButtonStyle"
-                android:text="@string/permission_contact"/>
+                style="@style/Permission.Button"
+                android:text="@string/permission_contact" />
         </TableRow>
 
         <TableRow>
 
             <Button
                 android:id="@+id/btn_request_location"
-                style="@style/ButtonStyle"
-                android:text="@string/permission_location"/>
+                style="@style/Permission.Button"
+                android:text="@string/permission_location" />
 
             <Button
                 android:id="@+id/btn_request_calendar"
-                style="@style/ButtonStyle"
-                android:text="@string/permission_calendar"/>
+                style="@style/Permission.Button"
+                android:text="@string/permission_calendar" />
         </TableRow>
 
         <TableRow>
 
             <Button
                 android:id="@+id/btn_request_microphone"
-                style="@style/ButtonStyle"
-                android:text="@string/permission_microphone"/>
+                style="@style/Permission.Button"
+                android:text="@string/permission_microphone" />
 
             <Button
                 android:id="@+id/btn_request_storage"
-                style="@style/ButtonStyle"
-                android:text="@string/permission_storage"/>
+                style="@style/Permission.Button"
+                android:text="@string/permission_storage" />
         </TableRow>
 
         <TableRow>
 
             <Button
                 android:id="@+id/btn_request_phone"
-                style="@style/ButtonStyle"
-                android:text="@string/permission_phone"/>
+                style="@style/Permission.Button"
+                android:text="@string/permission_phone" />
 
             <Button
                 android:id="@+id/btn_request_sensors"
-                style="@style/ButtonStyle"
-                android:text="@string/permission_sensors"/>
+                style="@style/Permission.Button"
+                android:text="@string/permission_sensors" />
         </TableRow>
 
         <TableRow>
 
             <Button
                 android:id="@+id/btn_request_sms"
-                style="@style/ButtonStyle"
-                android:text="@string/permission_sms"/>
+                style="@style/Permission.Button"
+                android:text="@string/permission_sms" />
+
+            <Button
+                android:id="@+id/btn_setting"
+                style="@style/Permission.Button"
+                android:text="@string/permission_setting" />
         </TableRow>
 
         <TableRow>
 
             <Button
-                android:id="@+id/btn_setting"
-                style="@style/ButtonStyle"
-                android:text="@string/permission_setting"/>
+                android:id="@+id/btn_install"
+                style="@style/Permission.Button"
+                android:text="@string/permission_install" />
         </TableRow>
     </TableLayout>
 

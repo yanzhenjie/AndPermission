@@ -1,5 +1,5 @@
 /*
- * Copyright © Yan Zhenjie
+ * Copyright 2018 Yan Zhenjie
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,32 +15,27 @@
  */
 package com.yanzhenjie.permission.sample;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.text.TextUtils;
 
-import com.yanzhenjie.alertdialog.AlertDialog;
-import com.yanzhenjie.permission.Permission;
 import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RequestExecutor;
 
-import java.util.List;
+import java.io.File;
 
 /**
- * Created by YanZhenjie on 2018/1/1.
+ * Created by YanZhenjie on 2018/4/29.
  */
-public final class DefaultRationale implements Rationale {
+public class InstallRationale implements Rationale<File> {
 
     @Override
-    public void showRationale(Context context, List<String> permissions, final RequestExecutor executor) {
-        List<String> permissionNames = Permission.transformText(context, permissions);
-        String message = context.getString(R.string.message_permission_rationale, TextUtils.join("\n", permissionNames));
-
-        AlertDialog.newBuilder(context)
+    public void showRationale(Context context, File data, final RequestExecutor executor) {
+        new AlertDialog.Builder(context)
                 .setCancelable(false)
                 .setTitle(R.string.title_dialog)
-                .setMessage(message)
-                .setPositiveButton(R.string.resume, new DialogInterface.OnClickListener() {
+                .setMessage(R.string.message_install_always_failed)
+                .setPositiveButton(R.string.setting, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         executor.execute();

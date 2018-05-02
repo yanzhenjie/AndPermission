@@ -13,15 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission.sample;
+package com.yanzhenjie.permission.sample.app;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,17 +35,18 @@ import android.widget.Toast;
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
-import com.yanzhenjie.permission.Rationale;
+import com.yanzhenjie.permission.Setting;
+import com.yanzhenjie.permission.sample.InstallRationale;
+import com.yanzhenjie.permission.sample.R;
+import com.yanzhenjie.permission.sample.RuntimeRationale;
 
+import java.io.File;
 import java.util.List;
 
 /**
  * Created by Yan Zhenjie on 2016/9/17.
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
-    private Rationale mRationale;
-    private PermissionSetting mSetting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,17 +68,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_request_phone).setOnClickListener(this);
         findViewById(R.id.btn_request_sensors).setOnClickListener(this);
         findViewById(R.id.btn_request_sms).setOnClickListener(this);
+        findViewById(R.id.btn_setting).setOnClickListener(this);
 
-        findViewById(R.id.btn_setting).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AndPermission.permissionSetting(MainActivity.this)
-                        .execute();
-            }
-        });
-
-        mRationale = new DefaultRationale();
-        mSetting = new PermissionSetting(this);
+        findViewById(R.id.btn_install).setOnClickListener(this);
     }
 
     @Override
@@ -260,48 +258,130 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 popupMenu.show();
                 break;
             }
+            case R.id.btn_setting: {
+                setPermission();
+                break;
+            }
+            case R.id.btn_install: {
+                requestPermissionForInstallPackage();
+                break;
+            }
         }
     }
 
+    /**
+     * Request permissions.
+     */
     private void requestPermission(String... permissions) {
         AndPermission.with(this)
+                .runtime()
                 .permission(permissions)
-                .rationale(mRationale)
-                .onGranted(new Action() {
+                .rationale(new RuntimeRationale())
+                .onGranted(new Action<List<String>>() {
                     @Override
                     public void onAction(List<String> permissions) {
                         toast(R.string.successfully);
                     }
                 })
-                .onDenied(new Action() {
+                .onDenied(new Action<List<String>>() {
                     @Override
                     public void onAction(@NonNull List<String> permissions) {
                         toast(R.string.failure);
                         if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
-                            mSetting.showSetting(permissions);
+                            showSettingDialog(MainActivity.this, permissions);
                         }
                     }
                 })
                 .start();
     }
 
-    private void requestPermission(String[]... permissions) {
-        AndPermission.with(this)
-                .permission(permissions)
-                .rationale(mRationale)
-                .onGranted(new Action() {
+    /**
+     * Display setting dialog.
+     */
+    public void showSettingDialog(Context context, final List<String> permissions) {
+        List<String> permissionNames = Permission.transformText(context, permissions);
+        String message = context.getString(R.string.message_permission_always_failed, TextUtils.join("\n", permissionNames));
+
+        new AlertDialog.Builder(context)
+                .setCancelable(false)
+                .setTitle(R.string.title_dialog)
+                .setMessage(message)
+                .setPositiveButton(R.string.setting, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onAction(List<String> permissions) {
-                        toast(R.string.successfully);
+                    public void onClick(DialogInterface dialog, int which) {
+                        setPermission();
                     }
                 })
-                .onDenied(new Action() {
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onAction(@NonNull List<String> permissions) {
-                        toast(R.string.failure);
-                        if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
-                            mSetting.showSetting(permissions);
-                        }
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .show();
+    }
+
+    /**
+     * Set permissions.
+     */
+    private void setPermission() {
+        AndPermission.with(this)
+                .runtime()
+                .setting()
+                .onComeback(new Setting.Action() {
+                    @Override
+                    public void onAction() {
+                        Toast.makeText(MainActivity.this, R.string.message_setting_comeback, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .start();
+    }
+
+    /**
+     * Request to read and write external storage permissions.
+     */
+    private void requestPermissionForInstallPackage() {
+        AndPermission.with(this)
+                .runtime()
+                .permission(Permission.Group.STORAGE)
+                .rationale(new RuntimeRationale())
+                .onGranted(new Action<List<String>>() {
+                    @Override
+                    public void onAction(List<String> data) {
+                        new WriteApkTask(MainActivity.this, new Runnable() {
+                            @Override
+                            public void run() {
+                                installPackage();
+                            }
+                        }).execute();
+                    }
+                })
+                .onDenied(new Action<List<String>>() {
+                    @Override
+                    public void onAction(List<String> data) {
+                        toast(R.string.message_install_storage_failed);
+                    }
+                })
+                .start();
+    }
+
+    /**
+     * Install package.
+     */
+    private void installPackage() {
+        AndPermission.with(this)
+                .install()
+                .file(new File(Environment.getExternalStorageDirectory(), "android.apk"))
+                .rationale(new InstallRationale())
+                .onGranted(new Action<File>() {
+                    @Override
+                    public void onAction(File data) {
+                        // Installing.
+                    }
+                })
+                .onDenied(new Action<File>() {
+                    @Override
+                    public void onAction(File data) {
+                        // The user refused to install.
                     }
                 })
                 .start();
