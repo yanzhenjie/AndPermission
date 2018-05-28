@@ -18,12 +18,15 @@ package com.yanzhenjie.permission.runtime.setting;
 import com.yanzhenjie.permission.PermissionActivity;
 import com.yanzhenjie.permission.Setting;
 import com.yanzhenjie.permission.source.Source;
+import com.yanzhenjie.permission.util.MainExecutor;
 
 /**
  * <p>Setting executor.</p>
  * Created by Yan Zhenjie on 2016/12/28.
  */
 public class RuntimeSetting implements Setting, PermissionActivity.RequestListener {
+
+    private static final MainExecutor EXECUTOR = new MainExecutor();
 
     private Source mSource;
     private Setting.Action mComeback;
@@ -59,8 +62,13 @@ public class RuntimeSetting implements Setting, PermissionActivity.RequestListen
 
     @Override
     public void onRequestCallback() {
-        if (mComeback != null) {
-            mComeback.onAction();
-        }
+        EXECUTOR.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mComeback != null) {
+                    mComeback.onAction();
+                }
+            }
+        }, 100);
     }
 }
