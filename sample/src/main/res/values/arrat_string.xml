@@ -50,7 +50,7 @@
 
     <string-array name="storage">
         <item>Read_External_Storage</item>
-        <item>write_External_Storage</item>
+        <item>Write_External_Storage</item>
         <item>All</item>
     </string-array>
 </resources>
