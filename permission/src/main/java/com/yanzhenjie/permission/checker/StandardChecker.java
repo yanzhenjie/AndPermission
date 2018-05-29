@@ -29,6 +29,8 @@ import java.util.List;
  */
 public final class StandardChecker implements PermissionChecker {
 
+    private AppOpsManager mAppOpsManager;
+
     public StandardChecker() {
     }
 
@@ -41,7 +43,6 @@ public final class StandardChecker implements PermissionChecker {
     public boolean hasPermission(Context context, List<String> permissions) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return true;
 
-        AppOpsManager appOpsManager = null;
         for (String permission : permissions) {
             int result = context.checkPermission(permission, android.os.Process.myPid(), android.os.Process.myUid());
             if (result == PackageManager.PERMISSION_DENIED) {
@@ -53,15 +54,11 @@ public final class StandardChecker implements PermissionChecker {
                 continue;
             }
 
-            if (appOpsManager == null) {
-                appOpsManager = context.getSystemService(AppOpsManager.class);
-            }
-            if (appOpsManager == null) return true;
-            result = appOpsManager.noteProxyOp(op, context.getPackageName());
+            if (mAppOpsManager == null) mAppOpsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+            result = mAppOpsManager.checkOpNoThrow(op, android.os.Process.myUid(), context.getPackageName());
             if (result != AppOpsManager.MODE_ALLOWED) {
                 return false;
             }
-
         }
         return true;
     }
