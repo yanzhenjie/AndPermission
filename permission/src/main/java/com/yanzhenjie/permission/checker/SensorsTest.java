@@ -16,6 +16,7 @@
 package com.yanzhenjie.permission.checker;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -35,10 +36,13 @@ class SensorsTest implements PermissionTest {
     @Override
     public boolean test() throws Throwable {
         SensorManager sensorManager = (SensorManager) mContext.getSystemService(Context.SENSOR_SERVICE);
-        Sensor heartRateSensor = sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
-        if (heartRateSensor != null) {
+        try {
+            Sensor heartRateSensor = sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
             sensorManager.registerListener(SENSOR_EVENT_LISTENER, heartRateSensor, 3);
-            sensorManager.unregisterListener(SENSOR_EVENT_LISTENER);
+            sensorManager.unregisterListener(SENSOR_EVENT_LISTENER, heartRateSensor);
+        } catch (Throwable e) {
+            PackageManager packageManager = mContext.getPackageManager();
+            return !packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_HEART_RATE);
         }
         return true;
     }

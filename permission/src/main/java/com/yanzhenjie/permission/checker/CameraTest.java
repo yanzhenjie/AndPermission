@@ -16,6 +16,7 @@
 package com.yanzhenjie.permission.checker;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -25,25 +26,30 @@ import android.view.SurfaceView;
  */
 class CameraTest implements PermissionTest {
 
-    private SurfaceHolder mHolder;
+    private Context mContext;
 
     CameraTest(Context context) {
-        SurfaceView surfaceView = new SurfaceView(context);
-        mHolder = surfaceView.getHolder();
-        mHolder.addCallback(CALLBACK);
+        this.mContext = context;
     }
 
     @Override
     public boolean test() throws Throwable {
+        SurfaceView surfaceView = new SurfaceView(mContext);
+        SurfaceHolder holder = surfaceView.getHolder();
+        holder.addCallback(CALLBACK);
+
         Camera camera = null;
         try {
             camera = Camera.open();
             Camera.Parameters parameters = camera.getParameters();
             camera.setParameters(parameters);
-            camera.setPreviewDisplay(mHolder);
+            camera.setPreviewDisplay(holder);
             camera.setPreviewCallback(PREVIEW_CALLBACK);
             camera.startPreview();
             return true;
+        } catch (Throwable e) {
+            PackageManager packageManager = mContext.getPackageManager();
+            return !packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA);
         } finally {
             if (camera != null) {
                 camera.stopPreview();

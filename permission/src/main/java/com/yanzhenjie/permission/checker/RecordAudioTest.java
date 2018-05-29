@@ -15,6 +15,8 @@
  */
 package com.yanzhenjie.permission.checker;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
 
 import java.io.File;
@@ -24,45 +26,43 @@ import java.io.File;
  */
 class RecordAudioTest implements PermissionTest {
 
-    private File mTempFile = null;
-    private MediaRecorder mRecorder;
+    private Context mContext;
 
-    RecordAudioTest() {
-        mRecorder = new MediaRecorder();
+    RecordAudioTest(Context context) {
+        this.mContext = context;
     }
 
     @Override
     public boolean test() throws Throwable {
+        File mTempFile = null;
+        MediaRecorder mediaRecorder = new MediaRecorder();
+
         try {
             mTempFile = File.createTempFile("permission", "test");
 
-            mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            mRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
-            mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-            mRecorder.setOutputFile(mTempFile.getAbsolutePath());
-            mRecorder.prepare();
-            mRecorder.start();
+            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
+            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+            mediaRecorder.setOutputFile(mTempFile.getAbsolutePath());
+            mediaRecorder.prepare();
+            mediaRecorder.start();
             return true;
+        } catch (Throwable e) {
+            PackageManager packageManager = mContext.getPackageManager();
+            return !packageManager.hasSystemFeature(PackageManager.FEATURE_MICROPHONE);
         } finally {
-            stop();
-        }
-    }
-
-    private void stop() {
-        if (mRecorder != null) {
             try {
-                mRecorder.stop();
+                mediaRecorder.stop();
             } catch (Exception ignored) {
             }
             try {
-                mRecorder.release();
+                mediaRecorder.release();
             } catch (Exception ignored) {
             }
-        }
 
-        if (mTempFile != null && mTempFile.exists()) {
-            // noinspection ResultOfMethodCallIgnored
-            mTempFile.delete();
+            if (mTempFile != null && mTempFile.exists()) {
+                mTempFile.delete();
+            }
         }
     }
 }

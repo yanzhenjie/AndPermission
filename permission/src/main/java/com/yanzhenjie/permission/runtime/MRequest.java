@@ -39,7 +39,7 @@ import static java.util.Arrays.asList;
 class MRequest implements PermissionRequest, RequestExecutor, PermissionActivity.RequestListener {
 
     private static final MainExecutor EXECUTOR = new MainExecutor();
-    private static final PermissionChecker CHECKER = new StandardChecker();
+    private static final PermissionChecker STANDARD_CHECKER = new StandardChecker();
     private static final PermissionChecker DOUBLE_CHECKER = new DoubleChecker();
 
     private Source mSource;
@@ -86,7 +86,7 @@ class MRequest implements PermissionRequest, RequestExecutor, PermissionActivity
 
     @Override
     public void start() {
-        List<String> deniedList = getDeniedPermissions(CHECKER, mSource, mPermissions);
+        List<String> deniedList = getDeniedPermissions(STANDARD_CHECKER, mSource, mPermissions);
         mDeniedPermissions = deniedList.toArray(new String[deniedList.size()]);
         if (mDeniedPermissions.length > 0) {
             List<String> rationaleList = getRationalePermissions(mSource, mDeniedPermissions);
@@ -96,7 +96,7 @@ class MRequest implements PermissionRequest, RequestExecutor, PermissionActivity
                 execute();
             }
         } else {
-            callbackSucceed();
+            dispatchCallback();
         }
     }
 
@@ -107,7 +107,7 @@ class MRequest implements PermissionRequest, RequestExecutor, PermissionActivity
 
     @Override
     public void cancel() {
-        onRequestCallback();
+        dispatchCallback();
     }
 
     @Override
@@ -115,14 +115,18 @@ class MRequest implements PermissionRequest, RequestExecutor, PermissionActivity
         EXECUTOR.postDelayed(new Runnable() {
             @Override
             public void run() {
-                List<String> deniedList = getDeniedPermissions(DOUBLE_CHECKER, mSource, mDeniedPermissions);
-                if (deniedList.isEmpty()) {
-                    callbackSucceed();
-                } else {
-                    callbackFailed(deniedList);
-                }
+                dispatchCallback();
             }
         }, 100);
+    }
+
+    private void dispatchCallback() {
+        List<String> deniedList = getDeniedPermissions(DOUBLE_CHECKER, mSource, mPermissions);
+        if (deniedList.isEmpty()) {
+            callbackSucceed();
+        } else {
+            callbackFailed(deniedList);
+        }
     }
 
     /**

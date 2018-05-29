@@ -71,10 +71,11 @@ public final class StrictChecker implements PermissionChecker {
                 case Permission.GET_ACCOUNTS:
                     return true;
                 case Permission.ACCESS_COARSE_LOCATION:
+                    return checkCoarseLocation(context);
                 case Permission.ACCESS_FINE_LOCATION:
-                    return checkLocation(context);
+                    return checkFineLocation(context);
                 case Permission.RECORD_AUDIO:
-                    return checkRecordAudio();
+                    return checkRecordAudio(context);
                 case Permission.READ_PHONE_STATE:
                     return checkReadPhoneState(context);
                 case Permission.CALL_PHONE:
@@ -136,13 +137,18 @@ public final class StrictChecker implements PermissionChecker {
         return test.test();
     }
 
-    private static boolean checkLocation(Context context) throws Throwable {
-        PermissionTest test = new LocationTest(context);
+    private static boolean checkCoarseLocation(Context context) throws Throwable {
+        PermissionTest test = new LocationCoarseTest(context);
         return test.test();
     }
 
-    private static boolean checkRecordAudio() throws Throwable {
-        PermissionTest test = new RecordAudioTest();
+    private static boolean checkFineLocation(Context context) throws Throwable {
+        PermissionTest test = new LocationFineTest(context);
+        return test.test();
+    }
+
+    private static boolean checkRecordAudio(Context context) throws Throwable {
+        PermissionTest test = new RecordAudioTest(context);
         return test.test();
     }
 

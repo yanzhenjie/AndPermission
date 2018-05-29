@@ -17,28 +17,30 @@ package com.yanzhenjie.permission.checker;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.telephony.TelephonyManager;
-import android.text.TextUtils;
+import android.location.LocationManager;
+
+import java.util.List;
 
 /**
- * Created by YanZhenjie on 2018/1/25.
+ * Created by YanZhenjie on 2018/1/14.
  */
-class PhoneStateReadTest implements PermissionTest {
+class LocationCoarseTest implements PermissionTest {
 
     private Context mContext;
 
-    PhoneStateReadTest(Context context) {
+    LocationCoarseTest(Context context) {
         this.mContext = context;
     }
 
     @Override
     public boolean test() throws Throwable {
-        PackageManager packageManager = mContext.getPackageManager();
-        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) return true;
+        LocationManager locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+        List<String> providers = locationManager.getProviders(true);
+        if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
+            return true;
+        }
 
-        TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
-        return telephonyManager.getPhoneType() == TelephonyManager.PHONE_TYPE_NONE
-                || !TextUtils.isEmpty(telephonyManager.getDeviceId())
-                || !TextUtils.isEmpty(telephonyManager.getSubscriberId());
+        PackageManager packageManager = mContext.getPackageManager();
+        return !packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_NETWORK);
     }
 }
