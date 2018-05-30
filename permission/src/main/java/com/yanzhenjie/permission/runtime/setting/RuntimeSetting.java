@@ -37,12 +37,12 @@ public class RuntimeSetting implements Setting, PermissionActivity.RequestListen
 
     @Override
     public void execute() {
-        new SettingPage(mSource).start(-1);
+        new RuntimeSettingPage(mSource).start(-1);
     }
 
     @Override
     public void execute(int requestCode) {
-        new SettingPage(mSource).start(requestCode);
+        new RuntimeSettingPage(mSource).start(requestCode);
     }
 
     @Override

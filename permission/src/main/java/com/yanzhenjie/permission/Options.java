@@ -20,6 +20,9 @@ import android.os.Build;
 import com.yanzhenjie.permission.install.InstallRequest;
 import com.yanzhenjie.permission.install.NRequestFactory;
 import com.yanzhenjie.permission.install.ORequestFactory;
+import com.yanzhenjie.permission.overlay.LRequestFactory;
+import com.yanzhenjie.permission.overlay.MRequestFactory;
+import com.yanzhenjie.permission.overlay.OverlayRequest;
 import com.yanzhenjie.permission.runtime.PermissionRequest;
 import com.yanzhenjie.permission.runtime.Runtime;
 import com.yanzhenjie.permission.source.Source;
@@ -29,13 +32,20 @@ import com.yanzhenjie.permission.source.Source;
  */
 public class Options {
 
-    private static final InstallRequestFactory FACTORY;
+    private static final InstallRequestFactory INSTALL_REQUEST_FACTORY;
+    private static final OverlayRequestFactory OVERLAY_REQUEST_FACTORY;
 
     static {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            FACTORY = new ORequestFactory();
+            INSTALL_REQUEST_FACTORY = new ORequestFactory();
         } else {
-            FACTORY = new NRequestFactory();
+            INSTALL_REQUEST_FACTORY = new NRequestFactory();
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            OVERLAY_REQUEST_FACTORY = new MRequestFactory();
+        } else {
+            OVERLAY_REQUEST_FACTORY = new LRequestFactory();
         }
     }
 
@@ -44,6 +54,13 @@ public class Options {
          * Create apk installer request.
          */
         InstallRequest create(Source source);
+    }
+
+    public interface OverlayRequestFactory {
+        /**
+         * Create overlay request.
+         */
+        OverlayRequest create(Source source);
     }
 
     private Source mSource;
@@ -83,6 +100,13 @@ public class Options {
      * Handle request package install permission.
      */
     public InstallRequest install() {
-        return FACTORY.create(mSource);
+        return INSTALL_REQUEST_FACTORY.create(mSource);
+    }
+
+    /**
+     * Handle overlay permission.
+     */
+    public OverlayRequest overlay() {
+        return OVERLAY_REQUEST_FACTORY.create(mSource);
     }
 }

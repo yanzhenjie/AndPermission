@@ -16,7 +16,7 @@
 -->
 <resources>
 
-    <style name="Permission.Theme.Activity">
+    <style name="Permission">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>

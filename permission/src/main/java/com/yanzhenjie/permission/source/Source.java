@@ -15,10 +15,12 @@
  */
 package com.yanzhenjie.permission.source;
 
+import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.provider.Settings;
 
 /**
  * <p>The source of the request.</p>
@@ -27,6 +29,7 @@ import android.os.Build;
 public abstract class Source {
 
     private PackageManager mPackageManager;
+    private AppOpsManager mAppOpsManager;
 
     public abstract Context getContext();
 
@@ -38,10 +41,20 @@ public abstract class Source {
 
     public final boolean canRequestPackageInstalls() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (mPackageManager == null) {
-                mPackageManager = getContext().getPackageManager();
-            }
+            if (mPackageManager == null) mPackageManager = getContext().getPackageManager();
             return mPackageManager.canRequestPackageInstalls();
+        }
+        return true;
+    }
+
+    public final boolean canDrawOverlays() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Context context = getContext();
+            if (!Settings.canDrawOverlays(context)) return false;
+
+            if (mAppOpsManager == null) mAppOpsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+            int result = mAppOpsManager.checkOpNoThrow("android:system_alert_window", android.os.Process.myUid(), context.getPackageName());
+            if (result != AppOpsManager.MODE_ALLOWED) return false;
         }
         return true;
     }

@@ -18,17 +18,14 @@ package com.yanzhenjie.permission;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.KeyEvent;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
-import com.yanzhenjie.permission.runtime.setting.SettingPage;
+import com.yanzhenjie.permission.overlay.setting.AlertWindowSettingPage;
+import com.yanzhenjie.permission.overlay.setting.OverlaySettingPage;
+import com.yanzhenjie.permission.runtime.setting.RuntimeSettingPage;
 import com.yanzhenjie.permission.source.ContextSource;
 
 /**
@@ -43,6 +40,8 @@ public final class PermissionActivity extends Activity {
     private static final int VALUE_INPUT_PERMISSION = 1;
     private static final int VALUE_INPUT_PERMISSION_SETTING = 2;
     private static final int VALUE_INPUT_INSTALL = 3;
+    private static final int VALUE_INPUT_OVERLAY = 4;
+    private static final int VALUE_INPUT_ALERT_WINDOW = 5;
 
     private static final String KEY_INPUT_PERMISSIONS = "KEY_INPUT_PERMISSIONS";
 
@@ -85,11 +84,33 @@ public final class PermissionActivity extends Activity {
         context.startActivity(intent);
     }
 
+    /**
+     * Request for overlay.
+     */
+    public static void requestOverlay(Context context, RequestListener requestListener) {
+        PermissionActivity.sRequestListener = requestListener;
+
+        Intent intent = new Intent(context, PermissionActivity.class);
+        intent.putExtra(KEY_INPUT_OPERATION, VALUE_INPUT_OVERLAY);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    /**
+     * Request for alert window.
+     */
+    public static void requestAlertWindow(Context context, RequestListener requestListener) {
+        PermissionActivity.sRequestListener = requestListener;
+
+        Intent intent = new Intent(context, PermissionActivity.class);
+        intent.putExtra(KEY_INPUT_OPERATION, VALUE_INPUT_ALERT_WINDOW);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        invasionStatusBar(this);
-
         Intent intent = getIntent();
         int operation = intent.getIntExtra(KEY_INPUT_OPERATION, 0);
         switch (operation) {
@@ -104,7 +125,7 @@ public final class PermissionActivity extends Activity {
             }
             case VALUE_INPUT_PERMISSION_SETTING: {
                 if (sRequestListener != null) {
-                    SettingPage setting = new SettingPage(new ContextSource(this));
+                    RuntimeSettingPage setting = new RuntimeSettingPage(new ContextSource(this));
                     setting.start(VALUE_INPUT_PERMISSION_SETTING);
                 } else {
                     finish();
@@ -116,6 +137,24 @@ public final class PermissionActivity extends Activity {
                     Intent manageIntent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
                     manageIntent.setData(Uri.fromParts("package", getPackageName(), null));
                     startActivityForResult(manageIntent, VALUE_INPUT_INSTALL);
+                } else {
+                    finish();
+                }
+                break;
+            }
+            case VALUE_INPUT_OVERLAY: {
+                if (sRequestListener != null) {
+                    OverlaySettingPage settingPage = new OverlaySettingPage(new ContextSource(this));
+                    settingPage.start(VALUE_INPUT_OVERLAY);
+                } else {
+                    finish();
+                }
+                break;
+            }
+            case VALUE_INPUT_ALERT_WINDOW: {
+                if (sRequestListener != null) {
+                    AlertWindowSettingPage settingPage = new AlertWindowSettingPage(new ContextSource(this));
+                    settingPage.start(VALUE_INPUT_ALERT_WINDOW);
                 } else {
                     finish();
                 }
@@ -162,22 +201,5 @@ public final class PermissionActivity extends Activity {
      */
     public interface RequestListener {
         void onRequestCallback();
-    }
-
-    /**
-     * Set the content layout full the StatusBar, but do not hide StatusBar.
-     */
-    private static void invasionStatusBar(Activity activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = activity.getWindow();
-            View decorView = window.getDecorView();
-            decorView.setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-            );
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
-        }
     }
 }

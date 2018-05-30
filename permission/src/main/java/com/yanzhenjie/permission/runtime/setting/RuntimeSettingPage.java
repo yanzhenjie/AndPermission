@@ -27,13 +27,13 @@ import com.yanzhenjie.permission.source.Source;
 /**
  * Created by YanZhenjie on 2018/4/30.
  */
-public class SettingPage {
+public class RuntimeSettingPage {
 
     private static final String MARK = Build.MANUFACTURER.toLowerCase();
 
     private Source mSource;
 
-    public SettingPage(Source source) {
+    public RuntimeSettingPage(Source source) {
         this.mSource = source;
     }
 
@@ -41,6 +41,7 @@ public class SettingPage {
      * Start.
      *
      * @param requestCode this code will be returned in onActivityResult() when the activity exits.
+     * @return true if successful, otherwise is false.
      */
     public void start(int requestCode) {
         Intent intent;
@@ -52,12 +53,8 @@ public class SettingPage {
             intent = oppoApi(mSource.getContext());
         } else if (MARK.contains("vivo")) {
             intent = vivoApi(mSource.getContext());
-        } else if (MARK.contains("samsung")) {
-            intent = samsungApi(mSource.getContext());
         } else if (MARK.contains("meizu")) {
             intent = meizuApi(mSource.getContext());
-        } else if (MARK.contains("smartisan")) {
-            intent = smartisanApi(mSource.getContext());
         } else {
             intent = defaultApi(mSource.getContext());
         }
@@ -69,18 +66,12 @@ public class SettingPage {
         }
     }
 
-    /**
-     * App details page.
-     */
     private static Intent defaultApi(Context context) {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         intent.setData(Uri.fromParts("package", context.getPackageName(), null));
         return intent;
     }
 
-    /**
-     * Huawei cell phone Api23 the following method.
-     */
     private static Intent huaweiApi(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return defaultApi(context);
@@ -90,39 +81,26 @@ public class SettingPage {
         return intent;
     }
 
-    /**
-     * Xiaomi phone to achieve the method.
-     */
     private static Intent xiaomiApi(Context context) {
         Intent intent = new Intent("miui.intent.action.APP_PERM_EDITOR");
         intent.putExtra("extra_pkgname", context.getPackageName());
         return intent;
     }
 
-    /**
-     * Vivo phone to achieve the method.
-     */
     private static Intent vivoApi(Context context) {
         Intent intent = new Intent();
         intent.putExtra("packagename", context.getPackageName());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            intent.setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.SoftPermissionDetailActivity"));
-        } else {
-            intent.setComponent(new ComponentName("com.iqoo.secure", "com.iqoo.secure.safeguard.SoftPermissionDetailActivity"));
-        }
+        intent.setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.SoftPermissionDetailActivity"));
         return intent;
     }
 
-    /**
-     * Oppo phone to achieve the method.
-     */
     private static Intent oppoApi(Context context) {
-        return defaultApi(context);
+        Intent intent = new Intent();
+        intent.putExtra("packageName", context.getPackageName());
+        intent.setComponent(new ComponentName("com.color.safecenter", "com.color.safecenter.permission.PermissionManagerActivity"));
+        return intent;
     }
 
-    /**
-     * Meizu phone to achieve the method.
-     */
     private static Intent meizuApi(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return defaultApi(context);
@@ -131,19 +109,5 @@ public class SettingPage {
         intent.putExtra("packageName", context.getPackageName());
         intent.setComponent(new ComponentName("com.meizu.safe", "com.meizu.safe.security.AppSecActivity"));
         return intent;
-    }
-
-    /**
-     * Smartisan phone to achieve the method.
-     */
-    private static Intent smartisanApi(Context context) {
-        return defaultApi(context);
-    }
-
-    /**
-     * Samsung phone to achieve the method.
-     */
-    private static Intent samsungApi(Context context) {
-        return defaultApi(context);
     }
 }
