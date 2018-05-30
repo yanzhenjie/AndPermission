@@ -17,29 +17,24 @@ ext {
     ]
 
     bintray = [
-            // library
-            version       : "2.0.0-rc5",
+            version       : "2.0.0-rc6",
 
             siteUrl       : 'https://github.com/yanzhenjie/AndPermission',
             gitUrl        : 'git@github.com:yanzhenjie/AndPermission.git',
 
             group         : "com.yanzhenjie",
 
-            // project
             packaging     : 'aar',
             name          : 'Permission',
             description   : 'Permission manager for Android',
 
-            // project.license
             licenseName   : 'The Apache Software License, Version 2.0',
             licenseUrl    : 'http://www.apache.org/licenses/LICENSE-2.0.txt',
 
-            // project.developers
             developerId   : 'yanzhenjie',
             developerName : 'yanzhenjie',
             developerEmail: 'smallajax@foxmail.com',
 
-            // bintray
             binrayLibrary : "permission",
             bintrayRepo   : "maven",
             bintrayUser   : 'yolanda',
@@ -51,6 +46,6 @@ ext {
             appCompat : 'com.android.support:appcompat-v7:27.1.1',
             design    : 'com.android.support:design:27.1.1',
 
-            permission: 'com.yanzhenjie:permission:2.0.0-rc5'
+            permission: 'com.yanzhenjie:permission:2.0.0-rc6'
     ]
 }
