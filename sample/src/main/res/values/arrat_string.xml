@@ -28,6 +28,12 @@
         <item>All</item>
     </string-array>
 
+    <string-array name="location">
+        <item>Fine Location</item>
+        <item>Coarse Location</item>
+        <item>All</item>
+    </string-array>
+
     <string-array name="phone">
         <item>Read_Phone_State</item>
         <item>Call_Phone</item>

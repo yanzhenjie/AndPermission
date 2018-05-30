@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
     Copyright © Yan Zhenjie
 
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,14 +38,16 @@
 
     <string name="permission_setting">Permission Setting</string>
     <string name="permission_install">Install Apk</string>
+    <string name="permission_overlay">AlertWindow</string>
 
     <string name="title_dialog">Tips</string>
     <string name="message_permission_rationale">Grant the following permissions to continue the program:\n\n%1$s</string>
     <string name="message_permission_always_failed">Please give us permission in the settings:\n\n%1$s</string>
     <string name="message_setting_comeback">The user comes back from the settings page.</string>
 
-    <string name="message_install_storage_failed">We need to read and write external storage permission.</string>
-    <string name="message_install_always_failed">Your phone is not allowed us to install apps.</string>
+    <string name="message_install_failed">Your phone is not allowed us to install apps.</string>
+
+    <string name="message_overlay_failed">Your phone is not allowed us to draw on other applications.</string>
 
     <string name="message_error_storage">Please check the external storage device.</string>
 

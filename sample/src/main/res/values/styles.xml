@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
     Copyright © Yan Zhenjie
 
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -55,9 +56,17 @@
 
     <style name="Permission.Theme.Sample.Button" parent="Widget.AppCompat.Button" />
 
-    <style name="Permission.Button" parent="Permission.WrapContent.WidthMatchParent">
+    <style name="Permission.Button" parent="Permission.WrapContent">
         <item name="android:theme">@style/Permission.Theme.Sample.Button</item>
         <item name="android:layout_margin">@dimen/dp_1</item>
+    </style>
+
+    <style name="Permission.Button.Weight">
         <item name="android:layout_weight">1</item>
     </style>
+
+    <style name="Permission.Button.Weight.Horizontal">
+        <item name="android:layout_weight">1</item>
+    </style>
+
 </resources>

@@ -22,19 +22,16 @@ import android.content.DialogInterface;
 import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RequestExecutor;
 
-import java.io.File;
-
 /**
- * Created by YanZhenjie on 2018/4/29.
+ * Created by YanZhenjie on 2018/5/30.
  */
-public class InstallRationale implements Rationale<File> {
-
+public class OverlayRationale implements Rationale<Void> {
     @Override
-    public void showRationale(Context context, File data, final RequestExecutor executor) {
+    public void showRationale(Context context, Void data, final RequestExecutor executor) {
         new AlertDialog.Builder(context)
                 .setCancelable(false)
                 .setTitle(R.string.title_dialog)
-                .setMessage(R.string.message_install_failed)
+                .setMessage(R.string.message_overlay_failed)
                 .setPositiveButton(R.string.setting, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

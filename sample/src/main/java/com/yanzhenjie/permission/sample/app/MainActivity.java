@@ -17,6 +17,7 @@ package com.yanzhenjie.permission.sample.app;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -36,7 +37,9 @@ import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.yanzhenjie.permission.Setting;
+import com.yanzhenjie.permission.sample.App;
 import com.yanzhenjie.permission.sample.InstallRationale;
+import com.yanzhenjie.permission.sample.OverlayRationale;
 import com.yanzhenjie.permission.sample.R;
 import com.yanzhenjie.permission.sample.RuntimeRationale;
 
@@ -71,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_setting).setOnClickListener(this);
 
         findViewById(R.id.btn_install).setOnClickListener(this);
+        findViewById(R.id.btn_overlay).setOnClickListener(this);
     }
 
     @Override
@@ -111,7 +115,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             }
             case R.id.btn_request_location: {
-                requestPermission(Permission.Group.LOCATION);
+                PopupMenu popupMenu = createMenu(v, getResources().getStringArray(R.array.location));
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int order = item.getItemId();
+                        switch (order) {
+                            case 0: {
+                                requestPermission(Permission.ACCESS_FINE_LOCATION);
+                                break;
+                            }
+                            case 1: {
+                                requestPermission(Permission.ACCESS_COARSE_LOCATION);
+                                break;
+                            }
+                            case 2: {
+                                requestPermission(Permission.Group.LOCATION);
+                                break;
+                            }
+                        }
+                        return true;
+                    }
+                });
+                popupMenu.show();
                 break;
             }
             case R.id.btn_request_calendar: {
@@ -266,6 +292,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 requestPermissionForInstallPackage();
                 break;
             }
+            case R.id.btn_overlay: {
+                requestPermissionForAlertWindow();
+                break;
+            }
         }
     }
 
@@ -358,7 +388,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .onDenied(new Action<List<String>>() {
                     @Override
                     public void onAction(List<String> data) {
-                        toast(R.string.message_install_storage_failed);
+                        toast(R.string.message_install_failed);
                     }
                 })
                 .start();
@@ -385,6 +415,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 })
                 .start();
+    }
+
+    private void requestPermissionForAlertWindow() {
+        AndPermission.with(this)
+                .overlay()
+                .rationale(new OverlayRationale())
+                .onGranted(new Action<Void>() {
+                    @Override
+                    public void onAction(Void data) {
+                        showAlertWindow();
+                    }
+                })
+                .onDenied(new Action<Void>() {
+                    @Override
+                    public void onAction(Void data) {
+                        toast(R.string.message_overlay_failed);
+                    }
+                })
+                .start();
+    }
+
+    private void showAlertWindow() {
+        App.getInstance().showLauncherView();
+
+        Intent backHome = new Intent(Intent.ACTION_MAIN);
+        backHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        backHome.addCategory(Intent.CATEGORY_HOME);
+        startActivity(backHome);
     }
 
     /**
