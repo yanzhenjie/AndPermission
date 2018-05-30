@@ -3,16 +3,44 @@ Simplify the process of requesting permission on Android.
 * Request runtime permissions on Android 6.0 or higher.
 * Share private files on Android 7.0 or higher.
 * Install the app on Android 8.0 or higher.
+* Show AlertWindow at the top of other apps.
 
 ```java
 AndPermission.with(this)
   .runtime()
   .permission(Permission.Group.STORAGE)
   .onGranted(permissions -> {
-    // TODO ...
+    // Storage permission are allowed.
   })
   .onDenied(permissions -> {
-    // TODO ...
+    // Storage permission are not allowed.
+  })
+  .start();
+```
+
+```java
+File apkFile = ...;
+
+AndPermission.with(this)
+  .install()
+  .file(apkFile)
+  .onGranted(file -> {
+    // App is allowed to install apps.
+  })
+  .onDenied(file -> {
+    // App is refused to install apps.
+  })
+  .start();
+```
+
+```java
+AndPermission.with(this)
+  .overlay()
+  .onGranted(data -> {
+    // App can draw on top of other apps.
+  })
+  .onDenied(data -> {
+    // App cann't draw on top of other apps.
   })
   .start();
 ```
@@ -21,12 +49,9 @@ For documentation and additional information see [the website](http://yanzhenjie
 
 ## Download
 ```
-implementation 'com.yanzhenjie:permission:2.0.0-rc5'
+implementation 'com.yanzhenjie:permission:2.0.0-rc6'
 ```
-AndPermission requires at minimum Java 7 or Android 4.0(Api level 14) .
-
-## Plan
-Request `SYSTEM_ALERT_WINDOW` permission at runtime, you can track [the progress of task](https://github.com/yanzhenjie/AndPermission/projects).
+AndPermission requires at minimum Android 4.0(Api level 14) .
 
 ## ProGuard
 If you are using ProGuard you might need to add the following options:
@@ -39,7 +64,7 @@ Before submitting pull requests, contributors must abide by the [agreement](CONT
 
 ## License
 ```text
-Copyright 2016 Yan Zhenjie
+Copyright 2018 Yan Zhenjie
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
