@@ -1,9 +1,10 @@
 ﻿# AndPermission
-Simplify the process of requesting permission on Android.
-* Request runtime permissions on Android 6.0 or higher.
-* Share private files on Android 7.0 or higher.
-* Install the app on Android 8.0 or higher.
-* Show AlertWindow at the top of other apps.
+* Requesting runtime permissions on Android 6.0 or higher.
+* Sharing private files on Android 7.0 or higher.
+* Installing unknown source apk on Android 8.0 or higher.  
+  android.permission.REQUEST_INSTALL_PACKAGES
+* Drawing at the top of other apps on Android 6.0 or higher.  
+  android.permission.SYSTEM_ALERT_WINDOW.
 
 ```java
 AndPermission.with(this)
@@ -16,6 +17,11 @@ AndPermission.with(this)
     // Storage permission are not allowed.
   })
   .start();
+```
+
+```java
+File file = ...;
+Uri compatUri = AndPermission.getFileUri(this, file);
 ```
 
 ```java
@@ -49,7 +55,7 @@ For documentation and additional information see [the website](http://yanzhenjie
 
 ## Download
 ```
-implementation 'com.yanzhenjie:permission:2.0.0-rc6'
+implementation 'com.yanzhenjie:permission:2.0.0-rc7'
 ```
 AndPermission requires at minimum Android 4.0(Api level 14) .
 
