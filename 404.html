@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>404</title>
+<style type="text/css">
+.t {
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        color: #CC0000;
+}
+.c {
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        font-size: 11px;
+        font-weight: normal;
+        color: #000000;
+        line-height: 18px;
+        text-align: center;
+        border: 1px solid #CCCCCC;
+        background-color: #FFFFEC;
+}
+body {
+        background-color: #FFFFFF;
+        margin-top: 100px;
+}
+</style>
+<script type="text/javascript">
+  function pageLoad() {
+    var url = window.location.href;
+    var td = document.getElementById('tips');
+    if(url.indexOf("AndPermission/cn") > -1) {
+      td.innerText = "页面不存在，正在重定向到首页…";
+    } else {
+      td.innerText = "Page does not exist, redirecting to home page…";
+    }
+    setTimeout(() => {
+      var url = window.location.href;
+      if(url.indexOf("AndPermission/cn") > -1) {
+        window.location.href = "http://yanzhenjie.github.io/AndPermission/cn/";
+      } else {
+        window.location.href = "http://yanzhenjie.github.io/AndPermission/";
+      }
+    }, 2000);
+  }
+</script>
+</head>
+<body onload="javascript:pageLoad()">
+<div align="center">
+  <h2><span class="t">Page Not Found</span></h2>
+  <table border="0" cellpadding="8" cellspacing="0" width="460">
+    <tbody>
+      <tr>
+        <td id="tips" class="c"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
