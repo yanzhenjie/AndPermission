@@ -20,7 +20,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.provider.Settings;
+
+import java.lang.reflect.Method;
 
 /**
  * <p>The source of the request.</p>
@@ -28,8 +29,12 @@ import android.provider.Settings;
  */
 public abstract class Source {
 
+    private static final String OPSTR_SYSTEM_ALERT_WINDOW = AppOpsManager.OPSTR_SYSTEM_ALERT_WINDOW;
+    private static final int OP_REQUEST_INSTALL_PACKAGES = 66;
+
     private PackageManager mPackageManager;
     private AppOpsManager mAppOpsManager;
+    private int mTargetSdkVersion;
 
     public abstract Context getContext();
 
@@ -39,10 +44,45 @@ public abstract class Source {
 
     public abstract boolean isShowRationalePermission(String permission);
 
+    private int getTargetSdkVersion() {
+        if (mTargetSdkVersion < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            mTargetSdkVersion = getContext().getApplicationInfo().targetSdkVersion;
+        }
+        return mTargetSdkVersion;
+    }
+
+    private PackageManager getPackageManager() {
+        if (mPackageManager == null) {
+            mPackageManager = getContext().getPackageManager();
+        }
+        return mPackageManager;
+    }
+
+    private AppOpsManager getAppOpsManager() {
+        if (mAppOpsManager == null) {
+            mAppOpsManager = (AppOpsManager) getContext().getSystemService(Context.APP_OPS_SERVICE);
+        }
+        return mAppOpsManager;
+    }
+
     public final boolean canRequestPackageInstalls() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true;
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (mPackageManager == null) mPackageManager = getContext().getPackageManager();
-            return mPackageManager.canRequestPackageInstalls();
+            if (getTargetSdkVersion() < Build.VERSION_CODES.O) {
+                Class<AppOpsManager> clazz = AppOpsManager.class;
+                try {
+                    Method method = clazz.getDeclaredMethod("checkOpNoThrow", int.class, int.class, String.class);
+                    int result = (int) method.invoke(getAppOpsManager(), OP_REQUEST_INSTALL_PACKAGES, android.os.Process.myUid(), getContext().getPackageName());
+                    return result == AppOpsManager.MODE_ALLOWED;
+                } catch (Exception ignored) {
+                    // Android P does not allow reflections.
+                    return true;
+                }
+            }
+            return getPackageManager().canRequestPackageInstalls();
         }
         return true;
     }
@@ -50,11 +90,13 @@ public abstract class Source {
     public final boolean canDrawOverlays() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Context context = getContext();
-            if (!Settings.canDrawOverlays(context)) return false;
+            // Not available when targetSdkVersion is lower than M.
+//            if (getTargetSdkVersion() >= Build.VERSION_CODES.M) {
+//                return Settings.canDrawOverlays(context);
+//            }
 
-            if (mAppOpsManager == null) mAppOpsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
-            int result = mAppOpsManager.checkOpNoThrow("android:system_alert_window", android.os.Process.myUid(), context.getPackageName());
-            if (result != AppOpsManager.MODE_ALLOWED) return false;
+            int result = getAppOpsManager().checkOpNoThrow(OPSTR_SYSTEM_ALERT_WINDOW, android.os.Process.myUid(), context.getPackageName());
+            return result == AppOpsManager.MODE_ALLOWED;
         }
         return true;
     }

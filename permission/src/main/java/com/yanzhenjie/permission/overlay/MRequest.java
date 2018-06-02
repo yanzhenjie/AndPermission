@@ -15,11 +15,7 @@
  */
 package com.yanzhenjie.permission.overlay;
 
-import android.content.Context;
-
-import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.PermissionActivity;
-import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RequestExecutor;
 import com.yanzhenjie.permission.source.Source;
 import com.yanzhenjie.permission.util.MainExecutor;
@@ -27,49 +23,24 @@ import com.yanzhenjie.permission.util.MainExecutor;
 /**
  * Created by YanZhenjie on 2018/5/29.
  */
-class MRequest implements OverlayRequest, RequestExecutor, PermissionActivity.RequestListener {
+class MRequest extends BaseRequest implements RequestExecutor, PermissionActivity.RequestListener {
 
     private static final MainExecutor EXECUTOR = new MainExecutor();
 
     private Source mSource;
 
-    private Rationale<Void> mRationale = new Rationale<Void>() {
-        @Override
-        public void showRationale(Context context, Void data, RequestExecutor executor) {
-            executor.execute();
-        }
-    };
-    private Action<Void> mGranted;
-    private Action<Void> mDenied;
 
     MRequest(Source source) {
+        super(source);
         this.mSource = source;
-    }
-
-    @Override
-    public OverlayRequest rationale(Rationale<Void> rationale) {
-        this.mRationale = rationale;
-        return this;
-    }
-
-    @Override
-    public OverlayRequest onGranted(Action<Void> granted) {
-        this.mGranted = granted;
-        return this;
-    }
-
-    @Override
-    public OverlayRequest onDenied(Action<Void> denied) {
-        this.mDenied = denied;
-        return this;
     }
 
     @Override
     public void start() {
         if (mSource.canDrawOverlays()) {
-            callbackSucceed();
+            dispatchCallback();
         } else {
-            mRationale.showRationale(mSource.getContext(), null, this);
+            showRationale(this);
         }
     }
 
@@ -88,30 +59,16 @@ class MRequest implements OverlayRequest, RequestExecutor, PermissionActivity.Re
         EXECUTOR.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (mSource.canDrawOverlays()) {
-                    callbackSucceed();
-                } else {
-                    callbackFailed();
-                }
+                dispatchCallback();
             }
         }, 100);
     }
 
-    /**
-     * Callback acceptance status.
-     */
-    private void callbackSucceed() {
-        if (mGranted != null) {
-            mGranted.onAction(null);
-        }
-    }
-
-    /**
-     * Callback rejected state.
-     */
-    private void callbackFailed() {
-        if (mDenied != null) {
-            mDenied.onAction(null);
+    private void dispatchCallback() {
+        if (mSource.canDrawOverlays() && tryDisplayDialog(mSource.getContext())) {
+            callbackSucceed();
+        } else {
+            callbackFailed();
         }
     }
 }

@@ -15,65 +15,23 @@
  */
 package com.yanzhenjie.permission.install;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-
-import com.yanzhenjie.permission.Action;
-import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionActivity;
-import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RequestExecutor;
 import com.yanzhenjie.permission.source.Source;
 import com.yanzhenjie.permission.util.MainExecutor;
 
-import java.io.File;
-
 /**
  * Created by YanZhenjie on 2018/4/28.
  */
-class ORequest implements InstallRequest, RequestExecutor, PermissionActivity.RequestListener {
+class ORequest extends BaseRequest implements RequestExecutor, PermissionActivity.RequestListener {
 
     private static final MainExecutor EXECUTOR = new MainExecutor();
 
     private Source mSource;
 
-    private File mFile;
-    private Rationale<File> mRationale = new Rationale<File>() {
-        @Override
-        public void showRationale(Context context, File data, RequestExecutor executor) {
-            executor.execute();
-        }
-    };
-    private Action<File> mGranted;
-    private Action<File> mDenied;
-
     ORequest(Source source) {
+        super(source);
         this.mSource = source;
-    }
-
-    @Override
-    public InstallRequest file(File file) {
-        this.mFile = file;
-        return this;
-    }
-
-    @Override
-    public InstallRequest rationale(Rationale<File> rationale) {
-        this.mRationale = rationale;
-        return this;
-    }
-
-    @Override
-    public InstallRequest onGranted(Action<File> granted) {
-        this.mGranted = granted;
-        return this;
-    }
-
-    @Override
-    public InstallRequest onDenied(Action<File> denied) {
-        this.mDenied = denied;
-        return this;
     }
 
     @Override
@@ -82,7 +40,7 @@ class ORequest implements InstallRequest, RequestExecutor, PermissionActivity.Re
             callbackSucceed();
             install();
         } else {
-            mRationale.showRationale(mSource.getContext(), mFile, this);
+            showRationale(this);
         }
     }
 
@@ -101,43 +59,17 @@ class ORequest implements InstallRequest, RequestExecutor, PermissionActivity.Re
         EXECUTOR.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (mSource.canRequestPackageInstalls()) {
-                    callbackSucceed();
-                    install();
-                } else {
-                    callbackFailed();
-                }
+                dispatchCallback();
             }
         }, 100);
     }
 
-    /**
-     * Start the installation.
-     */
-    private void install() {
-        Intent intent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        Uri uri = AndPermission.getFileUri(mSource.getContext(), mFile);
-        intent.setDataAndType(uri, "application/vnd.android.package-archive");
-        mSource.startActivity(intent);
-    }
-
-    /**
-     * Callback acceptance status.
-     */
-    private void callbackSucceed() {
-        if (mGranted != null) {
-            mGranted.onAction(mFile);
-        }
-    }
-
-    /**
-     * Callback rejected state.
-     */
-    private void callbackFailed() {
-        if (mDenied != null) {
-            mDenied.onAction(mFile);
+    private void dispatchCallback() {
+        if (mSource.canRequestPackageInstalls()) {
+            callbackSucceed();
+            install();
+        } else {
+            callbackFailed();
         }
     }
 }
