@@ -15,6 +15,9 @@
  */
 package com.yanzhenjie.permission.runtime;
 
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 
 import com.yanzhenjie.permission.Setting;
@@ -31,6 +34,7 @@ import java.util.List;
 public class Runtime {
 
     private static final PermissionRequestFactory FACTORY;
+    private static List<String> mRegisteredInManifestPermissions;
 
     static {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -51,12 +55,16 @@ public class Runtime {
 
     public Runtime(Source source) {
         this.mSource = source;
+        if (mRegisteredInManifestPermissions == null) {
+            mRegisteredInManifestPermissions = getRegisteredInManifestPermissions(source.getContext());
+        }
     }
 
     /**
      * One or more permissions.
      */
     public PermissionRequest permission(String... permissions) {
+        checkPermissions(permissions);
         return FACTORY.create(mSource).permission(permissions);
     }
 
@@ -69,7 +77,7 @@ public class Runtime {
             permissionList.addAll(Arrays.asList(group));
         }
         String[] permissions = permissionList.toArray(new String[permissionList.size()]);
-        return FACTORY.create(mSource).permission(permissions);
+        return permission(permissions);
     }
 
     /**
@@ -77,5 +85,46 @@ public class Runtime {
      */
     public Setting setting() {
         return new RuntimeSetting(mSource);
+    }
+
+    /**
+     * check if the permissions are valid and each permission has been registered
+     * in Manifest.xml, this method will throw a certain exception if permissions
+     * are invalid or there is any permission which is not registered in Manifest.xml
+     *
+     * @param permissions permissions which will be checked
+     */
+    private void checkPermissions(String... permissions) {
+        if (permissions == null || permissions.length == 0) {
+            throw new IllegalArgumentException("permissions is null or no one permission");
+        }
+        if (mRegisteredInManifestPermissions != null) {
+            for (String p : permissions) {
+                if (!mRegisteredInManifestPermissions.contains(p)) {
+                    throw new IllegalArgumentException("the permission \"" + p + "\" is not registered in AndroidManifest.xml");
+                }
+            }
+        }
+    }
+
+    /**
+     * get permissions list which have been registered in Manifest.xml
+     */
+    private List<String> getRegisteredInManifestPermissions(Context context) {
+        if(context == null){
+            return null;
+        }
+        List<String> list = new ArrayList<>();
+        try {
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_PERMISSIONS);
+            String[] permissions = packageInfo.requestedPermissions;
+            //permissions will be null if no permissions registered in Manifest.xml
+            if (permissions != null) {
+                list.addAll(Arrays.asList(permissions));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }
