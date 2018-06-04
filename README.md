@@ -55,7 +55,7 @@ For documentation and additional information see [the website](http://yanzhenjie
 
 ## Download
 ```
-implementation 'com.yanzhenjie:permission:2.0.0-rc7'
+implementation 'com.yanzhenjie:permission:2.0.0-rc8'
 ```
 AndPermission requires at minimum Android 4.0(Api level 14) .
 
