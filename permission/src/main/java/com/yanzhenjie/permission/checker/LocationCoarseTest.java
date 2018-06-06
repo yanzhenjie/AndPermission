@@ -36,11 +36,15 @@ class LocationCoarseTest implements PermissionTest {
     public boolean test() throws Throwable {
         LocationManager locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
         List<String> providers = locationManager.getProviders(true);
-        if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
+        boolean networkProvider = providers.contains(LocationManager.NETWORK_PROVIDER);
+        if (networkProvider) {
             return true;
         }
 
         PackageManager packageManager = mContext.getPackageManager();
-        return !packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_NETWORK);
+        boolean networkHardware = packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_NETWORK);
+        if(!networkHardware) return true;
+
+        return !locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 }
