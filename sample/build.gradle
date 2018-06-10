@@ -18,4 +18,7 @@ dependencies {
 
     implementation rootProject.ext.dependencies.appCompat
     implementation rootProject.ext.dependencies.design
+
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 }

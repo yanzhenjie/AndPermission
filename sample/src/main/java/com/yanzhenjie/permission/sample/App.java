@@ -18,6 +18,7 @@ package com.yanzhenjie.permission.sample;
 import android.app.Application;
 import android.view.View;
 
+import com.squareup.leakcanary.LeakCanary;
 import com.yanzhenjie.permission.sample.widget.AlertWindow;
 import com.yanzhenjie.permission.sample.widget.LauncherView;
 
@@ -32,6 +33,11 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         _instance = this;
+
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return;
+        }
+        LeakCanary.install(this);
     }
 
     public static App getInstance() {
