@@ -18,6 +18,7 @@ package com.yanzhenjie.permission.runtime.setting;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
@@ -91,6 +92,9 @@ public class RuntimeSettingPage {
         Intent intent = new Intent();
         intent.putExtra("packagename", context.getPackageName());
         intent.setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.SoftPermissionDetailActivity"));
+        if(hasActivity(context, intent)) return intent;
+
+        intent.setComponent(new ComponentName("com.iqoo.secure", "com.iqoo.secure.safeguard.SoftPermissionDetailActivity"));
         return intent;
     }
 
@@ -109,5 +113,10 @@ public class RuntimeSettingPage {
         intent.putExtra("packageName", context.getPackageName());
         intent.setComponent(new ComponentName("com.meizu.safe", "com.meizu.safe.security.AppSecActivity"));
         return intent;
+    }
+
+    private static boolean hasActivity(Context context, Intent intent) {
+        PackageManager packageManager = context.getPackageManager();
+        return packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).size() > 0;
     }
 }
