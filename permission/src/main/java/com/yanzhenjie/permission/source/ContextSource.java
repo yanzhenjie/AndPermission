@@ -45,7 +45,7 @@ public class ContextSource extends Source {
         if (mContext instanceof Activity) {
             mContext.startActivity(intent);
         } else {
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
         }
     }
@@ -56,7 +56,7 @@ public class ContextSource extends Source {
             Activity activity = (Activity) mContext;
             activity.startActivityForResult(intent, requestCode);
         } else {
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
         }
     }
