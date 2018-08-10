@@ -22,14 +22,21 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.yanzhenjie.permission.source.Source;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * Created by YanZhenjie on 2018/4/30.
  */
 public class RuntimeSettingPage {
 
+    private static final String MIUI_VERSION_NAME = "ro.miui.ui.version.name";
     private static final String MARK = Build.MANUFACTURER.toLowerCase();
 
     private Source mSource;
@@ -83,9 +90,13 @@ public class RuntimeSettingPage {
     }
 
     private static Intent xiaomiApi(Context context) {
-        Intent intent = new Intent("miui.intent.action.APP_PERM_EDITOR");
-        intent.putExtra("extra_pkgname", context.getPackageName());
-        return intent;
+        String version = getSystemProperty(MIUI_VERSION_NAME);
+        if(TextUtils.isEmpty(version) || version.contains("7") || version.contains("8")) {
+            Intent intent = new Intent("miui.intent.action.APP_PERM_EDITOR");
+            intent.putExtra("extra_pkgname", context.getPackageName());
+            return intent;
+        }
+        return defaultApi(context);
     }
 
     private static Intent vivoApi(Context context) {
@@ -118,5 +129,23 @@ public class RuntimeSettingPage {
     private static boolean hasActivity(Context context, Intent intent) {
         PackageManager packageManager = context.getPackageManager();
         return packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).size() > 0;
+    }
+
+    public static String getSystemProperty(String propName) {
+        BufferedReader input = null;
+        try {
+            Process p = Runtime.getRuntime().exec("getprop " + propName);
+            input = new BufferedReader(new InputStreamReader(p.getInputStream()), 1024);
+            return input.readLine();
+        } catch (IOException ex) {
+            return "";
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException ignored) {
+                }
+            }
+        }
     }
 }
