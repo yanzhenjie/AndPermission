@@ -64,7 +64,7 @@ class LRequest extends BaseRequest implements RequestExecutor, PermissionActivit
     }
 
     private void dispatchCallback() {
-        if (mSource.canDrawOverlays() && tryDisplayDialog(mSource.getContext())) {
+        if (tryDisplayDialog(mSource.getContext())) {
             callbackSucceed();
         } else {
             callbackFailed();
