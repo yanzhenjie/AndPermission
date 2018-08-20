@@ -15,6 +15,8 @@
  */
 package com.yanzhenjie.permission.runtime;
 
+import android.util.Log;
+
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.checker.PermissionChecker;
@@ -84,6 +86,7 @@ class LRequest implements PermissionRequest {
             try {
                 mGranted.onAction(permissionList);
             } catch (Exception e) {
+                Log.e("AndPermission", "Please check the onGranted() method body for bugs.", e);
                 if (mDenied != null) {
                     mDenied.onAction(permissionList);
                 }
