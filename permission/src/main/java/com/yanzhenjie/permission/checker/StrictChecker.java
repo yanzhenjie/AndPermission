@@ -75,7 +75,7 @@ public final class StrictChecker implements PermissionChecker {
                 case Permission.ACCESS_FINE_LOCATION:
                     return checkFineLocation(context);
                 case Permission.RECORD_AUDIO:
-                    return checkRecordAudio(context);
+                    return checkRecordAudio();
                 case Permission.READ_PHONE_STATE:
                     return checkReadPhoneState(context);
                 case Permission.CALL_PHONE:
@@ -147,8 +147,8 @@ public final class StrictChecker implements PermissionChecker {
         return test.test();
     }
 
-    private static boolean checkRecordAudio(Context context) throws Throwable {
-        PermissionTest test = new RecordAudioTest(context);
+    private static boolean checkRecordAudio() throws Throwable {
+        PermissionTest test = new RecordAudioTest();
         return test.test();
     }
 
