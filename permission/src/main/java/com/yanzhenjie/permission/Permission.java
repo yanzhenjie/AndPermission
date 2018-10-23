@@ -48,6 +48,8 @@ public final class Permission {
     public static final String ADD_VOICEMAIL = "android.voicemail.permission.ADD_VOICEMAIL";
     public static final String USE_SIP = "android.permission.USE_SIP";
     public static final String PROCESS_OUTGOING_CALLS = "android.permission.PROCESS_OUTGOING_CALLS";
+    public static final String READ_PHONE_NUMBERS = "android.permission.READ_PHONE_NUMBERS";
+    public static final String ANSWER_PHONE_CALLS = "android.permission.ANSWER_PHONE_CALLS";
 
     public static final String BODY_SENSORS = "android.permission.BODY_SENSORS";
 
@@ -61,44 +63,30 @@ public final class Permission {
     public static final String WRITE_EXTERNAL_STORAGE = "android.permission.WRITE_EXTERNAL_STORAGE";
 
     public static final class Group {
-        public static final String[] CALENDAR = new String[]{
-                Permission.READ_CALENDAR,
-                Permission.WRITE_CALENDAR};
 
-        public static final String[] CAMERA = new String[]{Permission.CAMERA};
+        public static final String[] CALENDAR = new String[] {Permission.READ_CALENDAR, Permission.WRITE_CALENDAR};
 
-        public static final String[] CONTACTS = new String[]{
-                Permission.READ_CONTACTS,
-                Permission.WRITE_CONTACTS,
-                Permission.GET_ACCOUNTS};
+        public static final String[] CAMERA = new String[] {Permission.CAMERA};
 
-        public static final String[] LOCATION = new String[]{
-                Permission.ACCESS_FINE_LOCATION,
-                Permission.ACCESS_COARSE_LOCATION};
+        public static final String[] CONTACTS = new String[] {Permission.READ_CONTACTS, Permission.WRITE_CONTACTS,
+            Permission.GET_ACCOUNTS};
 
-        public static final String[] MICROPHONE = new String[]{Permission.RECORD_AUDIO};
+        public static final String[] LOCATION = new String[] {Permission.ACCESS_FINE_LOCATION,
+            Permission.ACCESS_COARSE_LOCATION};
 
-        public static final String[] PHONE = new String[]{
-                Permission.READ_PHONE_STATE,
-                Permission.CALL_PHONE,
-                Permission.READ_CALL_LOG,
-                Permission.WRITE_CALL_LOG,
-                Permission.ADD_VOICEMAIL,
-                Permission.USE_SIP,
-                Permission.PROCESS_OUTGOING_CALLS};
+        public static final String[] MICROPHONE = new String[] {Permission.RECORD_AUDIO};
 
-        public static final String[] SENSORS = new String[]{Permission.BODY_SENSORS};
+        public static final String[] PHONE = new String[] {Permission.READ_PHONE_STATE, Permission.CALL_PHONE,
+            Permission.READ_CALL_LOG, Permission.WRITE_CALL_LOG, Permission.ADD_VOICEMAIL, Permission.USE_SIP,
+            Permission.PROCESS_OUTGOING_CALLS, Permission.READ_PHONE_NUMBERS, Permission.ANSWER_PHONE_CALLS};
 
-        public static final String[] SMS = new String[]{
-                Permission.SEND_SMS,
-                Permission.RECEIVE_SMS,
-                Permission.READ_SMS,
-                Permission.RECEIVE_WAP_PUSH,
-                Permission.RECEIVE_MMS};
+        public static final String[] SENSORS = new String[] {Permission.BODY_SENSORS};
 
-        public static final String[] STORAGE = new String[]{
-                Permission.READ_EXTERNAL_STORAGE,
-                Permission.WRITE_EXTERNAL_STORAGE};
+        public static final String[] SMS = new String[] {Permission.SEND_SMS, Permission.RECEIVE_SMS,
+            Permission.READ_SMS, Permission.RECEIVE_WAP_PUSH, Permission.RECEIVE_MMS};
+
+        public static final String[] STORAGE = new String[] {Permission.READ_EXTERNAL_STORAGE,
+            Permission.WRITE_EXTERNAL_STORAGE};
     }
 
     /**
@@ -126,8 +114,8 @@ public final class Permission {
         List<String> textList = new ArrayList<>();
         for (String permission : permissions) {
             switch (permission) {
-                case READ_CALENDAR:
-                case WRITE_CALENDAR: {
+                case Permission.READ_CALENDAR:
+                case Permission.WRITE_CALENDAR: {
                     String message = context.getString(R.string.permission_name_calendar);
                     if (!textList.contains(message)) {
                         textList.add(message);
@@ -135,69 +123,71 @@ public final class Permission {
                     break;
                 }
 
-                case CAMERA: {
+                case Permission.CAMERA: {
                     String message = context.getString(R.string.permission_name_camera);
                     if (!textList.contains(message)) {
                         textList.add(message);
                     }
                     break;
                 }
-                case READ_CONTACTS:
-                case WRITE_CONTACTS:
-                case GET_ACCOUNTS: {
+                case Permission.READ_CONTACTS:
+                case Permission.WRITE_CONTACTS:
+                case Permission.GET_ACCOUNTS: {
                     String message = context.getString(R.string.permission_name_contacts);
                     if (!textList.contains(message)) {
                         textList.add(message);
                     }
                     break;
                 }
-                case ACCESS_FINE_LOCATION:
-                case ACCESS_COARSE_LOCATION: {
+                case Permission.ACCESS_FINE_LOCATION:
+                case Permission.ACCESS_COARSE_LOCATION: {
                     String message = context.getString(R.string.permission_name_location);
                     if (!textList.contains(message)) {
                         textList.add(message);
                     }
                     break;
                 }
-                case RECORD_AUDIO: {
+                case Permission.RECORD_AUDIO: {
                     String message = context.getString(R.string.permission_name_microphone);
                     if (!textList.contains(message)) {
                         textList.add(message);
                     }
                     break;
                 }
-                case READ_PHONE_STATE:
-                case CALL_PHONE:
-                case READ_CALL_LOG:
-                case WRITE_CALL_LOG:
-                case USE_SIP:
-                case PROCESS_OUTGOING_CALLS: {
+                case Permission.READ_PHONE_STATE:
+                case Permission.CALL_PHONE:
+                case Permission.READ_CALL_LOG:
+                case Permission.WRITE_CALL_LOG:
+                case Permission.USE_SIP:
+                case Permission.PROCESS_OUTGOING_CALLS:
+                case Permission.READ_PHONE_NUMBERS:
+                case Permission.ANSWER_PHONE_CALLS: {
                     String message = context.getString(R.string.permission_name_phone);
                     if (!textList.contains(message)) {
                         textList.add(message);
                     }
                     break;
                 }
-                case BODY_SENSORS: {
+                case Permission.BODY_SENSORS: {
                     String message = context.getString(R.string.permission_name_sensors);
                     if (!textList.contains(message)) {
                         textList.add(message);
                     }
                     break;
                 }
-                case SEND_SMS:
-                case RECEIVE_SMS:
-                case READ_SMS:
-                case RECEIVE_WAP_PUSH:
-                case RECEIVE_MMS: {
+                case Permission.SEND_SMS:
+                case Permission.RECEIVE_SMS:
+                case Permission.READ_SMS:
+                case Permission.RECEIVE_WAP_PUSH:
+                case Permission.RECEIVE_MMS: {
                     String message = context.getString(R.string.permission_name_sms);
                     if (!textList.contains(message)) {
                         textList.add(message);
                     }
                     break;
                 }
-                case READ_EXTERNAL_STORAGE:
-                case WRITE_EXTERNAL_STORAGE: {
+                case Permission.READ_EXTERNAL_STORAGE:
+                case Permission.WRITE_EXTERNAL_STORAGE: {
                     String message = context.getString(R.string.permission_name_storage);
                     if (!textList.contains(message)) {
                         textList.add(message);
