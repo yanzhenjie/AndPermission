@@ -33,7 +33,9 @@ class StorageReadTest implements PermissionTest {
         if (!TextUtils.equals(Environment.MEDIA_MOUNTED, Environment.getExternalStorageState())) return true;
 
         File directory = Environment.getExternalStorageDirectory();
-        if (directory.exists() && directory.canRead()) {
+        if (!directory.exists()) return true;
+
+        if (directory.canRead()) {
             long modified = directory.lastModified();
             String[] pathList = directory.list();
             return modified > 0 && pathList != null;
