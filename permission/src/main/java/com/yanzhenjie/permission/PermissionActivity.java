@@ -1,5 +1,5 @@
 /*
- * Copyright © Yan Zhenjie
+ * Copyright © Zhenjie Yan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ import com.yanzhenjie.permission.source.ContextSource;
  * <p>
  * Request permission.
  * </p>
- * Created by Yan Zhenjie on 2017/4/27.
+ * Created by Zhenjie Yan on 2017/4/27.
  */
 public final class PermissionActivity extends Activity {
 

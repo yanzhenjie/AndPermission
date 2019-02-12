@@ -70,7 +70,7 @@ Before submitting pull requests, contributors must abide by the [agreement](CONT
 
 ## License
 ```text
-Copyright 2018 Yan Zhenjie
+Copyright 2019 Zhenjie Yan
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

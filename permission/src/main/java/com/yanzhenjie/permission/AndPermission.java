@@ -1,5 +1,5 @@
 /*
- * Copyright © Yan Zhenjie
+ * Copyright © Zhenjie Yan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ import java.io.File;
 import java.util.List;
 
 /**
- * Created by Yan Zhenjie on 2016/9/9.
+ * Created by Zhenjie Yan on 2016/9/9.
  */
 public class AndPermission {
 
