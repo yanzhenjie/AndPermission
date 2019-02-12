@@ -131,9 +131,15 @@ public final class Permission {
                     break;
                 }
                 case Permission.READ_CONTACTS:
-                case Permission.WRITE_CONTACTS:
-                case Permission.GET_ACCOUNTS: {
+                case Permission.WRITE_CONTACTS: {
                     String message = context.getString(R.string.permission_name_contacts);
+                    if (!textList.contains(message)) {
+                        textList.add(message);
+                    }
+                    break;
+                }
+                case Permission.GET_ACCOUNTS: {
+                    String message = context.getString(R.string.permission_name_accounts);
                     if (!textList.contains(message)) {
                         textList.add(message);
                     }

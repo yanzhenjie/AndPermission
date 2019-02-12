@@ -18,6 +18,7 @@
     <string name="permission_name_calendar">Calendar</string>
     <string name="permission_name_camera">Camera</string>
     <string name="permission_name_contacts">Contacts</string>
+    <string name="permission_name_accounts">Accounts</string>
     <string name="permission_name_location">Location</string>
     <string name="permission_name_microphone">Microphone</string>
     <string name="permission_name_phone">Phone</string>

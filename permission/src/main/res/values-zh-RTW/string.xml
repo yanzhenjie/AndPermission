@@ -18,6 +18,7 @@
     <string name="permission_name_calendar">日曆</string>
     <string name="permission_name_camera">相機</string>
     <string name="permission_name_contacts">通訊錄</string>
+    <string name="permission_name_accounts">手機賬號</string>
     <string name="permission_name_location">位置信息</string>
     <string name="permission_name_microphone">麥克風</string>
     <string name="permission_name_phone">電話</string>
