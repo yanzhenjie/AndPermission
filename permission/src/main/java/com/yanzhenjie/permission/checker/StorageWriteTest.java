@@ -34,7 +34,6 @@ class StorageWriteTest implements PermissionTest {
 
         File directory = Environment.getExternalStorageDirectory();
         if (!directory.exists()) return true;
-        if (!directory.canWrite()) return false;
 
         File parent = new File(directory, "Android");
         if (parent.exists() && parent.isFile()) {
