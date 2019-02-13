@@ -15,17 +15,16 @@
  */
 package com.yanzhenjie.permission.overlay;
 
-import com.yanzhenjie.permission.PermissionActivity;
 import com.yanzhenjie.permission.RequestExecutor;
+import com.yanzhenjie.permission.bridge.BridgeActivity;
+import com.yanzhenjie.permission.bridge.BridgeRequest;
+import com.yanzhenjie.permission.bridge.RequestManager;
 import com.yanzhenjie.permission.source.Source;
-import com.yanzhenjie.permission.util.MainExecutor;
 
 /**
  * Created by YanZhenjie on 2018/5/29.
  */
-class LRequest extends BaseRequest implements RequestExecutor, PermissionActivity.RequestListener {
-
-    private static final MainExecutor EXECUTOR = new MainExecutor();
+class LRequest extends BaseRequest implements RequestExecutor, BridgeActivity.RequestListener {
 
     private Source mSource;
 
@@ -45,7 +44,10 @@ class LRequest extends BaseRequest implements RequestExecutor, PermissionActivit
 
     @Override
     public void execute() {
-        PermissionActivity.requestAlertWindow(mSource.getContext(), this);
+        BridgeRequest request = new BridgeRequest(mSource.getContext());
+        request.setType(BridgeRequest.TYPE_ALERT_WINDOW);
+        request.setListener(this);
+        RequestManager.get().add(request);
     }
 
     @Override
@@ -55,15 +57,6 @@ class LRequest extends BaseRequest implements RequestExecutor, PermissionActivit
 
     @Override
     public void onRequestCallback() {
-        EXECUTOR.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                dispatchCallback();
-            }
-        }, 100);
-    }
-
-    private void dispatchCallback() {
         if (tryDisplayDialog(mSource.getContext())) {
             callbackSucceed();
         } else {

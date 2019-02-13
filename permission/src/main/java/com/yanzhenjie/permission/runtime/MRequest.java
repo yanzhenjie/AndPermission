@@ -19,14 +19,15 @@ import android.content.Context;
 import android.util.Log;
 
 import com.yanzhenjie.permission.Action;
-import com.yanzhenjie.permission.PermissionActivity;
 import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RequestExecutor;
+import com.yanzhenjie.permission.bridge.BridgeActivity;
+import com.yanzhenjie.permission.bridge.BridgeRequest;
+import com.yanzhenjie.permission.bridge.RequestManager;
 import com.yanzhenjie.permission.checker.DoubleChecker;
 import com.yanzhenjie.permission.checker.PermissionChecker;
 import com.yanzhenjie.permission.checker.StandardChecker;
 import com.yanzhenjie.permission.source.Source;
-import com.yanzhenjie.permission.util.MainExecutor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +37,8 @@ import static java.util.Arrays.asList;
 /**
  * Created by YanZhenjie on 2016/9/9.
  */
-class MRequest implements PermissionRequest, RequestExecutor, PermissionActivity.RequestListener {
+class MRequest implements PermissionRequest, RequestExecutor, BridgeActivity.RequestListener {
 
-    private static final MainExecutor EXECUTOR = new MainExecutor();
     private static final PermissionChecker STANDARD_CHECKER = new StandardChecker();
     private static final PermissionChecker DOUBLE_CHECKER = new DoubleChecker();
 
@@ -96,31 +96,26 @@ class MRequest implements PermissionRequest, RequestExecutor, PermissionActivity
                 execute();
             }
         } else {
-            dispatchCallback();
+            onRequestCallback();
         }
     }
 
     @Override
     public void execute() {
-        PermissionActivity.requestPermission(mSource.getContext(), mDeniedPermissions, this);
+        BridgeRequest request = new BridgeRequest(mSource.getContext());
+        request.setType(BridgeRequest.TYPE_PERMISSION);
+        request.setPermissions(mDeniedPermissions);
+        request.setListener(this);
+        RequestManager.get().add(request);
     }
 
     @Override
     public void cancel() {
-        dispatchCallback();
+        onRequestCallback();
     }
 
     @Override
     public void onRequestCallback() {
-        EXECUTOR.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                dispatchCallback();
-            }
-        }, 100);
-    }
-
-    private void dispatchCallback() {
         List<String> deniedList = getDeniedPermissions(DOUBLE_CHECKER, mSource, mPermissions);
         if (deniedList.isEmpty()) {
             callbackSucceed();

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission;
+package com.yanzhenjie.permission.bridge;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.MainThread;
 import android.view.KeyEvent;
 
 import com.yanzhenjie.permission.overlay.setting.AlertWindowSettingPage;
@@ -34,7 +35,7 @@ import com.yanzhenjie.permission.source.ContextSource;
  * </p>
  * Created by Zhenjie Yan on 2017/4/27.
  */
-public final class PermissionActivity extends Activity {
+public final class BridgeActivity extends Activity {
 
     private static final String KEY_INPUT_OPERATION = "KEY_INPUT_OPERATION";
     private static final int VALUE_INPUT_PERMISSION = 1;
@@ -50,10 +51,10 @@ public final class PermissionActivity extends Activity {
     /**
      * Request for permissions.
      */
-    public static void requestPermission(Context context, String[] permissions, RequestListener requestListener) {
-        PermissionActivity.sRequestListener = requestListener;
+    static void requestPermission(Context context, String[] permissions, RequestListener requestListener) {
+        BridgeActivity.sRequestListener = requestListener;
 
-        Intent intent = new Intent(context, PermissionActivity.class);
+        Intent intent = new Intent(context, BridgeActivity.class);
         intent.putExtra(KEY_INPUT_OPERATION, VALUE_INPUT_PERMISSION);
         intent.putExtra(KEY_INPUT_PERMISSIONS, permissions);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -63,10 +64,10 @@ public final class PermissionActivity extends Activity {
     /**
      * Request for setting.
      */
-    public static void permissionSetting(Context context, RequestListener requestListener) {
-        PermissionActivity.sRequestListener = requestListener;
+    static void permissionSetting(Context context, RequestListener requestListener) {
+        BridgeActivity.sRequestListener = requestListener;
 
-        Intent intent = new Intent(context, PermissionActivity.class);
+        Intent intent = new Intent(context, BridgeActivity.class);
         intent.putExtra(KEY_INPUT_OPERATION, VALUE_INPUT_PERMISSION_SETTING);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
@@ -75,10 +76,10 @@ public final class PermissionActivity extends Activity {
     /**
      * Request for package install.
      */
-    public static void requestInstall(Context context, RequestListener requestListener) {
-        PermissionActivity.sRequestListener = requestListener;
+    static void requestInstall(Context context, RequestListener requestListener) {
+        BridgeActivity.sRequestListener = requestListener;
 
-        Intent intent = new Intent(context, PermissionActivity.class);
+        Intent intent = new Intent(context, BridgeActivity.class);
         intent.putExtra(KEY_INPUT_OPERATION, VALUE_INPUT_INSTALL);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
@@ -87,10 +88,10 @@ public final class PermissionActivity extends Activity {
     /**
      * Request for overlay.
      */
-    public static void requestOverlay(Context context, RequestListener requestListener) {
-        PermissionActivity.sRequestListener = requestListener;
+    static void requestOverlay(Context context, RequestListener requestListener) {
+        BridgeActivity.sRequestListener = requestListener;
 
-        Intent intent = new Intent(context, PermissionActivity.class);
+        Intent intent = new Intent(context, BridgeActivity.class);
         intent.putExtra(KEY_INPUT_OPERATION, VALUE_INPUT_OVERLAY);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
@@ -99,10 +100,10 @@ public final class PermissionActivity extends Activity {
     /**
      * Request for alert window.
      */
-    public static void requestAlertWindow(Context context, RequestListener requestListener) {
-        PermissionActivity.sRequestListener = requestListener;
+    static void requestAlertWindow(Context context, RequestListener requestListener) {
+        BridgeActivity.sRequestListener = requestListener;
 
-        Intent intent = new Intent(context, PermissionActivity.class);
+        Intent intent = new Intent(context, BridgeActivity.class);
         intent.putExtra(KEY_INPUT_OPERATION, VALUE_INPUT_ALERT_WINDOW);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
@@ -200,6 +201,8 @@ public final class PermissionActivity extends Activity {
      * permission callback.
      */
     public interface RequestListener {
+
+        @MainThread
         void onRequestCallback();
     }
 }

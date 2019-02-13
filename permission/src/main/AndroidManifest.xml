@@ -19,7 +19,7 @@
 
     <application>
         <activity
-            android:name=".PermissionActivity"
+            android:name=".bridge.BridgeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="standard"
             android:theme="@style/Permission.Theme.Activity"
