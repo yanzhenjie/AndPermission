@@ -28,6 +28,8 @@ import com.yanzhenjie.permission.overlay.setting.OverlaySettingPage;
 import com.yanzhenjie.permission.runtime.setting.RuntimeSettingPage;
 import com.yanzhenjie.permission.source.ContextSource;
 
+import androidx.annotation.NonNull;
+
 /**
  * <p>
  * Request permission.
@@ -134,7 +136,8 @@ public final class BridgeActivity extends Activity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+        @NonNull int[] grantResults) {
         Messenger.send(this);
         finish();
     }

@@ -14,10 +14,9 @@ android {
 }
 
 dependencies {
-    implementation rootProject.ext.dependencies.permission
-
-    implementation rootProject.ext.dependencies.appCompat
-    implementation rootProject.ext.dependencies.design
+    implementation project(':permission')
+    
+    implementation 'androidx.appcompat:appcompat:1.0.2'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'

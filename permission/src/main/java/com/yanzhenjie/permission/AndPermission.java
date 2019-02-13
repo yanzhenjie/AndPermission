@@ -18,18 +18,18 @@ package com.yanzhenjie.permission;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.app.Fragment;
 
 import com.yanzhenjie.permission.checker.PermissionChecker;
 import com.yanzhenjie.permission.checker.StandardChecker;
-import com.yanzhenjie.permission.runtime.Runtime;
 import com.yanzhenjie.permission.source.ContextSource;
 import com.yanzhenjie.permission.source.FragmentSource;
 import com.yanzhenjie.permission.source.Source;
-import com.yanzhenjie.permission.source.SupportFragmentSource;
+import com.yanzhenjie.permission.source.XFragmentSource;
 
 import java.io.File;
 import java.util.List;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by Zhenjie Yan on 2016/9/9.
@@ -40,16 +40,18 @@ public class AndPermission {
      * With {@link Fragment}.
      *
      * @param fragment {@link Fragment}.
+     *
      * @return {@link Options}.
      */
     public static Options with(Fragment fragment) {
-        return new Options(new SupportFragmentSource(fragment));
+        return new Options(new XFragmentSource(fragment));
     }
 
     /**
      * With {@link android.app.Fragment}.
      *
      * @param fragment {@link android.app.Fragment}.
+     *
      * @return {@link Options}.
      */
     public static Options with(android.app.Fragment fragment) {
@@ -60,6 +62,7 @@ public class AndPermission {
      * With context.
      *
      * @param context {@link Context}.
+     *
      * @return {@link Options}.
      */
     public static Options with(Context context) {
@@ -69,19 +72,21 @@ public class AndPermission {
     /**
      * Some privileges permanently disabled, may need to set up in the execute.
      *
-     * @param fragment          {@link Fragment}.
+     * @param fragment {@link Fragment}.
      * @param deniedPermissions one or more permissions.
+     *
      * @return true, other wise is false.
      */
     public static boolean hasAlwaysDeniedPermission(Fragment fragment, List<String> deniedPermissions) {
-        return hasAlwaysDeniedPermission(new SupportFragmentSource(fragment), deniedPermissions);
+        return hasAlwaysDeniedPermission(new XFragmentSource(fragment), deniedPermissions);
     }
 
     /**
      * Some privileges permanently disabled, may need to set up in the execute.
      *
-     * @param fragment          {@link android.app.Fragment}.
+     * @param fragment {@link android.app.Fragment}.
      * @param deniedPermissions one or more permissions.
+     *
      * @return true, other wise is false.
      */
     public static boolean hasAlwaysDeniedPermission(android.app.Fragment fragment, List<String> deniedPermissions) {
@@ -91,8 +96,9 @@ public class AndPermission {
     /**
      * Some privileges permanently disabled, may need to set up in the execute.
      *
-     * @param context           {@link Context}.
+     * @param context {@link Context}.
      * @param deniedPermissions one or more permissions.
+     *
      * @return true, other wise is false.
      */
     public static boolean hasAlwaysDeniedPermission(Context context, List<String> deniedPermissions) {
@@ -114,19 +120,21 @@ public class AndPermission {
     /**
      * Some privileges permanently disabled, may need to set up in the execute.
      *
-     * @param fragment          {@link Fragment}.
+     * @param fragment {@link Fragment}.
      * @param deniedPermissions one or more permissions.
+     *
      * @return true, other wise is false.
      */
     public static boolean hasAlwaysDeniedPermission(Fragment fragment, String... deniedPermissions) {
-        return hasAlwaysDeniedPermission(new SupportFragmentSource(fragment), deniedPermissions);
+        return hasAlwaysDeniedPermission(new XFragmentSource(fragment), deniedPermissions);
     }
 
     /**
      * Some privileges permanently disabled, may need to set up in the execute.
      *
-     * @param fragment          {@link android.app.Fragment}.
+     * @param fragment {@link android.app.Fragment}.
      * @param deniedPermissions one or more permissions.
+     *
      * @return true, other wise is false.
      */
     public static boolean hasAlwaysDeniedPermission(android.app.Fragment fragment, String... deniedPermissions) {
@@ -136,8 +144,9 @@ public class AndPermission {
     /**
      * Some privileges permanently disabled, may need to set up in the execute.
      *
-     * @param context           {@link Context}.
+     * @param context {@link Context}.
      * @param deniedPermissions one or more permissions.
+     *
      * @return true, other wise is false.
      */
     public static boolean hasAlwaysDeniedPermission(Context context, String... deniedPermissions) {
@@ -157,42 +166,6 @@ public class AndPermission {
     }
 
     /**
-     * Create a service that opens the permission setting page.
-     *
-     * @param fragment {@link Fragment}.
-     * @return {@link Setting}.
-     * @deprecated use {@link Runtime#setting()} instead. Such as: {@code AndPermission.with().runtime().setting()}.
-     */
-    @Deprecated
-    public static Setting permissionSetting(Fragment fragment) {
-        return AndPermission.with(fragment).runtime().setting();
-    }
-
-    /**
-     * Create a service that opens the permission setting page.
-     *
-     * @param fragment {@link android.app.Fragment}.
-     * @return {@link Setting}.
-     * @deprecated use {@link Runtime#setting()} instead. Such as: {@code AndPermission.with().runtime().setting()}.
-     */
-    @Deprecated
-    public static Setting permissionSetting(android.app.Fragment fragment) {
-        return AndPermission.with(fragment).runtime().setting();
-    }
-
-    /**
-     * Create a service that opens the permission setting page.
-     *
-     * @param context {@link Context}.
-     * @return {@link Setting}.
-     * @deprecated use {@link Runtime#setting()} instead. Such as: {@code AndPermission.with().runtime().setting()}.
-     */
-    @Deprecated
-    public static Setting permissionSetting(Context context) {
-        return AndPermission.with(context).runtime().setting();
-    }
-
-    /**
      * Classic permission checker.
      */
     private static final PermissionChecker PERMISSION_CHECKER = new StandardChecker();
@@ -200,8 +173,9 @@ public class AndPermission {
     /**
      * Judgment already has the target permission.
      *
-     * @param fragment    {@link Fragment}.
+     * @param fragment {@link Fragment}.
      * @param permissions one or more permissions.
+     *
      * @return true, other wise is false.
      */
     public static boolean hasPermissions(Fragment fragment, String... permissions) {
@@ -211,8 +185,9 @@ public class AndPermission {
     /**
      * Judgment already has the target permission.
      *
-     * @param fragment    {@link android.app.Fragment}.
+     * @param fragment {@link android.app.Fragment}.
      * @param permissions one or more permissions.
+     *
      * @return true, other wise is false.
      */
     public static boolean hasPermissions(android.app.Fragment fragment, String... permissions) {
@@ -222,8 +197,9 @@ public class AndPermission {
     /**
      * Judgment already has the target permission.
      *
-     * @param context     {@link Context}.
+     * @param context {@link Context}.
      * @param permissions one or more permissions.
+     *
      * @return true, other wise is false.
      */
     public static boolean hasPermissions(Context context, String... permissions) {
@@ -233,8 +209,9 @@ public class AndPermission {
     /**
      * Judgment already has the target permission.
      *
-     * @param fragment    {@link Fragment}.
+     * @param fragment {@link Fragment}.
      * @param permissions one or more permission groups.
+     *
      * @return true, other wise is false.
      */
     public static boolean hasPermissions(Fragment fragment, String[]... permissions) {
@@ -244,8 +221,9 @@ public class AndPermission {
     /**
      * Judgment already has the target permission.
      *
-     * @param fragment    {@link android.app.Fragment}.
+     * @param fragment {@link android.app.Fragment}.
      * @param permissions one or more permission groups.
+     *
      * @return true, other wise is false.
      */
     public static boolean hasPermissions(android.app.Fragment fragment, String[]... permissions) {
@@ -255,8 +233,9 @@ public class AndPermission {
     /**
      * Judgment already has the target permission.
      *
-     * @param context     {@link Context}.
+     * @param context {@link Context}.
      * @param permissions one or more permission groups.
+     *
      * @return true, other wise is false.
      */
     public static boolean hasPermissions(Context context, String[]... permissions) {
@@ -271,7 +250,8 @@ public class AndPermission {
      * Get compatible Android 7.0 and lower versions of Uri.
      *
      * @param fragment {@link Fragment}.
-     * @param file     apk file.
+     * @param file apk file.
+     *
      * @return uri.
      */
     public static Uri getFileUri(Fragment fragment, File file) {
@@ -282,7 +262,8 @@ public class AndPermission {
      * Get compatible Android 7.0 and lower versions of Uri.
      *
      * @param fragment {@link android.app.Fragment}.
-     * @param file     apk file.
+     * @param file apk file.
+     *
      * @return uri.
      */
     public static Uri getFileUri(android.app.Fragment fragment, File file) {
@@ -293,7 +274,8 @@ public class AndPermission {
      * Get compatible Android 7.0 and lower versions of Uri.
      *
      * @param context {@link Context}.
-     * @param file    apk file.
+     * @param file apk file.
+     *
      * @return uri.
      */
     public static Uri getFileUri(Context context, File file) {

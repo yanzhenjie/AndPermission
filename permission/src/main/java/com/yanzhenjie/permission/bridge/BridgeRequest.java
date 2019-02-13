@@ -16,11 +16,11 @@
 package com.yanzhenjie.permission.bridge;
 
 import android.content.Context;
-import android.support.annotation.IntDef;
-import android.support.annotation.WorkerThread;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import androidx.annotation.IntDef;
 
 /**
  * Created by Zhenjie Yan on 2/13/19.
@@ -58,7 +58,6 @@ public final class BridgeRequest {
         this.mCallback = callback;
     }
 
-    @WorkerThread
     void execute(Object lock) {
         MessageCallback callback = new MessageCallback(mCallback, lock);
         Messenger messenger = new Messenger(mContext, callback);

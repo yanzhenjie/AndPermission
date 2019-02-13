@@ -34,20 +34,6 @@ public class RuntimeSetting implements Setting, BridgeRequest.Callback {
     }
 
     @Override
-    public void execute() {
-        new RuntimeSettingPage(mSource).start(-1);
-    }
-
-    @Override
-    public void execute(int requestCode) {
-        new RuntimeSettingPage(mSource).start(requestCode);
-    }
-
-    @Override
-    public void cancel() {
-    }
-
-    @Override
     public Setting onComeback(Setting.Action comeback) {
         this.mComeback = comeback;
         return this;

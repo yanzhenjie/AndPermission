@@ -18,7 +18,6 @@ package com.yanzhenjie.permission.sample.widget;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.os.Build;
-import android.support.annotation.LayoutRes;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -44,16 +43,15 @@ public class AlertWindow {
     }
 
     private void create() {
-        this.mWindowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        this.mWindowManager = (WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE);
         this.mParams = new WindowManager.LayoutParams();
 
         mParams.packageName = mContext.getPackageName();
         mParams.width = WindowManager.LayoutParams.MATCH_PARENT;
         mParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        mParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                | WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR
-                | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
+        mParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR |
+            WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
 
         int overlay = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
         int alertWindow = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
@@ -68,7 +66,7 @@ public class AlertWindow {
      *
      * @param layoutId target layout id.
      */
-    public void setContentView(@LayoutRes int layoutId) {
+    public void setContentView(int layoutId) {
         setContentView(LayoutInflater.from(mContext).inflate(layoutId, null, false));
     }
 

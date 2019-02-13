@@ -13,7 +13,7 @@ android {
 }
 
 dependencies {
-    compileOnly rootProject.ext.dependencies.fragment
+    compileOnly 'androidx.fragment:fragment:1.0.0'
 }
 
 apply from: "https://raw.githubusercontent.com/yanzhenjie/bintray/master/maven.gradle"

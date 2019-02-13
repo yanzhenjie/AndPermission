@@ -22,7 +22,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.yanzhenjie.permission.source.Source;
@@ -49,7 +48,6 @@ public class RuntimeSettingPage {
      * Start.
      *
      * @param requestCode this code will be returned in onActivityResult() when the activity exits.
-     * @return true if successful, otherwise is false.
      */
     public void start(int requestCode) {
         Intent intent;
@@ -85,13 +83,14 @@ public class RuntimeSettingPage {
             return defaultApi(context);
         }
         Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.permissionmanager.ui.MainActivity"));
+        intent.setComponent(
+            new ComponentName("com.huawei.systemmanager", "com.huawei.permissionmanager.ui.MainActivity"));
         return intent;
     }
 
     private static Intent xiaomiApi(Context context) {
         String version = getSystemProperty(MIUI_VERSION_NAME);
-        if(TextUtils.isEmpty(version) || version.contains("7") || version.contains("8")) {
+        if (TextUtils.isEmpty(version) || version.contains("7") || version.contains("8")) {
             Intent intent = new Intent("miui.intent.action.APP_PERM_EDITOR");
             intent.putExtra("extra_pkgname", context.getPackageName());
             return intent;
@@ -102,17 +101,20 @@ public class RuntimeSettingPage {
     private static Intent vivoApi(Context context) {
         Intent intent = new Intent();
         intent.putExtra("packagename", context.getPackageName());
-        intent.setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.SoftPermissionDetailActivity"));
-        if(hasActivity(context, intent)) return intent;
+        intent.setComponent(new ComponentName("com.vivo.permissionmanager",
+            "com.vivo.permissionmanager.activity.SoftPermissionDetailActivity"));
+        if (hasActivity(context, intent)) return intent;
 
-        intent.setComponent(new ComponentName("com.iqoo.secure", "com.iqoo.secure.safeguard.SoftPermissionDetailActivity"));
+        intent.setComponent(
+            new ComponentName("com.iqoo.secure", "com.iqoo.secure.safeguard.SoftPermissionDetailActivity"));
         return intent;
     }
 
     private static Intent oppoApi(Context context) {
         Intent intent = new Intent();
         intent.putExtra("packageName", context.getPackageName());
-        intent.setComponent(new ComponentName("com.color.safecenter", "com.color.safecenter.permission.PermissionManagerActivity"));
+        intent.setComponent(
+            new ComponentName("com.color.safecenter", "com.color.safecenter.permission.PermissionManagerActivity"));
         return intent;
     }
 
