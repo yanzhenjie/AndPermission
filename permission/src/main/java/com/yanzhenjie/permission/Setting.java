@@ -18,7 +18,8 @@ package com.yanzhenjie.permission;
 /**
  * Created by YanZhenjie on 2018/4/30.
  */
-public interface Setting extends SettingService {
+public interface Setting {
+
     /**
      * The action when the user comebacks.
      */
@@ -33,6 +34,7 @@ public interface Setting extends SettingService {
      * An action.
      */
     interface Action {
+
         void onAction();
     }
 }

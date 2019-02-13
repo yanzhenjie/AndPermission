@@ -23,7 +23,6 @@ import com.yanzhenjie.permission.install.ORequestFactory;
 import com.yanzhenjie.permission.overlay.LRequestFactory;
 import com.yanzhenjie.permission.overlay.MRequestFactory;
 import com.yanzhenjie.permission.overlay.OverlayRequest;
-import com.yanzhenjie.permission.runtime.PermissionRequest;
 import com.yanzhenjie.permission.runtime.Runtime;
 import com.yanzhenjie.permission.source.Source;
 
@@ -50,6 +49,7 @@ public class Options {
     }
 
     public interface InstallRequestFactory {
+
         /**
          * Create apk installer request.
          */
@@ -57,6 +57,7 @@ public class Options {
     }
 
     public interface OverlayRequestFactory {
+
         /**
          * Create overlay request.
          */
@@ -67,26 +68,6 @@ public class Options {
 
     Options(Source source) {
         this.mSource = source;
-    }
-
-    /**
-     * One or more permissions.
-     *
-     * @deprecated use {@link Options#runtime()} instead.
-     */
-    @Deprecated
-    public PermissionRequest permission(String... permissions) {
-        return runtime().permission(permissions);
-    }
-
-    /**
-     * One or more permission groups.
-     *
-     * @deprecated use {@link Options#runtime()} instead.
-     */
-    @Deprecated
-    public PermissionRequest permission(String[]... groups) {
-        return runtime().permission(groups);
     }
 
     /**
