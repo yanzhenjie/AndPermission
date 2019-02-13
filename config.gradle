@@ -1,51 +1,40 @@
 ext {
-    plugins = [
-            application: 'com.android.application',
-            library    : 'com.android.library',
-            maven      : 'com.github.dcendents.android-maven',
-            bintray    : 'com.jfrog.bintray'
-    ]
+    plugins = [application: 'com.android.application',
+               library    : 'com.android.library',
+               maven      : 'com.github.dcendents.android-maven',
+               bintray    : 'com.jfrog.bintray']
 
-    android = [
-            applicationId    : "com.yanzhenjie.permission.sample",
-            compileSdkVersion: 27,
-            buildToolsVersion: "27.0.3",
-            minSdkVersion    : 14,
-            targetSdkVersion : 27,
-            versionCode      : 105,
-            versionName      : "2.0.0"
-    ]
+    android = [applicationId    : "com.yanzhenjie.permission.sample",
+               compileSdkVersion: 28,
+               buildToolsVersion: "28.0.3",
+               minSdkVersion    : 14,
+               targetSdkVersion : 28,
+               versionCode      : 105,
+               versionName      : "2.0.0"]
 
-    bintray = [
-            version       : "2.0.0-rc12",
+    bintray = [version       : "2.0.0-rc12",
 
-            siteUrl       : 'https://github.com/yanzhenjie/AndPermission',
-            gitUrl        : 'git@github.com:yanzhenjie/AndPermission.git',
+               siteUrl       : 'https://github.com/yanzhenjie/AndPermission',
+               gitUrl        : 'git@github.com:yanzhenjie/AndPermission.git',
 
-            group         : "com.yanzhenjie",
+               group         : "com.yanzhenjie",
 
-            packaging     : 'aar',
-            name          : 'Permission',
-            description   : 'Permission manager for Android',
+               packaging     : 'aar',
+               name          : 'Permission',
+               description   : 'Permission manager for Android',
 
-            licenseName   : 'The Apache Software License, Version 2.0',
-            licenseUrl    : 'http://www.apache.org/licenses/LICENSE-2.0.txt',
+               licenseName   : 'The Apache Software License, Version 2.0',
+               licenseUrl    : 'http://www.apache.org/licenses/LICENSE-2.0.txt',
 
-            developerId   : 'yanzhenjie',
-            developerName : 'yanzhenjie',
-            developerEmail: 'smallajax@foxmail.com',
+               developerId   : 'yanzhenjie',
+               developerName : 'yanzhenjie',
+               developerEmail: 'smallajax@foxmail.com',
 
-            binrayLibrary : "permission",
-            bintrayRepo   : "maven",
-            bintrayUser   : 'yolanda',
-            bintrayLicense: "Apache-2.0"
-    ]
+               binrayLibrary : "permission",
+               bintrayRepo   : "maven",
+               bintrayUser   : 'yolanda',
+               bintrayLicense: "Apache-2.0"]
 
-    dependencies = [
-            fragment  : 'com.android.support:support-fragment:27.1.1',
-            appCompat : 'com.android.support:appcompat-v7:27.1.1',
-            design    : 'com.android.support:design:27.1.1',
-
-            permission: 'com.yanzhenjie:permission:2.0.0-rc12'
-    ]
+    dependencies = [appCompat: 'com.android.support:appcompat-v7:28.0.0',
+                    design   : 'com.android.support:design:28.0.0']
 }
