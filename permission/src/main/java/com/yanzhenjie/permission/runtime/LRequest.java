@@ -15,6 +15,7 @@
  */
 package com.yanzhenjie.permission.runtime;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.yanzhenjie.permission.Action;
@@ -33,7 +34,7 @@ import static java.util.Arrays.asList;
  */
 class LRequest implements PermissionRequest {
 
-    private static final PermissionChecker CHECKER = new StrictChecker();
+    private static final PermissionChecker STRICT_CHECKER = new StrictChecker();
 
     private Source mSource;
 
@@ -70,11 +71,21 @@ class LRequest implements PermissionRequest {
 
     @Override
     public void start() {
-        List<String> deniedList = getDeniedPermissions(mSource, mPermissions);
-        if (deniedList.isEmpty())
-            callbackSucceed();
-        else
-            callbackFailed(deniedList);
+        new AsyncTask<Void, Void, List<String>>() {
+            @Override
+            protected List<String> doInBackground(Void... voids) {
+                return getDeniedPermissions(STRICT_CHECKER, mSource, mPermissions);
+            }
+
+            @Override
+            protected void onPostExecute(List<String> deniedList) {
+                if (deniedList.isEmpty()) {
+                    callbackSucceed();
+                } else {
+                    callbackFailed(deniedList);
+                }
+            }
+        }.execute();
     }
 
     /**
@@ -106,10 +117,10 @@ class LRequest implements PermissionRequest {
     /**
      * Get denied permissions.
      */
-    private static List<String> getDeniedPermissions(Source source, String... permissions) {
+    private static List<String> getDeniedPermissions(PermissionChecker checker, Source source, String... permissions) {
         List<String> deniedList = new ArrayList<>(1);
         for (String permission : permissions) {
-            if (!CHECKER.hasPermission(source.getContext(), permission)) {
+            if (!checker.hasPermission(source.getContext(), permission)) {
                 deniedList.add(permission);
             }
         }

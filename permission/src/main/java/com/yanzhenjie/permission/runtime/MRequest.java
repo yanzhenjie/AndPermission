@@ -16,6 +16,7 @@
 package com.yanzhenjie.permission.runtime;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.yanzhenjie.permission.Action;
@@ -115,12 +116,21 @@ class MRequest implements PermissionRequest, RequestExecutor, BridgeRequest.Call
 
     @Override
     public void onCallback() {
-        List<String> deniedList = getDeniedPermissions(DOUBLE_CHECKER, mSource, mPermissions);
-        if (deniedList.isEmpty()) {
-            callbackSucceed();
-        } else {
-            callbackFailed(deniedList);
-        }
+        new AsyncTask<Void, Void, List<String>>() {
+            @Override
+            protected List<String> doInBackground(Void... voids) {
+                return getDeniedPermissions(DOUBLE_CHECKER, mSource, mPermissions);
+            }
+
+            @Override
+            protected void onPostExecute(List<String> deniedList) {
+                if (deniedList.isEmpty()) {
+                    callbackSucceed();
+                } else {
+                    callbackFailed(deniedList);
+                }
+            }
+        }.execute();
     }
 
     /**
