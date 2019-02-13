@@ -16,7 +16,6 @@
 package com.yanzhenjie.permission.overlay;
 
 import com.yanzhenjie.permission.RequestExecutor;
-import com.yanzhenjie.permission.bridge.BridgeActivity;
 import com.yanzhenjie.permission.bridge.BridgeRequest;
 import com.yanzhenjie.permission.bridge.RequestManager;
 import com.yanzhenjie.permission.source.Source;
@@ -24,7 +23,7 @@ import com.yanzhenjie.permission.source.Source;
 /**
  * Created by YanZhenjie on 2018/5/29.
  */
-class LRequest extends BaseRequest implements RequestExecutor, BridgeActivity.RequestListener {
+class LRequest extends BaseRequest implements RequestExecutor, BridgeRequest.Callback {
 
     private Source mSource;
 
@@ -46,7 +45,7 @@ class LRequest extends BaseRequest implements RequestExecutor, BridgeActivity.Re
     public void execute() {
         BridgeRequest request = new BridgeRequest(mSource.getContext());
         request.setType(BridgeRequest.TYPE_ALERT_WINDOW);
-        request.setListener(this);
+        request.setCallback(this);
         RequestManager.get().add(request);
     }
 
@@ -56,7 +55,7 @@ class LRequest extends BaseRequest implements RequestExecutor, BridgeActivity.Re
     }
 
     @Override
-    public void onRequestCallback() {
+    public void onCallback() {
         if (tryDisplayDialog(mSource.getContext())) {
             callbackSucceed();
         } else {

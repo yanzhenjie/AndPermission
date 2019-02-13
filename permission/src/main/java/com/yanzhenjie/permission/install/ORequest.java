@@ -16,7 +16,6 @@
 package com.yanzhenjie.permission.install;
 
 import com.yanzhenjie.permission.RequestExecutor;
-import com.yanzhenjie.permission.bridge.BridgeActivity;
 import com.yanzhenjie.permission.bridge.BridgeRequest;
 import com.yanzhenjie.permission.bridge.RequestManager;
 import com.yanzhenjie.permission.source.Source;
@@ -24,7 +23,7 @@ import com.yanzhenjie.permission.source.Source;
 /**
  * Created by YanZhenjie on 2018/4/28.
  */
-class ORequest extends BaseRequest implements RequestExecutor, BridgeActivity.RequestListener {
+class ORequest extends BaseRequest implements RequestExecutor, BridgeRequest.Callback {
 
     private Source mSource;
 
@@ -47,7 +46,7 @@ class ORequest extends BaseRequest implements RequestExecutor, BridgeActivity.Re
     public void execute() {
         BridgeRequest request = new BridgeRequest(mSource.getContext());
         request.setType(BridgeRequest.TYPE_INSTALL);
-        request.setListener(this);
+        request.setCallback(this);
         RequestManager.get().add(request);
     }
 
@@ -55,9 +54,9 @@ class ORequest extends BaseRequest implements RequestExecutor, BridgeActivity.Re
     public void cancel() {
         callbackFailed();
     }
-
+    
     @Override
-    public void onRequestCallback() {
+    public void onCallback() {
         if (mSource.canRequestPackageInstalls()) {
             callbackSucceed();
             install();

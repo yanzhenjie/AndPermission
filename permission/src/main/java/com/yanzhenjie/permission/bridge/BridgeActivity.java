@@ -21,7 +21,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.MainThread;
 import android.view.KeyEvent;
 
 import com.yanzhenjie.permission.overlay.setting.AlertWindowSettingPage;
@@ -37,26 +36,17 @@ import com.yanzhenjie.permission.source.ContextSource;
  */
 public final class BridgeActivity extends Activity {
 
-    private static final String KEY_INPUT_OPERATION = "KEY_INPUT_OPERATION";
-    private static final int VALUE_INPUT_PERMISSION = 1;
-    private static final int VALUE_INPUT_PERMISSION_SETTING = 2;
-    private static final int VALUE_INPUT_INSTALL = 3;
-    private static final int VALUE_INPUT_OVERLAY = 4;
-    private static final int VALUE_INPUT_ALERT_WINDOW = 5;
-
-    private static final String KEY_INPUT_PERMISSIONS = "KEY_INPUT_PERMISSIONS";
-
-    private static RequestListener sRequestListener;
+    private static final String KEY_TYPE = "KEY_TYPE";
+    private static final String KEY_PERMISSIONS = "KEY_PERMISSIONS";
 
     /**
      * Request for permissions.
      */
-    static void requestPermission(Context context, String[] permissions, RequestListener requestListener) {
-        BridgeActivity.sRequestListener = requestListener;
-
-        Intent intent = new Intent(context, BridgeActivity.class);
-        intent.putExtra(KEY_INPUT_OPERATION, VALUE_INPUT_PERMISSION);
-        intent.putExtra(KEY_INPUT_PERMISSIONS, permissions);
+    static void requestPermission(Context context, String[] permissions) {
+        Intent intent = new Intent(context.getPackageName() + ".permission.bridge");
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_PERMISSION);
+        intent.putExtra(KEY_PERMISSIONS, permissions);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
@@ -64,11 +54,10 @@ public final class BridgeActivity extends Activity {
     /**
      * Request for setting.
      */
-    static void permissionSetting(Context context, RequestListener requestListener) {
-        BridgeActivity.sRequestListener = requestListener;
-
-        Intent intent = new Intent(context, BridgeActivity.class);
-        intent.putExtra(KEY_INPUT_OPERATION, VALUE_INPUT_PERMISSION_SETTING);
+    static void permissionSetting(Context context) {
+        Intent intent = new Intent(context.getPackageName() + ".permission.bridge");
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_PERMISSION_SETTING);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
@@ -76,11 +65,10 @@ public final class BridgeActivity extends Activity {
     /**
      * Request for package install.
      */
-    static void requestInstall(Context context, RequestListener requestListener) {
-        BridgeActivity.sRequestListener = requestListener;
-
-        Intent intent = new Intent(context, BridgeActivity.class);
-        intent.putExtra(KEY_INPUT_OPERATION, VALUE_INPUT_INSTALL);
+    static void requestInstall(Context context) {
+        Intent intent = new Intent(context.getPackageName() + ".permission.bridge");
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_INSTALL);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
@@ -88,11 +76,10 @@ public final class BridgeActivity extends Activity {
     /**
      * Request for overlay.
      */
-    static void requestOverlay(Context context, RequestListener requestListener) {
-        BridgeActivity.sRequestListener = requestListener;
-
-        Intent intent = new Intent(context, BridgeActivity.class);
-        intent.putExtra(KEY_INPUT_OPERATION, VALUE_INPUT_OVERLAY);
+    static void requestOverlay(Context context) {
+        Intent intent = new Intent(context.getPackageName() + ".permission.bridge");
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_OVERLAY);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
@@ -100,11 +87,10 @@ public final class BridgeActivity extends Activity {
     /**
      * Request for alert window.
      */
-    static void requestAlertWindow(Context context, RequestListener requestListener) {
-        BridgeActivity.sRequestListener = requestListener;
-
-        Intent intent = new Intent(context, BridgeActivity.class);
-        intent.putExtra(KEY_INPUT_OPERATION, VALUE_INPUT_ALERT_WINDOW);
+    static void requestAlertWindow(Context context) {
+        Intent intent = new Intent(context.getPackageName() + ".permission.bridge");
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_ALERT_WINDOW);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
@@ -113,52 +99,32 @@ public final class BridgeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        int operation = intent.getIntExtra(KEY_INPUT_OPERATION, 0);
+        int operation = intent.getIntExtra(KEY_TYPE, 0);
         switch (operation) {
-            case VALUE_INPUT_PERMISSION: {
-                String[] permissions = intent.getStringArrayExtra(KEY_INPUT_PERMISSIONS);
-                if (permissions != null && sRequestListener != null) {
-                    requestPermissions(permissions, VALUE_INPUT_PERMISSION);
-                } else {
-                    finish();
-                }
+            case BridgeRequest.TYPE_PERMISSION: {
+                String[] permissions = intent.getStringArrayExtra(KEY_PERMISSIONS);
+                requestPermissions(permissions, BridgeRequest.TYPE_PERMISSION);
                 break;
             }
-            case VALUE_INPUT_PERMISSION_SETTING: {
-                if (sRequestListener != null) {
-                    RuntimeSettingPage setting = new RuntimeSettingPage(new ContextSource(this));
-                    setting.start(VALUE_INPUT_PERMISSION_SETTING);
-                } else {
-                    finish();
-                }
+            case BridgeRequest.TYPE_PERMISSION_SETTING: {
+                RuntimeSettingPage setting = new RuntimeSettingPage(new ContextSource(this));
+                setting.start(BridgeRequest.TYPE_PERMISSION_SETTING);
                 break;
             }
-            case VALUE_INPUT_INSTALL: {
-                if (sRequestListener != null) {
-                    Intent manageIntent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
-                    manageIntent.setData(Uri.fromParts("package", getPackageName(), null));
-                    startActivityForResult(manageIntent, VALUE_INPUT_INSTALL);
-                } else {
-                    finish();
-                }
+            case BridgeRequest.TYPE_INSTALL: {
+                Intent manageIntent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
+                manageIntent.setData(Uri.fromParts("package", getPackageName(), null));
+                startActivityForResult(manageIntent, BridgeRequest.TYPE_INSTALL);
                 break;
             }
-            case VALUE_INPUT_OVERLAY: {
-                if (sRequestListener != null) {
-                    OverlaySettingPage settingPage = new OverlaySettingPage(new ContextSource(this));
-                    settingPage.start(VALUE_INPUT_OVERLAY);
-                } else {
-                    finish();
-                }
+            case BridgeRequest.TYPE_OVERLAY: {
+                OverlaySettingPage settingPage = new OverlaySettingPage(new ContextSource(this));
+                settingPage.start(BridgeRequest.TYPE_OVERLAY);
                 break;
             }
-            case VALUE_INPUT_ALERT_WINDOW: {
-                if (sRequestListener != null) {
-                    AlertWindowSettingPage settingPage = new AlertWindowSettingPage(new ContextSource(this));
-                    settingPage.start(VALUE_INPUT_ALERT_WINDOW);
-                } else {
-                    finish();
-                }
+            case BridgeRequest.TYPE_ALERT_WINDOW: {
+                AlertWindowSettingPage settingPage = new AlertWindowSettingPage(new ContextSource(this));
+                settingPage.start(BridgeRequest.TYPE_ALERT_WINDOW);
                 break;
             }
             default: {
@@ -169,17 +135,13 @@ public final class BridgeActivity extends Activity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (sRequestListener != null) {
-            sRequestListener.onRequestCallback();
-        }
+        Messenger.send(this);
         finish();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (sRequestListener != null) {
-            sRequestListener.onRequestCallback();
-        }
+        Messenger.send(this);
         finish();
     }
 
@@ -189,20 +151,5 @@ public final class BridgeActivity extends Activity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public void finish() {
-        sRequestListener = null;
-        super.finish();
-    }
-
-    /**
-     * permission callback.
-     */
-    public interface RequestListener {
-
-        @MainThread
-        void onRequestCallback();
     }
 }

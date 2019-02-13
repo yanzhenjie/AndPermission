@@ -16,8 +16,6 @@
 package com.yanzhenjie.permission.bridge;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.IntDef;
 import android.support.annotation.WorkerThread;
 
@@ -39,88 +37,90 @@ public final class BridgeRequest {
     @IntDef({TYPE_PERMISSION, TYPE_PERMISSION_SETTING, TYPE_INSTALL, TYPE_OVERLAY, TYPE_ALERT_WINDOW})
     private @interface TypeDef {}
 
-    private static final Handler HANDLER = new Handler(Looper.getMainLooper());
-
     private Context mContext;
     private int mType;
     private String[] mPermissions;
-
-    private BridgeActivity.RequestListener mListener;
+    private Callback mCallback;
 
     public BridgeRequest(Context context) {
         this.mContext = context;
     }
 
     public void setType(@TypeDef int type) {
-        mType = type;
+        this.mType = type;
     }
 
     public void setPermissions(String[] permissions) {
-        mPermissions = permissions;
+        this.mPermissions = permissions;
     }
 
-    public void setListener(BridgeActivity.RequestListener listener) {
-        mListener = listener;
+    public void setCallback(Callback callback) {
+        this.mCallback = callback;
     }
 
     @WorkerThread
     void execute(Object lock) {
+        MessageCallback callback = new MessageCallback(mCallback, lock);
+        Messenger messenger = new Messenger(mContext, callback);
+        callback.setMessenger(messenger);
+        messenger.register();
+
         switch (mType) {
             case TYPE_PERMISSION: {
-                BridgeActivity.RequestListener listener = new RequestCallback(mListener, lock);
-                BridgeActivity.requestPermission(mContext, mPermissions, listener);
+                BridgeActivity.requestPermission(mContext, mPermissions);
                 break;
             }
             case TYPE_PERMISSION_SETTING: {
-                BridgeActivity.RequestListener listener = new RequestCallback(mListener, lock);
-                BridgeActivity.permissionSetting(mContext, listener);
+                BridgeActivity.permissionSetting(mContext);
                 break;
             }
             case TYPE_INSTALL: {
-                BridgeActivity.RequestListener listener = new RequestCallback(mListener, lock);
-                BridgeActivity.requestInstall(mContext, listener);
+                BridgeActivity.requestInstall(mContext);
                 break;
             }
             case TYPE_OVERLAY: {
-                BridgeActivity.RequestListener listener = new RequestCallback(mListener, lock);
-                BridgeActivity.requestOverlay(mContext, listener);
+                BridgeActivity.requestOverlay(mContext);
                 break;
             }
             case TYPE_ALERT_WINDOW: {
-                BridgeActivity.RequestListener listener = new RequestCallback(mListener, lock);
-                BridgeActivity.requestAlertWindow(mContext, listener);
+                BridgeActivity.requestAlertWindow(mContext);
                 break;
             }
         }
     }
 
-    private static final class RequestCallback implements BridgeActivity.RequestListener {
+    private static final class MessageCallback implements Messenger.Callback {
 
-        private final BridgeActivity.RequestListener mListener;
+        private final Callback mCallback;
         private final Object mLock;
 
-        public RequestCallback(BridgeActivity.RequestListener listener, Object lock) {
-            this.mListener = listener;
+        private Messenger mMessenger;
+
+        public MessageCallback(Callback callback, Object lock) {
+            this.mCallback = callback;
             this.mLock = lock;
         }
 
+        public void setMessenger(Messenger messenger) {
+            this.mMessenger = messenger;
+        }
+
         @Override
-        public void onRequestCallback() {
-            if (mListener != null) {
-                HANDLER.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        synchronized (mLock) {
-                            mListener.onRequestCallback();
-                            mLock.notify();
-                        }
-                    }
-                }, 100);
-            } else {
-                synchronized (mLock) {
-                    mLock.notify();
+        public void onCallback() {
+            synchronized (mLock) {
+                if (mCallback != null) {
+                    mCallback.onCallback();
                 }
+                if (mMessenger != null) {
+                    mMessenger.unRegister();
+                }
+                mLock.notify();
             }
         }
+    }
+
+    public interface Callback {
+
+        void onCallback();
     }
 }

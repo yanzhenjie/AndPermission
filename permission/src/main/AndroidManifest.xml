@@ -14,16 +14,23 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yanzhenjie.permission">
 
     <application>
         <activity
             android:name=".bridge.BridgeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
             android:launchMode="standard"
             android:theme="@style/Permission.Theme.Activity"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="${applicationId}.permission.bridge"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
 
         <provider
             android:name=".FileProvider"
@@ -32,7 +39,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/permission_file_paths" />
+                android:resource="@xml/permission_file_paths"/>
         </provider>
     </application>
 

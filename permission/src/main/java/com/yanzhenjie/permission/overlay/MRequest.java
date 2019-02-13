@@ -16,7 +16,6 @@
 package com.yanzhenjie.permission.overlay;
 
 import com.yanzhenjie.permission.RequestExecutor;
-import com.yanzhenjie.permission.bridge.BridgeActivity;
 import com.yanzhenjie.permission.bridge.BridgeRequest;
 import com.yanzhenjie.permission.bridge.RequestManager;
 import com.yanzhenjie.permission.source.Source;
@@ -24,7 +23,7 @@ import com.yanzhenjie.permission.source.Source;
 /**
  * Created by YanZhenjie on 2018/5/29.
  */
-class MRequest extends BaseRequest implements RequestExecutor, BridgeActivity.RequestListener {
+class MRequest extends BaseRequest implements RequestExecutor, BridgeRequest.Callback {
 
     private Source mSource;
 
@@ -36,7 +35,7 @@ class MRequest extends BaseRequest implements RequestExecutor, BridgeActivity.Re
     @Override
     public void start() {
         if (mSource.canDrawOverlays()) {
-            onRequestCallback();
+            onCallback();
         } else {
             showRationale(this);
         }
@@ -46,7 +45,7 @@ class MRequest extends BaseRequest implements RequestExecutor, BridgeActivity.Re
     public void execute() {
         BridgeRequest request = new BridgeRequest(mSource.getContext());
         request.setType(BridgeRequest.TYPE_OVERLAY);
-        request.setListener(this);
+        request.setCallback(this);
         RequestManager.get().add(request);
     }
 
@@ -56,7 +55,7 @@ class MRequest extends BaseRequest implements RequestExecutor, BridgeActivity.Re
     }
 
     @Override
-    public void onRequestCallback() {
+    public void onCallback() {
         if (mSource.canDrawOverlays() && tryDisplayDialog(mSource.getContext())) {
             callbackSucceed();
         } else {

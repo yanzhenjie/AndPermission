@@ -21,7 +21,6 @@ import android.util.Log;
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RequestExecutor;
-import com.yanzhenjie.permission.bridge.BridgeActivity;
 import com.yanzhenjie.permission.bridge.BridgeRequest;
 import com.yanzhenjie.permission.bridge.RequestManager;
 import com.yanzhenjie.permission.checker.DoubleChecker;
@@ -37,7 +36,7 @@ import static java.util.Arrays.asList;
 /**
  * Created by YanZhenjie on 2016/9/9.
  */
-class MRequest implements PermissionRequest, RequestExecutor, BridgeActivity.RequestListener {
+class MRequest implements PermissionRequest, RequestExecutor, BridgeRequest.Callback {
 
     private static final PermissionChecker STANDARD_CHECKER = new StandardChecker();
     private static final PermissionChecker DOUBLE_CHECKER = new DoubleChecker();
@@ -96,7 +95,7 @@ class MRequest implements PermissionRequest, RequestExecutor, BridgeActivity.Req
                 execute();
             }
         } else {
-            onRequestCallback();
+            onCallback();
         }
     }
 
@@ -105,17 +104,17 @@ class MRequest implements PermissionRequest, RequestExecutor, BridgeActivity.Req
         BridgeRequest request = new BridgeRequest(mSource.getContext());
         request.setType(BridgeRequest.TYPE_PERMISSION);
         request.setPermissions(mDeniedPermissions);
-        request.setListener(this);
+        request.setCallback(this);
         RequestManager.get().add(request);
     }
 
     @Override
     public void cancel() {
-        onRequestCallback();
+        onCallback();
     }
 
     @Override
-    public void onRequestCallback() {
+    public void onCallback() {
         List<String> deniedList = getDeniedPermissions(DOUBLE_CHECKER, mSource, mPermissions);
         if (deniedList.isEmpty()) {
             callbackSucceed();
