@@ -19,7 +19,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.os.Build;
 
-import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.runtime.Permission;
 
 import java.util.List;
 

@@ -17,24 +17,17 @@ package com.yanzhenjie.permission;
 
 /**
  * Created by YanZhenjie on 2018/4/30.
+ *
+ * @deprecated use {@link com.yanzhenjie.permission.runtime.setting.Setting} instead.
  */
+@Deprecated
 public interface Setting {
-
-    /**
-     * The action when the user comebacks.
-     */
-    Setting onComeback(Setting.Action comeback);
-
-    /**
-     * SettingPage setting.
-     */
-    void start();
-
+    
     /**
      * An action.
+     *
+     * @deprecated use {@link com.yanzhenjie.permission.runtime.setting.Setting.Action} instead.
      */
-    interface Action {
-
-        void onAction();
-    }
+    @Deprecated
+    interface Action extends com.yanzhenjie.permission.runtime.setting.Setting.Action {}
 }

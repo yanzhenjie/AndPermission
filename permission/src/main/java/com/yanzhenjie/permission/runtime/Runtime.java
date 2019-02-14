@@ -20,8 +20,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
-import com.yanzhenjie.permission.Setting;
-import com.yanzhenjie.permission.runtime.setting.RuntimeSetting;
+import com.yanzhenjie.permission.runtime.setting.PermissionSetting;
+import com.yanzhenjie.permission.runtime.setting.Setting;
 import com.yanzhenjie.permission.source.Source;
 
 import java.util.ArrayList;
@@ -83,7 +83,7 @@ public class Runtime {
      * Permission settings.
      */
     public Setting setting() {
-        return new RuntimeSetting(mSource);
+        return new PermissionSetting(mSource);
     }
 
     /**

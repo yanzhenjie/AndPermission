@@ -15,7 +15,6 @@
  */
 package com.yanzhenjie.permission.runtime.setting;
 
-import com.yanzhenjie.permission.Setting;
 import com.yanzhenjie.permission.bridge.BridgeRequest;
 import com.yanzhenjie.permission.bridge.RequestManager;
 import com.yanzhenjie.permission.source.Source;
@@ -24,12 +23,12 @@ import com.yanzhenjie.permission.source.Source;
  * <p>Setting executor.</p>
  * Created by Zhenjie Yan on 2016/12/28.
  */
-public class RuntimeSetting implements Setting, BridgeRequest.Callback {
+public class PermissionSetting implements Setting, BridgeRequest.Callback {
 
     private Source mSource;
     private Setting.Action mComeback;
 
-    public RuntimeSetting(Source source) {
+    public PermissionSetting(Source source) {
         this.mSource = source;
     }
 

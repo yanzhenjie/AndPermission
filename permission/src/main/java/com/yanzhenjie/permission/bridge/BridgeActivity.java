@@ -25,7 +25,7 @@ import android.view.KeyEvent;
 
 import com.yanzhenjie.permission.overlay.setting.AlertWindowSettingPage;
 import com.yanzhenjie.permission.overlay.setting.OverlaySettingPage;
-import com.yanzhenjie.permission.runtime.setting.RuntimeSettingPage;
+import com.yanzhenjie.permission.runtime.setting.SettingPage;
 import com.yanzhenjie.permission.source.ContextSource;
 
 import androidx.annotation.NonNull;
@@ -148,7 +148,7 @@ public final class BridgeActivity extends Activity {
                 break;
             }
             case BridgeRequest.TYPE_PERMISSION_SETTING: {
-                RuntimeSettingPage setting = new RuntimeSettingPage(new ContextSource(this));
+                SettingPage setting = new SettingPage(new ContextSource(this));
                 setting.start(BridgeRequest.TYPE_PERMISSION_SETTING);
                 break;
             }

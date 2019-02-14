@@ -1,5 +1,5 @@
 /*
- * Copyright © Zhenjie Yan
+ * Copyright 2018 Zhenjie Yan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission;
+package com.yanzhenjie.permission.runtime.setting;
 
 /**
- * <p>Permissions.</p>
- * Created by YanZhenjie on 2017/8/4.
- *
- * @deprecated use {@link com.yanzhenjie.permission.runtime.Permission} instead.
+ * Created by YanZhenjie on 2018/4/30.
  */
-@Deprecated
-public final class Permission extends com.yanzhenjie.permission.runtime.Permission {}
+public interface Setting {
+
+    /**
+     * The action when the user comebacks.
+     */
+    Setting onComeback(Setting.Action comeback);
+
+    /**
+     * SettingPage setting.
+     */
+    void start();
+
+    /**
+     * An action.
+     */
+    interface Action {
+
+        void onAction();
+    }
+}
