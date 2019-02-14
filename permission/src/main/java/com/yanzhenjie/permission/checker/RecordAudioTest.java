@@ -15,6 +15,8 @@
  */
 package com.yanzhenjie.permission.checker;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
@@ -24,39 +26,53 @@ import android.media.MediaRecorder;
  */
 class RecordAudioTest implements PermissionTest {
 
-    RecordAudioTest() {
+    private static final int[] RATES = new int[] {8000, 11025, 22050, 44100};
+
+    private Context mContext;
+
+    RecordAudioTest(Context context) {
+        this.mContext = context;
     }
 
     @Override
     public boolean test() throws Throwable {
-        // 音频获取源
-        int audioSource = MediaRecorder.AudioSource.MIC;
-        // 设置音频采样率，44100是目前的标准，但是某些设备仍然支持22050，16000，11025
-        int sampleRateInHz = 44100;
-        // 设置音频的录制的声道CHANNEL_IN_STEREO为双声道，CHANNEL_CONFIGURATION_MONO为单声道
-        int channelConfig = AudioFormat.CHANNEL_IN_STEREO;
-        // 音频数据格式:PCM 16位每个样本。保证设备支持。PCM 8位每个样本。不一定能得到设备支持。
-        int audioFormat = AudioFormat.ENCODING_PCM_16BIT;
-        // 缓冲区字节大小
-        int bufferSizeInBytes;
-        bufferSizeInBytes = AudioRecord.getMinBufferSize(sampleRateInHz, channelConfig, audioFormat);
-        AudioRecord audioRecord = new AudioRecord(audioSource, sampleRateInHz, channelConfig, audioFormat,
-            bufferSizeInBytes);
-        //开始录制音频
+        AudioRecord audioRecord = findAudioRecord();
         try {
-            // 防止某些手机崩溃，例如联想
-            audioRecord.startRecording();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
+            if (audioRecord != null) {
+                audioRecord.startRecording();
+            } else {
+                return !existMicrophone(mContext);
+            }
+        } catch (Throwable e) {
+            return !existMicrophone(mContext);
+        } finally {
+            if (audioRecord != null) {
+                audioRecord.stop();
+                audioRecord.release();
+            }
         }
-        /*
-         * 根据开始录音判断是否有录音权限
-         */
-        if (audioRecord.getRecordingState() != AudioRecord.RECORDSTATE_RECORDING) {
-            return false;
-        }
-        audioRecord.stop();
-        audioRecord.release();
         return true;
     }
+
+    private static boolean existMicrophone(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        return packageManager.hasSystemFeature(PackageManager.FEATURE_MICROPHONE);
+    }
+
+    private static AudioRecord findAudioRecord() {
+        for (int rate : RATES) {
+            for (short format : new short[] {AudioFormat.ENCODING_PCM_8BIT, AudioFormat.ENCODING_PCM_16BIT}) {
+                for (short channel : new short[] {AudioFormat.CHANNEL_IN_MONO, AudioFormat.CHANNEL_IN_STEREO}) {
+                    int buffer = AudioRecord.getMinBufferSize(rate, channel, format);
+                    if (buffer != AudioRecord.ERROR_BAD_VALUE) {
+                        AudioRecord recorder = new AudioRecord(MediaRecorder.AudioSource.MIC, rate, channel, format,
+                            buffer);
+                        if (recorder.getState() == AudioRecord.STATE_INITIALIZED) return recorder;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
 }
