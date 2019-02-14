@@ -32,6 +32,8 @@ import com.yanzhenjie.permission.Permission;
 import com.yanzhenjie.permission.Setting;
 import com.yanzhenjie.permission.sample.App;
 import com.yanzhenjie.permission.sample.InstallRationale;
+import com.yanzhenjie.permission.sample.NotifyListenerRationale;
+import com.yanzhenjie.permission.sample.NotifyRationale;
 import com.yanzhenjie.permission.sample.OverlayRationale;
 import com.yanzhenjie.permission.sample.R;
 import com.yanzhenjie.permission.sample.RuntimeRationale;
@@ -68,6 +70,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_request_sensors).setOnClickListener(this);
         findViewById(R.id.btn_request_sms).setOnClickListener(this);
         findViewById(R.id.btn_setting).setOnClickListener(this);
+
+        findViewById(R.id.btn_notification).setOnClickListener(this);
+        findViewById(R.id.btn_notification_listener).setOnClickListener(this);
 
         findViewById(R.id.btn_install).setOnClickListener(this);
         findViewById(R.id.btn_overlay).setOnClickListener(this);
@@ -284,6 +289,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setPermission();
                 break;
             }
+            case R.id.btn_notification: {
+                requestNotification();
+                break;
+            }
+            case R.id.btn_notification_listener: {
+                requestNotificationListener();
+                break;
+            }
             case R.id.btn_install: {
                 requestPermissionForInstallPackage();
                 break;
@@ -356,6 +369,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(MainActivity.this, R.string.message_setting_comeback, Toast.LENGTH_SHORT).show();
             }
         }).start();
+    }
+
+    /**
+     * Request notification permission.
+     */
+    private void requestNotification() {
+        AndPermission.with(this)
+            .notification()
+            .permission()
+            .rationale(new NotifyRationale())
+            .onGranted(new Action<Void>() {
+                @Override
+                public void onAction(Void data) {
+                    toast(R.string.successfully);
+                }
+            })
+            .onDenied(new Action<Void>() {
+                @Override
+                public void onAction(Void data) {
+                    toast(R.string.failure);
+                }
+            })
+            .start();
+    }
+
+    /**
+     * Request notification listener.
+     */
+    private void requestNotificationListener() {
+        AndPermission.with(this)
+            .notification()
+            .listener()
+            .rationale(new NotifyListenerRationale())
+            .onGranted(new Action<Void>() {
+                @Override
+                public void onAction(Void data) {
+                    toast(R.string.successfully);
+                }
+            })
+            .onDenied(new Action<Void>() {
+                @Override
+                public void onAction(Void data) {
+                    toast(R.string.failure);
+                }
+            })
+            .start();
     }
 
     /**

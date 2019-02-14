@@ -62,4 +62,11 @@
         <item name="android:layout_weight">1</item>
     </style>
 
+    <style name="Permission.Line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_1</item>
+        <item name="android:background">@color/colorAccent</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
 </resources>

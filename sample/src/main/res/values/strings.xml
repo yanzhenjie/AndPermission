@@ -35,8 +35,11 @@
     <string name="permission_phone">Phone</string>
     <string name="permission_sensors">Sensors</string>
     <string name="permission_sms">SMS</string>
-
     <string name="permission_setting">Permission Setting</string>
+
+    <string name="permission_notification">Notification</string>
+    <string name="permission_notification_listener">Notification Listener</string>
+
     <string name="permission_install">Install Apk</string>
     <string name="permission_overlay">AlertWindow</string>
 
@@ -45,9 +48,12 @@
     <string name="message_permission_always_failed">Please give us permission in the settings:\n\n%1$s</string>
     <string name="message_setting_comeback">The user comes back from the settings page.</string>
 
-    <string name="message_install_failed">Your phone is not allowed us to install apps.</string>
+    <string name="message_notification_rationale">Your device does not allow us to pop up notifications.</string>
+    <string name="message_notification_listener_rationale">Your device does not allow us to access notifications.</string>
 
-    <string name="message_overlay_failed">Your phone is not allowed us to draw on other applications.</string>
+    <string name="message_install_failed">Your device is not allowed us to install apps.</string>
+
+    <string name="message_overlay_failed">Your device is not allowed us to draw on other applications.</string>
 
     <string name="message_error_storage">Please check the external storage device.</string>
 

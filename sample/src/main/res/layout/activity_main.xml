@@ -94,6 +94,29 @@
 
         <TableRow>
 
+            <View style="@style/Permission.Line"/>
+        </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/btn_notification"
+                style="@style/Permission.Button.Weight.Horizontal"
+                android:text="@string/permission_notification"/>
+
+            <Button
+                android:id="@+id/btn_notification_listener"
+                style="@style/Permission.Button.Weight.Horizontal"
+                android:text="@string/permission_notification_listener"/>
+        </TableRow>
+
+        <TableRow>
+
+            <View style="@style/Permission.Line"/>
+        </TableRow>
+
+        <TableRow>
+
             <Button
                 android:id="@+id/btn_install"
                 style="@style/Permission.Button.Weight.Horizontal"
