@@ -47,7 +47,8 @@ class AddVoicemailTest implements PermissionTest {
             contentValues.put(VoicemailContract.Voicemails.IS_READ, 0);
             Uri newVoicemailUri = mResolver.insert(mBaseUri, contentValues);
             long id = ContentUris.parseId(newVoicemailUri);
-            int count = mResolver.delete(mBaseUri, VoicemailContract.Voicemails._ID + "=?", new String[]{Long.toString(id)});
+            int count = mResolver.delete(mBaseUri, VoicemailContract.Voicemails._ID + "=?",
+                new String[] {Long.toString(id)});
             return count > 0;
         } catch (Exception e) {
             String message = e.getMessage();

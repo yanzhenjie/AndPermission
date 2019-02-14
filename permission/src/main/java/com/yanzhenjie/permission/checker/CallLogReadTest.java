@@ -33,7 +33,7 @@ class CallLogReadTest implements PermissionTest {
 
     @Override
     public boolean test() throws Throwable {
-        String[] projection = new String[]{CallLog.Calls._ID, CallLog.Calls.NUMBER, CallLog.Calls.TYPE};
+        String[] projection = new String[] {CallLog.Calls._ID, CallLog.Calls.NUMBER, CallLog.Calls.TYPE};
         Cursor cursor = mResolver.query(CallLog.Calls.CONTENT_URI, projection, null, null, null);
         if (cursor != null) {
             try {

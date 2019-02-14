@@ -39,10 +39,9 @@ class RecordAudioTest implements PermissionTest {
         int audioFormat = AudioFormat.ENCODING_PCM_16BIT;
         // 缓冲区字节大小
         int bufferSizeInBytes;
-        bufferSizeInBytes = AudioRecord.getMinBufferSize(sampleRateInHz,
-                channelConfig, audioFormat);
-        AudioRecord audioRecord = new AudioRecord(audioSource, sampleRateInHz,
-                channelConfig, audioFormat, bufferSizeInBytes);
+        bufferSizeInBytes = AudioRecord.getMinBufferSize(sampleRateInHz, channelConfig, audioFormat);
+        AudioRecord audioRecord = new AudioRecord(audioSource, sampleRateInHz, channelConfig, audioFormat,
+            bufferSizeInBytes);
         //开始录制音频
         try {
             // 防止某些手机崩溃，例如联想

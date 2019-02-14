@@ -35,7 +35,7 @@ class SensorsTest implements PermissionTest {
 
     @Override
     public boolean test() throws Throwable {
-        SensorManager sensorManager = (SensorManager) mContext.getSystemService(Context.SENSOR_SERVICE);
+        SensorManager sensorManager = (SensorManager)mContext.getSystemService(Context.SENSOR_SERVICE);
         try {
             Sensor heartRateSensor = sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
             sensorManager.registerListener(SENSOR_EVENT_LISTENER, heartRateSensor, 3);

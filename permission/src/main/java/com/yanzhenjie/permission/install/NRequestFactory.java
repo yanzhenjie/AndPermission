@@ -22,6 +22,7 @@ import com.yanzhenjie.permission.source.Source;
  * Created by YanZhenjie on 2018/4/28.
  */
 public class NRequestFactory implements Options.InstallRequestFactory {
+
     @Override
     public InstallRequest create(Source source) {
         return new NRequest(source);

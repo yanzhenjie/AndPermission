@@ -31,22 +31,21 @@ public class InstallRationale implements Rationale<File> {
 
     @Override
     public void showRationale(Context context, File data, final RequestExecutor executor) {
-        new AlertDialog.Builder(context)
-                .setCancelable(false)
-                .setTitle(R.string.title_dialog)
-                .setMessage(R.string.message_install_failed)
-                .setPositiveButton(R.string.setting, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        executor.execute();
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        executor.cancel();
-                    }
-                })
-                .show();
+        new AlertDialog.Builder(context).setCancelable(false)
+            .setTitle(R.string.title_dialog)
+            .setMessage(R.string.message_install_failed)
+            .setPositiveButton(R.string.setting, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    executor.execute();
+                }
+            })
+            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    executor.cancel();
+                }
+            })
+            .show();
     }
 }

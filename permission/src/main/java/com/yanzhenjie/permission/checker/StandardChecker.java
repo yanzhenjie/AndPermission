@@ -53,7 +53,7 @@ public final class StandardChecker implements PermissionChecker {
                 continue;
             }
 
-            if (opsManager == null) opsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+            if (opsManager == null) opsManager = (AppOpsManager)context.getSystemService(Context.APP_OPS_SERVICE);
             result = opsManager.checkOpNoThrow(op, android.os.Process.myUid(), context.getPackageName());
             if (result != AppOpsManager.MODE_ALLOWED && result != 4) {
                 return false;

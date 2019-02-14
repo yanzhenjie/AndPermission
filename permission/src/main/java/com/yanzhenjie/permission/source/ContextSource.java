@@ -53,7 +53,7 @@ public class ContextSource extends Source {
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
         if (mContext instanceof Activity) {
-            Activity activity = (Activity) mContext;
+            Activity activity = (Activity)mContext;
             activity.startActivityForResult(intent, requestCode);
         } else {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -66,7 +66,7 @@ public class ContextSource extends Source {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false;
 
         if (mContext instanceof Activity) {
-            Activity activity = (Activity) mContext;
+            Activity activity = (Activity)mContext;
             return activity.shouldShowRequestPermissionRationale(permission);
         }
 
@@ -75,7 +75,7 @@ public class ContextSource extends Source {
         try {
             Method method = pkManagerClass.getMethod("shouldShowRequestPermissionRationale", String.class);
             if (!method.isAccessible()) method.setAccessible(true);
-            return (boolean) method.invoke(packageManager, permission);
+            return (boolean)method.invoke(packageManager, permission);
         } catch (Exception ignored) {
             return false;
         }

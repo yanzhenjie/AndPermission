@@ -20,8 +20,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.provider.Settings;
 
 import java.lang.reflect.Method;
+
+import androidx.annotation.RequiresApi;
 
 /**
  * <p>The source of the request.</p>
@@ -29,6 +32,7 @@ import java.lang.reflect.Method;
  */
 public abstract class Source {
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private static final String OPSTR_SYSTEM_ALERT_WINDOW = AppOpsManager.OPSTR_SYSTEM_ALERT_WINDOW;
     private static final int OP_REQUEST_INSTALL_PACKAGES = 66;
 
@@ -58,9 +62,10 @@ public abstract class Source {
         return mPackageManager;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private AppOpsManager getAppOpsManager() {
         if (mAppOpsManager == null) {
-            mAppOpsManager = (AppOpsManager) getContext().getSystemService(Context.APP_OPS_SERVICE);
+            mAppOpsManager = (AppOpsManager)getContext().getSystemService(Context.APP_OPS_SERVICE);
         }
         return mAppOpsManager;
     }
@@ -75,7 +80,8 @@ public abstract class Source {
                 Class<AppOpsManager> clazz = AppOpsManager.class;
                 try {
                     Method method = clazz.getDeclaredMethod("checkOpNoThrow", int.class, int.class, String.class);
-                    int result = (int) method.invoke(getAppOpsManager(), OP_REQUEST_INSTALL_PACKAGES, android.os.Process.myUid(), getContext().getPackageName());
+                    int result = (int)method.invoke(getAppOpsManager(), OP_REQUEST_INSTALL_PACKAGES,
+                        android.os.Process.myUid(), getContext().getPackageName());
                     return result == AppOpsManager.MODE_ALLOWED;
                 } catch (Exception ignored) {
                     // Android P does not allow reflections.
@@ -90,12 +96,12 @@ public abstract class Source {
     public final boolean canDrawOverlays() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Context context = getContext();
-            // Not available when targetSdkVersion is lower than M.
-//            if (getTargetSdkVersion() >= Build.VERSION_CODES.M) {
-//                return Settings.canDrawOverlays(context);
-//            }
+            if (getTargetSdkVersion() >= Build.VERSION_CODES.M) {
+                return Settings.canDrawOverlays(context);
+            }
 
-            int result = getAppOpsManager().checkOpNoThrow(OPSTR_SYSTEM_ALERT_WINDOW, android.os.Process.myUid(), context.getPackageName());
+            int result = getAppOpsManager().checkOpNoThrow(OPSTR_SYSTEM_ALERT_WINDOW, android.os.Process.myUid(),
+                context.getPackageName());
             return result == AppOpsManager.MODE_ALLOWED;
         }
         return true;

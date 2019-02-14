@@ -46,6 +46,7 @@ public class Runtime {
     }
 
     public interface PermissionRequestFactory {
+
         /**
          * Create permission request.
          */
@@ -86,9 +87,8 @@ public class Runtime {
     }
 
     /**
-     * Check if the permissions are valid and each permission has been registered in manifest.xml.
-     * This method will throw a exception if permissions are invalid or there is any permission
-     * which is not registered in manifest.xml.
+     * Check if the permissions are valid and each permission has been registered in manifest.xml. This method will
+     * throw a exception if permissions are invalid or there is any permission which is not registered in manifest.xml.
      *
      * @param permissions permissions which will be checked.
      */
@@ -101,7 +101,8 @@ public class Runtime {
 
         for (String p : permissions) {
             if (!sManifestPermissions.contains(p)) {
-                throw new IllegalStateException(String.format("The permission %1$s is not registered in manifest.xml", p));
+                throw new IllegalStateException(
+                    String.format("The permission %1$s is not registered in manifest.xml", p));
             }
         }
     }
@@ -111,7 +112,8 @@ public class Runtime {
      */
     private static List<String> getManifestPermissions(Context context) {
         try {
-            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_PERMISSIONS);
+            PackageInfo packageInfo = context.getPackageManager()
+                .getPackageInfo(context.getPackageName(), PackageManager.GET_PERMISSIONS);
             String[] permissions = packageInfo.requestedPermissions;
             if (permissions == null || permissions.length == 0) {
                 throw new IllegalStateException("You did not register any permissions in the manifest.xml.");

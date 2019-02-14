@@ -166,9 +166,11 @@ public class FileProvider extends ContentProvider {
                 try {
                     strategy = parsePathStrategy(context, authority);
                 } catch (IOException e) {
-                    throw new IllegalArgumentException("Failed to parse " + META_DATA_FILE_PROVIDER_PATHS + " meta-data", e);
+                    throw new IllegalArgumentException(
+                        "Failed to parse " + META_DATA_FILE_PROVIDER_PATHS + " meta-data", e);
                 } catch (XmlPullParserException e) {
-                    throw new IllegalArgumentException("Failed to parse " + META_DATA_FILE_PROVIDER_PATHS + " meta-data", e);
+                    throw new IllegalArgumentException(
+                        "Failed to parse " + META_DATA_FILE_PROVIDER_PATHS + " meta-data", e);
                 }
                 sCache.put(authority, strategy);
             }
@@ -177,9 +179,10 @@ public class FileProvider extends ContentProvider {
     }
 
     private static PathStrategy parsePathStrategy(Context context, String authority)
-            throws IOException, XmlPullParserException {
+        throws IOException, XmlPullParserException {
         final SimplePathStrategy strategy = new SimplePathStrategy(authority);
-        final ProviderInfo info = context.getPackageManager().resolveContentProvider(authority, PackageManager.GET_META_DATA);
+        final ProviderInfo info = context.getPackageManager()
+            .resolveContentProvider(authority, PackageManager.GET_META_DATA);
         final XmlResourceParser in = info.loadXmlMetaData(context.getPackageManager(), META_DATA_FILE_PROVIDER_PATHS);
         if (in == null) {
             throw new IllegalArgumentException("Missing " + META_DATA_FILE_PROVIDER_PATHS + " meta-data");
@@ -212,8 +215,7 @@ public class FileProvider extends ContentProvider {
                     if (externalCacheDirs.length > 0) {
                         target = externalCacheDirs[0];
                     }
-                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-                        && TAG_EXTERNAL_MEDIA.equals(tag)) {
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && TAG_EXTERNAL_MEDIA.equals(tag)) {
                     File[] externalMediaDirs = context.getExternalMediaDirs();
                     if (externalMediaDirs.length > 0) {
                         target = externalMediaDirs[0];
@@ -230,12 +232,14 @@ public class FileProvider extends ContentProvider {
     }
 
     interface PathStrategy {
+
         Uri getUriForFile(File file);
 
         File getFileForUri(Uri uri);
     }
 
     static class SimplePathStrategy implements PathStrategy {
+
         private final String mAuthority;
         private final HashMap<String, File> mRoots = new HashMap<String, File>();
 
@@ -269,7 +273,8 @@ public class FileProvider extends ContentProvider {
             Map.Entry<String, File> mostSpecific = null;
             for (Map.Entry<String, File> root : mRoots.entrySet()) {
                 final String rootPath = root.getValue().getPath();
-                boolean invalidMost = mostSpecific == null || rootPath.length() > mostSpecific.getValue().getPath().length();
+                boolean invalidMost = mostSpecific == null ||
+                    rootPath.length() > mostSpecific.getValue().getPath().length();
                 if (path.startsWith(rootPath) && invalidMost) {
                     mostSpecific = root;
                 }
@@ -322,20 +327,16 @@ public class FileProvider extends ContentProvider {
         if ("r".equals(mode)) {
             modeBits = ParcelFileDescriptor.MODE_READ_ONLY;
         } else if ("w".equals(mode) || "wt".equals(mode)) {
-            modeBits = ParcelFileDescriptor.MODE_WRITE_ONLY
-                    | ParcelFileDescriptor.MODE_CREATE
-                    | ParcelFileDescriptor.MODE_TRUNCATE;
+            modeBits = ParcelFileDescriptor.MODE_WRITE_ONLY | ParcelFileDescriptor.MODE_CREATE |
+                ParcelFileDescriptor.MODE_TRUNCATE;
         } else if ("wa".equals(mode)) {
-            modeBits = ParcelFileDescriptor.MODE_WRITE_ONLY
-                    | ParcelFileDescriptor.MODE_CREATE
-                    | ParcelFileDescriptor.MODE_APPEND;
+            modeBits = ParcelFileDescriptor.MODE_WRITE_ONLY | ParcelFileDescriptor.MODE_CREATE |
+                ParcelFileDescriptor.MODE_APPEND;
         } else if ("rw".equals(mode)) {
-            modeBits = ParcelFileDescriptor.MODE_READ_WRITE
-                    | ParcelFileDescriptor.MODE_CREATE;
+            modeBits = ParcelFileDescriptor.MODE_READ_WRITE | ParcelFileDescriptor.MODE_CREATE;
         } else if ("rwt".equals(mode)) {
-            modeBits = ParcelFileDescriptor.MODE_READ_WRITE
-                    | ParcelFileDescriptor.MODE_CREATE
-                    | ParcelFileDescriptor.MODE_TRUNCATE;
+            modeBits = ParcelFileDescriptor.MODE_READ_WRITE | ParcelFileDescriptor.MODE_CREATE |
+                ParcelFileDescriptor.MODE_TRUNCATE;
         } else {
             throw new IllegalArgumentException("Invalid mode: " + mode);
         }
@@ -368,7 +369,7 @@ public class FileProvider extends ContentProvider {
         if (Build.VERSION.SDK_INT >= 19) {
             return context.getExternalFilesDirs(type);
         } else {
-            return new File[]{context.getExternalFilesDir(type)};
+            return new File[] {context.getExternalFilesDir(type)};
         }
     }
 
@@ -376,7 +377,7 @@ public class FileProvider extends ContentProvider {
         if (Build.VERSION.SDK_INT >= 19) {
             return context.getExternalCacheDirs();
         } else {
-            return new File[]{context.getExternalCacheDir()};
+            return new File[] {context.getExternalCacheDir()};
         }
     }
 }

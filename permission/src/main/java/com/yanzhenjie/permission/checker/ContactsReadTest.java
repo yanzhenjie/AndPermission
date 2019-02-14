@@ -33,8 +33,9 @@ class ContactsReadTest implements PermissionTest {
 
     @Override
     public boolean test() throws Throwable {
-        String[] projection = new String[]{ContactsContract.Data._ID, ContactsContract.Data.DATA1};
-        Cursor cursor = mResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, projection, null, null, null);
+        String[] projection = new String[] {ContactsContract.Data._ID, ContactsContract.Data.DATA1};
+        Cursor cursor = mResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, projection, null, null,
+            null);
         if (cursor != null) {
             try {
                 CursorTest.read(cursor);

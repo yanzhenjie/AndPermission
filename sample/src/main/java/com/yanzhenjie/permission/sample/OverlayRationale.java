@@ -26,24 +26,24 @@ import com.yanzhenjie.permission.RequestExecutor;
  * Created by YanZhenjie on 2018/5/30.
  */
 public class OverlayRationale implements Rationale<Void> {
+
     @Override
     public void showRationale(Context context, Void data, final RequestExecutor executor) {
-        new AlertDialog.Builder(context)
-                .setCancelable(false)
-                .setTitle(R.string.title_dialog)
-                .setMessage(R.string.message_overlay_failed)
-                .setPositiveButton(R.string.setting, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        executor.execute();
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        executor.cancel();
-                    }
-                })
-                .show();
+        new AlertDialog.Builder(context).setCancelable(false)
+            .setTitle(R.string.title_dialog)
+            .setMessage(R.string.message_overlay_failed)
+            .setPositiveButton(R.string.setting, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    executor.execute();
+                }
+            })
+            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    executor.cancel();
+                }
+            })
+            .show();
     }
 }

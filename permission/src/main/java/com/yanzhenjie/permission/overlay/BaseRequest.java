@@ -19,6 +19,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
 import android.view.WindowManager;
+
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.R;
 import com.yanzhenjie.permission.Rationale;

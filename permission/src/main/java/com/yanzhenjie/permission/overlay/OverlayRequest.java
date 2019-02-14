@@ -22,6 +22,7 @@ import com.yanzhenjie.permission.Rationale;
  * Created by YanZhenjie on 2018/5/29.
  */
 public interface OverlayRequest {
+
     /**
      * Set request rationale.
      */

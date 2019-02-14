@@ -54,7 +54,7 @@ class ORequest extends BaseRequest implements RequestExecutor, BridgeRequest.Cal
     public void cancel() {
         callbackFailed();
     }
-    
+
     @Override
     public void onCallback() {
         if (mSource.canRequestPackageInstalls()) {

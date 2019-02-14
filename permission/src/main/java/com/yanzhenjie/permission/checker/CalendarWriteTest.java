@@ -57,15 +57,15 @@ class CalendarWriteTest implements PermissionTest {
             value.put(CalendarContract.Calendars.CAN_ORGANIZER_RESPOND, 0);
 
             Uri insertUri = CalendarContract.Calendars.CONTENT_URI.buildUpon()
-                    .appendQueryParameter(CalendarContract.CALLER_IS_SYNCADAPTER, "true")
-                    .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, NAME)
-                    .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL)
-                    .build();
+                .appendQueryParameter(CalendarContract.CALLER_IS_SYNCADAPTER, "true")
+                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, NAME)
+                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL)
+                .build();
             Uri resourceUri = mResolver.insert(insertUri, value);
             return ContentUris.parseId(resourceUri) > 0;
         } finally {
             Uri deleteUri = CalendarContract.Calendars.CONTENT_URI.buildUpon().build();
-            mResolver.delete(deleteUri, CalendarContract.Calendars.ACCOUNT_NAME + "=?", new String[]{ACCOUNT});
+            mResolver.delete(deleteUri, CalendarContract.Calendars.ACCOUNT_NAME + "=?", new String[] {ACCOUNT});
         }
     }
 }

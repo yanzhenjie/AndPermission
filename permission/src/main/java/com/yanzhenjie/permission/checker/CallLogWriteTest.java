@@ -44,7 +44,7 @@ class CallLogWriteTest implements PermissionTest {
             Uri resourceUri = mResolver.insert(CallLog.Calls.CONTENT_URI, content);
             return ContentUris.parseId(resourceUri) > 0;
         } finally {
-            mResolver.delete(CallLog.Calls.CONTENT_URI, CallLog.Calls.NUMBER + "=?", new String[]{"1"});
+            mResolver.delete(CallLog.Calls.CONTENT_URI, CallLog.Calls.NUMBER + "=?", new String[] {"1"});
         }
     }
 }

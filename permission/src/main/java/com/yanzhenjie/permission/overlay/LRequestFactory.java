@@ -22,6 +22,7 @@ import com.yanzhenjie.permission.source.Source;
  * Created by YanZhenjie on 2018/5/29.
  */
 public class LRequestFactory implements Options.OverlayRequestFactory {
+
     @Override
     public OverlayRequest create(Source source) {
         return new LRequest(source);

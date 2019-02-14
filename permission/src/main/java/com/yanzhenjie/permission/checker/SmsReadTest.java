@@ -33,7 +33,8 @@ class SmsReadTest implements PermissionTest {
 
     @Override
     public boolean test() throws Throwable {
-        String[] projection = new String[]{Telephony.Sms._ID, Telephony.Sms.ADDRESS, Telephony.Sms.PERSON, Telephony.Sms.BODY};
+        String[] projection = new String[] {Telephony.Sms._ID, Telephony.Sms.ADDRESS, Telephony.Sms.PERSON,
+            Telephony.Sms.BODY};
         Cursor cursor = mResolver.query(Telephony.Sms.CONTENT_URI, projection, null, null, null);
         if (cursor != null) {
             try {

@@ -25,6 +25,7 @@ interface PermissionTest {
     boolean test() throws Throwable;
 
     class CursorTest {
+
         public static void read(Cursor cursor) {
             int count = cursor.getCount();
             if (count > 0) {

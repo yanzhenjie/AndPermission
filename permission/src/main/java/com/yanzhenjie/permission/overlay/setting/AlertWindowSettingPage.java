@@ -42,6 +42,7 @@ public class AlertWindowSettingPage {
      * Start.
      *
      * @param requestCode this code will be returned in onActivityResult() when the activity exits.
+     *
      * @return true if successful, otherwise is false.
      */
     public void start(int requestCode) {
@@ -76,11 +77,14 @@ public class AlertWindowSettingPage {
 
     private Intent huaweiApi(Context context) {
         Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.permissionmanager.ui.MainActivity"));
+        intent.setComponent(
+            new ComponentName("com.huawei.systemmanager", "com.huawei.permissionmanager.ui.MainActivity"));
         if (hasActivity(context, intent)) return intent;
-        intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.addviewmonitor.AddViewMonitorActivity"));
+        intent.setComponent(new ComponentName("com.huawei.systemmanager",
+            "com.huawei.systemmanager.addviewmonitor.AddViewMonitorActivity"));
         if (hasActivity(context, intent)) return intent;
-        intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.notificationmanager.ui.NotificationManagmentActivity"));
+        intent.setComponent(new ComponentName("com.huawei.systemmanager",
+            "com.huawei.notificationmanager.ui.NotificationManagmentActivity"));
         return intent;
     }
 
@@ -99,7 +103,8 @@ public class AlertWindowSettingPage {
     private Intent oppoApi(Context context) {
         Intent intent = new Intent();
         intent.putExtra("packageName", context.getPackageName());
-        intent.setClassName("com.color.safecenter", "com.color.safecenter.permission.floatwindow.FloatWindowListActivity");
+        intent.setClassName("com.color.safecenter",
+            "com.color.safecenter.permission.floatwindow.FloatWindowListActivity");
         if (hasActivity(context, intent)) return intent;
 
         intent.setClassName("com.coloros.safecenter", "com.coloros.safecenter.sysfloatwindow.FloatWindowListActivity");
@@ -115,7 +120,8 @@ public class AlertWindowSettingPage {
         intent.putExtra("packagename", context.getPackageName());
         if (hasActivity(context, intent)) return intent;
 
-        intent.setComponent(new ComponentName("com.iqoo.secure", "com.iqoo.secure.safeguard.SoftPermissionDetailActivity"));
+        intent.setComponent(
+            new ComponentName("com.iqoo.secure", "com.iqoo.secure.safeguard.SoftPermissionDetailActivity"));
         return intent;
     }
 

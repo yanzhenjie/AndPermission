@@ -19,6 +19,7 @@ package com.yanzhenjie.permission;
  * Created by YanZhenjie on 2018/1/1.
  */
 public interface Action<T> {
+
     /**
      * An action.
      *

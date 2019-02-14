@@ -34,7 +34,7 @@ class LocationFineTest implements PermissionTest {
 
     @Override
     public boolean test() throws Throwable {
-        LocationManager locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager)mContext.getSystemService(Context.LOCATION_SERVICE);
         List<String> providers = locationManager.getProviders(true);
         boolean gpsProvider = providers.contains(LocationManager.GPS_PROVIDER);
         boolean passiveProvider = providers.contains(LocationManager.PASSIVE_PROVIDER);
@@ -44,7 +44,7 @@ class LocationFineTest implements PermissionTest {
 
         PackageManager packageManager = mContext.getPackageManager();
         boolean gpsHardware = packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
-        if(!gpsHardware) return true;
+        if (!gpsHardware) return true;
 
         return !locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }

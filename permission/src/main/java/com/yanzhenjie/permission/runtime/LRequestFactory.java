@@ -21,6 +21,7 @@ import com.yanzhenjie.permission.source.Source;
  * Created by YanZhenjie on 2018/4/28.
  */
 public class LRequestFactory implements Runtime.PermissionRequestFactory {
+
     @Override
     public PermissionRequest create(Source source) {
         return new LRequest(source);

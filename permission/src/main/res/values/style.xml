@@ -16,7 +16,7 @@
 -->
 <resources>
 
-    <style name="Permission" />
+    <style name="Permission"/>
 
     <style name="Permission.Theme">
         <item name="android:windowActionBar">false</item>
@@ -26,9 +26,9 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="Permission.Theme.Activity" />
+    <style name="Permission.Theme.Activity"/>
 
-    <style name="Permission.Theme.Dialog" >
+    <style name="Permission.Theme.Dialog">
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowFrame">@null</item>

@@ -29,11 +29,13 @@ public final class DoubleChecker implements PermissionChecker {
 
     @Override
     public boolean hasPermission(Context context, String... permissions) {
-        return STRICT_CHECKER.hasPermission(context, permissions) && STANDARD_CHECKER.hasPermission(context, permissions);
+        return STRICT_CHECKER.hasPermission(context, permissions) &&
+            STANDARD_CHECKER.hasPermission(context, permissions);
     }
 
     @Override
     public boolean hasPermission(Context context, List<String> permissions) {
-        return STRICT_CHECKER.hasPermission(context, permissions) && STANDARD_CHECKER.hasPermission(context, permissions);
+        return STRICT_CHECKER.hasPermission(context, permissions) &&
+            STANDARD_CHECKER.hasPermission(context, permissions);
     }
 }

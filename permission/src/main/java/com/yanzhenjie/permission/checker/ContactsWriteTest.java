@@ -38,10 +38,9 @@ class ContactsWriteTest implements PermissionTest {
     @Override
     public boolean test() throws Throwable {
         Cursor cursor = mResolver.query(ContactsContract.Data.CONTENT_URI,
-                new String[]{ContactsContract.Data.RAW_CONTACT_ID},
-                ContactsContract.Data.MIMETYPE + "=? and " + ContactsContract.Data.DATA1 + "=?",
-                new String[]{ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE, DISPLAY_NAME},
-                null);
+            new String[] {ContactsContract.Data.RAW_CONTACT_ID},
+            ContactsContract.Data.MIMETYPE + "=? and " + ContactsContract.Data.DATA1 + "=?",
+            new String[] {ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE, DISPLAY_NAME}, null);
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 long rawContactId = cursor.getLong(0);
@@ -69,8 +68,10 @@ class ContactsWriteTest implements PermissionTest {
     }
 
     private void delete(long contactId, long dataId) {
-        mResolver.delete(ContactsContract.RawContacts.CONTENT_URI, ContactsContract.RawContacts._ID + "=?", new String[]{Long.toString(contactId)});
-        mResolver.delete(ContactsContract.Data.CONTENT_URI, ContactsContract.Data._ID + "=?", new String[]{Long.toString(dataId)});
+        mResolver.delete(ContactsContract.RawContacts.CONTENT_URI, ContactsContract.RawContacts._ID + "=?",
+            new String[] {Long.toString(contactId)});
+        mResolver.delete(ContactsContract.Data.CONTENT_URI, ContactsContract.Data._ID + "=?",
+            new String[] {Long.toString(dataId)});
     }
 
     private boolean update(long rawContactId) {
