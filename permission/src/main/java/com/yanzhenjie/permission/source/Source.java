@@ -16,12 +16,14 @@
 package com.yanzhenjie.permission.source;
 
 import android.app.AppOpsManager;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.provider.Settings;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import androidx.annotation.RequiresApi;
@@ -32,13 +34,16 @@ import androidx.annotation.RequiresApi;
  */
 public abstract class Source {
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private static final String OPSTR_SYSTEM_ALERT_WINDOW = AppOpsManager.OPSTR_SYSTEM_ALERT_WINDOW;
-    private static final int OP_REQUEST_INSTALL_PACKAGES = 66;
+    private static final String CHECK_OP_NO_THROW = "checkOpNoThrow";
+    private static final String OP_REQUEST_INSTALL_PACKAGES = "OP_REQUEST_INSTALL_PACKAGES";
+    private static final String OP_SYSTEM_ALERT_WINDOW = "OP_SYSTEM_ALERT_WINDOW";
+    private static final String OP_POST_NOTIFICATION = "OP_POST_NOTIFICATION";
 
+    private int mTargetSdkVersion;
+    private String mPackageName;
     private PackageManager mPackageManager;
     private AppOpsManager mAppOpsManager;
-    private int mTargetSdkVersion;
+    private NotificationManager mNotificationManager;
 
     public abstract Context getContext();
 
@@ -53,6 +58,13 @@ public abstract class Source {
             mTargetSdkVersion = getContext().getApplicationInfo().targetSdkVersion;
         }
         return mTargetSdkVersion;
+    }
+
+    public String getPackageName() {
+        if (mPackageName == null) {
+            mPackageName = getContext().getApplicationContext().getPackageName();
+        }
+        return mPackageName;
     }
 
     private PackageManager getPackageManager() {
@@ -70,6 +82,13 @@ public abstract class Source {
         return mAppOpsManager;
     }
 
+    private NotificationManager getNotificationManager() {
+        if (mNotificationManager == null) {
+            mNotificationManager = (NotificationManager)getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        }
+        return mNotificationManager;
+    }
+
     public final boolean canRequestPackageInstalls() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
@@ -77,16 +96,7 @@ public abstract class Source {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             if (getTargetSdkVersion() < Build.VERSION_CODES.O) {
-                Class<AppOpsManager> clazz = AppOpsManager.class;
-                try {
-                    Method method = clazz.getDeclaredMethod("checkOpNoThrow", int.class, int.class, String.class);
-                    int result = (int)method.invoke(getAppOpsManager(), OP_REQUEST_INSTALL_PACKAGES,
-                        android.os.Process.myUid(), getContext().getPackageName());
-                    return result == AppOpsManager.MODE_ALLOWED;
-                } catch (Exception ignored) {
-                    // Android P does not allow reflections.
-                    return true;
-                }
+                return reflectionOps(OP_REQUEST_INSTALL_PACKAGES);
             }
             return getPackageManager().canRequestPackageInstalls();
         }
@@ -100,10 +110,39 @@ public abstract class Source {
                 return Settings.canDrawOverlays(context);
             }
 
-            int result = getAppOpsManager().checkOpNoThrow(OPSTR_SYSTEM_ALERT_WINDOW, android.os.Process.myUid(),
-                context.getPackageName());
-            return result == AppOpsManager.MODE_ALLOWED;
+            return reflectionOps(OP_SYSTEM_ALERT_WINDOW);
         }
         return true;
+    }
+
+    public final boolean canNotify() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return getNotificationManager().areNotificationsEnabled();
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            return reflectionOps(OP_POST_NOTIFICATION);
+        } else {
+            return true;
+        }
+    }
+
+    public final boolean canListenerNotification() {
+        Context context = getContext();
+        String flat = Settings.Secure.getString(context.getContentResolver(), "enabled_notification_listeners");
+        return flat != null && flat.contains(getPackageName());
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private boolean reflectionOps(String opFieldName) {
+        int uid = getContext().getApplicationInfo().uid;
+        try {
+            Class<AppOpsManager> appOpsClass = AppOpsManager.class;
+            Method method = appOpsClass.getMethod(CHECK_OP_NO_THROW, Integer.TYPE, Integer.TYPE, String.class);
+            Field opField = appOpsClass.getDeclaredField(opFieldName);
+            int opValue = (int)opField.get(Integer.class);
+            int result = (int)method.invoke(getAppOpsManager(), opValue, uid, getPackageName());
+            return result == AppOpsManager.MODE_ALLOWED;
+        } catch (Throwable e) {
+            return true;
+        }
     }
 }

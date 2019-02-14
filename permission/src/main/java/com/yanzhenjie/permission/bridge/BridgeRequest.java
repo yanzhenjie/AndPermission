@@ -27,14 +27,18 @@ import androidx.annotation.IntDef;
  */
 public final class BridgeRequest {
 
-    public static final int TYPE_PERMISSION = 1;
-    public static final int TYPE_PERMISSION_SETTING = 2;
-    public static final int TYPE_INSTALL = 3;
-    public static final int TYPE_OVERLAY = 4;
-    public static final int TYPE_ALERT_WINDOW = 5;
+    public static final int TYPE_APP_DETAILS = 1;
+    public static final int TYPE_PERMISSION = 2;
+    public static final int TYPE_PERMISSION_SETTING = 3;
+    public static final int TYPE_INSTALL = 4;
+    public static final int TYPE_OVERLAY = 5;
+    public static final int TYPE_ALERT_WINDOW = 6;
+    public static final int TYPE_NOTIFY = 7;
+    public static final int TYPE_NOTIFICATION_LISTENER = 8;
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({TYPE_PERMISSION, TYPE_PERMISSION_SETTING, TYPE_INSTALL, TYPE_OVERLAY, TYPE_ALERT_WINDOW})
+    @IntDef({TYPE_APP_DETAILS, TYPE_PERMISSION, TYPE_PERMISSION_SETTING, TYPE_INSTALL, TYPE_OVERLAY, TYPE_ALERT_WINDOW,
+        TYPE_NOTIFY, TYPE_NOTIFICATION_LISTENER})
     private @interface TypeDef {}
 
     private Context mContext;
@@ -65,6 +69,10 @@ public final class BridgeRequest {
         messenger.register();
 
         switch (mType) {
+            case TYPE_APP_DETAILS: {
+                BridgeActivity.requestAppDetails(mContext);
+                break;
+            }
             case TYPE_PERMISSION: {
                 BridgeActivity.requestPermission(mContext, mPermissions);
                 break;
@@ -82,7 +90,15 @@ public final class BridgeRequest {
                 break;
             }
             case TYPE_ALERT_WINDOW: {
-                BridgeActivity.requestAlertWindow(mContext);
+                BridgeActivity.requestNotify(mContext);
+                break;
+            }
+            case TYPE_NOTIFY: {
+                BridgeActivity.requestNotify(mContext);
+                break;
+            }
+            case TYPE_NOTIFICATION_LISTENER: {
+                BridgeActivity.requestNotificationListener(mContext);
                 break;
             }
         }

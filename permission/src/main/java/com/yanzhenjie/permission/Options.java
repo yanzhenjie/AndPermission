@@ -20,6 +20,7 @@ import android.os.Build;
 import com.yanzhenjie.permission.install.InstallRequest;
 import com.yanzhenjie.permission.install.NRequestFactory;
 import com.yanzhenjie.permission.install.ORequestFactory;
+import com.yanzhenjie.permission.notify.Notification;
 import com.yanzhenjie.permission.overlay.LRequestFactory;
 import com.yanzhenjie.permission.overlay.MRequestFactory;
 import com.yanzhenjie.permission.overlay.OverlayRequest;
@@ -89,5 +90,12 @@ public class Options {
      */
     public OverlayRequest overlay() {
         return OVERLAY_REQUEST_FACTORY.create(mSource);
+    }
+
+    /**
+     * Handle notification permission.
+     */
+    public Notification notification() {
+        return new Notification(mSource);
     }
 }

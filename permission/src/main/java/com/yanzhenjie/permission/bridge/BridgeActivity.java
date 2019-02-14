@@ -44,6 +44,17 @@ public final class BridgeActivity extends Activity {
     /**
      * Request for permissions.
      */
+    static void requestAppDetails(Context context) {
+        Intent intent = new Intent(context.getPackageName() + ".permission.bridge");
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_APP_DETAILS);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    /**
+     * Request for permissions.
+     */
     static void requestPermission(Context context, String[] permissions) {
         Intent intent = new Intent(context.getPackageName() + ".permission.bridge");
         intent.addCategory(Intent.CATEGORY_DEFAULT);
@@ -97,12 +108,40 @@ public final class BridgeActivity extends Activity {
         context.startActivity(intent);
     }
 
+    /**
+     * Request for notify.
+     */
+    static void requestNotify(Context context) {
+        Intent intent = new Intent(context.getPackageName() + ".permission.bridge");
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_NOTIFY);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    /**
+     * Request for notification listener.
+     */
+    static void requestNotificationListener(Context context) {
+        Intent intent = new Intent(context.getPackageName() + ".permission.bridge");
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_NOTIFICATION_LISTENER);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         int operation = intent.getIntExtra(KEY_TYPE, 0);
         switch (operation) {
+            case BridgeRequest.TYPE_APP_DETAILS: {
+                Intent appDetailsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                appDetailsIntent.setData(Uri.fromParts("package", getPackageName(), null));
+                startActivityForResult(appDetailsIntent, BridgeRequest.TYPE_APP_DETAILS);
+                break;
+            }
             case BridgeRequest.TYPE_PERMISSION: {
                 String[] permissions = intent.getStringArrayExtra(KEY_PERMISSIONS);
                 requestPermissions(permissions, BridgeRequest.TYPE_PERMISSION);
@@ -127,6 +166,17 @@ public final class BridgeActivity extends Activity {
             case BridgeRequest.TYPE_ALERT_WINDOW: {
                 AlertWindowSettingPage settingPage = new AlertWindowSettingPage(new ContextSource(this));
                 settingPage.start(BridgeRequest.TYPE_ALERT_WINDOW);
+                break;
+            }
+            case BridgeRequest.TYPE_NOTIFY: {
+                Intent settingIntent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+                settingIntent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+                startActivityForResult(settingIntent, BridgeRequest.TYPE_NOTIFY);
+                break;
+            }
+            case BridgeRequest.TYPE_NOTIFICATION_LISTENER: {
+                Intent settingIntent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
+                startActivityForResult(settingIntent, BridgeRequest.TYPE_NOTIFY);
                 break;
             }
             default: {

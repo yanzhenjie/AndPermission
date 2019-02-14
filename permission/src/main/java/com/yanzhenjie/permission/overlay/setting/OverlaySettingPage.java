@@ -48,7 +48,7 @@ public class OverlaySettingPage {
 
     private boolean meiZuApi(int requestCode) {
         Intent overlayIntent = new Intent("com.meizu.safe.security.SHOW_APPSEC");
-        overlayIntent.putExtra("packageName", mSource.getContext().getPackageName());
+        overlayIntent.putExtra("packageName", mSource.getPackageName());
         overlayIntent.setComponent(new ComponentName("com.meizu.safe", "com.meizu.safe.security.AppSecActivity"));
         try {
             mSource.startActivityForResult(overlayIntent, requestCode);
@@ -60,7 +60,7 @@ public class OverlaySettingPage {
 
     private boolean defaultApi(int requestCode) {
         Intent manageIntent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-        manageIntent.setData(Uri.fromParts("package", mSource.getContext().getPackageName(), null));
+        manageIntent.setData(Uri.fromParts("package", mSource.getPackageName(), null));
         try {
             mSource.startActivityForResult(manageIntent, requestCode);
         } catch (Exception e) {
@@ -71,7 +71,7 @@ public class OverlaySettingPage {
 
     private void appDetailsApi(int requestCode) {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        intent.setData(Uri.fromParts("package", mSource.getContext().getPackageName(), null));
+        intent.setData(Uri.fromParts("package", mSource.getPackageName(), null));
         mSource.startActivityForResult(intent, requestCode);
     }
 }
