@@ -16,6 +16,7 @@
 package com.yanzhenjie.permission.runtime;
 
 import android.content.Context;
+import android.os.Build;
 
 import com.yanzhenjie.permission.R;
 
@@ -47,7 +48,8 @@ public class Permission {
     public static final String CALL_PHONE = "android.permission.CALL_PHONE";
     public static final String READ_CALL_LOG = "android.permission.READ_CALL_LOG";
     public static final String WRITE_CALL_LOG = "android.permission.WRITE_CALL_LOG";
-    public static final String ADD_VOICEMAIL = "android.voicemail.permission.ADD_VOICEMAIL";
+    public static final String ADD_VOICEMAIL = "com.android.voicemail.permission.ADD_VOICEMAIL";
+    static final String ADD_VOICEMAIL_MANIFEST = "android.permission.ADD_VOICEMAIL";
     public static final String USE_SIP = "android.permission.USE_SIP";
     public static final String PROCESS_OUTGOING_CALLS = "android.permission.PROCESS_OUTGOING_CALLS";
     public static final String READ_PHONE_NUMBERS = "android.permission.READ_PHONE_NUMBERS";
@@ -78,9 +80,19 @@ public class Permission {
 
         public static final String[] MICROPHONE = new String[] {Permission.RECORD_AUDIO};
 
-        public static final String[] PHONE = new String[] {Permission.READ_PHONE_STATE, Permission.CALL_PHONE,
-            Permission.READ_CALL_LOG, Permission.WRITE_CALL_LOG, Permission.ADD_VOICEMAIL, Permission.USE_SIP,
-            Permission.PROCESS_OUTGOING_CALLS, Permission.READ_PHONE_NUMBERS, Permission.ANSWER_PHONE_CALLS};
+        public static final String[] PHONE;
+
+        static {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                PHONE = new String[] {Permission.READ_PHONE_STATE, Permission.CALL_PHONE, Permission.READ_CALL_LOG,
+                    Permission.WRITE_CALL_LOG, Permission.ADD_VOICEMAIL, Permission.USE_SIP,
+                    Permission.PROCESS_OUTGOING_CALLS, Permission.READ_PHONE_NUMBERS, Permission.ANSWER_PHONE_CALLS};
+            } else {
+                PHONE = new String[] {Permission.READ_PHONE_STATE, Permission.CALL_PHONE, Permission.READ_CALL_LOG,
+                    Permission.WRITE_CALL_LOG, Permission.ADD_VOICEMAIL, Permission.USE_SIP,
+                    Permission.PROCESS_OUTGOING_CALLS};
+            }
+        }
 
         public static final String[] SENSORS = new String[] {Permission.BODY_SENSORS};
 
@@ -166,6 +178,8 @@ public class Permission {
                 case Permission.CALL_PHONE:
                 case Permission.READ_CALL_LOG:
                 case Permission.WRITE_CALL_LOG:
+                case Permission.ADD_VOICEMAIL:
+                case Permission.ADD_VOICEMAIL_MANIFEST:
                 case Permission.USE_SIP:
                 case Permission.PROCESS_OUTGOING_CALLS:
                 case Permission.READ_PHONE_NUMBERS:

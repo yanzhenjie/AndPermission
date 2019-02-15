@@ -35,7 +35,7 @@ import java.util.List;
 public class Runtime {
 
     private static final PermissionRequestFactory FACTORY;
-    private static List<String> sManifestPermissions;
+    private static List<String> sAppPermissions;
 
     static {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -93,16 +93,19 @@ public class Runtime {
      * @param permissions permissions which will be checked.
      */
     private void checkPermissions(String... permissions) {
-        if (sManifestPermissions == null) sManifestPermissions = getManifestPermissions(mSource.getContext());
+        if (sAppPermissions == null) sAppPermissions = getManifestPermissions(mSource.getContext());
 
         if (permissions == null || permissions.length == 0) {
             throw new IllegalArgumentException("Please enter at least one permission.");
         }
 
         for (String p : permissions) {
-            if (!sManifestPermissions.contains(p)) {
-                throw new IllegalStateException(
-                    String.format("The permission %1$s is not registered in manifest.xml", p));
+            if (!sAppPermissions.contains(p)) {
+                if (!(Permission.ADD_VOICEMAIL.equals(p) &&
+                    sAppPermissions.contains(Permission.ADD_VOICEMAIL_MANIFEST))) {
+                    throw new IllegalStateException(
+                        String.format("The permission %1$s is not registered in manifest.xml", p));
+                }
             }
         }
     }
