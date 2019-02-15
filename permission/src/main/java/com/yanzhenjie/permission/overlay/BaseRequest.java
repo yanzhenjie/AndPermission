@@ -90,7 +90,7 @@ abstract class BaseRequest implements OverlayRequest {
     }
 
     static boolean tryDisplayDialog(Context context) {
-        Dialog dialog = new Dialog(context, R.style.Permission_Theme_Dialog);
+        Dialog dialog = new Dialog(context, R.style.Permission_Theme);
         int overlay = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
         int alertWindow = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
         int windowType = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? overlay : alertWindow;

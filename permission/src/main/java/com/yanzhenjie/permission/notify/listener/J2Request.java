@@ -43,7 +43,7 @@ class J2Request extends BaseRequest implements RequestExecutor, BridgeRequest.Ca
 
     @Override
     public void execute() {
-        BridgeRequest request = new BridgeRequest(mSource.getContext());
+        BridgeRequest request = new BridgeRequest(mSource);
         request.setType(BridgeRequest.TYPE_NOTIFICATION_LISTENER);
         request.setCallback(this);
         RequestManager.get().add(request);

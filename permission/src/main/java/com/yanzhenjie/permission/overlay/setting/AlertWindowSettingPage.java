@@ -38,13 +38,6 @@ public class AlertWindowSettingPage {
         this.mSource = source;
     }
 
-    /**
-     * Start.
-     *
-     * @param requestCode this code will be returned in onActivityResult() when the activity exits.
-     *
-     * @return true if successful, otherwise is false.
-     */
     public void start(int requestCode) {
         Intent intent;
         if (MARK.contains("huawei")) {
@@ -77,15 +70,16 @@ public class AlertWindowSettingPage {
 
     private Intent huaweiApi(Context context) {
         Intent intent = new Intent();
-        intent.setComponent(
-            new ComponentName("com.huawei.systemmanager", "com.huawei.permissionmanager.ui.MainActivity"));
+        intent.setClassName("com.huawei.systemmanager", "com.huawei.permissionmanager.ui.MainActivity");
         if (hasActivity(context, intent)) return intent;
-        intent.setComponent(new ComponentName("com.huawei.systemmanager",
-            "com.huawei.systemmanager.addviewmonitor.AddViewMonitorActivity"));
+
+        intent.setClassName("com.huawei.systemmanager", "com.huawei.systemmanager.addviewmonitor.AddViewMonitorActivity");
         if (hasActivity(context, intent)) return intent;
-        intent.setComponent(new ComponentName("com.huawei.systemmanager",
-            "com.huawei.notificationmanager.ui.NotificationManagmentActivity"));
-        return intent;
+
+        intent.setClassName("com.huawei.systemmanager", "com.huawei.notificationmanager.ui.NotificationManagmentActivity");
+        if (hasActivity(context, intent)) return intent;
+
+        return defaultApi(context);
     }
 
     private Intent xiaomiApi(Context context) {
@@ -93,11 +87,10 @@ public class AlertWindowSettingPage {
         intent.putExtra("extra_pkgname", context.getPackageName());
         if (hasActivity(context, intent)) return intent;
 
-        intent.setPackage("com.miui.securitycenter");
+        intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.AppPermissionsEditorActivity");
         if (hasActivity(context, intent)) return intent;
 
-        intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.AppPermissionsEditorActivity");
-        return intent;
+        return defaultApi(context);
     }
 
     private Intent oppoApi(Context context) {
@@ -111,7 +104,9 @@ public class AlertWindowSettingPage {
         if (hasActivity(context, intent)) return intent;
 
         intent.setClassName("com.oppo.safe", "com.oppo.safe.permission.PermissionAppListActivity");
-        return intent;
+        if (hasActivity(context, intent)) return intent;
+
+        return defaultApi(context);
     }
 
     private Intent vivoApi(Context context) {
@@ -120,16 +115,19 @@ public class AlertWindowSettingPage {
         intent.putExtra("packagename", context.getPackageName());
         if (hasActivity(context, intent)) return intent;
 
-        intent.setComponent(
-            new ComponentName("com.iqoo.secure", "com.iqoo.secure.safeguard.SoftPermissionDetailActivity"));
-        return intent;
+        intent.setClassName("com.iqoo.secure", "com.iqoo.secure.safeguard.SoftPermissionDetailActivity");
+        if (hasActivity(context, intent)) return intent;
+
+        return defaultApi(context);
     }
 
     private Intent meizuApi(Context context) {
         Intent intent = new Intent("com.meizu.safe.security.SHOW_APPSEC");
         intent.putExtra("packageName", context.getPackageName());
         intent.setComponent(new ComponentName("com.meizu.safe", "com.meizu.safe.security.AppSecActivity"));
-        return intent;
+        if (hasActivity(context, intent)) return intent;
+
+        return defaultApi(context);
     }
 
     private static boolean hasActivity(Context context, Intent intent) {

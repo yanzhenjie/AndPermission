@@ -21,16 +21,7 @@
     <application>
         <activity
             android:name=".bridge.BridgeActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true"
-            android:launchMode="standard"
-            android:theme="@style/Permission.Theme.Activity"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden">
-            <intent-filter>
-                <action android:name="${applicationId}.permission.bridge"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-        </activity>
+            android:theme="@style/Permission.Theme"/>
 
         <provider
             android:name=".FileProvider"

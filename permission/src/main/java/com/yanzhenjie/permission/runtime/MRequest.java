@@ -102,7 +102,7 @@ class MRequest implements PermissionRequest, RequestExecutor, BridgeRequest.Call
 
     @Override
     public void execute() {
-        BridgeRequest request = new BridgeRequest(mSource.getContext());
+        BridgeRequest request = new BridgeRequest(mSource);
         request.setType(BridgeRequest.TYPE_PERMISSION);
         request.setPermissions(mDeniedPermissions);
         request.setCallback(this);

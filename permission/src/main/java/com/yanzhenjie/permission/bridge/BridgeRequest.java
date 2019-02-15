@@ -15,7 +15,7 @@
  */
 package com.yanzhenjie.permission.bridge;
 
-import android.content.Context;
+import com.yanzhenjie.permission.source.Source;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -41,13 +41,13 @@ public final class BridgeRequest {
         TYPE_NOTIFY, TYPE_NOTIFICATION_LISTENER})
     private @interface TypeDef {}
 
-    private Context mContext;
+    private Source mSource;
     private int mType;
     private String[] mPermissions;
     private Callback mCallback;
 
-    public BridgeRequest(Context context) {
-        this.mContext = context;
+    public BridgeRequest(Source source) {
+        this.mSource = source;
     }
 
     public void setType(@TypeDef int type) {
@@ -64,41 +64,41 @@ public final class BridgeRequest {
 
     void execute(Object lock) {
         MessageCallback callback = new MessageCallback(mCallback, lock);
-        Messenger messenger = new Messenger(mContext, callback);
+        Messenger messenger = new Messenger(mSource.getContext(), callback);
         callback.setMessenger(messenger);
         messenger.register();
 
         switch (mType) {
             case TYPE_APP_DETAILS: {
-                BridgeActivity.requestAppDetails(mContext);
+                BridgeActivity.requestAppDetails(mSource);
                 break;
             }
             case TYPE_PERMISSION: {
-                BridgeActivity.requestPermission(mContext, mPermissions);
+                BridgeActivity.requestPermission(mSource, mPermissions);
                 break;
             }
             case TYPE_PERMISSION_SETTING: {
-                BridgeActivity.permissionSetting(mContext);
+                BridgeActivity.permissionSetting(mSource);
                 break;
             }
             case TYPE_INSTALL: {
-                BridgeActivity.requestInstall(mContext);
+                BridgeActivity.requestInstall(mSource);
                 break;
             }
             case TYPE_OVERLAY: {
-                BridgeActivity.requestOverlay(mContext);
+                BridgeActivity.requestOverlay(mSource);
                 break;
             }
             case TYPE_ALERT_WINDOW: {
-                BridgeActivity.requestNotify(mContext);
+                BridgeActivity.requestAlertWindow(mSource);
                 break;
             }
             case TYPE_NOTIFY: {
-                BridgeActivity.requestNotify(mContext);
+                BridgeActivity.requestNotify(mSource);
                 break;
             }
             case TYPE_NOTIFICATION_LISTENER: {
-                BridgeActivity.requestNotificationListener(mContext);
+                BridgeActivity.requestNotificationListener(mSource);
                 break;
             }
         }

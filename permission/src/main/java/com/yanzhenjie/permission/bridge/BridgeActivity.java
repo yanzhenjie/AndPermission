@@ -16,7 +16,6 @@
 package com.yanzhenjie.permission.bridge;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +26,7 @@ import com.yanzhenjie.permission.overlay.setting.AlertWindowSettingPage;
 import com.yanzhenjie.permission.overlay.setting.OverlaySettingPage;
 import com.yanzhenjie.permission.runtime.setting.SettingPage;
 import com.yanzhenjie.permission.source.ContextSource;
+import com.yanzhenjie.permission.source.Source;
 
 import androidx.annotation.NonNull;
 
@@ -44,97 +44,83 @@ public final class BridgeActivity extends Activity {
     /**
      * Request for permissions.
      */
-    static void requestAppDetails(Context context) {
-        Intent intent = new Intent(context.getPackageName() + ".permission.bridge");
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
+    static void requestAppDetails(Source source) {
+        Intent intent = new Intent(source.getContext(), BridgeActivity.class);
         intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_APP_DETAILS);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        source.startActivity(intent);
     }
 
     /**
      * Request for permissions.
      */
-    static void requestPermission(Context context, String[] permissions) {
-        Intent intent = new Intent(context.getPackageName() + ".permission.bridge");
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
+    static void requestPermission(Source source, String[] permissions) {
+        Intent intent = new Intent(source.getContext(), BridgeActivity.class);
         intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_PERMISSION);
         intent.putExtra(KEY_PERMISSIONS, permissions);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        source.startActivity(intent);
     }
 
     /**
      * Request for setting.
      */
-    static void permissionSetting(Context context) {
-        Intent intent = new Intent(context.getPackageName() + ".permission.bridge");
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
+    static void permissionSetting(Source source) {
+        Intent intent = new Intent(source.getContext(), BridgeActivity.class);
         intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_PERMISSION_SETTING);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        source.startActivity(intent);
     }
 
     /**
      * Request for package install.
      */
-    static void requestInstall(Context context) {
-        Intent intent = new Intent(context.getPackageName() + ".permission.bridge");
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
+    static void requestInstall(Source source) {
+        Intent intent = new Intent(source.getContext(), BridgeActivity.class);
         intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_INSTALL);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        source.startActivity(intent);
     }
 
     /**
      * Request for overlay.
      */
-    static void requestOverlay(Context context) {
-        Intent intent = new Intent(context.getPackageName() + ".permission.bridge");
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
+    static void requestOverlay(Source source) {
+        Intent intent = new Intent(source.getContext(), BridgeActivity.class);
         intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_OVERLAY);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        source.startActivity(intent);
     }
 
     /**
      * Request for alert window.
      */
-    static void requestAlertWindow(Context context) {
-        Intent intent = new Intent(context.getPackageName() + ".permission.bridge");
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
+    static void requestAlertWindow(Source source) {
+        Intent intent = new Intent(source.getContext(), BridgeActivity.class);
         intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_ALERT_WINDOW);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        source.startActivity(intent);
     }
 
     /**
      * Request for notify.
      */
-    static void requestNotify(Context context) {
-        Intent intent = new Intent(context.getPackageName() + ".permission.bridge");
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
+    static void requestNotify(Source source) {
+        Intent intent = new Intent(source.getContext(), BridgeActivity.class);
         intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_NOTIFY);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        source.startActivity(intent);
     }
 
     /**
      * Request for notification listener.
      */
-    static void requestNotificationListener(Context context) {
-        Intent intent = new Intent(context.getPackageName() + ".permission.bridge");
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
+    static void requestNotificationListener(Source source) {
+        Intent intent = new Intent(source.getContext(), BridgeActivity.class);
         intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_NOTIFICATION_LISTENER);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        source.startActivity(intent);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) return;
+
         Intent intent = getIntent();
-        int operation = intent.getIntExtra(KEY_TYPE, 0);
+        int operation = intent.getIntExtra(KEY_TYPE, -1);
         switch (operation) {
             case BridgeRequest.TYPE_APP_DETAILS: {
                 Intent appDetailsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
@@ -179,9 +165,6 @@ public final class BridgeActivity extends Activity {
                 startActivityForResult(settingIntent, BridgeRequest.TYPE_NOTIFY);
                 break;
             }
-            default: {
-                throw new AssertionError("This should not be the case.");
-            }
         }
     }
 
@@ -190,6 +173,11 @@ public final class BridgeActivity extends Activity {
         @NonNull int[] grantResults) {
         Messenger.send(this);
         finish();
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
     }
 
     @Override

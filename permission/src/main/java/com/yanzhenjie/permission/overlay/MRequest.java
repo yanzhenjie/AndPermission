@@ -43,7 +43,7 @@ class MRequest extends BaseRequest implements RequestExecutor, BridgeRequest.Cal
 
     @Override
     public void execute() {
-        BridgeRequest request = new BridgeRequest(mSource.getContext());
+        BridgeRequest request = new BridgeRequest(mSource);
         request.setType(BridgeRequest.TYPE_OVERLAY);
         request.setCallback(this);
         RequestManager.get().add(request);

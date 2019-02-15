@@ -40,7 +40,7 @@ public class PermissionSetting implements Setting, BridgeRequest.Callback {
 
     @Override
     public void start() {
-        BridgeRequest request = new BridgeRequest(mSource.getContext());
+        BridgeRequest request = new BridgeRequest(mSource);
         request.setType(BridgeRequest.TYPE_PERMISSION_SETTING);
         request.setCallback(this);
         RequestManager.get().add(request);

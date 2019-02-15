@@ -15,8 +15,9 @@
  */
 package com.yanzhenjie.permission.overlay.setting;
 
-import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
@@ -37,41 +38,46 @@ public class OverlaySettingPage {
     }
 
     public void start(int requestCode) {
+        Intent intent;
         if (MARK.contains("meizu")) {
-            if (!meiZuApi(requestCode) && !defaultApi(requestCode)) {
-                appDetailsApi(requestCode);
-            }
-        } else if (!defaultApi(requestCode)) {
-            appDetailsApi(requestCode);
+            intent = meiZuApi(mSource.getContext());
+        } else {
+            intent = defaultApi(mSource.getContext());
         }
-    }
 
-    private boolean meiZuApi(int requestCode) {
-        Intent overlayIntent = new Intent("com.meizu.safe.security.SHOW_APPSEC");
-        overlayIntent.putExtra("packageName", mSource.getPackageName());
-        overlayIntent.setComponent(new ComponentName("com.meizu.safe", "com.meizu.safe.security.AppSecActivity"));
         try {
-            mSource.startActivityForResult(overlayIntent, requestCode);
+            mSource.startActivityForResult(intent, requestCode);
         } catch (Exception e) {
-            return false;
+            intent = appDetailsApi(mSource.getContext());
+            mSource.startActivityForResult(intent, requestCode);
         }
-        return true;
     }
 
-    private boolean defaultApi(int requestCode) {
-        Intent manageIntent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-        manageIntent.setData(Uri.fromParts("package", mSource.getPackageName(), null));
-        try {
-            mSource.startActivityForResult(manageIntent, requestCode);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
-
-    private void appDetailsApi(int requestCode) {
+    private static Intent appDetailsApi(Context context) {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        intent.setData(Uri.fromParts("package", mSource.getPackageName(), null));
-        mSource.startActivityForResult(intent, requestCode);
+        intent.setData(Uri.fromParts("package", context.getPackageName(), null));
+        return intent;
+    }
+
+    private static Intent defaultApi(Context context) {
+        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+        intent.setData(Uri.fromParts("package", context.getPackageName(), null));
+        if (hasActivity(context, intent)) return intent;
+
+        return appDetailsApi(context);
+    }
+
+    private static Intent meiZuApi(Context context) {
+        Intent intent = new Intent("com.meizu.safe.security.SHOW_APPSEC");
+        intent.putExtra("packageName", context.getPackageName());
+        intent.setClassName("com.meizu.safe", "com.meizu.safe.security.AppSecActivity");
+        if (hasActivity(context, intent)) return intent;
+
+        return defaultApi(context);
+    }
+
+    private static boolean hasActivity(Context context, Intent intent) {
+        PackageManager packageManager = context.getPackageManager();
+        return packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).size() > 0;
     }
 }
