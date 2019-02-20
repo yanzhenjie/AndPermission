@@ -17,11 +17,6 @@ package com.yanzhenjie.permission.bridge;
 
 import com.yanzhenjie.permission.source.Source;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
-import androidx.annotation.IntDef;
-
 /**
  * Created by Zhenjie Yan on 2/13/19.
  */
@@ -36,102 +31,42 @@ public final class BridgeRequest {
     public static final int TYPE_NOTIFY = 7;
     public static final int TYPE_NOTIFICATION_LISTENER = 8;
 
-    @Retention(RetentionPolicy.SOURCE)
-    @IntDef({TYPE_APP_DETAILS, TYPE_PERMISSION, TYPE_PERMISSION_SETTING, TYPE_INSTALL, TYPE_OVERLAY, TYPE_ALERT_WINDOW,
-        TYPE_NOTIFY, TYPE_NOTIFICATION_LISTENER})
-    private @interface TypeDef {}
+    private final Source mSource;
 
-    private Source mSource;
     private int mType;
-    private String[] mPermissions;
     private Callback mCallback;
+    private String[] mPermissions;
 
     public BridgeRequest(Source source) {
         this.mSource = source;
     }
 
-    public void setType(@TypeDef int type) {
-        this.mType = type;
+    public Source getSource() {
+        return mSource;
     }
 
-    public void setPermissions(String[] permissions) {
-        this.mPermissions = permissions;
+    public int getType() {
+        return mType;
+    }
+
+    public void setType(int type) {
+        mType = type;
+    }
+
+    public Callback getCallback() {
+        return mCallback;
     }
 
     public void setCallback(Callback callback) {
-        this.mCallback = callback;
+        mCallback = callback;
     }
 
-    void execute(Object lock) {
-        MessageCallback callback = new MessageCallback(mCallback, lock);
-        Messenger messenger = new Messenger(mSource.getContext(), callback);
-        callback.setMessenger(messenger);
-        messenger.register();
-
-        switch (mType) {
-            case TYPE_APP_DETAILS: {
-                BridgeActivity.requestAppDetails(mSource);
-                break;
-            }
-            case TYPE_PERMISSION: {
-                BridgeActivity.requestPermission(mSource, mPermissions);
-                break;
-            }
-            case TYPE_PERMISSION_SETTING: {
-                BridgeActivity.permissionSetting(mSource);
-                break;
-            }
-            case TYPE_INSTALL: {
-                BridgeActivity.requestInstall(mSource);
-                break;
-            }
-            case TYPE_OVERLAY: {
-                BridgeActivity.requestOverlay(mSource);
-                break;
-            }
-            case TYPE_ALERT_WINDOW: {
-                BridgeActivity.requestAlertWindow(mSource);
-                break;
-            }
-            case TYPE_NOTIFY: {
-                BridgeActivity.requestNotify(mSource);
-                break;
-            }
-            case TYPE_NOTIFICATION_LISTENER: {
-                BridgeActivity.requestNotificationListener(mSource);
-                break;
-            }
-        }
+    public String[] getPermissions() {
+        return mPermissions;
     }
 
-    private static final class MessageCallback implements Messenger.Callback {
-
-        private final Callback mCallback;
-        private final Object mLock;
-
-        private Messenger mMessenger;
-
-        public MessageCallback(Callback callback, Object lock) {
-            this.mCallback = callback;
-            this.mLock = lock;
-        }
-
-        public void setMessenger(Messenger messenger) {
-            this.mMessenger = messenger;
-        }
-
-        @Override
-        public void onCallback() {
-            synchronized (mLock) {
-                if (mCallback != null) {
-                    mCallback.onCallback();
-                }
-                if (mMessenger != null) {
-                    mMessenger.unRegister();
-                }
-                mLock.notify();
-            }
-        }
+    public void setPermissions(String[] permissions) {
+        mPermissions = permissions;
     }
 
     public interface Callback {
