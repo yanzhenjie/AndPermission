@@ -1,11 +1,17 @@
 ﻿# AndPermission
-* Requesting runtime permissions on Android 6.0 or higher.
-* Sharing private files on Android 7.0 or higher.
-* Installing unknown source apk on Android 8.0 or higher.  
-  android.permission.REQUEST_INSTALL_PACKAGES
-* Drawing at the top of other apps on Android 6.0 or higher.  
-  android.permission.SYSTEM_ALERT_WINDOW.
+1. Request for runtime permissions.  
+2. Share private files.  
+3. Request to install unknown source apk.  
+  `android.permission.REQUEST_INSTALL_PACKAGES`
+4. Request to draw at the top of other apps.  
+  `android.permission.SYSTEM_ALERT_WINDOW`
+5. Request to show notifications.  
+6. Request to access notifications.  
+  `android.permission.BIND_NOTIFICATION_LISTENER_SERVICE`
 
+For documentation and additional information see [the website](https://www.yanzhenjie.com/AndPermission).
+
+**1. Request for runtime permissions**
 ```java
 AndPermission.with(this)
   .runtime()
@@ -19,11 +25,14 @@ AndPermission.with(this)
   .start();
 ```
 
+**2. Sharing private files**
 ```java
 File file = ...;
 Uri compatUri = AndPermission.getFileUri(this, file);
+...
 ```
 
+**3. Request to install unknown source apk**
 ```java
 File apkFile = ...;
 
@@ -39,6 +48,7 @@ AndPermission.with(this)
   .start();
 ```
 
+**4. Request to draw at the top of other apps**
 ```java
 AndPermission.with(this)
   .overlay()
@@ -51,19 +61,39 @@ AndPermission.with(this)
   .start();
 ```
 
-For documentation and additional information see [the website](http://yanzhenjie.github.io/AndPermission).
+**5. Request to send notifications**
+```java
+AndPermission.with(this)
+  .notification()
+  .permission()
+  .onGranted(data -> {
+    // App can show notifications.
+  })
+  .onDenied(data -> {
+    // App cann't show notifications.
+  })
+  .start();
+```
+
+**6. Request to access notifications**
+```java
+AndPermission.with(this)
+  .notification()
+  .listener()
+  .onGranted(data -> {
+    // App can access notifications.
+  })
+  .onDenied(data -> {
+    // App cann't access notifications.
+  })
+  .start();
+```
 
 ## Download
 ```
-implementation 'com.yanzhenjie:permission:2.0.0-rc12'
+implementation 'com.yanzhenjie:permission:2.0.0'
 ```
 AndPermission requires at minimum Android 4.0(Api level 14) .
-
-## ProGuard
-If you are using ProGuard you might need to add the following options:
-```
--dontwarn com.yanzhenjie.permission.**
-```
 
 ## Contributing
 Before submitting pull requests, contributors must abide by the [agreement](CONTRIBUTING.md) .
