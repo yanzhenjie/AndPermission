@@ -29,7 +29,6 @@ import android.widget.Toast;
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
-import com.yanzhenjie.permission.Setting;
 import com.yanzhenjie.permission.sample.App;
 import com.yanzhenjie.permission.sample.InstallRationale;
 import com.yanzhenjie.permission.sample.NotifyListenerRationale;
@@ -42,6 +41,7 @@ import java.io.File;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,6 +52,8 @@ import androidx.appcompat.widget.Toolbar;
  * Created by Zhenjie Yan on 2016/9/17.
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final int REQUEST_CODE_SETTING = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -363,12 +365,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Set permissions.
      */
     private void setPermission() {
-        AndPermission.with(this).runtime().setting().onComeback(new Setting.Action() {
-            @Override
-            public void onAction() {
+        AndPermission.with(this).runtime().setting().start(REQUEST_CODE_SETTING);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_SETTING: {
                 Toast.makeText(MainActivity.this, R.string.message_setting_comeback, Toast.LENGTH_SHORT).show();
+                break;
             }
-        }).start();
+        }
     }
 
     /**
