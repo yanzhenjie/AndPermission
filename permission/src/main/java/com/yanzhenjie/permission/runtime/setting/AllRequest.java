@@ -15,41 +15,23 @@
  */
 package com.yanzhenjie.permission.runtime.setting;
 
-import com.yanzhenjie.permission.bridge.BridgeRequest;
-import com.yanzhenjie.permission.bridge.RequestManager;
 import com.yanzhenjie.permission.source.Source;
 
 /**
- * <p>Setting executor.</p>
+ * <p>SettingRequest executor.</p>
  * Created by Zhenjie Yan on 2016/12/28.
  */
-public class PermissionSetting implements Setting, BridgeRequest.Callback {
+public class AllRequest implements SettingRequest {
 
     private Source mSource;
-    private Setting.Action mComeback;
 
-    public PermissionSetting(Source source) {
+    public AllRequest(Source source) {
         this.mSource = source;
     }
 
     @Override
-    public Setting onComeback(Setting.Action comeback) {
-        this.mComeback = comeback;
-        return this;
-    }
-
-    @Override
-    public void start() {
-        BridgeRequest request = new BridgeRequest(mSource);
-        request.setType(BridgeRequest.TYPE_PERMISSION_SETTING);
-        request.setCallback(this);
-        RequestManager.get().add(request);
-    }
-
-    @Override
-    public void onCallback() {
-        if (mComeback != null) {
-            mComeback.onAction();
-        }
+    public void start(int requestCode) {
+        SettingPage setting = new SettingPage(mSource);
+        setting.start(requestCode);
     }
 }

@@ -24,12 +24,11 @@ public final class BridgeRequest {
 
     public static final int TYPE_APP_DETAILS = 1;
     public static final int TYPE_PERMISSION = 2;
-    public static final int TYPE_PERMISSION_SETTING = 3;
-    public static final int TYPE_INSTALL = 4;
-    public static final int TYPE_OVERLAY = 5;
-    public static final int TYPE_ALERT_WINDOW = 6;
-    public static final int TYPE_NOTIFY = 7;
-    public static final int TYPE_NOTIFICATION_LISTENER = 8;
+    public static final int TYPE_INSTALL = 3;
+    public static final int TYPE_OVERLAY = 4;
+    public static final int TYPE_ALERT_WINDOW = 5;
+    public static final int TYPE_NOTIFY = 6;
+    public static final int TYPE_NOTIFY_LISTENER = 7;
 
     private final Source mSource;
 

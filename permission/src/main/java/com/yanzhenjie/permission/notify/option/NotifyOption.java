@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Zhenjie Yan
+ * Copyright 2019 Zhenjie Yan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission.notify.listener;
+package com.yanzhenjie.permission.notify.option;
 
-import com.yanzhenjie.permission.notify.Notify;
-import com.yanzhenjie.permission.source.Source;
+import com.yanzhenjie.permission.notify.PermissionRequest;
+import com.yanzhenjie.permission.notify.listener.ListenerRequest;
 
 /**
- * Created by YanZhenjie on 2018/5/29.
+ * Created by Zhenjie Yan on 2/14/19.
  */
-public class J1RequestFactory implements Notify.ListenerRequestFactory {
+public interface NotifyOption {
 
-    @Override
-    public ListenerRequest create(Source source) {
-        return new J1Request(source);
-    }
+    /**
+     * Handle permissions.
+     */
+    PermissionRequest permission();
+
+    /**
+     * Handle notify listener.
+     */
+    ListenerRequest listener();
 }

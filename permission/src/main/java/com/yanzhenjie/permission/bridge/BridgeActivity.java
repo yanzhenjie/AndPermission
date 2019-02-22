@@ -24,8 +24,7 @@ import android.view.KeyEvent;
 
 import com.yanzhenjie.permission.overlay.setting.AlertWindowSettingPage;
 import com.yanzhenjie.permission.overlay.setting.OverlaySettingPage;
-import com.yanzhenjie.permission.runtime.setting.SettingPage;
-import com.yanzhenjie.permission.source.ContextSource;
+import com.yanzhenjie.permission.source.ActivitySource;
 import com.yanzhenjie.permission.source.Source;
 
 import androidx.annotation.NonNull;
@@ -57,15 +56,6 @@ public final class BridgeActivity extends Activity {
         Intent intent = new Intent(source.getContext(), BridgeActivity.class);
         intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_PERMISSION);
         intent.putExtra(KEY_PERMISSIONS, permissions);
-        source.startActivity(intent);
-    }
-
-    /**
-     * Request for setting.
-     */
-    static void permissionSetting(Source source) {
-        Intent intent = new Intent(source.getContext(), BridgeActivity.class);
-        intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_PERMISSION_SETTING);
         source.startActivity(intent);
     }
 
@@ -110,7 +100,7 @@ public final class BridgeActivity extends Activity {
      */
     static void requestNotificationListener(Source source) {
         Intent intent = new Intent(source.getContext(), BridgeActivity.class);
-        intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_NOTIFICATION_LISTENER);
+        intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_NOTIFY_LISTENER);
         source.startActivity(intent);
     }
 
@@ -133,11 +123,6 @@ public final class BridgeActivity extends Activity {
                 requestPermissions(permissions, BridgeRequest.TYPE_PERMISSION);
                 break;
             }
-            case BridgeRequest.TYPE_PERMISSION_SETTING: {
-                SettingPage setting = new SettingPage(new ContextSource(this));
-                setting.start(BridgeRequest.TYPE_PERMISSION_SETTING);
-                break;
-            }
             case BridgeRequest.TYPE_INSTALL: {
                 Intent manageIntent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
                 manageIntent.setData(Uri.fromParts("package", getPackageName(), null));
@@ -145,12 +130,12 @@ public final class BridgeActivity extends Activity {
                 break;
             }
             case BridgeRequest.TYPE_OVERLAY: {
-                OverlaySettingPage settingPage = new OverlaySettingPage(new ContextSource(this));
+                OverlaySettingPage settingPage = new OverlaySettingPage(new ActivitySource(this));
                 settingPage.start(BridgeRequest.TYPE_OVERLAY);
                 break;
             }
             case BridgeRequest.TYPE_ALERT_WINDOW: {
-                AlertWindowSettingPage settingPage = new AlertWindowSettingPage(new ContextSource(this));
+                AlertWindowSettingPage settingPage = new AlertWindowSettingPage(new ActivitySource(this));
                 settingPage.start(BridgeRequest.TYPE_ALERT_WINDOW);
                 break;
             }
@@ -160,7 +145,7 @@ public final class BridgeActivity extends Activity {
                 startActivityForResult(settingIntent, BridgeRequest.TYPE_NOTIFY);
                 break;
             }
-            case BridgeRequest.TYPE_NOTIFICATION_LISTENER: {
+            case BridgeRequest.TYPE_NOTIFY_LISTENER: {
                 Intent settingIntent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
                 startActivityForResult(settingIntent, BridgeRequest.TYPE_NOTIFY);
                 break;

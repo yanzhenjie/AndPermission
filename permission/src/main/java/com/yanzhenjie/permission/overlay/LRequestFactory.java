@@ -15,13 +15,13 @@
  */
 package com.yanzhenjie.permission.overlay;
 
-import com.yanzhenjie.permission.Options;
+import com.yanzhenjie.permission.Boot;
 import com.yanzhenjie.permission.source.Source;
 
 /**
  * Created by YanZhenjie on 2018/5/29.
  */
-public class LRequestFactory implements Options.OverlayRequestFactory {
+public class LRequestFactory implements Boot.OverlayRequestFactory {
 
     @Override
     public OverlayRequest create(Source source) {

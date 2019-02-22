@@ -15,13 +15,13 @@
  */
 package com.yanzhenjie.permission.notify.listener;
 
-import com.yanzhenjie.permission.notify.Notification;
+import com.yanzhenjie.permission.notify.Notify;
 import com.yanzhenjie.permission.source.Source;
 
 /**
  * Created by YanZhenjie on 2018/5/29.
  */
-public class J2RequestFactory implements Notification.ListenerRequestFactory {
+public class J2RequestFactory implements Notify.ListenerRequestFactory {
 
     @Override
     public ListenerRequest create(Source source) {

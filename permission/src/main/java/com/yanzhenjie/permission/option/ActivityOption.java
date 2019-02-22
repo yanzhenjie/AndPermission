@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Zhenjie Yan
+ * Copyright 2019 Zhenjie Yan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,28 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission.runtime.setting;
+package com.yanzhenjie.permission.option;
+
+import com.yanzhenjie.permission.runtime.option.ActivityRuntimeOption;
 
 /**
- * Created by YanZhenjie on 2018/4/30.
+ * Created by Zhenjie Yan on 2/22/19.
  */
-public interface Setting {
+public interface ActivityOption extends Option {
 
-    /**
-     * The action when the user comebacks.
-     */
-    Setting onComeback(Setting.Action comeback);
-
-    /**
-     * SettingPage setting.
-     */
-    void start();
-
-    /**
-     * An action.
-     */
-    interface Action {
-
-        void onAction();
-    }
+    @Override
+    ActivityRuntimeOption runtime();
 }

@@ -15,12 +15,16 @@
  */
 package com.yanzhenjie.permission;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 
+import com.yanzhenjie.permission.checker.DoubleChecker;
 import com.yanzhenjie.permission.checker.PermissionChecker;
-import com.yanzhenjie.permission.checker.StandardChecker;
+import com.yanzhenjie.permission.option.ActivityOption;
+import com.yanzhenjie.permission.option.Option;
+import com.yanzhenjie.permission.source.ActivitySource;
 import com.yanzhenjie.permission.source.ContextSource;
 import com.yanzhenjie.permission.source.FragmentSource;
 import com.yanzhenjie.permission.source.Source;
@@ -37,14 +41,28 @@ import androidx.fragment.app.Fragment;
 public class AndPermission {
 
     /**
+     * With context.
+     *
+     * @param context {@link Context}.
+     *
+     * @return {@link Option}.
+     */
+    public static Option with(Context context) {
+        if (context instanceof Activity) {
+            return with((Activity)context);
+        }
+        return new Boot(new ContextSource(context));
+    }
+
+    /**
      * With {@link Fragment}.
      *
      * @param fragment {@link Fragment}.
      *
-     * @return {@link Options}.
+     * @return {@link ActivityOption}.
      */
-    public static Options with(Fragment fragment) {
-        return new Options(new XFragmentSource(fragment));
+    public static ActivityOption with(Fragment fragment) {
+        return new Boot(new XFragmentSource(fragment));
     }
 
     /**
@@ -52,21 +70,36 @@ public class AndPermission {
      *
      * @param fragment {@link android.app.Fragment}.
      *
-     * @return {@link Options}.
+     * @return {@link ActivityOption}.
      */
-    public static Options with(android.app.Fragment fragment) {
-        return new Options(new FragmentSource(fragment));
+    public static ActivityOption with(android.app.Fragment fragment) {
+        return new Boot(new FragmentSource(fragment));
     }
 
     /**
-     * With context.
+     * With activity.
+     *
+     * @param activity {@link Activity}.
+     *
+     * @return {@link ActivityOption}.
+     */
+    public static ActivityOption with(Activity activity) {
+        return new Boot(new ActivitySource(activity));
+    }
+
+    /**
+     * Some privileges permanently disabled, may need to set up in the execute.
      *
      * @param context {@link Context}.
+     * @param deniedPermissions one or more permissions.
      *
-     * @return {@link Options}.
+     * @return true, other wise is false.
      */
-    public static Options with(Context context) {
-        return new Options(new ContextSource(context));
+    public static boolean hasAlwaysDeniedPermission(Context context, List<String> deniedPermissions) {
+        if (context instanceof Activity) {
+            return hasAlwaysDeniedPermission(new ActivitySource((Activity)context), deniedPermissions);
+        }
+        return hasAlwaysDeniedPermission(new ContextSource(context), deniedPermissions);
     }
 
     /**
@@ -96,13 +129,13 @@ public class AndPermission {
     /**
      * Some privileges permanently disabled, may need to set up in the execute.
      *
-     * @param context {@link Context}.
+     * @param activity {@link Activity}.
      * @param deniedPermissions one or more permissions.
      *
      * @return true, other wise is false.
      */
-    public static boolean hasAlwaysDeniedPermission(Context context, List<String> deniedPermissions) {
-        return hasAlwaysDeniedPermission(new ContextSource(context), deniedPermissions);
+    public static boolean hasAlwaysDeniedPermission(Activity activity, List<String> deniedPermissions) {
+        return hasAlwaysDeniedPermission(new ActivitySource(activity), deniedPermissions);
     }
 
     /**
@@ -115,6 +148,21 @@ public class AndPermission {
             }
         }
         return false;
+    }
+
+    /**
+     * Some privileges permanently disabled, may need to set up in the execute.
+     *
+     * @param context {@link Context}.
+     * @param deniedPermissions one or more permissions.
+     *
+     * @return true, other wise is false.
+     */
+    public static boolean hasAlwaysDeniedPermission(Context context, String... deniedPermissions) {
+        if (context instanceof Activity) {
+            return hasAlwaysDeniedPermission(new ActivitySource((Activity)context), deniedPermissions);
+        }
+        return hasAlwaysDeniedPermission(new ContextSource(context), deniedPermissions);
     }
 
     /**
@@ -144,13 +192,13 @@ public class AndPermission {
     /**
      * Some privileges permanently disabled, may need to set up in the execute.
      *
-     * @param context {@link Context}.
+     * @param activity {@link Activity}.
      * @param deniedPermissions one or more permissions.
      *
      * @return true, other wise is false.
      */
-    public static boolean hasAlwaysDeniedPermission(Context context, String... deniedPermissions) {
-        return hasAlwaysDeniedPermission(new ContextSource(context), deniedPermissions);
+    public static boolean hasAlwaysDeniedPermission(Activity activity, String... deniedPermissions) {
+        return hasAlwaysDeniedPermission(new ActivitySource(activity), deniedPermissions);
     }
 
     /**
@@ -168,7 +216,19 @@ public class AndPermission {
     /**
      * Classic permission checker.
      */
-    private static final PermissionChecker PERMISSION_CHECKER = new StandardChecker();
+    private static final PermissionChecker PERMISSION_CHECKER = new DoubleChecker();
+
+    /**
+     * Judgment already has the target permission.
+     *
+     * @param context {@link Context}.
+     * @param permissions one or more permissions.
+     *
+     * @return true, other wise is false.
+     */
+    public static boolean hasPermissions(Context context, String... permissions) {
+        return PERMISSION_CHECKER.hasPermission(context, permissions);
+    }
 
     /**
      * Judgment already has the target permission.
@@ -198,12 +258,16 @@ public class AndPermission {
      * Judgment already has the target permission.
      *
      * @param context {@link Context}.
-     * @param permissions one or more permissions.
+     * @param permissions one or more permission groups.
      *
      * @return true, other wise is false.
      */
-    public static boolean hasPermissions(Context context, String... permissions) {
-        return PERMISSION_CHECKER.hasPermission(context, permissions);
+    public static boolean hasPermissions(Context context, String[]... permissions) {
+        for (String[] permission : permissions) {
+            boolean hasPermission = PERMISSION_CHECKER.hasPermission(context, permission);
+            if (!hasPermission) return false;
+        }
+        return true;
     }
 
     /**
@@ -231,19 +295,18 @@ public class AndPermission {
     }
 
     /**
-     * Judgment already has the target permission.
+     * Get compatible Android 7.0 and lower versions of Uri.
      *
      * @param context {@link Context}.
-     * @param permissions one or more permission groups.
+     * @param file apk file.
      *
-     * @return true, other wise is false.
+     * @return uri.
      */
-    public static boolean hasPermissions(Context context, String[]... permissions) {
-        for (String[] permission : permissions) {
-            boolean hasPermission = PERMISSION_CHECKER.hasPermission(context, permission);
-            if (!hasPermission) return false;
+    public static Uri getFileUri(Context context, File file) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return FileProvider.getUriForFile(context, context.getPackageName() + ".file.path.share", file);
         }
-        return true;
+        return Uri.fromFile(file);
     }
 
     /**
@@ -268,21 +331,6 @@ public class AndPermission {
      */
     public static Uri getFileUri(android.app.Fragment fragment, File file) {
         return getFileUri(fragment.getActivity(), file);
-    }
-
-    /**
-     * Get compatible Android 7.0 and lower versions of Uri.
-     *
-     * @param context {@link Context}.
-     * @param file apk file.
-     *
-     * @return uri.
-     */
-    public static Uri getFileUri(Context context, File file) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return FileProvider.getUriForFile(context, context.getPackageName() + ".file.path.share", file);
-        }
-        return Uri.fromFile(file);
     }
 
     private AndPermission() {

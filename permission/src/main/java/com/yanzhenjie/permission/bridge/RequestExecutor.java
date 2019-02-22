@@ -63,10 +63,6 @@ final class RequestExecutor extends Thread implements Messenger.Callback {
                 BridgeActivity.requestPermission(mRequest.getSource(), mRequest.getPermissions());
                 break;
             }
-            case BridgeRequest.TYPE_PERMISSION_SETTING: {
-                BridgeActivity.permissionSetting(mRequest.getSource());
-                break;
-            }
             case BridgeRequest.TYPE_INSTALL: {
                 BridgeActivity.requestInstall(mRequest.getSource());
                 break;
@@ -83,7 +79,7 @@ final class RequestExecutor extends Thread implements Messenger.Callback {
                 BridgeActivity.requestNotify(mRequest.getSource());
                 break;
             }
-            case BridgeRequest.TYPE_NOTIFICATION_LISTENER: {
+            case BridgeRequest.TYPE_NOTIFY_LISTENER: {
                 BridgeActivity.requestNotificationListener(mRequest.getSource());
                 break;
             }

@@ -15,53 +15,42 @@
  */
 package com.yanzhenjie.permission.source;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
-
-import java.lang.reflect.Method;
 
 /**
  * <p>Context Wrapper.</p>
  * Created by Zhenjie Yan on 2017/5/1.
  */
-public class ContextSource extends Source {
+public class ActivitySource extends Source {
 
-    private Context mContext;
+    private Activity mActivity;
 
-    public ContextSource(Context context) {
-        this.mContext = context;
+    public ActivitySource(Activity activity) {
+        this.mActivity = activity;
     }
 
     @Override
     public Context getContext() {
-        return mContext;
+        return mActivity;
     }
 
     @Override
     public void startActivity(Intent intent) {
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(intent);
+        mActivity.startActivity(intent);
     }
 
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
-        throw new UnsupportedOperationException("Unsupported operation.");
+        mActivity.startActivityForResult(intent, requestCode);
     }
 
     @Override
     public boolean isShowRationalePermission(String permission) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false;
 
-        PackageManager packageManager = mContext.getPackageManager();
-        Class<?> pkManagerClass = packageManager.getClass();
-        try {
-            Method method = pkManagerClass.getMethod("shouldShowRequestPermissionRationale", String.class);
-            if (!method.isAccessible()) method.setAccessible(true);
-            return (boolean)method.invoke(packageManager, permission);
-        } catch (Exception ignored) {
-            return false;
-        }
+        return mActivity.shouldShowRequestPermissionRationale(permission);
     }
 }

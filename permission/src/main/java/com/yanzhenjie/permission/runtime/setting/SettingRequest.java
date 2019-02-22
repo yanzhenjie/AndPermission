@@ -13,18 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission.notify.listener;
-
-import com.yanzhenjie.permission.notify.Notify;
-import com.yanzhenjie.permission.source.Source;
+package com.yanzhenjie.permission.runtime.setting;
 
 /**
- * Created by YanZhenjie on 2018/5/29.
+ * Created by YanZhenjie on 2018/4/30.
  */
-public class J1RequestFactory implements Notify.ListenerRequestFactory {
+public interface SettingRequest {
 
-    @Override
-    public ListenerRequest create(Source source) {
-        return new J1Request(source);
-    }
+    /**
+     * SettingPage setting.
+     */
+    void start(int requestCode);
 }

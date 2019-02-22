@@ -20,7 +20,7 @@ import com.yanzhenjie.permission.source.Source;
 /**
  * Created by YanZhenjie on 2018/5/29.
  */
-public class NRequestFactory implements Notification.PermissionRequestFactory {
+public class NRequestFactory implements Notify.PermissionRequestFactory {
 
     @Override
     public PermissionRequest create(Source source) {

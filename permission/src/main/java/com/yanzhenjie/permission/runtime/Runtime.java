@@ -20,8 +20,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
-import com.yanzhenjie.permission.runtime.setting.PermissionSetting;
-import com.yanzhenjie.permission.runtime.setting.Setting;
+import com.yanzhenjie.permission.runtime.option.ActivityRuntimeOption;
+import com.yanzhenjie.permission.runtime.setting.AllRequest;
+import com.yanzhenjie.permission.runtime.setting.SettingRequest;
 import com.yanzhenjie.permission.source.Source;
 
 import java.util.ArrayList;
@@ -29,10 +30,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
 /**
  * Created by YanZhenjie on 2018/5/2.
  */
-public class Runtime {
+public class Runtime implements ActivityRuntimeOption {
 
     private static final PermissionRequestFactory FACTORY;
     private static List<String> sAppPermissions;
@@ -59,31 +62,26 @@ public class Runtime {
         this.mSource = source;
     }
 
-    /**
-     * One or more permissions.
-     */
-    public PermissionRequest permission(String... permissions) {
+    @Override
+    public PermissionRequest permission(@NonNull String... permissions) {
         checkPermissions(permissions);
         return FACTORY.create(mSource).permission(permissions);
     }
 
-    /**
-     * One or more permission groups.
-     */
-    public PermissionRequest permission(String[]... groups) {
+    @Override
+    public PermissionRequest permission(@NonNull String[]... groups) {
         List<String> permissionList = new ArrayList<>();
         for (String[] group : groups) {
+            checkPermissions(group);
             permissionList.addAll(Arrays.asList(group));
         }
-        String[] permissions = permissionList.toArray(new String[permissionList.size()]);
+        String[] permissions = permissionList.toArray(new String[0]);
         return permission(permissions);
     }
 
-    /**
-     * Permission settings.
-     */
-    public Setting setting() {
-        return new PermissionSetting(mSource);
+    @Override
+    public SettingRequest setting() {
+        return new AllRequest(mSource);
     }
 
     /**
@@ -95,7 +93,7 @@ public class Runtime {
     private void checkPermissions(String... permissions) {
         if (sAppPermissions == null) sAppPermissions = getManifestPermissions(mSource.getContext());
 
-        if (permissions == null || permissions.length == 0) {
+        if (permissions.length == 0) {
             throw new IllegalArgumentException("Please enter at least one permission.");
         }
 

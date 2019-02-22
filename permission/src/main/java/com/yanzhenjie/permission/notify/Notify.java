@@ -20,12 +20,13 @@ import android.os.Build;
 import com.yanzhenjie.permission.notify.listener.J1RequestFactory;
 import com.yanzhenjie.permission.notify.listener.J2RequestFactory;
 import com.yanzhenjie.permission.notify.listener.ListenerRequest;
+import com.yanzhenjie.permission.notify.option.NotifyOption;
 import com.yanzhenjie.permission.source.Source;
 
 /**
- * Created by Zhenjie Yan on 2/14/19.
+ * Created by Zhenjie Yan on 2/22/19.
  */
-public class Notification {
+public class Notify implements NotifyOption {
 
     private static final PermissionRequestFactory PERMISSION_REQUEST_FACTORY;
     private static final ListenerRequestFactory LISTENER_REQUEST_FACTORY;
@@ -62,7 +63,7 @@ public class Notification {
 
     private Source mSource;
 
-    public Notification(Source source) {
+    public Notify(Source source) {
         this.mSource = source;
     }
 

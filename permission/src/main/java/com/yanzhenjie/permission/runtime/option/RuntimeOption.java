@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Zhenjie Yan
+ * Copyright 2019 Zhenjie Yan
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,21 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yanzhenjie.permission;
+package com.yanzhenjie.permission.runtime.option;
+
+import com.yanzhenjie.permission.runtime.PermissionRequest;
+
+import androidx.annotation.NonNull;
 
 /**
- * Created by YanZhenjie on 2018/4/30.
- *
- * @deprecated use {@link com.yanzhenjie.permission.runtime.setting.Setting} instead.
+ * Created by Zhenjie Yan on 2/22/19.
  */
-@Deprecated
-public interface Setting {
-    
+public interface RuntimeOption {
+
     /**
-     * An action.
-     *
-     * @deprecated use {@link com.yanzhenjie.permission.runtime.setting.Setting.Action} instead.
+     * One or more permissions.
      */
-    @Deprecated
-    interface Action extends com.yanzhenjie.permission.runtime.setting.Setting.Action {}
+    PermissionRequest permission(@NonNull String... permissions);
+
+    /**
+     * One or more permission groups.
+     */
+    PermissionRequest permission(@NonNull String[]... groups);
 }

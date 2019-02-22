@@ -20,17 +20,20 @@ import android.os.Build;
 import com.yanzhenjie.permission.install.InstallRequest;
 import com.yanzhenjie.permission.install.NRequestFactory;
 import com.yanzhenjie.permission.install.ORequestFactory;
-import com.yanzhenjie.permission.notify.Notification;
+import com.yanzhenjie.permission.notify.Notify;
+import com.yanzhenjie.permission.notify.option.NotifyOption;
+import com.yanzhenjie.permission.option.ActivityOption;
 import com.yanzhenjie.permission.overlay.LRequestFactory;
 import com.yanzhenjie.permission.overlay.MRequestFactory;
 import com.yanzhenjie.permission.overlay.OverlayRequest;
 import com.yanzhenjie.permission.runtime.Runtime;
+import com.yanzhenjie.permission.runtime.option.ActivityRuntimeOption;
 import com.yanzhenjie.permission.source.Source;
 
 /**
  * Created by YanZhenjie on 2018/4/28.
  */
-public class Options {
+public class Boot implements ActivityOption {
 
     private static final InstallRequestFactory INSTALL_REQUEST_FACTORY;
     private static final OverlayRequestFactory OVERLAY_REQUEST_FACTORY;
@@ -67,35 +70,27 @@ public class Options {
 
     private Source mSource;
 
-    Options(Source source) {
+    public Boot(Source source) {
         this.mSource = source;
     }
 
-    /**
-     * Handle runtime permissions.
-     */
-    public Runtime runtime() {
+    @Override
+    public ActivityRuntimeOption runtime() {
         return new Runtime(mSource);
     }
 
-    /**
-     * Handle request package install permission.
-     */
+    @Override
     public InstallRequest install() {
         return INSTALL_REQUEST_FACTORY.create(mSource);
     }
 
-    /**
-     * Handle overlay permission.
-     */
+    @Override
     public OverlayRequest overlay() {
         return OVERLAY_REQUEST_FACTORY.create(mSource);
     }
 
-    /**
-     * Handle notification permission.
-     */
-    public Notification notification() {
-        return new Notification(mSource);
+    @Override
+    public NotifyOption notification() {
+        return new Notify(mSource);
     }
 }
