@@ -90,9 +90,16 @@ AndPermission.with(this)
 ```
 
 ## Download
+If you are using the android support library:
 ```
-implementation 'com.yanzhenjie:permission:2.0.0'
+implementation 'com.yanzhenjie.permission:support:2.0.0'
 ```
+
+If you are using the android x library:
+```
+implementation 'com.yanzhenjie.permission:x:2.0.0'
+```
+
 AndPermission requires at minimum Android 4.0(Api level 14) .
 
 ## Contributing

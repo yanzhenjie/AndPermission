@@ -15,9 +15,9 @@ ext {
     bintray = [version       : "2.0.0",
 
                siteUrl       : 'https://github.com/yanzhenjie/AndPermission',
-               gitUrl        : 'git@github.com:yanzhenjie/AndPermission.git',
+               gitUrl        : 'https://github.com/yanzhenjie/AndPermission.git',
 
-               group         : "com.yanzhenjie",
+               group         : "com.yanzhenjie.permission",
 
                packaging     : 'aar',
                name          : 'Permission',
@@ -30,7 +30,7 @@ ext {
                developerName : 'yanzhenjie',
                developerEmail: 'im.yanzhenjie@gmail.com',
 
-               binrayLibrary : "permission",
+               binrayLibrary : "",
                bintrayRepo   : "maven",
                bintrayUser   : 'yolanda',
                bintrayLicense: "Apache-2.0"]
