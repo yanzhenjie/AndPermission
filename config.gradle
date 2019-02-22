@@ -12,7 +12,7 @@ ext {
                versionCode      : 105,
                versionName      : "2.0.0"]
 
-    bintray = [version       : "2.0.0-rc12",
+    bintray = [version       : "2.0.0",
 
                siteUrl       : 'https://github.com/yanzhenjie/AndPermission',
                gitUrl        : 'git@github.com:yanzhenjie/AndPermission.git',
@@ -28,7 +28,7 @@ ext {
 
                developerId   : 'yanzhenjie',
                developerName : 'yanzhenjie',
-               developerEmail: 'smallajax@foxmail.com',
+               developerEmail: 'im.yanzhenjie@gmail.com',
 
                binrayLibrary : "permission",
                bintrayRepo   : "maven",
