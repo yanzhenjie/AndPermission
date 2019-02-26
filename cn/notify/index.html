@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Share Private Files · GitBook</title>
+        <title>通知 · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../notify/" />
+    <link rel="next" href="show.html" />
     
     
-    <link rel="prev" href="../overlay/" />
+    <link rel="prev" href="../fileuri/" />
     
 
     </head>
@@ -94,7 +94,7 @@
                 <a href="../">
             
                     
-                    Introduction
+                    概述
             
                 </a>
             
@@ -107,7 +107,7 @@
                 <a href="../runtime/">
             
                     
-                    Runtime Permissons
+                    运行时权限
             
                 </a>
             
@@ -121,7 +121,20 @@
                 <a href="../runtime/constant.html">
             
                     
-                    Permission Constants
+                    权限常量
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../runtime/explain.html">
+            
+                <a href="../runtime/explain.html">
+            
+                    
+                    特别说明
             
                 </a>
             
@@ -139,7 +152,7 @@
                 <a href="../install/">
             
                     
-                    Instal apps
+                    安装未知来源应用
             
                 </a>
             
@@ -152,7 +165,7 @@
                 <a href="../overlay/">
             
                     
-                    Overlay Drawing
+                    覆盖绘制
             
                 </a>
             
@@ -160,25 +173,25 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.5" data-path="./">
+        <li class="chapter " data-level="1.5" data-path="../fileuri/">
+            
+                <a href="../fileuri/">
+            
+                    
+                    分享私有文件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.6" data-path="./">
             
                 <a href="./">
             
                     
-                    Share Private Files
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="1.6" data-path="../notify/">
-            
-                <a href="../notify/">
-            
-                    
-                    Notification
+                    通知
             
                 </a>
             
@@ -187,12 +200,12 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.6.1" data-path="../notify/show.html">
+        <li class="chapter " data-level="1.6.1" data-path="show.html">
             
-                <a href="../notify/show.html">
+                <a href="show.html">
             
                     
-                    Show Notifications
+                    显示通知
             
                 </a>
             
@@ -200,12 +213,12 @@
             
         </li>
     
-        <li class="chapter " data-level="1.6.2" data-path="../notify/access.html">
+        <li class="chapter " data-level="1.6.2" data-path="access.html">
             
-                <a href="../notify/access.html">
+                <a href="access.html">
             
                     
-                    Access Notifications
+                    访问通知
             
                 </a>
             
@@ -248,7 +261,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Share Private Files</a>
+        <a href=".." >通知</a>
     </h1>
 </div>
 
@@ -263,23 +276,9 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="sharing-private-files">Sharing private files</h1>
-<p>AndPermission provides a method for sharing files Uri compatible with Android 7.0 and higher:</p>
-<pre><code class="lang-java">File file = ...;
-
-Uri uri = AndPermission.getFileUri(context, file);
-</code></pre>
-<p>For example, when installing Apk on Android 7.0 or higher:</p>
-<pre><code class="lang-java">File apkFile = ...;
-
-Intent intent = <span class="hljs-keyword">new</span> Intent(Intent.ACTION_INSTALL_PACKAGE);
-intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-Uri uri = AndPermission.getFileUri(context, apkFile);
-intent.setDataAndType(uri, <span class="hljs-string">&quot;application/vnd.android.package-archive&quot;</span>);
-context.startActivity(intent);
-</code></pre>
-<p>Recommended link: <a href="../install/">Installing Apk on Android 7.0 and Android 8.0</a>.</p>
+                                <h1 id="&#x901A;&#x77E5;&#x7BA1;&#x7406;">&#x901A;&#x77E5;&#x7BA1;&#x7406;</h1>
+<p>Android8.0&#x5F00;&#x59CB;&#xFF0C;&#x7528;&#x6237;&#x53EF;&#x4EE5;&#x7BA1;&#x7406;App&#x663E;&#x793A;&#x901A;&#x77E5;&#x7684;&#x6743;&#x9650;&#xFF0C;&#x8BE6;&#x60C5;&#x8BF7;&#x53C2;&#x8003;&#xFF1A;<br><a href="../show.md">&#x8BF7;&#x6C42;&#x663E;&#x793A;&#x901A;&#x77E5;</a></p>
+<p>Android4.3&#x5F00;&#x59CB;&#xFF0C;&#x5F00;&#x53D1;&#x8005;&#x53EF;&#x4EE5;&#x8BBF;&#x95EE;&#x901A;&#x77E5;&#xFF0C;&#x4F46;&#x662F;&#x9700;&#x8981;&#x7528;&#x6237;&#x624B;&#x52A8;&#x5F00;&#x542F;&#x6743;&#x9650;&#xFF0C;&#x8BE6;&#x60C5;&#x8BF7;&#x53C2;&#x8003;&#xFF1A;<br><a href="../access.md">&#x8BF7;&#x6C42;&#x8BBF;&#x95EE;&#x901A;&#x77E5;</a></p>
 
                                 
                                 </section>
@@ -307,12 +306,12 @@ context.startActivity(intent);
 
             
                 
-                <a href="../overlay/" class="navigation navigation-prev " aria-label="Previous page: Overlay Drawing">
+                <a href="../fileuri/" class="navigation navigation-prev " aria-label="Previous page: 分享私有文件">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="../notify/" class="navigation navigation-next " aria-label="Next page: Notification">
+                <a href="show.html" class="navigation navigation-next " aria-label="Next page: 显示通知">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -323,7 +322,7 @@ context.startActivity(intent);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Share Private Files","level":"1.5","depth":1,"next":{"title":"Notification","level":"1.6","depth":1,"path":"notify/README.md","ref":"notify/README.md","articles":[{"title":"Show Notifications","level":"1.6.1","depth":2,"path":"notify/show.md","ref":"notify/show.md","articles":[]},{"title":"Access Notifications","level":"1.6.2","depth":2,"path":"notify/access.md","ref":"notify/access.md","articles":[]}]},"previous":{"title":"Overlay Drawing","level":"1.4","depth":1,"path":"overlay/README.md","ref":"overlay/README.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"fileuri/README.md","mtime":"2019-02-26T02:41:44.340Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-26T06:01:11.955Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"通知","level":"1.6","depth":1,"next":{"title":"显示通知","level":"1.6.1","depth":2,"path":"notify/show.md","ref":"notify/show.md","articles":[]},"previous":{"title":"分享私有文件","level":"1.5","depth":1,"path":"fileuri/README.md","ref":"fileuri/README.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"notify/README.md","mtime":"2019-02-26T03:46:50.470Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-26T06:01:18.642Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

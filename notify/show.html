@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Share Private Files · GitBook</title>
+        <title>Show Notifications · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../notify/" />
+    <link rel="next" href="access.html" />
     
     
-    <link rel="prev" href="../overlay/" />
+    <link rel="prev" href="./" />
     
 
     </head>
@@ -160,9 +160,9 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.5" data-path="./">
+        <li class="chapter " data-level="1.5" data-path="../fileuri/">
             
-                <a href="./">
+                <a href="../fileuri/">
             
                     
                     Share Private Files
@@ -173,9 +173,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.6" data-path="../notify/">
+        <li class="chapter " data-level="1.6" data-path="./">
             
-                <a href="../notify/">
+                <a href="./">
             
                     
                     Notification
@@ -187,9 +187,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.6.1" data-path="../notify/show.html">
+        <li class="chapter active" data-level="1.6.1" data-path="show.html">
             
-                <a href="../notify/show.html">
+                <a href="show.html">
             
                     
                     Show Notifications
@@ -200,9 +200,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.6.2" data-path="../notify/access.html">
+        <li class="chapter " data-level="1.6.2" data-path="access.html">
             
-                <a href="../notify/access.html">
+                <a href="access.html">
             
                     
                     Access Notifications
@@ -248,7 +248,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Share Private Files</a>
+        <a href=".." >Show Notifications</a>
     </h1>
 </div>
 
@@ -263,23 +263,35 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="sharing-private-files">Sharing private files</h1>
-<p>AndPermission provides a method for sharing files Uri compatible with Android 7.0 and higher:</p>
-<pre><code class="lang-java">File file = ...;
-
-Uri uri = AndPermission.getFileUri(context, file);
+                                <h1 id="request-to-send-notifications">Request to send notifications</h1>
+<p>Starting with Android 8.0, users can manage the permissions of the app to show notifications. This permission is enabled by default.</p>
+<p>We should check if the app has permission to show notifications at the right time, if not, the user should be directed to open the permission to show notifications for our app:</p>
+<pre><code class="lang-java">AndPermission.with(<span class="hljs-keyword">this</span>)
+    .notification()
+    .permission()
+    .rationale(<span class="hljs-keyword">new</span> Rationale&lt;Void&gt;() {
+        <span class="hljs-meta">@Override</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">showRationale</span><span class="hljs-params">(Context c, Void d, RequestExecutor e)</span> </span>{
+            <span class="hljs-comment">// Startup settings: e.execute();</span>
+            <span class="hljs-comment">// Cancel: e.cancel();</span>
+        }
+    })
+    .onGranted(<span class="hljs-keyword">new</span> Action&lt;Void&gt;() {
+        <span class="hljs-meta">@Override</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onAction</span><span class="hljs-params">(Void data)</span> </span>{
+            <span class="hljs-comment">// App can show notifications.</span>
+        }
+     })
+    .onDenied(<span class="hljs-keyword">new</span> Action&lt;Void&gt;() {
+        <span class="hljs-meta">@Override</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onAction</span><span class="hljs-params">(Void data)</span> </span>{
+            <span class="hljs-comment">// App cann&apos;t show notifications.</span>
+        }
+     })
+     .start();
 </code></pre>
-<p>For example, when installing Apk on Android 7.0 or higher:</p>
-<pre><code class="lang-java">File apkFile = ...;
-
-Intent intent = <span class="hljs-keyword">new</span> Intent(Intent.ACTION_INSTALL_PACKAGE);
-intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-Uri uri = AndPermission.getFileUri(context, apkFile);
-intent.setDataAndType(uri, <span class="hljs-string">&quot;application/vnd.android.package-archive&quot;</span>);
-context.startActivity(intent);
-</code></pre>
-<p>Recommended link: <a href="../install/">Installing Apk on Android 7.0 and Android 8.0</a>.</p>
+<p>When <code>showRationale()</code> is called back without the <strong>Show Notifications</strong> permission, the developer must call <code>RequestExecutor#execute()</code> to initiate the setting or <code>RequestExecutor#cancel()</code> to cancel the startup setting, ortherwise AndPermission will have no response.</p>
+<p>When <code>showRationale()</code> is called back it is a good idea to display a Dialog to solicit the user&apos;s comments, whether to launch the setup page authorization <strong>Show Notifications</strong> permissions, call <code>RequestExecutor#execute()</code> or <code>RequestExecutor#cancel()</code> depending on the user&apos;s choice.</p>
 
                                 
                                 </section>
@@ -307,12 +319,12 @@ context.startActivity(intent);
 
             
                 
-                <a href="../overlay/" class="navigation navigation-prev " aria-label="Previous page: Overlay Drawing">
+                <a href="./" class="navigation navigation-prev " aria-label="Previous page: Notification">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="../notify/" class="navigation navigation-next " aria-label="Next page: Notification">
+                <a href="access.html" class="navigation navigation-next " aria-label="Next page: Access Notifications">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -323,7 +335,7 @@ context.startActivity(intent);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Share Private Files","level":"1.5","depth":1,"next":{"title":"Notification","level":"1.6","depth":1,"path":"notify/README.md","ref":"notify/README.md","articles":[{"title":"Show Notifications","level":"1.6.1","depth":2,"path":"notify/show.md","ref":"notify/show.md","articles":[]},{"title":"Access Notifications","level":"1.6.2","depth":2,"path":"notify/access.md","ref":"notify/access.md","articles":[]}]},"previous":{"title":"Overlay Drawing","level":"1.4","depth":1,"path":"overlay/README.md","ref":"overlay/README.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"fileuri/README.md","mtime":"2019-02-26T02:41:44.340Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-26T06:01:11.955Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Show Notifications","level":"1.6.1","depth":2,"next":{"title":"Access Notifications","level":"1.6.2","depth":2,"path":"notify/access.md","ref":"notify/access.md","articles":[]},"previous":{"title":"Notification","level":"1.6","depth":1,"path":"notify/README.md","ref":"notify/README.md","articles":[{"title":"Show Notifications","level":"1.6.1","depth":2,"path":"notify/show.md","ref":"notify/show.md","articles":[]},{"title":"Access Notifications","level":"1.6.2","depth":2,"path":"notify/access.md","ref":"notify/access.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"notify/show.md","mtime":"2019-02-26T05:44:37.108Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-26T06:01:11.955Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

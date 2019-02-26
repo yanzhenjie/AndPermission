@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Overlay Drawing · GitBook</title>
+        <title>Access Notifications · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,10 +57,8 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../fileuri/" />
     
-    
-    <link rel="prev" href="../install/" />
+    <link rel="prev" href="show.html" />
     
 
     </head>
@@ -147,9 +145,9 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.4" data-path="./">
+        <li class="chapter " data-level="1.4" data-path="../overlay/">
             
-                <a href="./">
+                <a href="../overlay/">
             
                     
                     Overlay Drawing
@@ -173,9 +171,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.6" data-path="../notify/">
+        <li class="chapter " data-level="1.6" data-path="./">
             
-                <a href="../notify/">
+                <a href="./">
             
                     
                     Notification
@@ -187,9 +185,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.6.1" data-path="../notify/show.html">
+        <li class="chapter " data-level="1.6.1" data-path="show.html">
             
-                <a href="../notify/show.html">
+                <a href="show.html">
             
                     
                     Show Notifications
@@ -200,9 +198,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.6.2" data-path="../notify/access.html">
+        <li class="chapter active" data-level="1.6.2" data-path="access.html">
             
-                <a href="../notify/access.html">
+                <a href="access.html">
             
                     
                     Access Notifications
@@ -248,7 +246,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Overlay Drawing</a>
+        <a href=".." >Access Notifications</a>
     </h1>
 </div>
 
@@ -263,43 +261,34 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="drawing-at-the-top-of-other-apps">Drawing at the top of other apps</h1>
-<p>Need to add <code>android.permission.SYSTEM_ALERT_WINDOW</code> permission in <code>manifest.xml</code> before using.</p>
-<p><code>WindowManager.LayoutParams.TYPE_SYSTEM_ALERT</code> requires user authorization at Android 6.0 or higher, it is replaced by <code>WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY</code> in Android 8.0 and requires user authorization.</p>
-<p>In the simplest case, you just need to execute the dangerous code in the callback method of <code>onGrant()</code>:</p>
-<pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">showAlertWindow</span><span class="hljs-params">()</span> </span>{
-    Dialog dialog = <span class="hljs-keyword">new</span> Dialog(<span class="hljs-keyword">this</span>);
-    Window window = dialog.getWindow();
+                                <h1 id="request-to-access-notifications">Request to access notifications</h1>
+<p>Starting with Android 4.3, developers can access notifications, Let&apos;s write an example:</p>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NotifyListenerService</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">NotificationListenerService</span> </span>{
 
-    <span class="hljs-keyword">int</span> overlay = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
-    <span class="hljs-keyword">int</span> alertWindow = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
-    <span class="hljs-keyword">int</span> type = Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.O ? overlay : alertWindow;
-    window.setType(type);
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNotificationPosted</span><span class="hljs-params">(StatusBarNotification sbn)</span> </span>{
+    }
 
-    ...
-    dialog.show();
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNotificationRemoved</span><span class="hljs-params">(StatusBarNotification sbn)</span> </span>{
+    }
 }
-
-AndPermission.with(<span class="hljs-keyword">this</span>)
-    .overlay()
-    .onGranted(<span class="hljs-keyword">new</span> Action&lt;Void&gt;() {
-        <span class="hljs-meta">@Override</span>
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onAction</span><span class="hljs-params">(Void data)</span> </span>{
-            showAlertWindow();
-        }
-    })
-    .onDenied(<span class="hljs-keyword">new</span> Action&lt;Void&gt;() {
-        <span class="hljs-meta">@Override</span>
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onAction</span><span class="hljs-params">(Void data)</span> </span>{
-            <span class="hljs-comment">// TODO ...</span>
-        }
-    })
-    .start();
 </code></pre>
-<p>At this point, if you don&apos;t have permission to draw on other apps, the setup page is automatically opened to request the user to open it.</p>
-<p>If the developer wants to improve the experience. For example, if there is no permission, a dialog will be played to let the user choose whether to start the setting screen:</p>
+<p>The essence of <code>NotificationListenerService</code> is <code>Service</code>, so we need to register it in the <code>manifest.xml</code> and declare the permission:</p>
+<pre><code class="lang-xml"><span class="hljs-tag">&lt;<span class="hljs-name">service</span>
+    <span class="hljs-attr">android:name</span>=<span class="hljs-string">&quot;.NotifyListenerService&quot;</span>
+    <span class="hljs-attr">android:permission</span>=<span class="hljs-string">&quot;android.permission.BIND_NOTIFICATION_LISTENER_SERVICE&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">intent-filter</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">action</span> <span class="hljs-attr">android:name</span>=<span class="hljs-string">&quot;android.service.notification.NotificationListenerService&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">intent-filter</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">service</span>&gt;</span>
+</code></pre>
+<p>Temporarily abandoning the permissions does not care, the above code can access the notification. However, since the access notification permission is turned off by default, we need the user to manually open the permission.</p>
+<h2 id="request-access-notification-permission">Request access notification permission</h2>
+<p>We should check if the app has permission to access notifications at the right time, if not, the user should be directed to open the permission to access notifications for our app:</p>
 <pre><code class="lang-java">AndPermission.with(<span class="hljs-keyword">this</span>)
-    .overlay()
+    .notification()
+    .listener()
     .rationale(<span class="hljs-keyword">new</span> Rationale&lt;Void&gt;() {
         <span class="hljs-meta">@Override</span>
         <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">showRationale</span><span class="hljs-params">(Context c, Void d, RequestExecutor e)</span> </span>{
@@ -310,18 +299,19 @@ AndPermission.with(<span class="hljs-keyword">this</span>)
     .onGranted(<span class="hljs-keyword">new</span> Action&lt;Void&gt;() {
         <span class="hljs-meta">@Override</span>
         <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onAction</span><span class="hljs-params">(Void data)</span> </span>{
-            showAlertWindow();
+            <span class="hljs-comment">// App can access notifications.</span>
         }
     })
     .onDenied(<span class="hljs-keyword">new</span> Action&lt;Void&gt;() {
         <span class="hljs-meta">@Override</span>
         <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onAction</span><span class="hljs-params">(Void data)</span> </span>{
-            <span class="hljs-comment">// TODO ...</span>
+            <span class="hljs-comment">// App cann&apos;t access notifications.</span>
         }
     })
     .start();
 </code></pre>
-<p>When <code>showRationale()</code> is called back without the <code>SYSTEM_ALERT_WINDOW</code> permission, the developer must call <code>RequestExecutor#execute()</code> to initiate the setting or <code>RequestExecutor#cancel()</code> to cancel the startup setting, ortherwise AndPermission will have no response.</p>
+<p>When <code>showRationale()</code> is called back without the <strong>Access Notifications</strong> permission, the developer must call <code>RequestExecutor#execute()</code> to initiate the setting or <code>RequestExecutor#cancel()</code> to cancel the startup setting, ortherwise AndPermission will have no response.</p>
+<p>When <code>showRationale()</code> is called back it is a good idea to display a Dialog to solicit the user&apos;s comments, whether to launch the setup page authorization <strong>Access Notifications</strong> permissions, call <code>RequestExecutor#execute()</code> or <code>RequestExecutor#cancel()</code> depending on the user&apos;s choice.</p>
 
                                 
                                 </section>
@@ -349,14 +339,10 @@ AndPermission.with(<span class="hljs-keyword">this</span>)
 
             
                 
-                <a href="../install/" class="navigation navigation-prev " aria-label="Previous page: Instal apps">
+                <a href="show.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Show Notifications">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
-                
-                <a href="../fileuri/" class="navigation navigation-next " aria-label="Next page: Share Private Files">
-                    <i class="fa fa-angle-right"></i>
-                </a>
                 
             
         
@@ -365,7 +351,7 @@ AndPermission.with(<span class="hljs-keyword">this</span>)
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Overlay Drawing","level":"1.4","depth":1,"next":{"title":"Share Private Files","level":"1.5","depth":1,"path":"fileuri/README.md","ref":"fileuri/README.md","articles":[]},"previous":{"title":"Instal apps","level":"1.3","depth":1,"path":"install/README.md","ref":"install/README.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"overlay/README.md","mtime":"2019-02-26T02:43:30.755Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-26T06:01:11.955Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Access Notifications","level":"1.6.2","depth":2,"previous":{"title":"Show Notifications","level":"1.6.1","depth":2,"path":"notify/show.md","ref":"notify/show.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"notify/access.md","mtime":"2019-02-26T05:46:25.224Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-26T06:01:11.955Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

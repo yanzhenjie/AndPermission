@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>覆盖绘制 · GitBook</title>
+        <title>访问通知 · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,10 +57,8 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../fileuri/" />
     
-    
-    <link rel="prev" href="../install/" />
+    <link rel="prev" href="show.html" />
     
 
     </head>
@@ -160,9 +158,9 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.4" data-path="./">
+        <li class="chapter " data-level="1.4" data-path="../overlay/">
             
-                <a href="./">
+                <a href="../overlay/">
             
                     
                     覆盖绘制
@@ -186,9 +184,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.6" data-path="../notify/">
+        <li class="chapter " data-level="1.6" data-path="./">
             
-                <a href="../notify/">
+                <a href="./">
             
                     
                     通知
@@ -200,9 +198,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.6.1" data-path="../notify/show.html">
+        <li class="chapter " data-level="1.6.1" data-path="show.html">
             
-                <a href="../notify/show.html">
+                <a href="show.html">
             
                     
                     显示通知
@@ -213,9 +211,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.6.2" data-path="../notify/access.html">
+        <li class="chapter active" data-level="1.6.2" data-path="access.html">
             
-                <a href="../notify/access.html">
+                <a href="access.html">
             
                     
                     访问通知
@@ -261,7 +259,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >覆盖绘制</a>
+        <a href=".." >访问通知</a>
     </h1>
 </div>
 
@@ -276,46 +274,38 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="&#x8BF7;&#x6C42;&#x5728;&#x5176;&#x4ED6;app&#x9876;&#x90E8;&#x7ED8;&#x5236;">&#x8BF7;&#x6C42;&#x5728;&#x5176;&#x4ED6;App&#x9876;&#x90E8;&#x7ED8;&#x5236;</h1>
-<p>&#x4F7F;&#x7528;AndPermission&#x4E5F;&#x9700;&#x8981;&#x5728;<code>manifest.xml</code>&#x4E2D;&#x6DFB;&#x52A0;<code>android.permission.SYSTEM_ALERT_WINDOW</code>&#x6743;&#x9650;&#x3002;</p>
-<p>&#x4ECE;Android6.0&#x5F00;&#x59CB;&#x4F7F;&#x7528;<code>WindowManager.LayoutParams.TYPE_SYSTEM_ALERT</code>&#x9700;&#x8981;&#x7528;&#x6237;&#x6388;&#x6743;&#xFF0C;&#x4ECE;Android8.0&#x5F00;&#x59CB;&#x5B83;&#x88AB;&#x66FF;&#x6362;&#x4E3A;<code>WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY</code>&#xFF0C;&#x5E76;&#x4E14;&#x4E5F;&#x9700;&#x8981;&#x7528;&#x6237;&#x6388;&#x6743;&#x3002;&#x90E8;&#x5206;&#x4E2D;&#x56FD;&#x4EA7;&#x624B;&#x673A;&#x5728;Android6.0&#x4EE5;&#x4E0B;&#x5C31;&#x9700;&#x8981;&#x7528;&#x6237;&#x6388;&#x6743;<code>WindowManager.LayoutParams.TYPE_SYSTEM_ALERT</code>&#xFF0C;&#x56E0;&#x6B64;AndPermission&#x4E5F;&#x517C;&#x5BB9;&#x4E86;&#x4E2D;&#x56FD;&#x4EA7;&#x624B;&#x673A;Android6.0&#x4EE5;&#x4E0B;&#x7684;&#x7CFB;&#x7EDF;&#x3002;</p>
-<p>&#x6700;&#x7B80;&#x5355;&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x5728;<code>onGrant()</code>&#x7684;&#x56DE;&#x8C03;&#x65B9;&#x6CD5;&#x4E2D;&#x6267;&#x884C;&#x5173;&#x952E;&#x4EE3;&#x7801;&#x5373;&#x53EF;&#xFF1A;</p>
-<pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">showAlertWindow</span><span class="hljs-params">()</span> </span>{
-    Dialog dialog = <span class="hljs-keyword">new</span> Dialog(<span class="hljs-keyword">this</span>);
-    Window window = dialog.getWindow();
+                                <h1 id="&#x8BF7;&#x6C42;&#x8BBF;&#x95EE;&#x901A;&#x77E5;">&#x8BF7;&#x6C42;&#x8BBF;&#x95EE;&#x901A;&#x77E5;</h1>
+<p>&#x4ECE;Android4.3&#x5F00;&#x59CB;&#xFF0C;&#x5F00;&#x53D1;&#x8005;&#x53EF;&#x4EE5;&#x8BBF;&#x95EE;&#x901A;&#x77E5;&#xFF08;&#x672C;&#x8D28;&#x5176;&#x5B9E;&#x662F;&#x76D1;&#x542C;&#x901A;&#x77E5;&#x88AB;&#x53D1;&#x9001;&#x548C;&#x79FB;&#x9664;&#xFF09;&#xFF0C;&#x4E3A;&#x4E86;&#x65B9;&#x4FBF;&#x540E;&#x9762;&#x7684;&#x8BB2;&#x89E3;&#xFF0C;&#x8FD9;&#x91CC;&#x505A;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x6F14;&#x793A;&#xFF0C;&#x9996;&#x5148;&#x6211;&#x4EEC;&#x8981;&#x65B0;&#x5EFA;&#x4E00;&#x4E2A;<code>Service</code>&#xFF0C;&#x5E76;&#x7EE7;&#x627F;<code>NotificationListenerService</code>&#xFF1A;</p>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NotifyListenerService</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">NotificationListenerService</span> </span>{
 
-    <span class="hljs-keyword">int</span> overlay = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
-    <span class="hljs-keyword">int</span> alertWindow = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
-    <span class="hljs-keyword">int</span> type = Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.O ? overlay : alertWindow;
-    window.setType(type);
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNotificationPosted</span><span class="hljs-params">(StatusBarNotification sbn)</span> </span>{
+    }
 
-    ...
-    dialog.show();
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNotificationRemoved</span><span class="hljs-params">(StatusBarNotification sbn)</span> </span>{
+    }
 }
-
-AndPermission.with(<span class="hljs-keyword">this</span>)
-    .overlay()
-    .onGranted(<span class="hljs-keyword">new</span> Action&lt;Void&gt;() {
-        <span class="hljs-meta">@Override</span>
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onAction</span><span class="hljs-params">(Void data)</span> </span>{
-            showAlertWindow();
-        }
-    })
-    .onDenied(<span class="hljs-keyword">new</span> Action&lt;Void&gt;() {
-        <span class="hljs-meta">@Override</span>
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onAction</span><span class="hljs-params">(Void data)</span> </span>{
-            <span class="hljs-comment">// TODO ...</span>
-        }
-    })
-    .start();
 </code></pre>
-<p>&#x6B64;&#x65F6;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x5728;&#x5176;&#x4ED6;App&#x9876;&#x90E8;&#x7ED8;&#x5236;&#x7684;&#x6743;&#x9650;&#xFF0C;AndPermission&#x5C06;&#x4F1A;&#x81EA;&#x52A8;&#x542F;&#x52A8;&#x8BE5;&#x6743;&#x9650;&#x8BBE;&#x7F6E;&#x9875;&#x9762;&#x8BA9;&#x7528;&#x6237;&#x6388;&#x6743;&#x3002;</p>
-<p>&#x5982;&#x679C;&#x5F00;&#x53D1;&#x8005;&#x60F3;&#x628A;&#x4F53;&#x9A8C;&#x505A;&#x7684;&#x66F4;&#x597D;&#x4E00;&#x70B9;&#xFF0C;&#x4F8B;&#x5982;&#x6CA1;&#x6709;&#x6743;&#x9650;&#x65F6;&#x5F39;&#x4E00;&#x4E2A;Dialog&#x8BA9;&#x7528;&#x6237;&#x9009;&#x62E9;&#x662F;&#x5426;&#x542F;&#x52A8;&#x8BBE;&#x7F6E;&#xFF1A;</p>
+<p>&#x56E0;&#x4E3A;<code>NotificationListenerService</code>&#x662F;&#x7EE7;&#x627F;<code>Service</code>&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x670D;&#x52A1;&#xFF0C;&#x56E0;&#x6B64;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x5728;<code>manifest.xml</code>&#x4E2D;&#x6CE8;&#x518C;&#x5B83;&#xFF0C;&#x53E6;&#x5916;&#x8FD8;&#x9700;&#x8981;&#x58F0;&#x660E;&#x76D1;&#x542C;&#x670D;&#x52A1;&#x7684;&#x6743;&#x9650;&#xFF0C;&#x56E0;&#x6B64;&#x5B8C;&#x6574;&#x7684;&#x670D;&#x52A1;&#x6CE8;&#x518C;&#x4EE3;&#x7801;&#x662F;&#xFF1A;</p>
+<pre><code class="lang-xml"><span class="hljs-tag">&lt;<span class="hljs-name">service</span>
+    <span class="hljs-attr">android:name</span>=<span class="hljs-string">&quot;.NotifyListenerService&quot;</span>
+    <span class="hljs-attr">android:permission</span>=<span class="hljs-string">&quot;android.permission.BIND_NOTIFICATION_LISTENER_SERVICE&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">intent-filter</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">action</span> <span class="hljs-attr">android:name</span>=<span class="hljs-string">&quot;android.service.notification.NotificationListenerService&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">intent-filter</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">service</span>&gt;</span>
+</code></pre>
+<p>&#x629B;&#x5F00;&#x6743;&#x9650;&#x4E0D;&#x8C08;&#xFF0C;&#x4EE5;&#x4E0A;&#x4EE3;&#x7801;&#x5C31;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x8BBF;&#x95EE;&#x901A;&#x77E5;&#x4E86;&#x3002;&#x7136;&#x800C;&#xFF0C;&#x7531;&#x4E8E;&#x8BBF;&#x95EE;&#x901A;&#x77E5;&#x7684;&#x6743;&#x9650;&#x9ED8;&#x8BA4;&#x662F;&#x5173;&#x95ED;&#x7684;&#xFF0C;&#x56E0;&#x6B64;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x7528;&#x6237;&#x624B;&#x52A8;&#x5F00;&#x542F;&#x8FD9;&#x4E2A;&#x6743;&#x9650;&#x3002;</p>
+<h2 id="&#x8BF7;&#x6C42;&#x8BBF;&#x95EE;&#x901A;&#x77E5;&#x6743;&#x9650;">&#x8BF7;&#x6C42;&#x8BBF;&#x95EE;&#x901A;&#x77E5;&#x6743;&#x9650;</h2>
+<p>&#x6211;&#x4EEC;&#x5E94;&#x8BE5;&#x5728;&#x5408;&#x9002;&#x7684;&#x65F6;&#x673A;&#x68C0;&#x6D4B;&#x6211;&#x4EEC;&#x7684;App&#x662F;&#x5426;&#x5177;&#x6709;&#x8BBF;&#x95EE;&#x901A;&#x77E5;&#x7684;&#x6743;&#x9650;&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x5219;&#x5F39;&#x7A97;&#x544A;&#x77E5;&#x7528;&#x6237;&#xFF0C;&#x5E76;&#x5F15;&#x5BFC;&#x7528;&#x6237;&#x524D;&#x53BB;&#x8BBE;&#x7F6E;&#x4E2D;&#x4E3A;&#x6211;&#x4EEC;&#x7684;App&#x5F00;&#x542F;&#x8BBF;&#x95EE;&#x901A;&#x77E5;&#x7684;&#x6743;&#x9650;&#xFF0C;&#x4F7F;&#x7528;AndPermission&#xFF0C;&#x5F00;&#x53D1;&#x8005;&#x4EEC;&#x53EF;&#x4EE5;&#x8FD9;&#x6837;&#x505A;&#xFF1A;</p>
 <pre><code class="lang-java">AndPermission.with(<span class="hljs-keyword">this</span>)
-    .overlay()
+    .notification()
+    .listener()
     .rationale(<span class="hljs-keyword">new</span> Rationale&lt;Void&gt;() {
         <span class="hljs-meta">@Override</span>
         <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">showRationale</span><span class="hljs-params">(Context c, Void d, RequestExecutor e)</span> </span>{
+            <span class="hljs-comment">// &#x6CA1;&#x6709;&#x6743;&#x9650;&#x4F1A;&#x8C03;&#x7528;&#x8BE5;&#x8BBF;&#x95EE;&#xFF0C;&#x5F00;&#x53D1;&#x8005;&#x53EF;&#x4EE5;&#x5728;&#x8FD9;&#x91CC;&#x5F39;&#x7A97;&#x544A;&#x77E5;&#x7528;&#x6237;&#x65E0;&#x6743;&#x9650;&#x3002;</span>
             <span class="hljs-comment">// &#x542F;&#x52A8;&#x8BBE;&#x7F6E;: e.execute();</span>
             <span class="hljs-comment">// &#x53D6;&#x6D88;&#x542F;&#x52A8;: e.cancel();</span>
         }
@@ -323,18 +313,19 @@ AndPermission.with(<span class="hljs-keyword">this</span>)
     .onGranted(<span class="hljs-keyword">new</span> Action&lt;Void&gt;() {
         <span class="hljs-meta">@Override</span>
         <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onAction</span><span class="hljs-params">(Void data)</span> </span>{
-            showAlertWindow();
+            <span class="hljs-comment">// App&#x53EF;&#x4EE5;&#x8BBF;&#x95EE;&#x901A;&#x77E5;&#x4E86;&#x3002;</span>
         }
     })
     .onDenied(<span class="hljs-keyword">new</span> Action&lt;Void&gt;() {
         <span class="hljs-meta">@Override</span>
         <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onAction</span><span class="hljs-params">(Void data)</span> </span>{
-            <span class="hljs-comment">// TODO ...</span>
+            <span class="hljs-comment">// App&#x4E0D;&#x80FD;&#x8BBF;&#x95EE;&#x901A;&#x77E5;&#x3002;</span>
         }
     })
     .start();
 </code></pre>
-<p>&#x5F53;<code>showRationale()</code>&#x88AB;&#x56DE;&#x8C03;&#x540E;&#x8BF4;&#x660E;&#x6CA1;&#x6709;<code>SYSTEM_ALERT_WINDOW</code>&#x6743;&#x9650;&#xFF0C;&#x6B64;&#x65F6;&#x5F00;&#x53D1;&#x8005;&#x5FC5;&#x987B;&#x56DE;&#x8C03;<code>RequestExecutor#execute()</code>&#x6765;&#x542F;&#x52A8;&#x8BBE;&#x7F6E;&#x6216;&#x8005;<code>RequestExecutor#cancel()</code>&#x6765;&#x53D6;&#x6D88;&#x542F;&#x52A8;&#x8BBE;&#x7F6E;&#xFF0C;&#x5426;&#x5219;&#x5C06;&#x4E0D;&#x4F1A;&#x56DE;&#x8C03;<code>onGranted()</code>&#x6216;&#x8005;<code>onDenied()</code>&#x4E2D;&#x7684;&#x4EFB;&#x4F55;&#x4E00;&#x4E2A;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;AndPermission&#x5C06;&#x4E0D;&#x4F1A;&#x6709;&#x4EFB;&#x4F55;&#x54CD;&#x5E94;&#x3002;</p>
+<p>&#x5F53;<code>showRationale()</code>&#x88AB;&#x56DE;&#x8C03;&#x540E;&#x8BF4;&#x660E;&#x6CA1;&#x6709;&#x8BBF;&#x95EE;&#x901A;&#x77E5;&#x7684;&#x6743;&#x9650;&#xFF0C;&#x6B64;&#x65F6;&#x5F00;&#x53D1;&#x8005;&#x5FC5;&#x987B;&#x56DE;&#x8C03;<code>RequestExecutor#execute()</code>&#x6765;&#x542F;&#x52A8;&#x8BBE;&#x7F6E;&#x6216;&#x8005;<code>RequestExecutor#cancel()</code>&#x6765;&#x53D6;&#x6D88;&#x542F;&#x52A8;&#x8BBE;&#x7F6E;&#xFF0C;&#x5426;&#x5219;&#x5C06;&#x4E0D;&#x4F1A;&#x56DE;&#x8C03;<code>onGranted()</code>&#x6216;&#x8005;<code>onDenied()</code>&#x4E2D;&#x7684;&#x4EFB;&#x4F55;&#x4E00;&#x4E2A;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;AndPermission&#x5C06;&#x4E0D;&#x4F1A;&#x6709;&#x4EFB;&#x4F55;&#x54CD;&#x5E94;&#x3002;</p>
+<p>&#x5F53;<code>showRationale()</code>&#x88AB;&#x56DE;&#x8C03;&#x65F6;&#x6B63;&#x786E;&#x7684;&#x505A;&#x6CD5;&#x662F;&#x663E;&#x793A;&#x4E00;&#x4E2A;Dialog&#x5F81;&#x6C42;&#x7528;&#x6237;&#x610F;&#x89C1;&#xFF0C;&#x662F;&#x5426;&#x8981;&#x542F;&#x52A8;&#x8BBE;&#x7F6E;&#x9875;&#x9762;&#x6388;&#x6743;<strong>&#x8BBF;&#x95EE;&#x901A;&#x77E5;</strong>&#x6743;&#x9650;&#xFF0C;&#x6839;&#x636E;&#x7528;&#x6237;&#x9009;&#x62E9;&#x8C03;&#x7528;<code>RequestExecutor#execute()</code>&#x6216;&#x8005;<code>RequestExecutor#cancel()</code>&#x3002;</p>
 
                                 
                                 </section>
@@ -362,14 +353,10 @@ AndPermission.with(<span class="hljs-keyword">this</span>)
 
             
                 
-                <a href="../install/" class="navigation navigation-prev " aria-label="Previous page: 安装未知来源应用">
+                <a href="show.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 显示通知">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
-                
-                <a href="../fileuri/" class="navigation navigation-next " aria-label="Next page: 分享私有文件">
-                    <i class="fa fa-angle-right"></i>
-                </a>
                 
             
         
@@ -378,7 +365,7 @@ AndPermission.with(<span class="hljs-keyword">this</span>)
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"覆盖绘制","level":"1.4","depth":1,"next":{"title":"分享私有文件","level":"1.5","depth":1,"path":"fileuri/README.md","ref":"fileuri/README.md","articles":[]},"previous":{"title":"安装未知来源应用","level":"1.3","depth":1,"path":"install/README.md","ref":"install/README.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"overlay/README.md","mtime":"2019-02-26T02:29:42.753Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-26T06:01:18.642Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"访问通知","level":"1.6.2","depth":2,"previous":{"title":"显示通知","level":"1.6.1","depth":2,"path":"notify/show.md","ref":"notify/show.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"notify/access.md","mtime":"2019-02-26T05:40:16.238Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-26T06:01:18.642Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
