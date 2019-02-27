@@ -23,7 +23,7 @@ import android.widget.RelativeLayout;
 import com.yanzhenjie.permission.sample.R;
 
 /**
- * Created by YanZhenjie on 2018/5/30.
+ * Created by Zhenjie Yan on 2018/5/30.
  */
 public class LauncherView extends RelativeLayout implements View.OnClickListener {
 

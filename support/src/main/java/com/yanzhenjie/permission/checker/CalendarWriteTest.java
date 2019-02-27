@@ -26,7 +26,7 @@ import android.provider.CalendarContract;
 import java.util.TimeZone;
 
 /**
- * Created by YanZhenjie on 2018/1/15.
+ * Created by Zhenjie Yan on 2018/1/15.
  */
 class CalendarWriteTest implements PermissionTest {
 

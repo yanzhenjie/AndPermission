@@ -23,7 +23,7 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 
 /**
- * Created by YanZhenjie on 2018/1/14.
+ * Created by Zhenjie Yan on 2018/1/14.
  */
 class ContactsWriteTest implements PermissionTest {
 

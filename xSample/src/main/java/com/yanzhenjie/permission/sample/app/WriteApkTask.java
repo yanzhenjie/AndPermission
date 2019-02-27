@@ -27,7 +27,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Created by YanZhenjie on 2018/5/2.
+ * Created by Zhenjie Yan on 2018/5/2.
  */
 public class WriteApkTask extends AsyncTask<Void, Void, Boolean> {
 

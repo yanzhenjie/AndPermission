@@ -24,7 +24,7 @@ import com.yanzhenjie.permission.runtime.Permission;
 import java.util.List;
 
 /**
- * Created by YanZhenjie on 2018/1/7.
+ * Created by Zhenjie Yan on 2018/1/7.
  */
 public final class StrictChecker implements PermissionChecker {
 

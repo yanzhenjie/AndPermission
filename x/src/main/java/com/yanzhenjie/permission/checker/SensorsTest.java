@@ -23,7 +23,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 /**
- * Created by YanZhenjie on 2018/1/25.
+ * Created by Zhenjie Yan on 2018/1/25.
  */
 class SensorsTest implements PermissionTest {
 

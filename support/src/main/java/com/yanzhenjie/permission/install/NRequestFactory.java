@@ -19,7 +19,7 @@ import com.yanzhenjie.permission.Boot;
 import com.yanzhenjie.permission.source.Source;
 
 /**
- * Created by YanZhenjie on 2018/4/28.
+ * Created by Zhenjie Yan on 2018/4/28.
  */
 public class NRequestFactory implements Boot.InstallRequestFactory {
 
