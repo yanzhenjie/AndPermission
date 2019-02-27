@@ -71,19 +71,35 @@ AndPermission.with(<span class="hljs-keyword">this</span>)
         }
     })
     .start();
-</code></pre> <p>Next you can prompt the user to open the system settings to allow us the required permissions.</p> <pre><code class="lang-java">...
+</code></pre> <p>Next you can prompt the user to open the system settings to allow us the required permissions.</p> <pre><code class="lang-java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> REQ_CODE_PERMISSION = <span class="hljs-number">1</span>;
+...
 
 <span class="hljs-keyword">if</span> (AndPermission.hasAlwaysDeniedPermission(context, permissions)) {
     <span class="hljs-comment">// Here should display a Dialog to ask the user whether to setting.</span>
     AndPermission.with(<span class="hljs-keyword">this</span>)
         .runtime()
         .setting()
-        .onComeback(<span class="hljs-keyword">new</span> Setting.Action() {
-            <span class="hljs-meta">@Override</span>
-            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onAction</span><span class="hljs-params">()</span> </span>{
-                <span class="hljs-comment">// The user is back from the settings.</span>
-            }
-        })
-        .start();
+        .start(REQ_CODE_PERMISSION);
 }
-</code></pre> <p>Of course, we need to prompt the user to allow what permissions, look here: <a href="../permission.md">Permission constants</a>.</p> </section> </div> <div class="search-results"> <div class="has-results"> <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1> <ul class="search-results-list"></ul> </div> <div class="no-results"> <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1> </div> </div> </div> </div> </div> </div> <a href="../" class="navigation navigation-prev " aria-label="Previous page: Introduction"> <i class="fa fa-angle-left"></i> </a> <a href="constant.html" class="navigation navigation-next " aria-label="Next page: Permission Constants"> <i class="fa fa-angle-right"></i> </a> </div> <script>var gitbook=gitbook||[];gitbook.push(function(){gitbook.page.hasChanged({page:{title:"Runtime Permissons",level:"1.2",depth:1,next:{title:"Permission Constants",level:"1.2.1",depth:2,path:"runtime/constant.md",ref:"runtime/constant.md",articles:[]},previous:{title:"Introduction",level:"1.1",depth:1,path:"README.md",ref:"README.md",articles:[]},dir:"ltr"},config:{gitbook:"*",theme:"default",variables:{},plugins:[],pluginsConfig:{highlight:{},search:{},lunr:{maxIndexSize:1000000,ignoreSpecialCharacters:false},sharing:{facebook:true,twitter:true,google:false,weibo:false,instapaper:false,vk:false,all:["facebook","google","twitter","weibo","instapaper"]},fontsettings:{theme:"white",family:"sans",size:2},"theme-default":{styles:{website:"styles/website.css",pdf:"styles/pdf.css",epub:"styles/epub.css",mobi:"styles/mobi.css",ebook:"styles/ebook.css",print:"styles/print.css"},showLevel:false}},structure:{langs:"LANGS.md",readme:"README.md",glossary:"GLOSSARY.md",summary:"SUMMARY.md"},pdf:{pageNumbers:true,fontSize:12,fontFamily:"Arial",paperSize:"a4",chapterMark:"pagebreak",pageBreaksBefore:"/",margin:{right:62,left:62,top:56,bottom:56}},styles:{website:"styles/website.css",pdf:"styles/pdf.css",epub:"styles/epub.css",mobi:"styles/mobi.css",ebook:"styles/ebook.css",print:"styles/print.css"}},file:{path:"runtime/README.md",mtime:"2019-02-26T02:41:21.888Z",type:"markdown"},gitbook:{version:"3.2.3",time:"2019-02-26T06:16:27.569Z"},basePath:"..",book:{language:""}})});</script> </div> <script src="../gitbook/gitbook.js"></script> <script src="../gitbook/theme.js"></script> <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script> <script src="../gitbook/gitbook-plugin-search/search.js"></script> <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script> <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script> <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script> <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script> </body> </html>
+
+...
+
+<span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onActivityResult</span><span class="hljs-params">(<span class="hljs-keyword">int</span> reqCode, <span class="hljs-keyword">int</span> resCode, Intent data)</span> </span>{
+    <span class="hljs-keyword">switch</span> (reqCode) {
+        <span class="hljs-keyword">case</span> REQ_CODE_PERMISSION: {
+            <span class="hljs-keyword">if</span> (AndPermission.hasPermissions(<span class="hljs-keyword">this</span>, ...)) {
+                <span class="hljs-comment">// Permission granted.</span>
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-comment">// Permission denied.</span>
+            }
+            <span class="hljs-keyword">break</span>;
+        }
+    }
+}
+</code></pre> <p>Of course, we need to prompt the user to allow what permissions, look here: <a href="../permission.md">Permission constants</a>.</p> </section> </div> <div class="search-results"> <div class="has-results"> <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1> <ul class="search-results-list"></ul> </div> <div class="no-results"> <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1> </div> </div> </div> </div> </div> </div> <a href="../" class="navigation navigation-prev " aria-label="Previous page: Introduction"> <i class="fa fa-angle-left"></i> </a> <a href="constant.html" class="navigation navigation-next " aria-label="Next page: Permission Constants"> <i class="fa fa-angle-right"></i> </a> </div> <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Runtime Permissons","level":"1.2","depth":1,"next":{"title":"Permission Constants","level":"1.2.1","depth":2,"path":"runtime/constant.md","ref":"runtime/constant.md","articles":[]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"runtime/README.md","mtime":"2019-02-27T08:40:27.247Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-27T08:41:43.284Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script> </div> <script src="../gitbook/gitbook.js"></script> <script src="../gitbook/theme.js"></script> <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script> <script src="../gitbook/gitbook-plugin-search/search.js"></script> <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script> <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script> <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script> <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script> </body> </html>
