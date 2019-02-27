@@ -18,8 +18,10 @@ package com.yanzhenjie.permission.sample.app;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -83,37 +85,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_request_camera: {
-                requestPermission(Permission.Group.CAMERA);
+//                requestPermission(Permission.Group.CAMERA);
+                if (!Settings.System.canWrite(this)) {
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                    intent.setData(Uri.parse("package:" + getPackageName()));
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, "可以", Toast.LENGTH_LONG).show();
+                }
                 break;
             }
             case R.id.btn_request_contact: {
-                PopupMenu popupMenu = createMenu(v, getResources().getStringArray(R.array.contacts));
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        int order = item.getItemId();
-                        switch (order) {
-                            case 0: {
-                                requestPermission(Permission.READ_CONTACTS);
-                                break;
-                            }
-                            case 1: {
-                                requestPermission(Permission.WRITE_CONTACTS);
-                                break;
-                            }
-                            case 2: {
-                                requestPermission(Permission.GET_ACCOUNTS);
-                                break;
-                            }
-                            case 3: {
-                                requestPermission(Permission.Group.CONTACTS);
-                                break;
-                            }
-                        }
-                        return true;
-                    }
-                });
-                popupMenu.show();
+                Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                intent.setData(Uri.parse("package:" + getPackageName()));
+                startActivity(intent);
+//                PopupMenu popupMenu = createMenu(v, getResources().getStringArray(R.array.contacts));
+//                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//                    @Override
+//                    public boolean onMenuItemClick(MenuItem item) {
+//                        int order = item.getItemId();
+//                        switch (order) {
+//                            case 0: {
+//                                requestPermission(Permission.READ_CONTACTS);
+//                                break;
+//                            }
+//                            case 1: {
+//                                requestPermission(Permission.WRITE_CONTACTS);
+//                                break;
+//                            }
+//                            case 2: {
+//                                requestPermission(Permission.GET_ACCOUNTS);
+//                                break;
+//                            }
+//                            case 3: {
+//                                requestPermission(Permission.Group.CONTACTS);
+//                                break;
+//                            }
+//                        }
+//                        return true;
+//                    }
+//                });
+//                popupMenu.show();
                 break;
             }
             case R.id.btn_request_location: {

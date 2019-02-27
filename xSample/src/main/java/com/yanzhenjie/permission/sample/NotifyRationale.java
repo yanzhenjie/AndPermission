@@ -23,7 +23,7 @@ import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RequestExecutor;
 
 /**
- * Created by YanZhenjie on 2018/5/30.
+ * Created by Zhenjie Yan on 2018/5/30.
  */
 public class NotifyRationale implements Rationale<Void> {
 

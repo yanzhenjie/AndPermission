@@ -19,7 +19,7 @@ import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.Rationale;
 
 /**
- * Created by YanZhenjie on 2018/5/29.
+ * Created by Zhenjie Yan on 2018/5/29.
  */
 public interface OverlayRequest {
 

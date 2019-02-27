@@ -25,7 +25,7 @@ import com.yanzhenjie.permission.RequestExecutor;
 import java.io.File;
 
 /**
- * Created by YanZhenjie on 2018/4/29.
+ * Created by Zhenjie Yan on 2018/4/29.
  */
 public class InstallRationale implements Rationale<File> {
 

@@ -26,7 +26,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 /**
- * Created by YanZhenjie on 2018/5/30.
+ * Created by Zhenjie Yan on 2018/5/30.
  */
 public class AlertWindow {
 

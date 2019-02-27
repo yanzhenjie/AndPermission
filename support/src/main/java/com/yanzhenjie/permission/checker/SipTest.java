@@ -20,7 +20,7 @@ import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
 
 /**
- * Created by YanZhenjie on 2018/1/25.
+ * Created by Zhenjie Yan on 2018/1/25.
  */
 class SipTest implements PermissionTest {
 

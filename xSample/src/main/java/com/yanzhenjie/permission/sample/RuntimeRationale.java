@@ -27,7 +27,7 @@ import com.yanzhenjie.permission.RequestExecutor;
 import java.util.List;
 
 /**
- * Created by YanZhenjie on 2018/1/1.
+ * Created by Zhenjie Yan on 2018/1/1.
  */
 public final class RuntimeRationale implements Rationale<List<String>> {
 

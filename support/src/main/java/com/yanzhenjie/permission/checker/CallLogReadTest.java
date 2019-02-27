@@ -21,7 +21,7 @@ import android.database.Cursor;
 import android.provider.CallLog;
 
 /**
- * Created by YanZhenjie on 2018/1/25.
+ * Created by Zhenjie Yan on 2018/1/25.
  */
 class CallLogReadTest implements PermissionTest {
 

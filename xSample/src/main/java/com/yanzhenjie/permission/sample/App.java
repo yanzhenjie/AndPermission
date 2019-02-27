@@ -23,7 +23,7 @@ import com.yanzhenjie.permission.sample.widget.AlertWindow;
 import com.yanzhenjie.permission.sample.widget.LauncherView;
 
 /**
- * Created by YanZhenjie on 2018/5/30.
+ * Created by Zhenjie Yan on 2018/5/30.
  */
 public class App extends Application {
 
