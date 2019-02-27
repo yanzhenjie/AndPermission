@@ -9,9 +9,6 @@
 6. Request to access notifications.  
   `android.permission.BIND_NOTIFICATION_LISTENER_SERVICE`
 
-For documentation and additional information see [the website](https://www.yanzhenjie.com/AndPermission).
-
-**1. Request for runtime permissions**
 ```java
 AndPermission.with(this)
   .runtime()
@@ -25,78 +22,16 @@ AndPermission.with(this)
   .start();
 ```
 
-**2. Sharing private files**
-```java
-File file = ...;
-Uri compatUri = AndPermission.getFileUri(this, file);
-...
-```
-
-**3. Request to install unknown source apk**
-```java
-File apkFile = ...;
-
-AndPermission.with(this)
-  .install()
-  .file(apkFile)
-  .onGranted(file -> {
-    // App is allowed to install apps.
-  })
-  .onDenied(file -> {
-    // App is refused to install apps.
-  })
-  .start();
-```
-
-**4. Request to draw at the top of other apps**
-```java
-AndPermission.with(this)
-  .overlay()
-  .onGranted(data -> {
-    // App can draw on top of other apps.
-  })
-  .onDenied(data -> {
-    // App cann't draw on top of other apps.
-  })
-  .start();
-```
-
-**5. Request to send notifications**
-```java
-AndPermission.with(this)
-  .notification()
-  .permission()
-  .onGranted(data -> {
-    // App can show notifications.
-  })
-  .onDenied(data -> {
-    // App cann't show notifications.
-  })
-  .start();
-```
-
-**6. Request to access notifications**
-```java
-AndPermission.with(this)
-  .notification()
-  .listener()
-  .onGranted(data -> {
-    // App can access notifications.
-  })
-  .onDenied(data -> {
-    // App cann't access notifications.
-  })
-  .start();
-```
+For documentation and additional information see [the website](https://www.yanzhenjie.com/AndPermission).
 
 ## Download
 If you are using the android support library:
-```
+```groovy
 implementation 'com.yanzhenjie.permission:support:2.0.0'
 ```
 
 If you are using the android x library:
-```
+```groovy
 implementation 'com.yanzhenjie.permission:x:2.0.0'
 ```
 
