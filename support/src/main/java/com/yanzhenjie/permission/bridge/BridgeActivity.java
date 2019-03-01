@@ -103,6 +103,15 @@ public final class BridgeActivity extends Activity {
         source.startActivity(intent);
     }
 
+    /**
+     * Request for write system setting.
+     */
+    static void requestWriteSetting(Source source) {
+        Intent intent = new Intent(source.getContext(), BridgeActivity.class);
+        intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_WRITE_SETTING);
+        source.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,7 +155,13 @@ public final class BridgeActivity extends Activity {
             }
             case BridgeRequest.TYPE_NOTIFY_LISTENER: {
                 Intent settingIntent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
-                startActivityForResult(settingIntent, BridgeRequest.TYPE_NOTIFY);
+                startActivityForResult(settingIntent, BridgeRequest.TYPE_NOTIFY_LISTENER);
+                break;
+            }
+            case BridgeRequest.TYPE_WRITE_SETTING: {
+                Intent settingIntent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                settingIntent.setData(Uri.fromParts("package", getPackageName(), null));
+                startActivityForResult(settingIntent, BridgeRequest.TYPE_WRITE_SETTING);
                 break;
             }
         }

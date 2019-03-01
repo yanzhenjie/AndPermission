@@ -83,6 +83,10 @@ final class RequestExecutor extends Thread implements Messenger.Callback {
                 BridgeActivity.requestNotificationListener(mRequest.getSource());
                 break;
             }
+            case BridgeRequest.TYPE_WRITE_SETTING: {
+                BridgeActivity.requestWriteSetting(mRequest.getSource());
+                break;
+            }
         }
     }
 

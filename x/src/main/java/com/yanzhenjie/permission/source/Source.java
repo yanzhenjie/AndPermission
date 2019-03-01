@@ -34,10 +34,14 @@ import androidx.annotation.RequiresApi;
  */
 public abstract class Source {
 
+    private static final int MODE_ASK = 4;
+
     private static final String CHECK_OP_NO_THROW = "checkOpNoThrow";
     private static final String OP_REQUEST_INSTALL_PACKAGES = "OP_REQUEST_INSTALL_PACKAGES";
     private static final String OP_SYSTEM_ALERT_WINDOW = "OP_SYSTEM_ALERT_WINDOW";
     private static final String OP_POST_NOTIFICATION = "OP_POST_NOTIFICATION";
+    private static final String OP_ACCESS_NOTIFICATIONS = "OP_ACCESS_NOTIFICATIONS";
+    private static final String OP_WRITE_SETTINGS = "OP_WRITE_SETTINGS";
 
     private int mTargetSdkVersion;
     private String mPackageName;
@@ -126,9 +130,25 @@ public abstract class Source {
     }
 
     public final boolean canListenerNotification() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            return reflectionOps(OP_ACCESS_NOTIFICATIONS);
+        }
+
         Context context = getContext();
         String flat = Settings.Secure.getString(context.getContentResolver(), "enabled_notification_listeners");
         return flat != null && flat.contains(getPackageName());
+    }
+
+    public final boolean canWriteSetting() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Context context = getContext();
+            if (getTargetSdkVersion() >= Build.VERSION_CODES.M) {
+                return Settings.System.canWrite(context);
+            }
+
+            return reflectionOps(OP_WRITE_SETTINGS);
+        }
+        return true;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -140,7 +160,7 @@ public abstract class Source {
             Field opField = appOpsClass.getDeclaredField(opFieldName);
             int opValue = (int)opField.get(Integer.class);
             int result = (int)method.invoke(getAppOpsManager(), opValue, uid, getPackageName());
-            return result == AppOpsManager.MODE_ALLOWED;
+            return result == AppOpsManager.MODE_ALLOWED || result == MODE_ASK;
         } catch (Throwable e) {
             return true;
         }

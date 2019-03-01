@@ -29,6 +29,7 @@ public final class BridgeRequest {
     public static final int TYPE_ALERT_WINDOW = 5;
     public static final int TYPE_NOTIFY = 6;
     public static final int TYPE_NOTIFY_LISTENER = 7;
+    public static final int TYPE_WRITE_SETTING = 8;
 
     private final Source mSource;
 

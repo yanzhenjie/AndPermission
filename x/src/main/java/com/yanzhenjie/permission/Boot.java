@@ -28,6 +28,7 @@ import com.yanzhenjie.permission.overlay.MRequestFactory;
 import com.yanzhenjie.permission.overlay.OverlayRequest;
 import com.yanzhenjie.permission.runtime.Runtime;
 import com.yanzhenjie.permission.runtime.option.RuntimeOption;
+import com.yanzhenjie.permission.setting.Setting;
 import com.yanzhenjie.permission.source.Source;
 
 /**
@@ -92,5 +93,10 @@ public class Boot implements Option {
     @Override
     public NotifyOption notification() {
         return new Notify(mSource);
+    }
+
+    @Override
+    public Setting setting() {
+        return new Setting(mSource);
     }
 }
