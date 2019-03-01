@@ -130,6 +130,14 @@
                 style="@style/Permission.Button.Weight.Horizontal"
                 android:text="@string/permission_overlay"/>
         </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/btn_write_setting"
+                style="@style/Permission.Button.Weight.Horizontal"
+                android:text="@string/permission_write_setting"/>
+        </TableRow>
     </TableLayout>
 
 </LinearLayout>

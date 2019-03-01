@@ -36,6 +36,7 @@ import com.yanzhenjie.permission.sample.NotifyRationale;
 import com.yanzhenjie.permission.sample.OverlayRationale;
 import com.yanzhenjie.permission.sample.R;
 import com.yanzhenjie.permission.sample.RuntimeRationale;
+import com.yanzhenjie.permission.sample.WriteSettingRationale;
 
 import java.io.File;
 import java.util.List;
@@ -78,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         findViewById(R.id.btn_install).setOnClickListener(this);
         findViewById(R.id.btn_overlay).setOnClickListener(this);
+        findViewById(R.id.btn_write_setting).setOnClickListener(this);
     }
 
     @Override
@@ -307,6 +309,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 requestPermissionForAlertWindow();
                 break;
             }
+            case R.id.btn_write_setting: {
+                requestWriteSystemSetting();
+                break;
+            }
         }
     }
 
@@ -485,6 +491,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onAction(Void data) {
                 toast(R.string.message_overlay_failed);
+            }
+        }).start();
+    }
+
+    private void requestWriteSystemSetting() {
+        AndPermission.with(this).setting().write().rationale(new WriteSettingRationale()).onGranted(new Action<Void>() {
+            @Override
+            public void onAction(Void data) {
+                toast(R.string.successfully);
+            }
+        }).onDenied(new Action<Void>() {
+            @Override
+            public void onAction(Void data) {
+                toast(R.string.failure);
             }
         }).start();
     }

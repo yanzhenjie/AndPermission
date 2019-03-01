@@ -18,10 +18,8 @@ package com.yanzhenjie.permission.sample.app;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -45,6 +43,7 @@ import com.yanzhenjie.permission.sample.NotifyRationale;
 import com.yanzhenjie.permission.sample.OverlayRationale;
 import com.yanzhenjie.permission.sample.R;
 import com.yanzhenjie.permission.sample.RuntimeRationale;
+import com.yanzhenjie.permission.sample.WriteSettingRationale;
 
 import java.io.File;
 import java.util.List;
@@ -79,53 +78,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         findViewById(R.id.btn_install).setOnClickListener(this);
         findViewById(R.id.btn_overlay).setOnClickListener(this);
+        findViewById(R.id.btn_write_setting).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_request_camera: {
-//                requestPermission(Permission.Group.CAMERA);
-                if (!Settings.System.canWrite(this)) {
-                    Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
-                    intent.setData(Uri.parse("package:" + getPackageName()));
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(this, "可以", Toast.LENGTH_LONG).show();
-                }
+                requestPermission(Permission.Group.CAMERA);
                 break;
             }
             case R.id.btn_request_contact: {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
-                intent.setData(Uri.parse("package:" + getPackageName()));
-                startActivity(intent);
-//                PopupMenu popupMenu = createMenu(v, getResources().getStringArray(R.array.contacts));
-//                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//                    @Override
-//                    public boolean onMenuItemClick(MenuItem item) {
-//                        int order = item.getItemId();
-//                        switch (order) {
-//                            case 0: {
-//                                requestPermission(Permission.READ_CONTACTS);
-//                                break;
-//                            }
-//                            case 1: {
-//                                requestPermission(Permission.WRITE_CONTACTS);
-//                                break;
-//                            }
-//                            case 2: {
-//                                requestPermission(Permission.GET_ACCOUNTS);
-//                                break;
-//                            }
-//                            case 3: {
-//                                requestPermission(Permission.Group.CONTACTS);
-//                                break;
-//                            }
-//                        }
-//                        return true;
-//                    }
-//                });
-//                popupMenu.show();
+                PopupMenu popupMenu = createMenu(v, getResources().getStringArray(R.array.contacts));
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int order = item.getItemId();
+                        switch (order) {
+                            case 0: {
+                                requestPermission(Permission.READ_CONTACTS);
+                                break;
+                            }
+                            case 1: {
+                                requestPermission(Permission.WRITE_CONTACTS);
+                                break;
+                            }
+                            case 2: {
+                                requestPermission(Permission.GET_ACCOUNTS);
+                                break;
+                            }
+                            case 3: {
+                                requestPermission(Permission.Group.CONTACTS);
+                                break;
+                            }
+                        }
+                        return true;
+                    }
+                });
+                popupMenu.show();
                 break;
             }
             case R.id.btn_request_location: {
@@ -318,6 +308,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 requestPermissionForAlertWindow();
                 break;
             }
+            case R.id.btn_write_setting: {
+                requestWriteSystemSetting();
+                break;
+            }
         }
     }
 
@@ -475,12 +469,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onAction(File data) {
                     // Installing.
+                    toast(R.string.successfully);
                 }
             })
             .onDenied(new Action<File>() {
                 @Override
                 public void onAction(File data) {
                     // The user refused to install.
+                    toast(R.string.failure);
                 }
             })
             .start();
@@ -490,12 +486,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AndPermission.with(this).overlay().rationale(new OverlayRationale()).onGranted(new Action<Void>() {
             @Override
             public void onAction(Void data) {
+                toast(R.string.successfully);
                 showAlertWindow();
             }
         }).onDenied(new Action<Void>() {
             @Override
             public void onAction(Void data) {
-                toast(R.string.message_overlay_failed);
+                toast(R.string.failure);
+            }
+        }).start();
+    }
+
+    private void requestWriteSystemSetting() {
+        AndPermission.with(this).setting().write().rationale(new WriteSettingRationale()).onGranted(new Action<Void>() {
+            @Override
+            public void onAction(Void data) {
+                toast(R.string.successfully);
+            }
+        }).onDenied(new Action<Void>() {
+            @Override
+            public void onAction(Void data) {
+                toast(R.string.failure);
             }
         }).start();
     }
