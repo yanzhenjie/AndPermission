@@ -8,6 +8,8 @@
 5. Request to show notifications.  
 6. Request to access notifications.  
   `android.permission.BIND_NOTIFICATION_LISTENER_SERVICE`
+7. Request to modify system setting.  
+  `android.permission.WRITE_SETTINGS`
 
 ```java
 AndPermission.with(this)
@@ -27,12 +29,12 @@ For documentation and additional information see [the website](https://www.yanzh
 ## Download
 If you are using the android support library:
 ```groovy
-implementation 'com.yanzhenjie.permission:support:2.0.0'
+implementation 'com.yanzhenjie.permission:support:2.0.1'
 ```
 
 If you are using the android x library:
 ```groovy
-implementation 'com.yanzhenjie.permission:x:2.0.0'
+implementation 'com.yanzhenjie.permission:x:2.0.1'
 ```
 
 AndPermission requires at minimum Android 4.0(Api level 14) .
