@@ -26,7 +26,7 @@ import android.provider.Settings;
 import com.yanzhenjie.permission.source.Source;
 
 /**
- * Created by YanZhenjie on 2018/5/29.
+ * Created by Zhenjie Yan on 2018/5/29.
  */
 public class LSettingPage {
 
