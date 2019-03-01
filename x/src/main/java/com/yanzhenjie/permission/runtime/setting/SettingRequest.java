@@ -21,7 +21,7 @@ package com.yanzhenjie.permission.runtime.setting;
 public interface SettingRequest {
 
     /**
-     * SettingPage setting.
+     * Start the setup.
      */
     void start(int requestCode);
 }

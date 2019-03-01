@@ -18,6 +18,7 @@ package com.yanzhenjie.permission.runtime.option;
 import android.support.annotation.NonNull;
 
 import com.yanzhenjie.permission.runtime.PermissionRequest;
+import com.yanzhenjie.permission.runtime.setting.SettingRequest;
 
 /**
  * Created by Zhenjie Yan on 2/22/19.
@@ -33,4 +34,9 @@ public interface RuntimeOption {
      * One or more permission groups.
      */
     PermissionRequest permission(@NonNull String[]... groups);
+
+    /**
+     * Permission settings.
+     */
+    SettingRequest setting();
 }

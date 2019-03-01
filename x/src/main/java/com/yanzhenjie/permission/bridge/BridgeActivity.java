@@ -22,8 +22,8 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.KeyEvent;
 
-import com.yanzhenjie.permission.overlay.setting.AlertWindowSettingPage;
-import com.yanzhenjie.permission.overlay.setting.OverlaySettingPage;
+import com.yanzhenjie.permission.overlay.setting.LSettingPage;
+import com.yanzhenjie.permission.overlay.setting.MSettingPage;
 import com.yanzhenjie.permission.source.ActivitySource;
 import com.yanzhenjie.permission.source.Source;
 
@@ -130,12 +130,12 @@ public final class BridgeActivity extends Activity {
                 break;
             }
             case BridgeRequest.TYPE_OVERLAY: {
-                OverlaySettingPage settingPage = new OverlaySettingPage(new ActivitySource(this));
+                MSettingPage settingPage = new MSettingPage(new ActivitySource(this));
                 settingPage.start(BridgeRequest.TYPE_OVERLAY);
                 break;
             }
             case BridgeRequest.TYPE_ALERT_WINDOW: {
-                AlertWindowSettingPage settingPage = new AlertWindowSettingPage(new ActivitySource(this));
+                LSettingPage settingPage = new LSettingPage(new ActivitySource(this));
                 settingPage.start(BridgeRequest.TYPE_ALERT_WINDOW);
                 break;
             }

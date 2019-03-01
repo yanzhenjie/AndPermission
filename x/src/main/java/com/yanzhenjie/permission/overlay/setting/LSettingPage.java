@@ -26,15 +26,15 @@ import android.provider.Settings;
 import com.yanzhenjie.permission.source.Source;
 
 /**
- * Created by YanZhenjie on 2018/5/29.
+ * Created by Zhenjie Yan on 2018/5/29.
  */
-public class AlertWindowSettingPage {
+public class LSettingPage {
 
     private static final String MARK = Build.MANUFACTURER.toLowerCase();
 
     private Source mSource;
 
-    public AlertWindowSettingPage(Source source) {
+    public LSettingPage(Source source) {
         this.mSource = source;
     }
 

@@ -22,18 +22,18 @@ import com.yanzhenjie.permission.install.NRequestFactory;
 import com.yanzhenjie.permission.install.ORequestFactory;
 import com.yanzhenjie.permission.notify.Notify;
 import com.yanzhenjie.permission.notify.option.NotifyOption;
-import com.yanzhenjie.permission.option.ActivityOption;
+import com.yanzhenjie.permission.option.Option;
 import com.yanzhenjie.permission.overlay.LRequestFactory;
 import com.yanzhenjie.permission.overlay.MRequestFactory;
 import com.yanzhenjie.permission.overlay.OverlayRequest;
 import com.yanzhenjie.permission.runtime.Runtime;
-import com.yanzhenjie.permission.runtime.option.ActivityRuntimeOption;
+import com.yanzhenjie.permission.runtime.option.RuntimeOption;
 import com.yanzhenjie.permission.source.Source;
 
 /**
  * Created by YanZhenjie on 2018/4/28.
  */
-public class Boot implements ActivityOption {
+public class Boot implements Option {
 
     private static final InstallRequestFactory INSTALL_REQUEST_FACTORY;
     private static final OverlayRequestFactory OVERLAY_REQUEST_FACTORY;
@@ -75,7 +75,7 @@ public class Boot implements ActivityOption {
     }
 
     @Override
-    public ActivityRuntimeOption runtime() {
+    public RuntimeOption runtime() {
         return new Runtime(mSource);
     }
 

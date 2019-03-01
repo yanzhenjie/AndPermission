@@ -21,7 +21,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 
-import com.yanzhenjie.permission.runtime.option.ActivityRuntimeOption;
+import com.yanzhenjie.permission.runtime.option.RuntimeOption;
 import com.yanzhenjie.permission.runtime.setting.AllRequest;
 import com.yanzhenjie.permission.runtime.setting.SettingRequest;
 import com.yanzhenjie.permission.source.Source;
@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * Created by YanZhenjie on 2018/5/2.
  */
-public class Runtime implements ActivityRuntimeOption {
+public class Runtime implements RuntimeOption {
 
     private static final PermissionRequestFactory FACTORY;
     private static List<String> sAppPermissions;

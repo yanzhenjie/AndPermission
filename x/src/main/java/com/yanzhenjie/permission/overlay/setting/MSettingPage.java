@@ -27,13 +27,13 @@ import com.yanzhenjie.permission.source.Source;
 /**
  * Created by Zhenjie Yan on 2018/5/30.
  */
-public class OverlaySettingPage {
+public class MSettingPage {
 
     private static final String MARK = Build.MANUFACTURER.toLowerCase();
 
     private Source mSource;
 
-    public OverlaySettingPage(Source source) {
+    public MSettingPage(Source source) {
         this.mSource = source;
     }
 
