@@ -28,7 +28,7 @@ import com.yanzhenjie.permission.source.Source;
 import java.io.File;
 
 /**
- * Created by YanZhenjie on 2018/6/1.
+ * Created by Zhenjie Yan on 2018/6/1.
  */
 abstract class BaseRequest implements InstallRequest {
 

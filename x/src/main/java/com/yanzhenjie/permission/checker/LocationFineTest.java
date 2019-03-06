@@ -22,7 +22,7 @@ import android.location.LocationManager;
 import java.util.List;
 
 /**
- * Created by YanZhenjie on 2018/1/14.
+ * Created Zhenjie Yan on 2018/1/14.
  */
 class LocationFineTest implements PermissionTest {
 

@@ -22,7 +22,7 @@ import android.media.AudioRecord;
 import android.media.MediaRecorder;
 
 /**
- * Created by YanZhenjie on 2018/1/14.
+ * Created Zhenjie Yan on 2018/1/14.
  */
 class RecordAudioTest implements PermissionTest {
 

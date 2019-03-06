@@ -26,7 +26,7 @@ import java.util.List;
 
 /**
  * <p>Permissions.</p>
- * Created by YanZhenjie on 2017/8/4.
+ * Created by Zhenjie Yan on 2017/8/4.
  */
 public class Permission {
 

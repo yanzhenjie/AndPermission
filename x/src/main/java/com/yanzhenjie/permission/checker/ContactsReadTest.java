@@ -21,7 +21,7 @@ import android.database.Cursor;
 import android.provider.ContactsContract;
 
 /**
- * Created by YanZhenjie on 2018/1/25.
+ * Created Zhenjie Yan on 2018/1/25.
  */
 class ContactsReadTest implements PermissionTest {
 

@@ -20,7 +20,7 @@ import android.content.pm.PackageManager;
 import android.hardware.Camera;
 
 /**
- * Created by YanZhenjie on 2018/1/15.
+ * Created Zhenjie Yan on 2018/1/15.
  */
 class CameraTest implements PermissionTest {
 

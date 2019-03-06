@@ -44,7 +44,7 @@ import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
 /**
  * <p>Copied from the support library v27.1.1.</p>
- * Created by YanZhenjie on 2018/4/28.
+ * Created Zhenjie Yan on 2018/4/28.
  */
 public class FileProvider extends ContentProvider {
 

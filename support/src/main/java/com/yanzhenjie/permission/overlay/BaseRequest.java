@@ -27,7 +27,7 @@ import com.yanzhenjie.permission.RequestExecutor;
 import com.yanzhenjie.permission.source.Source;
 
 /**
- * Created by YanZhenjie on 2018/6/1.
+ * Created Zhenjie Yan on 2018/6/1.
  */
 abstract class BaseRequest implements OverlayRequest {
 

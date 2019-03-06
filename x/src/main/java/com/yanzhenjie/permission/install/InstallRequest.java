@@ -21,7 +21,7 @@ import com.yanzhenjie.permission.Rationale;
 import java.io.File;
 
 /**
- * Created by YanZhenjie on 2018/4/28.
+ * Created by Zhenjie Yan on 2018/4/28.
  */
 public interface InstallRequest {
 

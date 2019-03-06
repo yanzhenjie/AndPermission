@@ -30,7 +30,7 @@ import java.util.List;
 import static java.util.Arrays.asList;
 
 /**
- * Created by YanZhenjie on 2018/1/25.
+ * Created Zhenjie Yan on 2018/1/25.
  */
 class LRequest implements PermissionRequest {
 

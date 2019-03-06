@@ -35,7 +35,7 @@ import java.util.List;
 import static java.util.Arrays.asList;
 
 /**
- * Created by YanZhenjie on 2016/9/9.
+ * Created Zhenjie Yan on 2016/9/9.
  */
 class MRequest implements PermissionRequest, RequestExecutor, BridgeRequest.Callback {
 

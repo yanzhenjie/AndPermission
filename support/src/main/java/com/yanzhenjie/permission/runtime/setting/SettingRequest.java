@@ -16,7 +16,7 @@
 package com.yanzhenjie.permission.runtime.setting;
 
 /**
- * Created by YanZhenjie on 2018/4/30.
+ * Created Zhenjie Yan on 2018/4/30.
  */
 public interface SettingRequest {
 

@@ -21,7 +21,7 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
 /**
- * Created by YanZhenjie on 2018/1/25.
+ * Created Zhenjie Yan on 2018/1/25.
  */
 class PhoneStateReadTest implements PermissionTest {
 

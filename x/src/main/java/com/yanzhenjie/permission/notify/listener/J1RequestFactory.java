@@ -19,7 +19,7 @@ import com.yanzhenjie.permission.notify.Notify;
 import com.yanzhenjie.permission.source.Source;
 
 /**
- * Created by YanZhenjie on 2018/5/29.
+ * Created Zhenjie Yan on 2018/5/29.
  */
 public class J1RequestFactory implements Notify.ListenerRequestFactory {
 

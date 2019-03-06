@@ -18,7 +18,7 @@ package com.yanzhenjie.permission.runtime;
 import com.yanzhenjie.permission.source.Source;
 
 /**
- * Created by YanZhenjie on 2018/4/28.
+ * Created by Zhenjie Yan on 2018/4/28.
  */
 public class MRequestFactory implements Runtime.PermissionRequestFactory {
 

@@ -21,7 +21,7 @@ import com.yanzhenjie.permission.bridge.RequestManager;
 import com.yanzhenjie.permission.source.Source;
 
 /**
- * Created by YanZhenjie on 2018/5/29.
+ * Created Zhenjie Yan on 2018/5/29.
  */
 class J2Request extends BaseRequest implements RequestExecutor, BridgeRequest.Callback {
 
