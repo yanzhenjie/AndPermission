@@ -32,6 +32,11 @@ public interface PermissionRequest {
     PermissionRequest permission(String... permissions);
 
     /**
+     * One or more permissions group.
+     */
+    PermissionRequest permission(String[]... groups);
+
+    /**
      * Set request rationale.
      */
     PermissionRequest rationale(Rationale<List<String>> rationale);

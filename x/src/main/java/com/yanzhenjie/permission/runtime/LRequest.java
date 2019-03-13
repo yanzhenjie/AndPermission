@@ -25,12 +25,13 @@ import com.yanzhenjie.permission.checker.StrictChecker;
 import com.yanzhenjie.permission.source.Source;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static java.util.Arrays.asList;
 
 /**
- * Created by Zhenjie Yan on 2018/1/25.
+ * Created Zhenjie Yan on 2018/1/25.
  */
 class LRequest implements PermissionRequest {
 
@@ -49,6 +50,16 @@ class LRequest implements PermissionRequest {
     @Override
     public PermissionRequest permission(String... permissions) {
         this.mPermissions = permissions;
+        return this;
+    }
+
+    @Override
+    public PermissionRequest permission(String[]... groups) {
+        List<String> permissions = new ArrayList<>();
+        for (String[] group : groups) {
+            permissions.addAll(Arrays.asList(group));
+        }
+        this.mPermissions = (String[])permissions.toArray();
         return this;
     }
 

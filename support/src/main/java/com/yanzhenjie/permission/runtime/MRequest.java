@@ -30,6 +30,7 @@ import com.yanzhenjie.permission.checker.StandardChecker;
 import com.yanzhenjie.permission.source.Source;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -63,6 +64,16 @@ class MRequest implements PermissionRequest, RequestExecutor, BridgeRequest.Call
     @Override
     public PermissionRequest permission(String... permissions) {
         this.mPermissions = permissions;
+        return this;
+    }
+
+    @Override
+    public PermissionRequest permission(String[]... groups) {
+        List<String> permissions = new ArrayList<>();
+        for (String[] group : groups) {
+            permissions.addAll(Arrays.asList(group));
+        }
+        this.mPermissions = (String[])permissions.toArray();
         return this;
     }
 
