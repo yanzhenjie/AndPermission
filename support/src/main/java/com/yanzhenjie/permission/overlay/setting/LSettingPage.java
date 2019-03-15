@@ -70,6 +70,9 @@ public class LSettingPage {
 
     private Intent huaweiApi(Context context) {
         Intent intent = new Intent();
+        intent.putExtra("package", context.getPackageName());
+        intent.putExtra("packageName", context.getPackageName());
+        intent.setData(Uri.fromParts("package", context.getPackageName(), null));
         intent.setClassName("com.huawei.systemmanager", "com.huawei.permissionmanager.ui.MainActivity");
         if (hasActivity(context, intent)) return intent;
 

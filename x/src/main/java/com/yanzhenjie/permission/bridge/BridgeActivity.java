@@ -151,11 +151,13 @@ public final class BridgeActivity extends Activity {
             case BridgeRequest.TYPE_NOTIFY: {
                 Intent settingIntent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
                 settingIntent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+                settingIntent.setData(Uri.fromParts("package", getPackageName(), null));
                 startActivityForResult(settingIntent, BridgeRequest.TYPE_NOTIFY);
                 break;
             }
             case BridgeRequest.TYPE_NOTIFY_LISTENER: {
                 Intent settingIntent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
+                settingIntent.setData(Uri.fromParts("package", getPackageName(), null));
                 startActivityForResult(settingIntent, BridgeRequest.TYPE_NOTIFY_LISTENER);
                 break;
             }
