@@ -38,7 +38,7 @@ class PhoneStateReadTest implements PermissionTest {
 
         TelephonyManager telephonyManager = (TelephonyManager)mContext.getSystemService(Context.TELEPHONY_SERVICE);
         return telephonyManager.getPhoneType() == TelephonyManager.PHONE_TYPE_NONE ||
-            !TextUtils.isEmpty(telephonyManager.getDeviceId()) ||
+            !TextUtils.isEmpty(telephonyManager.getCarrierConfig()) ||
             !TextUtils.isEmpty(telephonyManager.getSubscriberId());
     }
 }
