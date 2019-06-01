@@ -47,6 +47,11 @@ public interface PermissionRequest {
     PermissionRequest onDenied(Action<List<String>> denied);
 
     /**
+     * Action to be taken when onGranted throw exception.
+     */
+    PermissionRequest onError(Action<Exception> error);
+
+    /**
      * Request permission.
      */
     void start();

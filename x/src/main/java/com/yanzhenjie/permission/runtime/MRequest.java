@@ -53,6 +53,7 @@ class MRequest implements PermissionRequest, RequestExecutor, BridgeRequest.Call
     };
     private Action<List<String>> mGranted;
     private Action<List<String>> mDenied;
+    private Action<Exception> mError;
 
     private String[] mDeniedPermissions;
 
@@ -81,6 +82,12 @@ class MRequest implements PermissionRequest, RequestExecutor, BridgeRequest.Call
     @Override
     public PermissionRequest onDenied(Action<List<String>> denied) {
         this.mDenied = denied;
+        return this;
+    }
+
+    @Override
+    public PermissionRequest onError(Action<Exception> error) {
+        this.mError = error;
         return this;
     }
 
@@ -143,7 +150,9 @@ class MRequest implements PermissionRequest, RequestExecutor, BridgeRequest.Call
                 mGranted.onAction(permissionList);
             } catch (Exception e) {
                 Log.e("AndPermission", "Please check the onGranted() method body for bugs.", e);
-                if (mDenied != null) {
+                if (mError != null) {
+                    mError.onAction(e);
+                } else if (mDenied != null) {
                     mDenied.onAction(permissionList);
                 }
             }
