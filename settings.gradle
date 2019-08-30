@@ -1,1 +1,1 @@
-include ':x', ':xSample', 'support', 'supportSample'
+include ':x', ':xSample'
