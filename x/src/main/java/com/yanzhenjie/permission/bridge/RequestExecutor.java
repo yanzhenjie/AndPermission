@@ -15,6 +15,16 @@
  */
 package com.yanzhenjie.permission.bridge;
 
+import android.app.Service;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
+import android.os.RemoteException;
+
+import com.yanzhenjie.permission.AndPermission;
+
 import java.util.concurrent.BlockingQueue;
 
 /**
@@ -40,9 +50,15 @@ final class RequestExecutor extends Thread implements Messenger.Callback {
                     continue;
                 }
 
-                mMessenger = new Messenger(mRequest.getSource().getContext(), this);
+                Context context = mRequest.getSource().getContext();
+
+                mMessenger = new Messenger(context, this);
                 mMessenger.register();
-                executeCurrent();
+
+                Intent intent = new Intent();
+                intent.setAction(AndPermission.bridgeAction(context));
+                intent.setPackage(context.getPackageName());
+                context.bindService(intent, mConnection, Service.BIND_AUTO_CREATE);
 
                 try {
                     wait();
@@ -53,48 +69,66 @@ final class RequestExecutor extends Thread implements Messenger.Callback {
         }
     }
 
-    private void executeCurrent() {
+    private ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            IBridge iBridge = IBridge.Stub.asInterface(iBinder);
+            try {
+                executeCurrent(iBridge);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+        }
+    };
+
+    private void executeCurrent(IBridge iBridge) throws RemoteException {
         switch (mRequest.getType()) {
             case BridgeRequest.TYPE_APP_DETAILS: {
-                BridgeActivity.requestAppDetails(mRequest.getSource());
+                iBridge.requestAppDetails();
                 break;
             }
             case BridgeRequest.TYPE_PERMISSION: {
-                BridgeActivity.requestPermission(mRequest.getSource(), mRequest.getPermissions());
+                iBridge.requestPermission(mRequest.getPermissions());
                 break;
             }
             case BridgeRequest.TYPE_INSTALL: {
-                BridgeActivity.requestInstall(mRequest.getSource());
+                iBridge.requestInstall();
                 break;
             }
             case BridgeRequest.TYPE_OVERLAY: {
-                BridgeActivity.requestOverlay(mRequest.getSource());
+                iBridge.requestOverlay();
                 break;
             }
             case BridgeRequest.TYPE_ALERT_WINDOW: {
-                BridgeActivity.requestAlertWindow(mRequest.getSource());
+                iBridge.requestAlertWindow();
                 break;
             }
             case BridgeRequest.TYPE_NOTIFY: {
-                BridgeActivity.requestNotify(mRequest.getSource());
+                iBridge.requestNotify();
                 break;
             }
             case BridgeRequest.TYPE_NOTIFY_LISTENER: {
-                BridgeActivity.requestNotificationListener(mRequest.getSource());
+                iBridge.requestNotificationListener();
                 break;
             }
             case BridgeRequest.TYPE_WRITE_SETTING: {
-                BridgeActivity.requestWriteSetting(mRequest.getSource());
+                iBridge.requestWriteSetting();
                 break;
             }
         }
     }
+
 
     @Override
     public void onCallback() {
         synchronized (this) {
             mMessenger.unRegister();
             mRequest.getCallback().onCallback();
+            mRequest.getSource().getContext().unbindService(mConnection);
             mMessenger = null;
             mRequest = null;
             notify();

@@ -40,6 +40,12 @@ import androidx.fragment.app.Fragment;
  */
 public class AndPermission {
 
+    private static final String ACTION_BRIDGE_SUFFIX = ".andpermission.bridge";
+
+    public static String bridgeAction(Context context) {
+        return context.getPackageName() + ACTION_BRIDGE_SUFFIX;
+    }
+
     /**
      * With context.
      *

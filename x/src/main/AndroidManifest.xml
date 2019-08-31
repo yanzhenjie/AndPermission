@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!--
     Copyright 2017 Zhenjie Yan
 
@@ -14,14 +15,34 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yanzhenjie.permission">
 
+    <permission
+        android:name="${applicationId}.andpermission.bridge"
+        android:permissionGroup="${applicationId}.andpermission"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="${applicationId}.andpermission.bridge" />
+
     <application>
+        <service
+            android:name=".bridge.BridgeService"
+            android:exported="false"
+            android:permission="${applicationId}.andpermission.bridge"
+            android:process=":permission">
+            <intent-filter>
+                <action android:name="${applicationId}.andpermission.bridge" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".bridge.BridgeActivity"
-            android:theme="@style/Permission.Theme"/>
+            android:configChanges="orientation"
+            android:exported="false"
+            android:permission="${applicationId}.andpermission.bridge"
+            android:process=":permission"
+            android:theme="@style/Permission.Theme" />
 
         <provider
             android:name=".FileProvider"
@@ -30,7 +51,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/permission_file_paths"/>
+                android:resource="@xml/permission_file_paths" />
         </provider>
     </application>
 

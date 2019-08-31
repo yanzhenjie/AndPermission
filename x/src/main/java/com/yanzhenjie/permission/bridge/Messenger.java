@@ -20,15 +20,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+import com.yanzhenjie.permission.AndPermission;
+
 /**
  * Created by Zhenjie Yan on 2018/6/9.
  */
 class Messenger extends BroadcastReceiver {
 
-    private static final String ACTION = "com.yanzhenjie.permission.bridge";
-
     public static void send(Context context) {
-        Intent broadcast = new Intent(ACTION);
+        Intent broadcast = new Intent(AndPermission.bridgeAction(context));
         context.sendBroadcast(broadcast);
     }
 
@@ -41,7 +41,7 @@ class Messenger extends BroadcastReceiver {
     }
 
     public void register() {
-        IntentFilter filter = new IntentFilter(ACTION);
+        IntentFilter filter = new IntentFilter(AndPermission.bridgeAction(mContext));
         mContext.registerReceiver(this, filter);
     }
 
