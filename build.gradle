@@ -3,6 +3,7 @@ apply from: "config.gradle"
 buildscript {
     repositories {
         google()
+        jcenter {url 'https://maven.aliyun.com/repository/jcenter'}
         jcenter()
     }
     dependencies {
@@ -15,6 +16,7 @@ buildscript {
 allprojects {
     repositories {
         google()
+        jcenter {url 'https://maven.aliyun.com/repository/jcenter'}
         jcenter()
     }
 }
