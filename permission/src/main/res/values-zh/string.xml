@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!--
     Copyright 2017 Zhenjie Yan
 
@@ -25,4 +26,6 @@
     <string name="permission_name_sensors">身体传感器</string>
     <string name="permission_name_sms">短信</string>
     <string name="permission_name_storage">存储空间</string>
+
+    <string name="permission_requesting">正在请求授权…</string>
 </resources>

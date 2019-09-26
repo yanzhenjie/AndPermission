@@ -16,7 +16,6 @@
 package com.yanzhenjie.permission.runtime;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.yanzhenjie.permission.Action;
@@ -28,6 +27,7 @@ import com.yanzhenjie.permission.checker.DoubleChecker;
 import com.yanzhenjie.permission.checker.PermissionChecker;
 import com.yanzhenjie.permission.checker.StandardChecker;
 import com.yanzhenjie.permission.source.Source;
+import com.yanzhenjie.permission.task.TaskExecutor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,7 +73,7 @@ class MRequest implements PermissionRequest, RequestExecutor, BridgeRequest.Call
         for (String[] group : groups) {
             permissions.addAll(Arrays.asList(group));
         }
-        this.mPermissions = (String[])permissions.toArray();
+        this.mPermissions = (String[]) permissions.toArray();
         return this;
     }
 
@@ -127,14 +127,14 @@ class MRequest implements PermissionRequest, RequestExecutor, BridgeRequest.Call
 
     @Override
     public void onCallback() {
-        new AsyncTask<Void, Void, List<String>>() {
+        new TaskExecutor(mSource.getContext()) {
             @Override
             protected List<String> doInBackground(Void... voids) {
                 return getDeniedPermissions(DOUBLE_CHECKER, mSource, mPermissions);
             }
 
             @Override
-            protected void onPostExecute(List<String> deniedList) {
+            protected void onFinish(List<String> deniedList) {
                 if (deniedList.isEmpty()) {
                     callbackSucceed();
                 } else {
@@ -186,9 +186,9 @@ class MRequest implements PermissionRequest, RequestExecutor, BridgeRequest.Call
     /**
      * Get permissions to show rationale.
      */
-    private static List<String> getRationalePermissions(Source source, String... permissions) {
+    private static List<String> getRationalePermissions(Source source, String... deniedPermissions) {
         List<String> rationaleList = new ArrayList<>(1);
-        for (String permission : permissions) {
+        for (String permission : deniedPermissions) {
             if (source.isShowRationalePermission(permission)) {
                 rationaleList.add(permission);
             }

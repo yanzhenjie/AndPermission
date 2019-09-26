@@ -25,4 +25,6 @@
     <string name="permission_name_sensors">身體傳感器</string>
     <string name="permission_name_sms">短訊</string>
     <string name="permission_name_storage">存儲空間</string>
+
+    <string name="permission_requesting">正在請求授權…</string>
 </resources>

@@ -15,7 +15,6 @@
  */
 package com.yanzhenjie.permission.runtime;
 
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.yanzhenjie.permission.Action;
@@ -23,6 +22,7 @@ import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.checker.PermissionChecker;
 import com.yanzhenjie.permission.checker.StrictChecker;
 import com.yanzhenjie.permission.source.Source;
+import com.yanzhenjie.permission.task.TaskExecutor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,7 +59,7 @@ class LRequest implements PermissionRequest {
         for (String[] group : groups) {
             permissions.addAll(Arrays.asList(group));
         }
-        this.mPermissions = (String[])permissions.toArray();
+        this.mPermissions = (String[]) permissions.toArray();
         return this;
     }
 
@@ -82,14 +82,14 @@ class LRequest implements PermissionRequest {
 
     @Override
     public void start() {
-        new AsyncTask<Void, Void, List<String>>() {
+        new TaskExecutor(mSource.getContext()) {
             @Override
             protected List<String> doInBackground(Void... voids) {
                 return getDeniedPermissions(STRICT_CHECKER, mSource, mPermissions);
             }
 
             @Override
-            protected void onPostExecute(List<String> deniedList) {
+            protected void onFinish(List<String> deniedList) {
                 if (deniedList.isEmpty()) {
                     callbackSucceed();
                 } else {

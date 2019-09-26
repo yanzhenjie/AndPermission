@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!--
     Copyright 2017 Zhenjie Yan
 
@@ -25,4 +26,6 @@
     <string name="permission_name_sensors">Body Sensors</string>
     <string name="permission_name_sms">SMS</string>
     <string name="permission_name_storage">Storage</string>
+
+    <string name="permission_requesting">Requesting permissions…</string>
 </resources>

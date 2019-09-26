@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright 2017 Zhenjie Yan
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<resources>
+
+    <dimen name="permission_dp_5">5dp</dimen>
+    <dimen name="permission_dp_10">10dp</dimen>
+    <dimen name="permission_dp_15">15dp</dimen>
+    <dimen name="permission_dp_20">20dp</dimen>
+    <dimen name="permission_dp_25">25dp</dimen>
+    <dimen name="permission_dp_30">30dp</dimen>
+    <dimen name="permission_dp_35">35dp</dimen>
+    <dimen name="permission_dp_40">40dp</dimen>
+
+    <dimen name="permission_sp_12">12sp</dimen>
+    <dimen name="permission_sp_14">14sp</dimen>
+    <dimen name="permission_sp_16">16sp</dimen>
+    <dimen name="permission_sp_18">18sp</dimen>
+    <dimen name="permission_sp_20">20sp</dimen>
+
+</resources>
