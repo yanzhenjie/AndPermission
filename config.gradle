@@ -34,4 +34,8 @@ ext {
                bintrayRepo   : "maven",
                bintrayUser   : 'yolanda',
                bintrayLicense: "Apache-2.0"]
+
+    dependencies = [
+        fragment: 'androidx.appcompat:appcompat:1.1.0'
+    ]
 }

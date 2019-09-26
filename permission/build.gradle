@@ -13,5 +13,5 @@ android {
 }
 
 dependencies {
-    api 'androidx.fragment:fragment:1.1.0'
+    api rootProject.ext.dependencies.fragment
 }
