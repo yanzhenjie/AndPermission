@@ -21,7 +21,7 @@ import com.yanzhenjie.permission.bridge.RequestManager;
 import com.yanzhenjie.permission.source.Source;
 
 /**
- * Created Zhenjie Yan on 2018/5/29.
+ * Created by Zhenjie Yan on 2018/5/29.
  */
 class ORequest extends BaseRequest implements RequestExecutor, BridgeRequest.Callback {
 

@@ -24,7 +24,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 /**
- * Created Zhenjie Yan on 2019-09-23.
+ * Created by Zhenjie Yan on 2019-09-23.
  */
 public abstract class TaskExecutor extends AsyncTask<Void, Void, List<String>> {
 

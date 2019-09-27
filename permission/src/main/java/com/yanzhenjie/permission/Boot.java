@@ -32,7 +32,7 @@ import com.yanzhenjie.permission.setting.Setting;
 import com.yanzhenjie.permission.source.Source;
 
 /**
- * Created Zhenjie Yan on 2018/4/28.
+ * Created by Zhenjie Yan on 2018/4/28.
  */
 public class Boot implements Option {
 

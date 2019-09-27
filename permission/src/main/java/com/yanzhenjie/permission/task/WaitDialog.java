@@ -23,7 +23,7 @@ import androidx.annotation.NonNull;
 import com.yanzhenjie.permission.R;
 
 /**
- * Created Zhenjie Yan on 2019-09-23.
+ * Created by Zhenjie Yan on 2019-09-23.
  */
 public class WaitDialog extends Dialog {
 

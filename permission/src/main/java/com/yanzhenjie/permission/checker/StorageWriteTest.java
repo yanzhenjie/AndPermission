@@ -21,7 +21,7 @@ import android.text.TextUtils;
 import java.io.File;
 
 /**
- * Created Zhenjie Yan on 2018/1/16.
+ * Created by Zhenjie Yan on 2018/1/16.
  */
 class StorageWriteTest implements PermissionTest {
 

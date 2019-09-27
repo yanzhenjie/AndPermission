@@ -18,7 +18,7 @@ package com.yanzhenjie.permission.notify;
 import com.yanzhenjie.permission.source.Source;
 
 /**
- * Created Zhenjie Yan on 2018/5/29.
+ * Created by Zhenjie Yan on 2018/5/29.
  */
 public class ORequestFactory implements Notify.PermissionRequestFactory {
 

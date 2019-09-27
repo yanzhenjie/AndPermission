@@ -22,7 +22,7 @@ import android.location.LocationManager;
 import java.util.List;
 
 /**
- * Created Zhenjie Yan on 2018/1/14.
+ * Created by Zhenjie Yan on 2018/1/14.
  */
 class LocationCoarseTest implements PermissionTest {
 

@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created Zhenjie Yan on 2018/1/7.
+ * Created by Zhenjie Yan on 2018/1/7.
  */
 public final class StandardChecker implements PermissionChecker {
 

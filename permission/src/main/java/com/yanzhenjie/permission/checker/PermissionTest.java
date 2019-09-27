@@ -18,7 +18,7 @@ package com.yanzhenjie.permission.checker;
 import android.database.Cursor;
 
 /**
- * Created Zhenjie Yan on 2018/1/14.
+ * Created by Zhenjie Yan on 2018/1/14.
  */
 interface PermissionTest {
 

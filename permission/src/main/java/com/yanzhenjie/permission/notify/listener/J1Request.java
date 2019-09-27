@@ -19,7 +19,7 @@ import com.yanzhenjie.permission.RequestExecutor;
 import com.yanzhenjie.permission.source.Source;
 
 /**
- * Created Zhenjie Yan on 2018/5/29.
+ * Created by Zhenjie Yan on 2018/5/29.
  */
 class J1Request extends BaseRequest implements RequestExecutor {
 
