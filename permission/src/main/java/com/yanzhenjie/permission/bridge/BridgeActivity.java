@@ -22,12 +22,12 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.KeyEvent;
 
+import androidx.annotation.NonNull;
+
 import com.yanzhenjie.permission.overlay.setting.LSettingPage;
 import com.yanzhenjie.permission.overlay.setting.MSettingPage;
 import com.yanzhenjie.permission.source.ActivitySource;
 import com.yanzhenjie.permission.source.Source;
-
-import androidx.annotation.NonNull;
 
 /**
  * <p>
@@ -39,79 +39,90 @@ public final class BridgeActivity extends Activity {
 
     private static final String KEY_TYPE = "KEY_TYPE";
     private static final String KEY_PERMISSIONS = "KEY_PERMISSIONS";
+    private static final String KEY_ACTION_SUFFIX = "KEY_ACTION_SUFFIX";
 
     /**
      * Request for permissions.
      */
-    static void requestAppDetails(Source source) {
+    static void requestAppDetails(Source source, String suffix) {
         Intent intent = new Intent(source.getContext(), BridgeActivity.class);
         intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_APP_DETAILS);
+        intent.putExtra(KEY_ACTION_SUFFIX, suffix);
         source.startActivity(intent);
     }
 
     /**
      * Request for permissions.
      */
-    static void requestPermission(Source source, String[] permissions) {
+    static void requestPermission(Source source, String suffix, String[] permissions) {
         Intent intent = new Intent(source.getContext(), BridgeActivity.class);
         intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_PERMISSION);
         intent.putExtra(KEY_PERMISSIONS, permissions);
+        intent.putExtra(KEY_ACTION_SUFFIX, suffix);
         source.startActivity(intent);
     }
 
     /**
      * Request for package install.
      */
-    static void requestInstall(Source source) {
+    static void requestInstall(Source source, String suffix) {
         Intent intent = new Intent(source.getContext(), BridgeActivity.class);
         intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_INSTALL);
+        intent.putExtra(KEY_ACTION_SUFFIX, suffix);
         source.startActivity(intent);
     }
 
     /**
      * Request for overlay.
      */
-    static void requestOverlay(Source source) {
+    static void requestOverlay(Source source, String suffix) {
         Intent intent = new Intent(source.getContext(), BridgeActivity.class);
         intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_OVERLAY);
+        intent.putExtra(KEY_ACTION_SUFFIX, suffix);
         source.startActivity(intent);
     }
 
     /**
      * Request for alert window.
      */
-    static void requestAlertWindow(Source source) {
+    static void requestAlertWindow(Source source, String suffix) {
         Intent intent = new Intent(source.getContext(), BridgeActivity.class);
         intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_ALERT_WINDOW);
+        intent.putExtra(KEY_ACTION_SUFFIX, suffix);
         source.startActivity(intent);
     }
 
     /**
      * Request for notify.
      */
-    static void requestNotify(Source source) {
+    static void requestNotify(Source source, String suffix) {
         Intent intent = new Intent(source.getContext(), BridgeActivity.class);
         intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_NOTIFY);
+        intent.putExtra(KEY_ACTION_SUFFIX, suffix);
         source.startActivity(intent);
     }
 
     /**
      * Request for notification listener.
      */
-    static void requestNotificationListener(Source source) {
+    static void requestNotificationListener(Source source, String suffix) {
         Intent intent = new Intent(source.getContext(), BridgeActivity.class);
         intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_NOTIFY_LISTENER);
+        intent.putExtra(KEY_ACTION_SUFFIX, suffix);
         source.startActivity(intent);
     }
 
     /**
      * Request for write system setting.
      */
-    static void requestWriteSetting(Source source) {
+    static void requestWriteSetting(Source source, String suffix) {
         Intent intent = new Intent(source.getContext(), BridgeActivity.class);
         intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_WRITE_SETTING);
+        intent.putExtra(KEY_ACTION_SUFFIX, suffix);
         source.startActivity(intent);
     }
+
+    private String mActionSuffix;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +131,7 @@ public final class BridgeActivity extends Activity {
 
         Intent intent = getIntent();
         int operation = intent.getIntExtra(KEY_TYPE, -1);
+        mActionSuffix = intent.getStringExtra(KEY_ACTION_SUFFIX);
         switch (operation) {
             case BridgeRequest.TYPE_APP_DETAILS: {
                 Intent appDetailsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
@@ -172,8 +184,8 @@ public final class BridgeActivity extends Activity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-        @NonNull int[] grantResults) {
-        Messenger.send(this);
+                                           @NonNull int[] grantResults) {
+        Messenger.send(this, mActionSuffix);
         finish();
     }
 
@@ -184,7 +196,7 @@ public final class BridgeActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Messenger.send(this);
+        Messenger.send(this, mActionSuffix);
         finish();
     }
 

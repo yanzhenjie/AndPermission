@@ -25,48 +25,29 @@ import android.os.RemoteException;
 
 import com.yanzhenjie.permission.AndPermission;
 
-import java.util.concurrent.BlockingQueue;
-
 /**
  * Created by Zhenjie Yan on 2/13/19.
  */
 final class RequestExecutor extends Thread implements Messenger.Callback {
 
-    private final BlockingQueue<BridgeRequest> mQueue;
     private BridgeRequest mRequest;
     private Messenger mMessenger;
 
-    public RequestExecutor(BlockingQueue<BridgeRequest> queue) {
-        this.mQueue = queue;
+    public RequestExecutor(BridgeRequest request) {
+        this.mRequest = request;
     }
 
     @Override
     public void run() {
-        while (true) {
-            synchronized (this) {
-                try {
-                    mRequest = mQueue.take();
-                } catch (InterruptedException e) {
-                    continue;
-                }
+        Context context = mRequest.getSource().getContext();
 
-                Context context = mRequest.getSource().getContext();
+        mMessenger = new Messenger(context, this);
+        mMessenger.register(getName());
 
-                mMessenger = new Messenger(context, this);
-                mMessenger.register();
-
-                Intent intent = new Intent();
-                intent.setAction(AndPermission.bridgeAction(context));
-                intent.setPackage(context.getPackageName());
-                context.bindService(intent, mConnection, Service.BIND_AUTO_CREATE);
-
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        Intent intent = new Intent();
+        intent.setAction(AndPermission.bridgeAction(context, null));
+        intent.setPackage(context.getPackageName());
+        context.bindService(intent, mConnection, Service.BIND_AUTO_CREATE);
     }
 
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -88,35 +69,35 @@ final class RequestExecutor extends Thread implements Messenger.Callback {
     private void executeCurrent(IBridge iBridge) throws RemoteException {
         switch (mRequest.getType()) {
             case BridgeRequest.TYPE_APP_DETAILS: {
-                iBridge.requestAppDetails();
+                iBridge.requestAppDetails(getName());
                 break;
             }
             case BridgeRequest.TYPE_PERMISSION: {
-                iBridge.requestPermission(mRequest.getPermissions());
+                iBridge.requestPermission(getName(), mRequest.getPermissions());
                 break;
             }
             case BridgeRequest.TYPE_INSTALL: {
-                iBridge.requestInstall();
+                iBridge.requestInstall(getName());
                 break;
             }
             case BridgeRequest.TYPE_OVERLAY: {
-                iBridge.requestOverlay();
+                iBridge.requestOverlay(getName());
                 break;
             }
             case BridgeRequest.TYPE_ALERT_WINDOW: {
-                iBridge.requestAlertWindow();
+                iBridge.requestAlertWindow(getName());
                 break;
             }
             case BridgeRequest.TYPE_NOTIFY: {
-                iBridge.requestNotify();
+                iBridge.requestNotify(getName());
                 break;
             }
             case BridgeRequest.TYPE_NOTIFY_LISTENER: {
-                iBridge.requestNotificationListener();
+                iBridge.requestNotificationListener(getName());
                 break;
             }
             case BridgeRequest.TYPE_WRITE_SETTING: {
-                iBridge.requestWriteSetting();
+                iBridge.requestWriteSetting(getName());
                 break;
             }
         }
@@ -131,7 +112,6 @@ final class RequestExecutor extends Thread implements Messenger.Callback {
             mRequest.getSource().getContext().unbindService(mConnection);
             mMessenger = null;
             mRequest = null;
-            notify();
         }
     }
 }

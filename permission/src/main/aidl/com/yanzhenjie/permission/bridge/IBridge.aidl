@@ -4,40 +4,40 @@ interface IBridge {
     /**
      * Request for permissions.
      */
-    void requestAppDetails();
+    void requestAppDetails(in String suffix);
 
     /**
      * Request for permissions.
      */
-    void requestPermission(in String[] permissions);
+    void requestPermission(in String suffix, in String[] permissions);
 
     /**
      * Request for package install.
      */
-    void requestInstall() ;
+    void requestInstall(in String suffix);
 
    /**
     * Request for overlay.
     */
-    void requestOverlay() ;
+    void requestOverlay(in String suffix);
 
    /**
     * Request for alert window.
     */
-    void requestAlertWindow();
+    void requestAlertWindow(in String suffix);
 
    /**
     * Request for notify.
     */
-    void requestNotify() ;
+    void requestNotify(in String suffix);
 
    /**
     * Request for notification listener.
     */
-    void requestNotificationListener() ;
+    void requestNotificationListener(in String suffix);
 
    /**
     * Request for write system setting.
     */
-    void requestWriteSetting() ;
+    void requestWriteSetting(in String suffix);
 }

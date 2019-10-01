@@ -27,8 +27,8 @@ import com.yanzhenjie.permission.AndPermission;
  */
 class Messenger extends BroadcastReceiver {
 
-    public static void send(Context context) {
-        Intent broadcast = new Intent(AndPermission.bridgeAction(context));
+    public static void send(Context context, String suffix) {
+        Intent broadcast = new Intent(AndPermission.bridgeAction(context, suffix));
         context.sendBroadcast(broadcast);
     }
 
@@ -40,8 +40,8 @@ class Messenger extends BroadcastReceiver {
         this.mCallback = callback;
     }
 
-    public void register() {
-        IntentFilter filter = new IntentFilter(AndPermission.bridgeAction(mContext));
+    public void register(String suffix) {
+        IntentFilter filter = new IntentFilter(AndPermission.bridgeAction(mContext, suffix));
         mContext.registerReceiver(this, filter);
     }
 

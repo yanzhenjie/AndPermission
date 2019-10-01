@@ -15,8 +15,8 @@
  */
 package com.yanzhenjie.permission.bridge;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * Created by Zhenjie Yan on 2/13/19.
@@ -36,15 +36,13 @@ public class RequestManager {
         return sManager;
     }
 
-    private final BlockingQueue<BridgeRequest> mQueue;
+    private final Executor mExecutor;
 
     private RequestManager() {
-        this.mQueue = new LinkedBlockingQueue<>();
-
-        new RequestExecutor(mQueue).start();
+        this.mExecutor = Executors.newCachedThreadPool();
     }
 
     public void add(BridgeRequest request) {
-        mQueue.add(request);
+        mExecutor.execute(new RequestExecutor(request));
     }
 }

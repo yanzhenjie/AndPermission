@@ -20,10 +20,10 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
 
+import androidx.annotation.Nullable;
+
 import com.yanzhenjie.permission.source.ContextSource;
 import com.yanzhenjie.permission.source.Source;
-
-import androidx.annotation.Nullable;
 
 /**
  * Created by Zhenjie Yan on 2019-08-30.
@@ -41,43 +41,43 @@ public class BridgeService extends Service {
         private Source mSource = new ContextSource(BridgeService.this);
 
         @Override
-        public void requestAppDetails() throws RemoteException {
-            BridgeActivity.requestAppDetails(mSource);
+        public void requestAppDetails(String suffix) throws RemoteException {
+            BridgeActivity.requestAppDetails(mSource, suffix);
         }
 
         @Override
-        public void requestPermission(String[] permissions) throws RemoteException {
-            BridgeActivity.requestPermission(mSource, permissions);
+        public void requestPermission(String suffix, String[] permissions) throws RemoteException {
+            BridgeActivity.requestPermission(mSource, suffix, permissions);
         }
 
         @Override
-        public void requestInstall() throws RemoteException {
-            BridgeActivity.requestInstall(mSource);
+        public void requestInstall(String suffix) throws RemoteException {
+            BridgeActivity.requestInstall(mSource, suffix);
         }
 
         @Override
-        public void requestOverlay() throws RemoteException {
-            BridgeActivity.requestOverlay(mSource);
+        public void requestOverlay(String suffix) throws RemoteException {
+            BridgeActivity.requestOverlay(mSource, suffix);
         }
 
         @Override
-        public void requestAlertWindow() throws RemoteException {
-            BridgeActivity.requestAlertWindow(mSource);
+        public void requestAlertWindow(String suffix) throws RemoteException {
+            BridgeActivity.requestAlertWindow(mSource, suffix);
         }
 
         @Override
-        public void requestNotify() throws RemoteException {
-            BridgeActivity.requestNotify(mSource);
+        public void requestNotify(String suffix) throws RemoteException {
+            BridgeActivity.requestNotify(mSource, suffix);
         }
 
         @Override
-        public void requestNotificationListener() throws RemoteException {
-            BridgeActivity.requestNotificationListener(mSource);
+        public void requestNotificationListener(String suffix) throws RemoteException {
+            BridgeActivity.requestNotificationListener(mSource, suffix);
         }
 
         @Override
-        public void requestWriteSetting() throws RemoteException {
-            BridgeActivity.requestWriteSetting(mSource);
+        public void requestWriteSetting(String suffix) throws RemoteException {
+            BridgeActivity.requestWriteSetting(mSource, suffix);
         }
     };
 }
