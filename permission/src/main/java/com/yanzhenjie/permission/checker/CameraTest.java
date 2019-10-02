@@ -34,7 +34,10 @@ class CameraTest implements PermissionTest {
     public boolean test() throws Throwable {
         Camera camera = null;
         try {
-            camera = Camera.open();
+            int cameraCount = Camera.getNumberOfCameras();
+            if (cameraCount <= 0) return true;
+
+            camera = Camera.open(cameraCount - 1);
             Camera.Parameters parameters = camera.getParameters();
             camera.setParameters(parameters);
             camera.setPreviewCallback(PREVIEW_CALLBACK);
