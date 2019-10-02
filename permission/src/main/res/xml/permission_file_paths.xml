@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
     Copyright 2018 Zhenjie Yan
 
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,27 +14,31 @@
     limitations under the License.
 -->
 <paths>
+    <root-path
+        name="root_path"
+        path="." />
+
     <files-path
         name="file_path"
-        path="."/>
+        path="." />
 
     <cache-path
         name="cache_path"
-        path="."/>
+        path="." />
 
     <external-path
         name="external_path"
-        path="."/>
+        path="." />
 
     <external-files-path
         name="external_files_path"
-        path="."/>
+        path="." />
 
     <external-cache-path
         name="external_cache_path"
-        path="."/>
+        path="." />
 
     <external-media-path
         name="external_media_path"
-        path="."/>
+        path="." />
 </paths>
