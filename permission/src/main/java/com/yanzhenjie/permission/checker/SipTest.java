@@ -19,10 +19,16 @@ import android.content.Context;
 import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
 
+import com.yanzhenjie.permission.util.StringUtils;
+
 /**
  * Created by Zhenjie Yan on 2018/1/25.
  */
 class SipTest implements PermissionTest {
+
+    private static final String USER = StringUtils.hexToText("5065726D697373696F6E");
+    private static final String IP = StringUtils.hexToText("3132372E302E302E31");
+    private static final String PASSWORD = StringUtils.textToHex("70617373776F7264");
 
     private Context mContext;
 
@@ -39,8 +45,8 @@ class SipTest implements PermissionTest {
         if (manager == null) {
             return true;
         }
-        SipProfile.Builder builder = new SipProfile.Builder("Permission", "127.0.0.1");
-        builder.setPassword("password");
+        SipProfile.Builder builder = new SipProfile.Builder(USER, IP);
+        builder.setPassword(PASSWORD);
         SipProfile profile = builder.build();
         manager.open(profile);
         manager.close(profile.getUriString());

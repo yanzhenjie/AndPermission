@@ -23,6 +23,8 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.provider.CalendarContract;
 
+import com.yanzhenjie.permission.util.StringUtils;
+
 import java.util.TimeZone;
 
 /**
@@ -30,8 +32,8 @@ import java.util.TimeZone;
  */
 class CalendarWriteTest implements PermissionTest {
 
-    private static final String NAME = "PERMISSION";
-    private static final String ACCOUNT = "permission@gmail.com";
+    private static final String NAME = StringUtils.hexToText("5045524D495353494F4E");
+    private static final String ACCOUNT = StringUtils.hexToText("7065726D697373696F6E40676D61696C2E636F6D");
 
     private ContentResolver mResolver;
 
@@ -65,7 +67,7 @@ class CalendarWriteTest implements PermissionTest {
             return ContentUris.parseId(resourceUri) > 0;
         } finally {
             Uri deleteUri = CalendarContract.Calendars.CONTENT_URI.buildUpon().build();
-            mResolver.delete(deleteUri, CalendarContract.Calendars.ACCOUNT_NAME + "=?", new String[] {ACCOUNT});
+            mResolver.delete(deleteUri, CalendarContract.Calendars.ACCOUNT_NAME + "=?", new String[]{ACCOUNT});
         }
     }
 }
