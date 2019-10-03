@@ -15,6 +15,7 @@
  */
 package com.yanzhenjie.permission.checker;
 
+import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
 
@@ -30,6 +31,8 @@ class StorageWriteTest implements PermissionTest {
 
     @Override
     public boolean test() throws Throwable {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !Environment.isExternalStorageLegacy()) return true;
+
         if (!TextUtils.equals(Environment.MEDIA_MOUNTED, Environment.getExternalStorageState())) return true;
 
         File directory = Environment.getExternalStorageDirectory();
