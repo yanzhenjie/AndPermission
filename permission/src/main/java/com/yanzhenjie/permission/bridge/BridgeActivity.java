@@ -23,6 +23,7 @@ import android.provider.Settings;
 import android.view.KeyEvent;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.yanzhenjie.permission.overlay.setting.LSettingPage;
 import com.yanzhenjie.permission.overlay.setting.MSettingPage;
@@ -183,8 +184,7 @@ public final class BridgeActivity extends Activity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Messenger.send(this, mActionSuffix);
         finish();
     }
@@ -195,7 +195,8 @@ public final class BridgeActivity extends Activity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         Messenger.send(this, mActionSuffix);
         finish();
     }

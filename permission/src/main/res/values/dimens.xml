@@ -17,6 +17,7 @@
 -->
 <resources>
 
+    <dimen name="permission_dp_3">3dp</dimen>
     <dimen name="permission_dp_5">5dp</dimen>
     <dimen name="permission_dp_10">10dp</dimen>
     <dimen name="permission_dp_15">15dp</dimen>

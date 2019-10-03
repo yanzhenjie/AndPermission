@@ -35,7 +35,6 @@ public abstract class TaskExecutor extends AsyncTask<Void, Void, List<String>> {
     public TaskExecutor(Context context) {
         this.mDialog = new WaitDialog(context);
         this.mDialog.setCancelable(false);
-        this.mDialog.setCanceledOnTouchOutside(false);
     }
 
     @Override

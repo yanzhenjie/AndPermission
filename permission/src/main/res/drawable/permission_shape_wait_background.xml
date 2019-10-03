@@ -17,10 +17,8 @@
 -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <gradient
-        android:endColor="@android:color/transparent"
-        android:gradientRadius="100%"
-        android:startColor="@color/permission_wait_background"
-        android:type="radial" />
+    <corners android:radius="@dimen/permission_dp_3" />
+
+    <solid android:color="@android:color/background_dark" />
 
 </shape>

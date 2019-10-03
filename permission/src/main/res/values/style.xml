@@ -19,32 +19,36 @@
 
     <style name="Permission" />
 
-    <style name="Permission.Theme">
+    <style name="Permission.Theme" />
+
+    <style name="Permission.Theme.Activity">
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowDisablePreview">true</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
-    <style name="Permission.Progress" />
-
-    <style name="Permission.Progress.Wait" parent="@android:style/Widget.Holo.ProgressBar">
-        <item name="android:indeterminateOnly">true</item>
-    </style>
-
-    <style name="Permission.Dialog">
-        <item name="android:backgroundDimEnabled">true</item>
-    </style>
-
-    <style name="Permission.Dialog.Wait">
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:backgroundDimEnabled">false</item>
-        <item name="android:background">@android:color/transparent</item>
+    <style name="Permission.Theme.Activity.Transparent">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="Permission.Theme.Dialog" parent="android:Theme.Holo.Dialog.NoActionBar" />
+
+    <style name="Permission.Theme.Dialog.Wait">
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowBackground">@drawable/permission_shape_wait_background</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+    </style>
+
+    <style name="Permission.Widget" />
+
+    <style name="Permission.Widget.Progress" parent="@android:style/Widget.Holo.ProgressBar" />
+
+    <style name="Permission.Widget.Progress.Wait">
+        <item name="android:indeterminateOnly">true</item>
     </style>
 
     <style name="Permission.WrapContent">

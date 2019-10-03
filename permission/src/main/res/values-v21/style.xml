@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-    Copyright 2017 Zhenjie Yan
+    Copyright 2019 Zhenjie Yan
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -17,7 +17,18 @@
 -->
 <resources>
 
-    <style name="Permission.Progress.Wait" parent="@android:style/Widget.Material.ProgressBar">
+    <style name="Permission.Theme.Activity.Transparent">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="Permission.Theme.Dialog" parent="android:Theme.Material.Dialog.NoActionBar" />
+
+    <style name="Permission.Widget.Progress" parent="@android:style/Widget.Material.ProgressBar" />
+
+    <style name="Permission.Widget.Progress.Wait">
         <item name="android:indeterminateOnly">true</item>
         <item name="android:indeterminateTint">@android:color/white</item>
     </style>

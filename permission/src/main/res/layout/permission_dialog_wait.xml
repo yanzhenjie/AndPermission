@@ -16,14 +16,19 @@
     limitations under the License.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/Permission.MatchParent"
-    android:background="@drawable/permission_shape_wait_background"
-    android:gravity="center">
+    android:gravity="center"
+    android:paddingStart="@dimen/permission_dp_20"
+    android:paddingTop="@dimen/permission_dp_5"
+    android:paddingEnd="@dimen/permission_dp_20"
+    android:paddingBottom="@dimen/permission_dp_5"
+    tools:background="@android:color/background_dark">
 
     <ProgressBar
-        style="@style/Permission.Progress.Wait"
-        android:layout_width="@dimen/permission_dp_35"
-        android:layout_height="@dimen/permission_dp_35" />
+        style="@style/Permission.Widget.Progress.Wait"
+        android:layout_width="@dimen/permission_dp_30"
+        android:layout_height="@dimen/permission_dp_30" />
 
     <TextView
         style="@style/Permission.WrapContent"
