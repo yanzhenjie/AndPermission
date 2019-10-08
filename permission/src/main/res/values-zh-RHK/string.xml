@@ -22,6 +22,7 @@
     <string name="permission_name_location">位置信息</string>
     <string name="permission_name_microphone">麥克風</string>
     <string name="permission_name_phone">電話</string>
+    <string name="permission_name_call_log">通話記錄</string>
     <string name="permission_name_sensors">身體傳感器</string>
     <string name="permission_name_sms">短訊</string>
     <string name="permission_name_storage">存儲空間</string>

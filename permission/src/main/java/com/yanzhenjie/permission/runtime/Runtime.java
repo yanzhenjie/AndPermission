@@ -20,6 +20,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
+
 import com.yanzhenjie.permission.runtime.option.RuntimeOption;
 import com.yanzhenjie.permission.runtime.setting.AllRequest;
 import com.yanzhenjie.permission.runtime.setting.SettingRequest;
@@ -27,15 +29,14 @@ import com.yanzhenjie.permission.source.Source;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-
-import androidx.annotation.NonNull;
 
 /**
  * Created by Zhenjie Yan on 2018/5/2.
  */
 public class Runtime implements RuntimeOption {
+
+    private static final String ADD_VOICEMAIL_MANIFEST = "android.permission.ADD_VOICEMAIL";
 
     private static final PermissionRequestFactory FACTORY;
     private static List<String> sAppPermissions;
@@ -91,19 +92,20 @@ public class Runtime implements RuntimeOption {
      * @param permissions permissions which will be checked.
      */
     private void checkPermissions(String... permissions) {
-        if (sAppPermissions == null) sAppPermissions = getManifestPermissions(mSource.getContext());
+        if (sAppPermissions == null) {
+            sAppPermissions = new ArrayList<>(getManifestPermissions(mSource.getContext()));
+            if (sAppPermissions.contains(ADD_VOICEMAIL_MANIFEST)) {
+                sAppPermissions.add(Permission.ADD_VOICEMAIL);
+            }
+        }
 
         if (permissions.length == 0) {
             throw new IllegalArgumentException("Please enter at least one permission.");
         }
 
-        for (String p : permissions) {
-            if (!sAppPermissions.contains(p)) {
-                if (!(Permission.ADD_VOICEMAIL.equals(p) &&
-                    sAppPermissions.contains(Permission.ADD_VOICEMAIL_MANIFEST))) {
-                    throw new IllegalStateException(
-                        String.format("The permission %1$s is not registered in manifest.xml", p));
-                }
+        for (String target : permissions) {
+            if (!sAppPermissions.contains(target)) {
+                throw new IllegalStateException(String.format("The permission %1$s is not registered in manifest.xml", target));
             }
         }
     }
@@ -111,15 +113,14 @@ public class Runtime implements RuntimeOption {
     /**
      * Get a list of permissions in the manifest.
      */
-    private static List<String> getManifestPermissions(Context context) {
+    public static List<String> getManifestPermissions(Context context) {
         try {
-            PackageInfo packageInfo = context.getPackageManager()
-                .getPackageInfo(context.getPackageName(), PackageManager.GET_PERMISSIONS);
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_PERMISSIONS);
             String[] permissions = packageInfo.requestedPermissions;
             if (permissions == null || permissions.length == 0) {
                 throw new IllegalStateException("You did not register any permissions in the manifest.xml.");
             }
-            return Collections.unmodifiableList(Arrays.asList(permissions));
+            return Arrays.asList(permissions);
         } catch (PackageManager.NameNotFoundException e) {
             throw new AssertionError("Package name cannot be found.");
         }

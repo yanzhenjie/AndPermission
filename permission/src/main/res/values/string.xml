@@ -23,6 +23,7 @@
     <string name="permission_name_location">Location</string>
     <string name="permission_name_microphone">Microphone</string>
     <string name="permission_name_phone">Phone</string>
+    <string name="permission_name_call_log">Call Log</string>
     <string name="permission_name_sensors">Body Sensors</string>
     <string name="permission_name_sms">SMS</string>
     <string name="permission_name_storage">Storage</string>
