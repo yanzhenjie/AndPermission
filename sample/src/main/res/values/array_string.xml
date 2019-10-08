@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!--
     Copyright 2017 Zhenjie Yan
 
@@ -37,10 +38,14 @@
     <string-array name="phone">
         <item>Read_Phone_State</item>
         <item>Call_Phone</item>
-        <item>Read_Call_Log</item>
-        <item>Write_Call_Log</item>
         <item>Add_Voicemail</item>
         <item>Use_Sip</item>
+        <item>All</item>
+    </string-array>
+
+    <string-array name="call_log">
+        <item>Read_Call_Log</item>
+        <item>Write_Call_Log</item>
         <item>Process_Outgoing_Calls</item>
         <item>All</item>
     </string-array>

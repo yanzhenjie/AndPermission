@@ -26,6 +26,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.Toolbar;
+
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
@@ -40,14 +48,6 @@ import com.yanzhenjie.permission.sample.WriteSettingRationale;
 
 import java.io.File;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.appcompat.widget.Toolbar;
 
 /**
  * Created by Zhenjie Yan on 2016/9/17.
@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_request_microphone).setOnClickListener(this);
         findViewById(R.id.btn_request_storage).setOnClickListener(this);
         findViewById(R.id.btn_request_phone).setOnClickListener(this);
+        findViewById(R.id.btn_request_call_log).setOnClickListener(this);
         findViewById(R.id.btn_request_sensors).setOnClickListener(this);
         findViewById(R.id.btn_request_sms).setOnClickListener(this);
         findViewById(R.id.btn_setting).setOnClickListener(this);
@@ -217,27 +218,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 break;
                             }
                             case 2: {
-                                requestPermission(Permission.READ_CALL_LOG);
-                                break;
-                            }
-                            case 3: {
-                                requestPermission(Permission.WRITE_CALL_LOG);
-                                break;
-                            }
-                            case 4: {
                                 requestPermission(Permission.ADD_VOICEMAIL);
                                 break;
                             }
-                            case 5: {
+                            case 3: {
                                 requestPermission(Permission.USE_SIP);
                                 break;
                             }
-                            case 6: {
+                            case 4: {
+                                requestPermission(Permission.Group.PHONE);
+                                break;
+                            }
+                        }
+                        return true;
+                    }
+                });
+                popupMenu.show();
+                break;
+            }
+            case R.id.btn_request_call_log: {
+                PopupMenu popupMenu = createMenu(v, getResources().getStringArray(R.array.call_log));
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int order = item.getOrder();
+                        switch (order) {
+                            case 0: {
+                                requestPermission(Permission.READ_CALL_LOG);
+                                break;
+                            }
+                            case 1: {
+                                requestPermission(Permission.WRITE_CALL_LOG);
+                                break;
+                            }
+                            case 2: {
                                 requestPermission(Permission.PROCESS_OUTGOING_CALLS);
                                 break;
                             }
-                            case 7: {
-                                requestPermission(Permission.Group.PHONE);
+                            case 3: {
+                                requestPermission(Permission.Group.CALL_LOG);
                                 break;
                             }
                         }

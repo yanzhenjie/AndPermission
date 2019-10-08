@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!--
     Copyright © Zhenjie Yan
 
@@ -33,6 +34,7 @@
     <string name="permission_storage">Storage</string>
 
     <string name="permission_phone">Phone</string>
+    <string name="permission_call_log">Call Log</string>
     <string name="permission_sensors">Sensors</string>
     <string name="permission_sms">SMS</string>
     <string name="permission_setting">Permission Setting</string>
