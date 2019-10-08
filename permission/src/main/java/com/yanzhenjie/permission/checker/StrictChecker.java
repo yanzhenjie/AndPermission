@@ -85,7 +85,7 @@ public final class StrictChecker implements PermissionChecker {
                 case Permission.WRITE_CALL_LOG:
                     return checkWriteCallLog(context);
                 case Permission.ADD_VOICEMAIL:
-                    return checkAddVoicemail(context);
+                    return true;
                 case Permission.USE_SIP:
                     return checkSip(context);
                 case Permission.PROCESS_OUTGOING_CALLS:
@@ -166,11 +166,6 @@ public final class StrictChecker implements PermissionChecker {
 
     private static boolean checkWriteCallLog(Context context) throws Throwable {
         PermissionTest test = new CallLogWriteTest(context);
-        return test.test();
-    }
-
-    private static boolean checkAddVoicemail(Context context) throws Throwable {
-        PermissionTest test = new AddVoicemailTest(context);
         return test.test();
     }
 
