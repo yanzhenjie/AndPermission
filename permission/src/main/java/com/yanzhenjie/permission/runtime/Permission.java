@@ -57,6 +57,7 @@ public class Permission {
     public static final String PROCESS_OUTGOING_CALLS = "android.permission.PROCESS_OUTGOING_CALLS";
 
     public static final String BODY_SENSORS = "android.permission.BODY_SENSORS";
+    public static final String ACTIVITY_RECOGNITION = "android.permission.ACTIVITY_RECOGNITION";
 
     public static final String SEND_SMS = "android.permission.SEND_SMS";
     public static final String RECEIVE_SMS = "android.permission.RECEIVE_SMS";
@@ -109,6 +110,8 @@ public class Permission {
 
         public static final String[] SENSORS = new String[]{Permission.BODY_SENSORS};
 
+        public static final String[] ACTIVITY_RECOGNITION = new String[]{Permission.ACTIVITY_RECOGNITION};
+
         public static final String[] SMS = new String[]{Permission.SEND_SMS, Permission.RECEIVE_SMS,
             Permission.READ_SMS, Permission.RECEIVE_WAP_PUSH, Permission.RECEIVE_MMS};
 
@@ -157,16 +160,10 @@ public class Permission {
                     }
                     break;
                 }
+                case Permission.GET_ACCOUNTS:
                 case Permission.READ_CONTACTS:
                 case Permission.WRITE_CONTACTS: {
                     String message = context.getString(R.string.permission_name_contacts);
-                    if (!textList.contains(message)) {
-                        textList.add(message);
-                    }
-                    break;
-                }
-                case Permission.GET_ACCOUNTS: {
-                    String message = context.getString(R.string.permission_name_accounts);
                     if (!textList.contains(message)) {
                         textList.add(message);
                     }
@@ -212,6 +209,13 @@ public class Permission {
                 }
                 case Permission.BODY_SENSORS: {
                     String message = context.getString(R.string.permission_name_sensors);
+                    if (!textList.contains(message)) {
+                        textList.add(message);
+                    }
+                    break;
+                }
+                case Permission.ACTIVITY_RECOGNITION: {
+                    String message = context.getString(R.string.permission_name_activity_recognition);
                     if (!textList.contains(message)) {
                         textList.add(message);
                     }

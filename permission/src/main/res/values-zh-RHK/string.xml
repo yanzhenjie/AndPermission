@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!--
     Copyright 2017 Zhenjie Yan
 
@@ -17,13 +18,13 @@
 <resources>
     <string name="permission_name_calendar">日曆</string>
     <string name="permission_name_camera">相機</string>
-    <string name="permission_name_contacts">通訊錄</string>
-    <string name="permission_name_accounts">手機賬號</string>
+    <string name="permission_name_contacts">手機賬號/通訊錄</string>
     <string name="permission_name_location">位置信息</string>
     <string name="permission_name_microphone">麥克風</string>
     <string name="permission_name_phone">電話</string>
     <string name="permission_name_call_log">通話記錄</string>
     <string name="permission_name_sensors">身體傳感器</string>
+    <string name="permission_name_activity_recognition">健身運動</string>
     <string name="permission_name_sms">短訊</string>
     <string name="permission_name_storage">存儲空間</string>
 

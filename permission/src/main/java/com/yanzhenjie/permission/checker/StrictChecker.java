@@ -91,7 +91,9 @@ public final class StrictChecker implements PermissionChecker {
                 case Permission.PROCESS_OUTGOING_CALLS:
                     return true;
                 case Permission.BODY_SENSORS:
-                    return checkSensors(context);
+                    return checkSensorHeart(context);
+                case Permission.ACTIVITY_RECOGNITION:
+                    return checkSensorActivity(context);
                 case Permission.SEND_SMS:
                 case Permission.RECEIVE_MMS:
                     return true;
@@ -177,8 +179,13 @@ public final class StrictChecker implements PermissionChecker {
         return test.test();
     }
 
-    private static boolean checkSensors(Context context) throws Throwable {
-        PermissionTest test = new SensorsTest(context);
+    private static boolean checkSensorHeart(Context context) throws Throwable {
+        PermissionTest test = new SensorHeartTest(context);
+        return test.test();
+    }
+
+    private static boolean checkSensorActivity(Context context) throws Throwable {
+        PermissionTest test = new SensorActivityTest(context);
         return test.test();
     }
 

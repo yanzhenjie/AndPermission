@@ -18,13 +18,13 @@
 <resources>
     <string name="permission_name_calendar">日历</string>
     <string name="permission_name_camera">相机</string>
-    <string name="permission_name_contacts">通讯录</string>
-    <string name="permission_name_accounts">手机账号</string>
+    <string name="permission_name_contacts">手机账号/通讯录</string>
     <string name="permission_name_location">位置信息</string>
     <string name="permission_name_microphone">麦克风</string>
     <string name="permission_name_phone">电话</string>
     <string name="permission_name_call_log">通话记录</string>
     <string name="permission_name_sensors">身体传感器</string>
+    <string name="permission_name_activity_recognition">健身运动</string>
     <string name="permission_name_sms">短信</string>
     <string name="permission_name_storage">存储空间</string>
 

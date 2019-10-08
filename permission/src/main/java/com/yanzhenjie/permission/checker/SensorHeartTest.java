@@ -25,11 +25,11 @@ import android.hardware.SensorManager;
 /**
  * Created by Zhenjie Yan on 2018/1/25.
  */
-class SensorsTest implements PermissionTest {
+class SensorHeartTest implements PermissionTest {
 
     private Context mContext;
 
-    SensorsTest(Context context) {
+    SensorHeartTest(Context context) {
         this.mContext = context;
     }
 
