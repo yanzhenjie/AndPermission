@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_request_phone).setOnClickListener(this);
         findViewById(R.id.btn_request_call_log).setOnClickListener(this);
         findViewById(R.id.btn_request_sensors).setOnClickListener(this);
+        findViewById(R.id.btn_request_activity_recognition).setOnClickListener(this);
         findViewById(R.id.btn_request_sms).setOnClickListener(this);
         findViewById(R.id.btn_setting).setOnClickListener(this);
 
@@ -268,6 +269,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             case R.id.btn_request_sensors: {
                 requestPermission(Permission.Group.SENSORS);
+                break;
+            }
+            case R.id.btn_request_activity_recognition: {
+                requestPermission(Permission.Group.ACTIVITY_RECOGNITION);
                 break;
             }
             case R.id.btn_request_sms: {

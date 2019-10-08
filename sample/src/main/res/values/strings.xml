@@ -35,6 +35,7 @@
 
     <string name="permission_phone">Phone</string>
     <string name="permission_call_log">Call Log</string>
+    <string name="permission_activity_recognition">Activity Recognition</string>
     <string name="permission_sensors">Sensors</string>
     <string name="permission_sms">SMS</string>
     <string name="permission_setting">Permission Setting</string>

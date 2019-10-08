@@ -84,6 +84,11 @@
                 android:id="@+id/btn_request_sensors"
                 style="@style/Permission.Button.Weight.Horizontal"
                 android:text="@string/permission_sensors" />
+
+            <Button
+                android:id="@+id/btn_request_activity_recognition"
+                style="@style/Permission.Button.Weight.Horizontal"
+                android:text="@string/permission_activity_recognition" />
         </TableRow>
 
         <TableRow>
