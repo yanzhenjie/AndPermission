@@ -40,7 +40,6 @@
             android:name=".bridge.BridgeActivity"
             android:configChanges="orientation"
             android:exported="false"
-            android:noHistory="true"
             android:permission="${applicationId}.andpermission.bridge"
             android:process=":permission"
             android:theme="@style/Permission.Theme.Activity.Transparent" />
