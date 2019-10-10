@@ -47,10 +47,10 @@ public class Permission {
 
     public static final String READ_PHONE_STATE = "android.permission.READ_PHONE_STATE";
     public static final String CALL_PHONE = "android.permission.CALL_PHONE";
-    public static final String ADD_VOICEMAIL = "com.android.voicemail.permission.ADD_VOICEMAIL";
     public static final String USE_SIP = "android.permission.USE_SIP";
     public static final String READ_PHONE_NUMBERS = "android.permission.READ_PHONE_NUMBERS";
     public static final String ANSWER_PHONE_CALLS = "android.permission.ANSWER_PHONE_CALLS";
+    public static final String ADD_VOICEMAIL = "com.android.voicemail.permission.ADD_VOICEMAIL";
 
     public static final String READ_CALL_LOG = "android.permission.READ_CALL_LOG";
     public static final String WRITE_CALL_LOG = "android.permission.WRITE_CALL_LOG";
@@ -74,36 +74,15 @@ public class Permission {
 
         public static final String[] CAMERA = new String[]{Permission.CAMERA};
 
-        public static final String[] CONTACTS = new String[]{Permission.READ_CONTACTS, Permission.WRITE_CONTACTS,
-            Permission.GET_ACCOUNTS};
+        public static final String[] CONTACTS = new String[]{Permission.READ_CONTACTS, Permission.WRITE_CONTACTS, Permission.GET_ACCOUNTS};
 
-        public static final String[] LOCATION;
-
-        static {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                LOCATION = new String[]{Permission.ACCESS_FINE_LOCATION,
-                    Permission.ACCESS_COARSE_LOCATION,
-                    Permission.ACCESS_BACKGROUND_LOCATION};
-            } else {
-                LOCATION = new String[]{Permission.ACCESS_FINE_LOCATION,
-                    Permission.ACCESS_COARSE_LOCATION};
-            }
-        }
+        public static final String[] LOCATION = new String[]{Permission.ACCESS_FINE_LOCATION, Permission.ACCESS_COARSE_LOCATION,
+            Permission.ACCESS_BACKGROUND_LOCATION};
 
         public static final String[] MICROPHONE = new String[]{Permission.RECORD_AUDIO};
 
-        public static final String[] PHONE;
-
-        static {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                PHONE = new String[]{Permission.READ_PHONE_STATE, Permission.CALL_PHONE, Permission.ADD_VOICEMAIL,
-                    Permission.USE_SIP, Permission.READ_PHONE_NUMBERS, Permission.ANSWER_PHONE_CALLS};
-            } else {
-                PHONE = new String[]{Permission.READ_PHONE_STATE, Permission.CALL_PHONE, Permission.READ_CALL_LOG,
-                    Permission.WRITE_CALL_LOG, Permission.ADD_VOICEMAIL, Permission.USE_SIP,
-                    Permission.PROCESS_OUTGOING_CALLS};
-            }
-        }
+        public static final String[] PHONE = new String[]{Permission.READ_PHONE_STATE, Permission.CALL_PHONE, Permission.USE_SIP,
+            Permission.READ_PHONE_NUMBERS, Permission.ANSWER_PHONE_CALLS, Permission.ADD_VOICEMAIL};
 
         public static final String[] CALL_LOG = new String[]{Permission.READ_CALL_LOG, Permission.WRITE_CALL_LOG,
             Permission.PROCESS_OUTGOING_CALLS};
@@ -112,11 +91,10 @@ public class Permission {
 
         public static final String[] ACTIVITY_RECOGNITION = new String[]{Permission.ACTIVITY_RECOGNITION};
 
-        public static final String[] SMS = new String[]{Permission.SEND_SMS, Permission.RECEIVE_SMS,
-            Permission.READ_SMS, Permission.RECEIVE_WAP_PUSH, Permission.RECEIVE_MMS};
+        public static final String[] SMS = new String[]{Permission.SEND_SMS, Permission.RECEIVE_SMS, Permission.READ_SMS,
+            Permission.RECEIVE_WAP_PUSH, Permission.RECEIVE_MMS};
 
-        public static final String[] STORAGE = new String[]{Permission.READ_EXTERNAL_STORAGE,
-            Permission.WRITE_EXTERNAL_STORAGE};
+        public static final String[] STORAGE = new String[]{Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE};
     }
 
     /**

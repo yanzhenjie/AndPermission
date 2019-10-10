@@ -15,10 +15,12 @@
  */
 package com.yanzhenjie.permission.runtime.option;
 
+import androidx.annotation.NonNull;
+
+import com.yanzhenjie.permission.runtime.Permission;
+import com.yanzhenjie.permission.runtime.PermissionDef;
 import com.yanzhenjie.permission.runtime.PermissionRequest;
 import com.yanzhenjie.permission.runtime.setting.SettingRequest;
-
-import androidx.annotation.NonNull;
 
 /**
  * Created by Zhenjie Yan on 2/22/19.
@@ -28,10 +30,12 @@ public interface RuntimeOption {
     /**
      * One or more permissions.
      */
-    PermissionRequest permission(@NonNull String... permissions);
+    PermissionRequest permission(@NonNull @PermissionDef String... permissions);
 
     /**
      * One or more permission groups.
+     *
+     * @param groups use constants in {@link Permission.Group}.
      */
     PermissionRequest permission(@NonNull String[]... groups);
 

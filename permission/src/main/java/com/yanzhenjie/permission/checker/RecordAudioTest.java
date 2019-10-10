@@ -88,12 +88,12 @@ class RecordAudioTest implements PermissionTest {
         return true;
     }
 
-    private static boolean existMicrophone(Context context) {
+    public static boolean existMicrophone(Context context) {
         PackageManager packageManager = context.getPackageManager();
         return packageManager.hasSystemFeature(PackageManager.FEATURE_MICROPHONE);
     }
 
-    private static int[] findAudioParameters() {
+    public static int[] findAudioParameters() {
         for (int rate : RATES) {
             for (int channel : new int[]{AudioFormat.CHANNEL_IN_MONO, AudioFormat.CHANNEL_IN_STEREO}) {
                 for (int format : new int[]{AudioFormat.ENCODING_PCM_8BIT, AudioFormat.ENCODING_PCM_16BIT}) {

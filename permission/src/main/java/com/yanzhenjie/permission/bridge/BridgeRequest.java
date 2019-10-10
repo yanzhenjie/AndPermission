@@ -17,6 +17,8 @@ package com.yanzhenjie.permission.bridge;
 
 import com.yanzhenjie.permission.source.Source;
 
+import java.util.List;
+
 /**
  * Created by Zhenjie Yan on 2/13/19.
  */
@@ -35,7 +37,7 @@ public final class BridgeRequest {
 
     private int mType;
     private Callback mCallback;
-    private String[] mPermissions;
+    private List<String> mPermissions;
 
     public BridgeRequest(Source source) {
         this.mSource = source;
@@ -61,11 +63,11 @@ public final class BridgeRequest {
         mCallback = callback;
     }
 
-    public String[] getPermissions() {
+    public List<String> getPermissions() {
         return mPermissions;
     }
 
-    public void setPermissions(String[] permissions) {
+    public void setPermissions(List<String> permissions) {
         mPermissions = permissions;
     }
 

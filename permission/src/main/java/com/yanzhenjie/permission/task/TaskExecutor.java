@@ -19,14 +19,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 /**
  * Created by Zhenjie Yan on 2019-09-23.
  */
-public abstract class TaskExecutor extends AsyncTask<Void, Void, List<String>> {
+public abstract class TaskExecutor<T> extends AsyncTask<Void, Void, T> {
 
     private static Executor sExecutor = Executors.newSingleThreadExecutor();
 
@@ -45,14 +44,14 @@ public abstract class TaskExecutor extends AsyncTask<Void, Void, List<String>> {
     }
 
     @Override
-    protected final void onPostExecute(List<String> strings) {
+    protected final void onPostExecute(T t) {
         if (mDialog.isShowing()) {
             mDialog.dismiss();
         }
-        onFinish(strings);
+        onFinish(t);
     }
 
-    protected abstract void onFinish(List<String> strings);
+    protected abstract void onFinish(T t);
 
     /**
      * Just call this method.

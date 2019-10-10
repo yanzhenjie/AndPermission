@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-    Copyright 2017 Zhenjie Yan
+    Copyright 2019 Zhenjie Yan
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -41,6 +41,14 @@
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowBackground">@drawable/permission_shape_wait_background</item>
         <item name="android:windowCloseOnTouchOutside">false</item>
+    </style>
+
+    <style name="Permission.Theme.Dialog.Transparent">
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <style name="Permission.Widget" />

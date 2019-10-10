@@ -15,11 +15,8 @@
  */
 package com.yanzhenjie.permission.runtime;
 
-import android.content.Context;
-import android.util.Log;
+import androidx.annotation.NonNull;
 
-import com.yanzhenjie.permission.Action;
-import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RequestExecutor;
 import com.yanzhenjie.permission.bridge.BridgeRequest;
 import com.yanzhenjie.permission.bridge.RequestManager;
@@ -33,76 +30,50 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static java.util.Arrays.asList;
-
 /**
  * Created by Zhenjie Yan on 2016/9/9.
  */
-class MRequest implements PermissionRequest, RequestExecutor, BridgeRequest.Callback {
+class MRequest extends BaseRequest implements RequestExecutor, BridgeRequest.Callback {
 
     private static final PermissionChecker STANDARD_CHECKER = new StandardChecker();
     private static final PermissionChecker DOUBLE_CHECKER = new DoubleChecker();
 
     private Source mSource;
 
-    private String[] mPermissions;
-    private Rationale<List<String>> mRationale = new Rationale<List<String>>() {
-        @Override
-        public void showRationale(Context context, List<String> data, RequestExecutor executor) {
-            executor.execute();
-        }
-    };
-    private Action<List<String>> mGranted;
-    private Action<List<String>> mDenied;
+    private List<String> mPermissions;
 
-    private String[] mDeniedPermissions;
+    private List<String> mDeniedPermissions;
 
     MRequest(Source source) {
+        super(source);
         this.mSource = source;
     }
 
     @Override
-    public PermissionRequest permission(String... permissions) {
-        this.mPermissions = permissions;
+    public PermissionRequest permission(@NonNull String... permissions) {
+        mPermissions = new ArrayList<>();
+        mPermissions.addAll(Arrays.asList(permissions));
         return this;
     }
 
     @Override
-    public PermissionRequest permission(String[]... groups) {
-        List<String> permissions = new ArrayList<>();
+    public PermissionRequest permission(@NonNull String[]... groups) {
+        mPermissions = new ArrayList<>();
         for (String[] group : groups) {
-            permissions.addAll(Arrays.asList(group));
+            mPermissions.addAll(Arrays.asList(group));
         }
-        this.mPermissions = (String[]) permissions.toArray();
-        return this;
-    }
-
-    @Override
-    public PermissionRequest rationale(Rationale<List<String>> rationale) {
-        this.mRationale = rationale;
-        return this;
-    }
-
-    @Override
-    public PermissionRequest onGranted(Action<List<String>> granted) {
-        this.mGranted = granted;
-        return this;
-    }
-
-    @Override
-    public PermissionRequest onDenied(Action<List<String>> denied) {
-        this.mDenied = denied;
         return this;
     }
 
     @Override
     public void start() {
-        List<String> deniedList = getDeniedPermissions(STANDARD_CHECKER, mSource, mPermissions);
-        mDeniedPermissions = deniedList.toArray(new String[deniedList.size()]);
-        if (mDeniedPermissions.length > 0) {
+        mPermissions = filterPermissions(mPermissions);
+
+        mDeniedPermissions = getDeniedPermissions(STANDARD_CHECKER, mSource, mPermissions);
+        if (mDeniedPermissions.size() > 0) {
             List<String> rationaleList = getRationalePermissions(mSource, mDeniedPermissions);
             if (rationaleList.size() > 0) {
-                mRationale.showRationale(mSource.getContext(), rationaleList, this);
+                showRationale(rationaleList, this);
             } else {
                 execute();
             }
@@ -127,7 +98,7 @@ class MRequest implements PermissionRequest, RequestExecutor, BridgeRequest.Call
 
     @Override
     public void onCallback() {
-        new TaskExecutor(mSource.getContext()) {
+        new TaskExecutor<List<String>>(mSource.getContext()) {
             @Override
             protected List<String> doInBackground(Void... voids) {
                 return getDeniedPermissions(DOUBLE_CHECKER, mSource, mPermissions);
@@ -136,63 +107,11 @@ class MRequest implements PermissionRequest, RequestExecutor, BridgeRequest.Call
             @Override
             protected void onFinish(List<String> deniedList) {
                 if (deniedList.isEmpty()) {
-                    callbackSucceed();
+                    callbackSucceed(mPermissions);
                 } else {
                     callbackFailed(deniedList);
                 }
             }
         }.execute();
-    }
-
-    /**
-     * Callback acceptance status.
-     */
-    private void callbackSucceed() {
-        if (mGranted != null) {
-            List<String> permissionList = asList(mPermissions);
-            try {
-                mGranted.onAction(permissionList);
-            } catch (Exception e) {
-                Log.e("AndPermission", "Please check the onGranted() method body for bugs.", e);
-                if (mDenied != null) {
-                    mDenied.onAction(permissionList);
-                }
-            }
-        }
-    }
-
-    /**
-     * Callback rejected state.
-     */
-    private void callbackFailed(List<String> deniedList) {
-        if (mDenied != null) {
-            mDenied.onAction(deniedList);
-        }
-    }
-
-    /**
-     * Get denied permissions.
-     */
-    private static List<String> getDeniedPermissions(PermissionChecker checker, Source source, String... permissions) {
-        List<String> deniedList = new ArrayList<>(1);
-        for (String permission : permissions) {
-            if (!checker.hasPermission(source.getContext(), permission)) {
-                deniedList.add(permission);
-            }
-        }
-        return deniedList;
-    }
-
-    /**
-     * Get permissions to show rationale.
-     */
-    private static List<String> getRationalePermissions(Source source, String... deniedPermissions) {
-        List<String> rationaleList = new ArrayList<>(1);
-        for (String permission : deniedPermissions) {
-            if (source.isShowRationalePermission(permission)) {
-                rationaleList.add(permission);
-            }
-        }
-        return rationaleList;
     }
 }

@@ -83,12 +83,14 @@ abstract class BaseRequest implements InstallRequest {
      * Start the installation.
      */
     final void install() {
-        Intent intent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        Uri uri = AndPermission.getFileUri(mSource.getContext(), mFile);
-        intent.setDataAndType(uri, "application/vnd.android.package-archive");
-        mSource.startActivity(intent);
+        if (mFile != null) {
+            Intent intent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            Uri uri = AndPermission.getFileUri(mSource.getContext(), mFile);
+            intent.setDataAndType(uri, "application/vnd.android.package-archive");
+            mSource.startActivity(intent);
+        }
     }
 
     /**

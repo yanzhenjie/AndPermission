@@ -15,6 +15,8 @@
  */
 package com.yanzhenjie.permission.runtime;
 
+import androidx.annotation.NonNull;
+
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.Rationale;
 
@@ -29,27 +31,29 @@ public interface PermissionRequest {
     /**
      * One or more permissions.
      */
-    PermissionRequest permission(String... permissions);
+    PermissionRequest permission(@NonNull @PermissionDef String... permissions);
 
     /**
      * One or more permissions group.
+     *
+     * @param groups use constants in {@link Permission.Group}.
      */
-    PermissionRequest permission(String[]... groups);
+    PermissionRequest permission(@NonNull String[]... groups);
 
     /**
      * Set request rationale.
      */
-    PermissionRequest rationale(Rationale<List<String>> rationale);
+    PermissionRequest rationale(@NonNull Rationale<List<String>> rationale);
 
     /**
      * Action to be taken when all permissions are granted.
      */
-    PermissionRequest onGranted(Action<List<String>> granted);
+    PermissionRequest onGranted(@NonNull Action<List<String>> granted);
 
     /**
      * Action to be taken when all permissions are denied.
      */
-    PermissionRequest onDenied(Action<List<String>> denied);
+    PermissionRequest onDenied(@NonNull Action<List<String>> denied);
 
     /**
      * Request permission.

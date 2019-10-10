@@ -30,6 +30,7 @@ import java.util.List;
 public final class StandardChecker implements PermissionChecker {
 
     private static final int MODE_ASK = 4;
+    private static final int MODE_COMPAT = 5;
 
     public StandardChecker() {
     }
@@ -55,9 +56,9 @@ public final class StandardChecker implements PermissionChecker {
                 continue;
             }
 
-            if (opsManager == null) opsManager = (AppOpsManager)context.getSystemService(Context.APP_OPS_SERVICE);
+            if (opsManager == null) opsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
             result = opsManager.checkOpNoThrow(op, android.os.Process.myUid(), context.getPackageName());
-            if (result != AppOpsManager.MODE_ALLOWED && result != MODE_ASK) {
+            if (result != AppOpsManager.MODE_ALLOWED && result != MODE_ASK && result != MODE_COMPAT) {
                 return false;
             }
         }

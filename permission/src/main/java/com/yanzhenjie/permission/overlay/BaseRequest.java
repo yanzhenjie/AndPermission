@@ -18,6 +18,7 @@ package com.yanzhenjie.permission.overlay;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
+import android.view.Window;
 import android.view.WindowManager;
 
 import com.yanzhenjie.permission.Action;
@@ -90,11 +91,13 @@ abstract class BaseRequest implements OverlayRequest {
     }
 
     static boolean tryDisplayDialog(Context context) {
-        Dialog dialog = new Dialog(context, R.style.Permission_Theme);
-        int overlay = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
-        int alertWindow = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
-        int windowType = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? overlay : alertWindow;
-        dialog.getWindow().setType(windowType);
+        Dialog dialog = new Dialog(context, R.style.Permission_Theme_Dialog_Transparent);
+        Window window = dialog.getWindow();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            window.setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
+        } else {
+            window.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        }
         try {
             dialog.show();
         } catch (Exception e) {

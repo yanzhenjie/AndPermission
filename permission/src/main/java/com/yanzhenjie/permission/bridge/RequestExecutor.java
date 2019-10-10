@@ -25,6 +25,8 @@ import android.os.RemoteException;
 
 import com.yanzhenjie.permission.AndPermission;
 
+import java.util.List;
+
 /**
  * Created by Zhenjie Yan on 2/13/19.
  */
@@ -73,7 +75,9 @@ final class RequestExecutor extends Thread implements Messenger.Callback {
                 break;
             }
             case BridgeRequest.TYPE_PERMISSION: {
-                iBridge.requestPermission(getName(), mRequest.getPermissions());
+                List<String> permissions = mRequest.getPermissions();
+                String[] array = permissions.toArray(new String[0]);
+                iBridge.requestPermission(getName(), array);
                 break;
             }
             case BridgeRequest.TYPE_INSTALL: {
