@@ -37,6 +37,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
+import com.yanzhenjie.permission.runtime.PermissionDef;
 import com.yanzhenjie.permission.sample.App;
 import com.yanzhenjie.permission.sample.InstallRationale;
 import com.yanzhenjie.permission.sample.NotifyListenerRationale;
@@ -45,8 +46,16 @@ import com.yanzhenjie.permission.sample.OverlayRationale;
 import com.yanzhenjie.permission.sample.R;
 import com.yanzhenjie.permission.sample.RuntimeRationale;
 import com.yanzhenjie.permission.sample.WriteSettingRationale;
+import com.yanzhenjie.permission.sample.util.FileUtils;
+import com.yanzhenjie.permission.sample.util.IOUtils;
+import com.yanzhenjie.permission.task.TaskExecutor;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -219,15 +228,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 break;
                             }
                             case 2: {
-                                requestPermission(Permission.ADD_VOICEMAIL);
+                                requestPermission(Permission.READ_PHONE_NUMBERS);
                                 break;
                             }
                             case 3: {
-                                requestPermission(Permission.USE_SIP);
+                                requestPermission(Permission.ANSWER_PHONE_CALLS);
                                 break;
                             }
                             case 4: {
-                                requestPermission(Permission.Group.PHONE);
+                                requestPermission(Permission.USE_SIP);
+                                break;
+                            }
+                            case 5: {
+                                requestPermission(Permission.ADD_VOICEMAIL);
+                                break;
+                            }
+                            case 6: {
+                                // ADD_VOICEMAIL is special, not shown here.
+                                requestPermission(Permission.READ_PHONE_STATE, Permission.CALL_PHONE, Permission.READ_PHONE_NUMBERS,
+                                    Permission.ANSWER_PHONE_CALLS, Permission.USE_SIP);
                                 break;
                             }
                         }
@@ -343,7 +362,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * Request permissions.
      */
-    private void requestPermission(String... permissions) {
+    private void requestPermission(@PermissionDef String... permissions) {
         AndPermission.with(this)
             .runtime()
             .permission(permissions)
@@ -400,6 +419,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_CODE_SETTING: {
                 Toast.makeText(MainActivity.this, R.string.message_setting_comeback, Toast.LENGTH_SHORT).show();
@@ -458,6 +478,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Request to read and write external storage permissions.
      */
     private void requestPermissionForInstallPackage() {
+        if (!FileUtils.externalAvailable()) {
+            new AlertDialog.Builder(this)
+                .setTitle(R.string.title_dialog)
+                .setMessage(R.string.message_error_storeage_inavailable)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+            return;
+        }
+
         AndPermission.with(this)
             .runtime()
             .permission(Permission.Group.STORAGE)
@@ -465,12 +499,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             .onGranted(new Action<List<String>>() {
                 @Override
                 public void onAction(List<String> data) {
-                    new WriteApkTask(MainActivity.this, new Runnable() {
-                        @Override
-                        public void run() {
-                            installPackage();
-                        }
-                    }).execute();
+                    writeApkForInstallPackage();
                 }
             })
             .onDenied(new Action<List<String>>() {
@@ -482,13 +511,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             .start();
     }
 
+    private void writeApkForInstallPackage() {
+        new TaskExecutor<File>(MainActivity.this) {
+            @Override
+            protected File doInBackground(Void... voids) {
+                try {
+                    InputStream input = getAssets().open("android.apk");
+                    File apk = new File(FileUtils.getExternalDir(App.get(), Environment.DIRECTORY_DOWNLOADS), "AndPermission.apk");
+                    if (apk.exists()) return apk;
+
+                    OutputStream output = new BufferedOutputStream(new FileOutputStream(apk));
+
+                    IOUtils.write(input, output);
+                    IOUtils.close(output);
+
+                    return apk;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                return null;
+            }
+
+            @Override
+            protected void onFinish(File apkFile) {
+                if (apkFile == null) {
+                    new AlertDialog.Builder(MainActivity.this)
+                        .setTitle(R.string.title_dialog)
+                        .setMessage(R.string.message_error_save_failed)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show();
+                } else {
+                    installPackage(apkFile);
+                }
+            }
+        }.execute();
+    }
+
     /**
      * Install package.
      */
-    private void installPackage() {
+    private void installPackage(File apkFile) {
         AndPermission.with(this)
             .install()
-            .file(new File(Environment.getExternalStorageDirectory(), "android.apk"))
+            .file(apkFile)
             .rationale(new InstallRationale())
             .onGranted(new Action<File>() {
                 @Override
@@ -534,7 +604,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showAlertWindow() {
-        App.getInstance().showLauncherView();
+        App.get().showLauncherView();
 
         Intent backHome = new Intent(Intent.ACTION_MAIN);
         backHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

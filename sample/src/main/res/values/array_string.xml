@@ -38,8 +38,10 @@
     <string-array name="phone">
         <item>Read_Phone_State</item>
         <item>Call_Phone</item>
-        <item>Add_Voicemail</item>
+        <item>Read_Phone_Numbers</item>
+        <item>Answer_Phone_Calls</item>
         <item>Use_Sip</item>
+        <item>Add_Voicemail</item>
         <item>All</item>
     </string-array>
 

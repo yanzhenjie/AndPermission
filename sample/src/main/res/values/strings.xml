@@ -21,6 +21,7 @@
     <string name="setting">Setting</string>
     <string name="resume">Resume</string>
     <string name="cancel">Cancel</string>
+    <string name="ok">@android:string/ok</string>
 
     <string name="successfully">Successful</string>
     <string name="failure">Failure</string>
@@ -63,5 +64,8 @@
     <string name="message_write_setting_failed">Your device is not allowed us to modify the system settings.</string>
 
     <string name="message_error_storage">Please check the external storage device.</string>
+    <string name="message_error_storeage_inavailable">External storage device is not available.</string>
+
+    <string name="message_error_save_failed">Save failed, please try again.</string>
 
 </resources>

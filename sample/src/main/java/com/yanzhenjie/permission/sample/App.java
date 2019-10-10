@@ -34,7 +34,7 @@ public class App extends Application {
         _instance = this;
     }
 
-    public static App getInstance() {
+    public static App get() {
         return _instance;
     }
 
