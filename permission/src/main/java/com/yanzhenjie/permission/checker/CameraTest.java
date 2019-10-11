@@ -37,7 +37,7 @@ class CameraTest implements PermissionTest {
             int cameraCount = Camera.getNumberOfCameras();
             if (cameraCount <= 0) return true;
 
-            camera = Camera.open(cameraCount - 1);
+            camera = open(cameraCount);
             Camera.Parameters parameters = camera.getParameters();
             camera.setParameters(parameters);
             camera.setPreviewCallback(PREVIEW_CALLBACK);
@@ -60,4 +60,15 @@ class CameraTest implements PermissionTest {
         public void onPreviewFrame(byte[] data, Camera camera) {
         }
     };
+
+    public static Camera open(int count) {
+        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+        for (int i = 0; i < count; i++) {
+            Camera.getCameraInfo(i, cameraInfo);
+            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+                return Camera.open(i);
+            }
+        }
+        return Camera.open(0);
+    }
 }
