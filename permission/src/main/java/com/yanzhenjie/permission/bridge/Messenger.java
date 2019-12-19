@@ -46,7 +46,11 @@ class Messenger extends BroadcastReceiver {
     }
 
     public void unRegister() {
-        mContext.unregisterReceiver(this);
+        try{
+          mContext.unregisterReceiver(this);
+        } catch (IllegalArgumentException e){
+          // fix: huawei crash
+        }
     }
 
     @Override
