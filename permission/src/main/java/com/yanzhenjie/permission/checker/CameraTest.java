@@ -18,6 +18,8 @@ package com.yanzhenjie.permission.checker;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.hardware.Camera;
+import android.os.Build;
 
 import androidx.core.content.ContextCompat;
 
@@ -34,7 +36,48 @@ class CameraTest implements PermissionTest {
 
     @Override
     public boolean test() {
-        int hasWriteStoragePermission = ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA);
-        return hasWriteStoragePermission == PackageManager.PERMISSION_GRANTED;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int hasPermission = ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA);
+            return hasPermission == PackageManager.PERMISSION_GRANTED;
+        } else {
+            Camera camera = null;
+            try {
+                int cameraCount = Camera.getNumberOfCameras();
+                if (cameraCount <= 0) return true;
+
+                camera = open(cameraCount);
+                Camera.Parameters parameters = camera.getParameters();
+                camera.setParameters(parameters);
+                camera.setPreviewCallback(PREVIEW_CALLBACK);
+                camera.startPreview();
+                return true;
+            } catch (Throwable e) {
+                PackageManager packageManager = mContext.getPackageManager();
+                return !packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA);
+            } finally {
+                if (camera != null) {
+                    camera.stopPreview();
+                    camera.setPreviewCallback(null);
+                    camera.release();
+                }
+            }
+        }
+    }
+
+    private static final Camera.PreviewCallback PREVIEW_CALLBACK = new Camera.PreviewCallback() {
+        @Override
+        public void onPreviewFrame(byte[] data, Camera camera) {
+        }
+    };
+
+    public static Camera open(int count) {
+        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+        for (int i = 0; i < count; i++) {
+            Camera.getCameraInfo(i, cameraInfo);
+            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+                return Camera.open(i);
+            }
+        }
+        return Camera.open(0);
     }
 }
