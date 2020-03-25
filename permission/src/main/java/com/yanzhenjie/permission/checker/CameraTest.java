@@ -45,7 +45,7 @@ class CameraTest implements PermissionTest {
             return true;
         } catch (Throwable e) {
             PackageManager packageManager = mContext.getPackageManager();
-            return !packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA);
+            return packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA);
         } finally {
             if (camera != null) {
                 camera.stopPreview();
