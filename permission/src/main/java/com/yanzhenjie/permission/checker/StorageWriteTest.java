@@ -15,6 +15,7 @@
  */
 package com.yanzhenjie.permission.checker;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
@@ -26,7 +27,10 @@ import java.io.File;
  */
 class StorageWriteTest implements PermissionTest {
 
-    StorageWriteTest() {
+    private Context mContext;
+
+    StorageWriteTest(Context c) {
+        mContext = c;
     }
 
     @Override
@@ -35,7 +39,8 @@ class StorageWriteTest implements PermissionTest {
 
         if (!TextUtils.equals(Environment.MEDIA_MOUNTED, Environment.getExternalStorageState())) return true;
 
-        File directory = Environment.getExternalStorageDirectory();
+        File directory = mContext.getExternalFilesDir(null);
+
         if (!directory.exists()) return true;
 
         File parent = new File(directory, "Android");
