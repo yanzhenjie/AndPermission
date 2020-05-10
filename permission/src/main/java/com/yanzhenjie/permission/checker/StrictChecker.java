@@ -105,7 +105,7 @@ public final class StrictChecker implements PermissionChecker {
                 case Permission.READ_EXTERNAL_STORAGE:
                     return checkReadStorage();
                 case Permission.WRITE_EXTERNAL_STORAGE:
-                    return checkWriteStorage();
+                    return checkWriteStorage(context);
             }
         } catch (Throwable e) {
             return false;
@@ -194,8 +194,8 @@ public final class StrictChecker implements PermissionChecker {
         return test.test();
     }
 
-    private static boolean checkWriteStorage() throws Throwable {
-        PermissionTest test = new StorageWriteTest();
+    private static boolean checkWriteStorage(Context context) throws Throwable {
+        PermissionTest test = new StorageWriteTest(context);
         return test.test();
     }
 }
