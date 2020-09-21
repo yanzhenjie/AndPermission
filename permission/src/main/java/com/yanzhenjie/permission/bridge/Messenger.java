@@ -34,6 +34,7 @@ class Messenger extends BroadcastReceiver {
 
     private final Context mContext;
     private final Callback mCallback;
+    private boolean mIsRegistered;
 
     public Messenger(Context context, Callback callback) {
         this.mContext = context;
@@ -41,12 +42,29 @@ class Messenger extends BroadcastReceiver {
     }
 
     public void register(String suffix) {
-        IntentFilter filter = new IntentFilter(AndPermission.bridgeAction(mContext, suffix));
-        mContext.registerReceiver(this, filter);
+        if (!mIsRegistered) {
+            IntentFilter filter = new IntentFilter(AndPermission.bridgeAction(mContext, suffix));
+            mContext.registerReceiver(this, filter);
+            mIsRegistered = true;
+        }
     }
 
+    /*
+    Fix exception:
+    Caused by: java.lang.IllegalArgumentException: Receiver not registered: com.yanzhenjie.permission.bridge.Messenger@c949a97
+    at android.app.LoadedApk.forgetReceiverDispatcher(LoadedApk.java:1471)
+    at android.app.ContextImpl.unregisterReceiver(ContextImpl.java:1571)
+    at android.content.ContextWrapper.unregisterReceiver(ContextWrapper.java:664)
+    at com.yanzhenjie.permission.bridge.Messenger.unRegister(SourceFile:1)
+    at com.yanzhenjie.permission.bridge.RequestExecutor.onCallback(SourceFile:2)
+    at com.yanzhenjie.permission.bridge.Messenger.onReceive(SourceFile:1)
+    at android.app.LoadedApk$ReceiverDispatcher$Args.lambda$getRunnable$0$LoadedApk$ReceiverDispatcher$Args(LoadedApk.java:1620)
+     */
     public void unRegister() {
-        mContext.unregisterReceiver(this);
+        if (mIsRegistered) {
+            mContext.unregisterReceiver(this);
+            mIsRegistered = false;
+        }
     }
 
     @Override
