@@ -98,7 +98,7 @@ class MRequest extends BaseRequest implements RequestExecutor, BridgeRequest.Cal
 
     @Override
     public void onCallback() {
-        new TaskExecutor<List<String>>(mSource.getContext()) {
+        new TaskExecutor<List<String>>() {
             @Override
             protected List<String> doInBackground(Void... voids) {
                 return getDeniedPermissions(DOUBLE_CHECKER, mSource, mPermissions);

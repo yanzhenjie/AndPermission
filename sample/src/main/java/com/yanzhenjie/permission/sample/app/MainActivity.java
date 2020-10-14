@@ -512,7 +512,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void writeApkForInstallPackage() {
-        new TaskExecutor<File>(MainActivity.this) {
+        new TaskExecutor<File>() {
             @Override
             protected File doInBackground(Void... voids) {
                 try {
