@@ -62,7 +62,7 @@ class LRequest extends BaseRequest {
     public void start() {
         mPermissions = filterPermissions(mPermissions);
 
-        new TaskExecutor<List<String>>(mSource.getContext()) {
+        new TaskExecutor<List<String>>() {
             @Override
             protected List<String> doInBackground(Void... voids) {
                 return getDeniedPermissions(STRICT_CHECKER, mSource, mPermissions);
