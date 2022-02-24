@@ -15,6 +15,8 @@
  */
 package com.yanzhenjie.permission.runtime;
 
+import android.content.Intent;
+
 import androidx.annotation.NonNull;
 
 import com.yanzhenjie.permission.RequestExecutor;
@@ -78,7 +80,7 @@ class MRequest extends BaseRequest implements RequestExecutor, BridgeRequest.Cal
                 execute();
             }
         } else {
-            onCallback();
+            onCallback(null);
         }
     }
 
@@ -93,11 +95,11 @@ class MRequest extends BaseRequest implements RequestExecutor, BridgeRequest.Cal
 
     @Override
     public void cancel() {
-        onCallback();
+        onCallback(null);
     }
 
     @Override
-    public void onCallback() {
+    public void onCallback(Intent intent) {
         new TaskExecutor<List<String>>(mSource.getContext()) {
             @Override
             protected List<String> doInBackground(Void... voids) {

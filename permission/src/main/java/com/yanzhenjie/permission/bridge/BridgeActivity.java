@@ -16,7 +16,9 @@
 package com.yanzhenjie.permission.bridge;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.media.projection.MediaProjectionManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -123,6 +125,16 @@ public final class BridgeActivity extends Activity {
         source.startActivity(intent);
     }
 
+    /**
+     * Request for media capture.
+     */
+    static void requestMediaCapture(Source source, String suffix) {
+        Intent intent = new Intent(source.getContext(), BridgeActivity.class);
+        intent.putExtra(KEY_TYPE, BridgeRequest.TYPE_MEDIA_CAPTURE);
+        intent.putExtra(KEY_ACTION_SUFFIX, suffix);
+        source.startActivity(intent);
+    }
+
     private String mActionSuffix;
 
     @Override
@@ -180,6 +192,13 @@ public final class BridgeActivity extends Activity {
                 startActivityForResult(settingIntent, BridgeRequest.TYPE_WRITE_SETTING);
                 break;
             }
+            case BridgeRequest.TYPE_MEDIA_CAPTURE: {
+                MediaProjectionManager mpm = (MediaProjectionManager)getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+                Intent captureIntent = mpm.createScreenCaptureIntent();
+                captureIntent.setData(Uri.fromParts("package", getPackageName(), null));
+                startActivityForResult(captureIntent, BridgeRequest.TYPE_MEDIA_CAPTURE);
+                break;
+            }
         }
     }
 
@@ -197,7 +216,11 @@ public final class BridgeActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Messenger.send(this, mActionSuffix);
+        if (requestCode == BridgeRequest.TYPE_MEDIA_CAPTURE && resultCode == RESULT_OK) {
+            Messenger.send(this, mActionSuffix, data);
+        } else {
+            Messenger.send(this, mActionSuffix);
+        }
         finish();
     }
 

@@ -104,15 +104,19 @@ final class RequestExecutor extends Thread implements Messenger.Callback {
                 iBridge.requestWriteSetting(getName());
                 break;
             }
+            case BridgeRequest.TYPE_MEDIA_CAPTURE: {
+                iBridge.requestMediaCapture(getName());
+                break;
+            }
         }
     }
 
 
     @Override
-    public void onCallback() {
+    public void onCallback(Intent intent) {
         synchronized (this) {
             mMessenger.unRegister();
-            mRequest.getCallback().onCallback();
+            mRequest.getCallback().onCallback(intent);
             mRequest.getSource().getContext().unbindService(mConnection);
             mMessenger = null;
             mRequest = null;

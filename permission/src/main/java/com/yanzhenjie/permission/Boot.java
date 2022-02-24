@@ -20,6 +20,7 @@ import android.os.Build;
 import com.yanzhenjie.permission.install.InstallRequest;
 import com.yanzhenjie.permission.install.NRequestFactory;
 import com.yanzhenjie.permission.install.ORequestFactory;
+import com.yanzhenjie.permission.media.Media;
 import com.yanzhenjie.permission.notify.Notify;
 import com.yanzhenjie.permission.notify.option.NotifyOption;
 import com.yanzhenjie.permission.option.Option;
@@ -98,5 +99,10 @@ public class Boot implements Option {
     @Override
     public Setting setting() {
         return new Setting(mSource);
+    }
+
+    @Override
+    public Media media() {
+        return new Media(mSource);
     }
 }

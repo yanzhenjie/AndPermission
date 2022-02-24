@@ -15,6 +15,7 @@
  */
 package com.yanzhenjie.permission.sample.app;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_install).setOnClickListener(this);
         findViewById(R.id.btn_overlay).setOnClickListener(this);
         findViewById(R.id.btn_write_setting).setOnClickListener(this);
+        findViewById(R.id.btn_screen_capture).setOnClickListener(this);
     }
 
     @Override
@@ -356,6 +358,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 requestWriteSystemSetting();
                 break;
             }
+            case R.id.btn_screen_capture: {
+                requestPermissionForScreenCapture();
+                break;
+            }
         }
     }
 
@@ -601,6 +607,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 toast(R.string.failure);
             }
         }).start();
+    }
+
+    private void requestPermissionForScreenCapture() {
+        stopScreenCaptureService();
+
+        AndPermission.with(this).media().capture().onGranted(new Action<Intent>() {
+            @Override
+            public void onAction(Intent data) {
+                toast(R.string.successfully);
+
+                Context context = getApplicationContext();
+                Intent service = new Intent(context, ScreenCaptureService.class);
+                context.startService(service);
+            }
+        }).onDenied(new Action<Void>() {
+            @Override
+            public void onAction(Void data) {
+                toast(R.string.failure);
+            }
+        }).start();
+    }
+
+    private void stopScreenCaptureService() {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        if (manager != null) {
+            for (ActivityManager.RunningServiceInfo serviceInfo : manager.getRunningServices(Integer.MAX_VALUE)) {
+                if (ScreenCaptureService.class.getName().equals(serviceInfo.service.getClassName())) {
+                    Context context = getApplicationContext();
+                    Intent service = new Intent(context, ScreenCaptureService.class);
+                    context.stopService(service);
+                }
+            }
+        }
     }
 
     private void showAlertWindow() {
