@@ -15,17 +15,17 @@
  */
 package com.yanzhenjie.permission.task;
 
+import android.app.Dialog;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDialog;
 
 import com.yanzhenjie.permission.R;
 
 /**
  * Created by Zhenjie Yan on 2019-09-23.
  */
-public class WaitDialog extends AppCompatDialog {
+public class WaitDialog extends Dialog {
 
     public WaitDialog(@NonNull Context context) {
         super(context, R.style.Permission_Theme_Dialog_Wait);
