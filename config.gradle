@@ -5,10 +5,10 @@ ext {
                bintray    : 'com.jfrog.bintray']
 
     android = [applicationId    : "com.yanzhenjie.permission.sample",
-               compileSdkVersion: 29,
-               buildToolsVersion: "29.0.2",
+               compileSdkVersion: 31,
+               buildToolsVersion: "31.0.0",
                minSdkVersion    : 14,
-               targetSdkVersion : 29,
+               targetSdkVersion : 31,
                versionCode      : 108,
                versionName      : "2.0.3"]
 

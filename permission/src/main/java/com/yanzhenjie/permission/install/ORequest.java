@@ -15,6 +15,8 @@
  */
 package com.yanzhenjie.permission.install;
 
+import android.content.Intent;
+
 import com.yanzhenjie.permission.RequestExecutor;
 import com.yanzhenjie.permission.bridge.BridgeRequest;
 import com.yanzhenjie.permission.bridge.RequestManager;
@@ -56,7 +58,7 @@ class ORequest extends BaseRequest implements RequestExecutor, BridgeRequest.Cal
     }
 
     @Override
-    public void onCallback() {
+    public void onCallback(Intent intent) {
         if (mSource.canRequestPackageInstalls()) {
             callbackSucceed();
             install();

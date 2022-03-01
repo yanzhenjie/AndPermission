@@ -10,6 +10,7 @@
   `android.permission.BIND_NOTIFICATION_LISTENER_SERVICE`
 7. Request to modify system setting.  
   `android.permission.WRITE_SETTINGS`
+8. Request to capture screen.
 
 ```java
 AndPermission.with(this)

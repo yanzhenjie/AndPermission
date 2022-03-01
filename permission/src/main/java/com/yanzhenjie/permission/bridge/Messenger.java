@@ -32,6 +32,12 @@ class Messenger extends BroadcastReceiver {
         context.sendBroadcast(broadcast);
     }
 
+    public static void send(Context context, String suffix, Intent extraIntent) {
+        Intent broadcast = new Intent(AndPermission.bridgeAction(context, suffix));
+        broadcast.putExtra(Intent.EXTRA_INTENT, extraIntent);
+        context.sendBroadcast(broadcast);
+    }
+
     private final Context mContext;
     private final Callback mCallback;
 
@@ -51,11 +57,12 @@ class Messenger extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        mCallback.onCallback();
+        Intent extraIntent = intent.getParcelableExtra(Intent.EXTRA_INTENT);
+        mCallback.onCallback(extraIntent);
     }
 
     public interface Callback {
 
-        void onCallback();
+        void onCallback(Intent intent);
     }
 }

@@ -40,4 +40,9 @@ interface IBridge {
     * Request for write system setting.
     */
     void requestWriteSetting(in String suffix);
+
+   /**
+    * Request for media capture.
+    */
+    void requestMediaCapture(in String suffix);
 }

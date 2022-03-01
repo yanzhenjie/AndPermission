@@ -150,6 +150,14 @@
                 style="@style/Permission.Button.Weight.Horizontal"
                 android:text="@string/permission_write_setting" />
         </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/btn_screen_capture"
+                style="@style/Permission.Button.Weight.Horizontal"
+                android:text="@string/permission_screen_capture" />
+        </TableRow>
     </TableLayout>
 
 </LinearLayout>

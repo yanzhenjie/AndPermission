@@ -15,6 +15,8 @@
  */
 package com.yanzhenjie.permission.notify.listener;
 
+import android.content.Intent;
+
 import com.yanzhenjie.permission.RequestExecutor;
 import com.yanzhenjie.permission.bridge.BridgeRequest;
 import com.yanzhenjie.permission.bridge.RequestManager;
@@ -55,7 +57,7 @@ class J2Request extends BaseRequest implements RequestExecutor, BridgeRequest.Ca
     }
 
     @Override
-    public void onCallback() {
+    public void onCallback(Intent intent) {
         if (mSource.canListenerNotification()) {
             callbackSucceed();
         } else {

@@ -19,6 +19,7 @@ import com.yanzhenjie.permission.install.InstallRequest;
 import com.yanzhenjie.permission.notify.option.NotifyOption;
 import com.yanzhenjie.permission.overlay.OverlayRequest;
 import com.yanzhenjie.permission.runtime.option.RuntimeOption;
+import com.yanzhenjie.permission.media.Media;
 import com.yanzhenjie.permission.setting.Setting;
 
 /**
@@ -50,4 +51,9 @@ public interface Option {
      * Handle system setting.
      */
     Setting setting();
+
+    /**
+     * Handle system setting.
+     */
+    Media media();
 }

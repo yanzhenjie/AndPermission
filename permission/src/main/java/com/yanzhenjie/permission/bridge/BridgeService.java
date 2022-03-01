@@ -79,5 +79,10 @@ public class BridgeService extends Service {
         public void requestWriteSetting(String suffix) throws RemoteException {
             BridgeActivity.requestWriteSetting(mSource, suffix);
         }
+
+        @Override
+        public void requestMediaCapture(String suffix) throws RemoteException {
+            BridgeActivity.requestMediaCapture(mSource, suffix);
+        }
     };
 }

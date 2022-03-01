@@ -15,6 +15,8 @@
  */
 package com.yanzhenjie.permission.overlay;
 
+import android.content.Intent;
+
 import com.yanzhenjie.permission.RequestExecutor;
 import com.yanzhenjie.permission.bridge.BridgeRequest;
 import com.yanzhenjie.permission.bridge.RequestManager;
@@ -35,7 +37,7 @@ class MRequest extends BaseRequest implements RequestExecutor, BridgeRequest.Cal
     @Override
     public void start() {
         if (mSource.canDrawOverlays()) {
-            onCallback();
+            onCallback(null);
         } else {
             showRationale(this);
         }
@@ -55,7 +57,7 @@ class MRequest extends BaseRequest implements RequestExecutor, BridgeRequest.Cal
     }
 
     @Override
-    public void onCallback() {
+    public void onCallback(Intent intent) {
         if (mSource.canDrawOverlays() && tryDisplayDialog(mSource.getContext())) {
             callbackSucceed();
         } else {

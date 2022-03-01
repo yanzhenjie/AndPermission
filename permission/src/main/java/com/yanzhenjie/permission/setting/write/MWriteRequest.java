@@ -15,6 +15,8 @@
  */
 package com.yanzhenjie.permission.setting.write;
 
+import android.content.Intent;
+
 import com.yanzhenjie.permission.RequestExecutor;
 import com.yanzhenjie.permission.bridge.BridgeRequest;
 import com.yanzhenjie.permission.bridge.RequestManager;
@@ -55,7 +57,7 @@ public class MWriteRequest extends BaseRequest implements RequestExecutor, Bridg
     }
 
     @Override
-    public void onCallback() {
+    public void onCallback(Intent intent) {
         if (mSource.canWriteSetting()) {
             callbackSucceed();
         } else {

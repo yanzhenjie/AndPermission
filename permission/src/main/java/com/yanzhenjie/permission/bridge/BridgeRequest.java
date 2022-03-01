@@ -15,6 +15,8 @@
  */
 package com.yanzhenjie.permission.bridge;
 
+import android.content.Intent;
+
 import com.yanzhenjie.permission.source.Source;
 
 import java.util.List;
@@ -32,6 +34,7 @@ public final class BridgeRequest {
     public static final int TYPE_NOTIFY = 6;
     public static final int TYPE_NOTIFY_LISTENER = 7;
     public static final int TYPE_WRITE_SETTING = 8;
+    public static final int TYPE_MEDIA_CAPTURE = 9;
 
     private final Source mSource;
 
@@ -73,6 +76,6 @@ public final class BridgeRequest {
 
     public interface Callback {
 
-        void onCallback();
+        void onCallback(Intent intent);
     }
 }

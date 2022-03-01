@@ -61,6 +61,8 @@
 
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:name=".App"
         android:allowBackup="false"
@@ -89,6 +91,9 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+
+        <service android:name=".app.ScreenCaptureService"
+            android:foregroundServiceType="mediaProjection" />
     </application>
 
 </manifest>

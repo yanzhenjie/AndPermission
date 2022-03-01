@@ -15,6 +15,8 @@
  */
 package com.yanzhenjie.permission.notify;
 
+import android.content.Intent;
+
 import com.yanzhenjie.permission.RequestExecutor;
 import com.yanzhenjie.permission.bridge.BridgeRequest;
 import com.yanzhenjie.permission.bridge.RequestManager;
@@ -55,7 +57,7 @@ class NRequest extends BaseRequest implements RequestExecutor, BridgeRequest.Cal
     }
 
     @Override
-    public void onCallback() {
+    public void onCallback(Intent intent) {
         if (mSource.canNotify()) {
             callbackSucceed();
         } else {
