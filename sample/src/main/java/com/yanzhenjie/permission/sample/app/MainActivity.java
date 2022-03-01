@@ -619,6 +619,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 Context context = getApplicationContext();
                 Intent service = new Intent(context, ScreenCaptureService.class);
+                service.putExtra(ScreenCaptureService.DATA, data);
                 context.startService(service);
             }
         }).onDenied(new Action<Void>() {

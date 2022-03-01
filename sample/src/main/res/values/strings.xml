@@ -50,6 +50,7 @@
     <string name="permission_write_setting">Write System Setting</string>
 
     <string name="permission_screen_capture">Screen Capture</string>
+    <string name="permission_screen_capture_desc">Screen Capture is running.</string>
 
     <string name="title_dialog">Tips</string>
     <string name="message_permission_rationale">Grant the following permissions to continue the program:\n\n%1$s</string>
